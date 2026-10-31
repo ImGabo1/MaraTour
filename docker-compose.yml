@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: turismo
+      POSTGRES_PASSWORD: turismo
+      POSTGRES_DB: turismo
+    ports:
+      - "5432:5432"
+    volumes:
+      - turismo_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U turismo -d turismo"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  turismo_pgdata:

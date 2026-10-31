@@ -1,0 +1,6 @@
+[
+  { "slug": "historia", "name": "Historia y patrimonio", "sortOrder": 1 },
+  { "slug": "cultura", "name": "Cultura y arte", "sortOrder": 2 },
+  { "slug": "religioso", "name": "Fe y tradición", "sortOrder": 3 },
+  { "slug": "naturaleza", "name": "Naturaleza y paisaje", "sortOrder": 4 }
+]

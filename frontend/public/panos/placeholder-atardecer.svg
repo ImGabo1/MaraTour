@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1024" viewBox="0 0 2048 1024">
+  <!-- Panorámica de ejemplo (marcador de posición). Reemplazar por fotos 360° reales (relación 2:1).
+       Sin elementos que crucen los bordes izquierdo/derecho para que se repita sin costuras. -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2E3A7A"/>
+      <stop offset="0.45" stop-color="#D8708A"/>
+      <stop offset="0.62" stop-color="#FFC27A"/>
+    </linearGradient>
+    <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5B8DA8"/>
+      <stop offset="1" stop-color="#173553"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFF3CC"/>
+      <stop offset="0.35" stop-color="#FFE3A8"/>
+      <stop offset="1" stop-color="#FFE3A8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="2048" height="640" fill="url(#sky)"/>
+  <circle cx="1100" cy="590" r="260" fill="url(#sun)"/>
+  <circle cx="1100" cy="600" r="70" fill="#FFF0C4"/>
+
+  <g fill="rgba(255,255,255,.26)">
+    <ellipse cx="320" cy="170" rx="170" ry="26"/>
+    <ellipse cx="760" cy="300" rx="210" ry="22"/>
+    <ellipse cx="1500" cy="200" rx="190" ry="26"/>
+    <ellipse cx="1850" cy="360" rx="120" ry="18"/>
+  </g>
+
+  <rect y="640" width="2048" height="384" fill="url(#lake)"/>
+  <g stroke="rgba(255,226,160,.55)" stroke-width="8" stroke-linecap="round">
+    <path d="M900 670h400M840 710h520M930 750h340M980 800h240"/>
+    <path d="M240 700h260M150 760h360M1600 690h260M1560 750h340"/>
+  </g>
+
+  <!-- Horizonte de edificios -->
+  <path d="M60 640V600h90v-50h60v50h70v-80h50v80h110v-40h60v40h120v-60h70v60h180v-30h80v30h140v-70h60v70h130v-40h70v40h160v-90h60v90h100v-50h70v50h170v-30h60v30h80V640z" fill="#3A3560"/>
+
+  <!-- Suelo / malecón -->
+  <path d="M0 900C360 840 760 830 1024 835S1700 840 2048 900V1024H0z" fill="#F1D9B4"/>
+  <path d="M0 920C380 866 780 856 1024 860S1700 866 2048 920" stroke="#D7B88C" stroke-width="6" fill="none"/>
+
+  <!-- Palmeras -->
+  <g stroke="#1F2E2D" stroke-width="12" fill="none" stroke-linecap="round">
+    <path d="M300 880l-14-340"/>
+    <path d="M286 540c-70-30-150 10-160 60M286 540c70-30 150 10 160 60M286 540c-40-70-110-66-146-30M286 540c40-70 110-66 146-30"/>
+    <path d="M1020 850l8-290"/>
+    <path d="M1028 560c-60-26-130 8-140 52M1028 560c60-26 130 8 140 52M1028 560c-36-62-96-58-126-26M1028 560c36-62 96-58 126-26"/>
+    <path d="M1760 880l-10-330"/>
+    <path d="M1750 550c-66-28-142 10-152 58M1750 550c66-28 142 10 152 58M1750 550c-38-66-104-62-138-28M1750 550c38-66 104-62 138-28"/>
+  </g>
+
+  <!-- Faroles -->
+  <g fill="#3A3560">
+    <rect x="620" y="760" width="8" height="130"/>
+    <rect x="1420" y="770" width="8" height="120"/>
+  </g>
+  <g fill="#FFE9B8">
+    <circle cx="624" cy="752" r="14"/>
+    <circle cx="1424" cy="762" r="14"/>
+  </g>
+</svg>

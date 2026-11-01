@@ -31,6 +31,7 @@ Con base de datos real:
 
 ```bash
 npm run db:up && npm run db:migrate && npm run db:seed   # Postgres en Docker
+npm run db:check                                        # confirma tablas y conteos
 # luego reinicia el backend: /api/health debe decir "source": "postgres"
 ```
 
@@ -47,6 +48,8 @@ Otros comandos: `npm run typecheck`, `npm test`, `npm run build` (los corre tamb
 | Casi sin internet | Service worker: guarda la app y la API; si el servidor falla, usa `public/data/places.json`. Las imágenes se guardan al verlas. |
 | Responsiva, animada, retrocompatible | CSS con `clamp`, grid y safe-areas; animaciones que respetan «reducir movimiento»; build para ES2018 / Safari 12. |
 | Instalable | Botón «Instalar app» (Chrome/Android/escritorio) y guía de «Agregar a inicio» en iPhone. |
+| Buscar sin pelear con los acentos | `frontend/src/lib/search.ts` filtra el catálogo ya descargado; la API replica la búsqueda con un índice de texto en PostgreSQL (`GET /api/places?q=`). |
+| Varias fotos y panoramas por lugar | Tabla `place_media` (`database/migrations/002_media_search.sql`) y galería en la ficha; el seed acepta un arreglo `media`. |
 | Unity / Meta Quest | **No implementado** (ver «4ª persona» y `docs/PLAN_7_DIAS.md`). |
 
 ## Cómo nos repartimos (4 personas)
@@ -81,7 +84,7 @@ Hay trabajo que no es código y es lo que más pesa en un proyecto de turismo; a
 
 - [`docs/PLAN_7_DIAS.md`](docs/PLAN_7_DIAS.md) — plan día por día y criterios de «terminado».
 - [`docs/API.md`](docs/API.md) — contrato de la API.
-- [`docs/DESPLIEGUE.md`](docs/DESPLIEGUE.md) — cómo publicar front, API y base de datos.
+- [`docs/DESPLIEGUE.md`](docs/DESPLIEGUE.md) — cómo publicar front, API y base de datos (Neon + Render + Vercel).
 - [`docs/PRUEBAS_DISPOSITIVOS.md`](docs/PRUEBAS_DISPOSITIVOS.md) — matriz de pruebas multiplataforma.
 - READMEs de cada carpeta con sus pendientes sugeridos.
 

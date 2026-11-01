@@ -8,6 +8,14 @@ interface SeedCategory {
   sortOrder: number;
 }
 
+interface SeedMedia {
+  kind: "photo" | "pano";
+  url: string;
+  caption?: string | null;
+  credit?: string | null;
+  sortOrder?: number;
+}
+
 interface SeedPlace {
   slug: string;
   name: string;
@@ -21,6 +29,8 @@ interface SeedPlace {
   imageUrl: string | null;
   panoUrl: string | null;
   tags: string[];
+  /** Galería opcional (002_media_search.sql). */
+  media?: SeedMedia[];
 }
 
 function readJson<T>(file: string): T {
@@ -67,6 +77,17 @@ async function main(): Promise<void> {
           p.latitude, p.longitude, p.coordsVerified, p.imageUrl, p.panoUrl, p.tags,
         ]
       );
+
+      // Galería: se reemplaza completa para que el seed siga siendo idempotente.
+      const media = p.media ?? [];
+      await client.query("DELETE FROM place_media WHERE place_slug = $1", [p.slug]);
+      for (const [i, m] of media.entries()) {
+        await client.query(
+          `INSERT INTO place_media (place_slug, kind, url, caption, credit, sort_order)
+           VALUES ($1, $2, $3, $4, $5, $6)`,
+          [p.slug, m.kind, m.url, m.caption ?? null, m.credit ?? null, m.sortOrder ?? i]
+        );
+      }
     }
     await client.query("COMMIT");
     console.log(`✔ ${categories.length} categorías y ${places.length} lugares cargados.`);

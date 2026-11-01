@@ -13,6 +13,10 @@ interface Props {
 /** Ficha del lugar: foto 2D que «se enfoca», historia y botón a Google Maps. */
 export function PlaceSheet({ place, onClose, onOpenPano }: Props) {
   const closeRef = useModal<HTMLButtonElement>(onClose);
+  const coverSrc = place.imageUrl ?? place.media.find((m) => m.kind === "photo")?.url ?? null;
+  const gallery = place.media.filter((m) => m.kind === "photo" && m.url !== coverSrc);
+  const panoramas = place.media.filter((m) => m.kind === "pano");
+  const panoSrc = place.panoUrl ?? panoramas[0]?.url ?? null;
 
   return (
     <div className="overlay" onClick={onClose}>
@@ -37,6 +41,28 @@ export function PlaceSheet({ place, onClose, onOpenPano }: Props) {
           </h2>
           <p className="sheet__lead">{place.shortDescription}</p>
 
+          {gallery.length > 0 && (
+            <ul className="gallery" aria-label={`Más fotos de ${place.name}`}>
+              {gallery.map((m) => (
+                <li key={m.url} className="gallery__item">
+                  <img
+                    src={m.url}
+                    alt={m.caption ?? `Foto de ${place.name}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  {(m.caption ?? m.credit) && (
+                    <p className="gallery__caption">
+                      {m.caption}
+                      {m.caption && m.credit ? " · " : ""}
+                      {m.credit && <span className="gallery__credit">{m.credit}</span>}
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+
           <h3 className="sheet__h">Historia</h3>
           <p className="sheet__text">{place.history}</p>
 
@@ -59,8 +85,12 @@ export function PlaceSheet({ place, onClose, onOpenPano }: Props) {
         </div>
 
         <div className="sheet__actions">
-          {place.panoUrl && (
-            <button type="button" className="btn btn--ghost" onClick={() => onOpenPano(place)}>
+          {panoSrc && (
+            <button
+              type="button"
+              className="btn btn--ghost"
+              onClick={() => onOpenPano({ ...place, panoUrl: panoSrc })}
+            >
               <IconRotate width={18} height={18} /> Ver en 360°
             </button>
           )}

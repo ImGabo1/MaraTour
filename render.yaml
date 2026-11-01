@@ -1,0 +1,24 @@
+# Blueprint de Render para la API (https://render.com/docs/blueprint-spec).
+# La base de datos NO vive en Render: usa Neon (gratis, permanente y sin caducar).
+# Al conectar el repo en Render, este archivo crea el servicio automáticamente.
+services:
+  - type: web
+    name: maratour-api
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      # Se piden en el panel de Render al crear el servicio (no van en el repo).
+      - key: DATABASE_URL
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      # Neon exige SSL.
+      - key: DATABASE_SSL
+        value: "true"
+      - key: NODE_ENV
+        value: production

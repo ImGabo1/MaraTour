@@ -20,11 +20,11 @@ npm test -w backend
 
 ## Endpoints
 
-| Método | Ruta                      | Descripción                          |
-| ------ | ------------------------- | ------------------------------------ |
-| GET    | `/api/health`             | Estado y fuente de datos             |
-| GET    | `/api/places`             | Lista; filtro opcional `?category=`  |
-| GET    | `/api/places/:slug`       | Detalle de un lugar                  |
+| Método | Ruta                      | Descripción                                       |
+| ------ | ------------------------- | ------------------------------------------------- |
+| GET    | `/api/health`             | Estado y fuente de datos                          |
+| GET    | `/api/places`             | Lista; filtros opcionales `?category=` y `?q=`     |
+| GET    | `/api/places/:slug`       | Detalle de un lugar                               |
 
 Formato de respuesta y campos: ver `docs/API.md`.
 

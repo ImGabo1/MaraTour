@@ -8,6 +8,7 @@ import { PlaceSheet } from "./components/PlaceSheet";
 import { useHashRoute } from "./hooks/useHashRoute";
 import { useOnline } from "./hooks/useOnline";
 import { usePlaces } from "./hooks/usePlaces";
+import { matchesQuery } from "./lib/search";
 import type { Place } from "./types";
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
   const route = useHashRoute();
 
   const [category, setCategory] = useState<string>("todos");
+  const [query, setQuery] = useState<string>("");
   const [mapFocus, setMapFocus] = useState<string | null>(null);
   const [pano, setPano] = useState<Place | null>(null);
 
@@ -25,10 +27,10 @@ export default function App() {
     return [...seen.entries()].map(([slug, name]) => ({ slug, name }));
   }, [places]);
 
-  const visible = useMemo(
-    () => (category === "todos" ? places : places.filter((p) => p.category === category)),
-    [places, category]
-  );
+  const visible = useMemo(() => {
+    const byCategory = category === "todos" ? places : places.filter((p) => p.category === category);
+    return byCategory.filter((p) => matchesQuery(p, query));
+  }, [places, category, query]);
 
   const openPlace = places.find((p) => p.slug === route.slug) ?? null;
 
@@ -84,6 +86,21 @@ export default function App() {
           <div className="container">
             <h2 className="section__title">Lugares para visitar</h2>
 
+            <div className="search">
+              <label className="search__label" htmlFor="buscar">
+                Buscar un lugar
+              </label>
+              <input
+                id="buscar"
+                className="search__input"
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Nombre, etiqueta o palabra: teatro, iglesia, atardecer…"
+                autoComplete="off"
+              />
+            </div>
+
             {categories.length > 1 && (
               <div className="filters" role="group" aria-label="Filtrar por categoría">
                 <button
@@ -111,6 +128,12 @@ export default function App() {
             {error && (
               <p className="notice" role="alert">
                 No pudimos cargar los lugares. Conéctate a internet y vuelve a intentarlo.
+              </p>
+            )}
+
+            {!loading && !error && visible.length === 0 && (
+              <p className="notice" role="status">
+                No encontramos lugares para «{query.trim()}». Prueba con otra palabra o quita el filtro.
               </p>
             )}
 

@@ -84,6 +84,8 @@ npm run db:check
 
 > También puedes pegar la URL en tu `.env` local y correr solo `npm run db:migrate`, `db:seed`
 > y `db:check`. Ese `.env` no se sube al repo.
+>
+> Si usaste `neon init`, la URL ya está en `.env.local` y estos comandos la leen sin configurar nada.
 
 ## Paso 3 · Publicar la API en Render
 

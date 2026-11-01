@@ -21,6 +21,15 @@ async function main(): Promise<void> {
     const version = await pool.query<{ version: string }>("SELECT version()");
     console.log(`✔ Conectado: ${version.rows[0]?.version ?? "PostgreSQL"}`);
 
+    // Una base recién creada no tiene tablas: es un estado válido, no un error.
+    const hasSchema = await pool.query<{ places: string | null }>(
+      "SELECT to_regclass('public.places') AS places"
+    );
+    if (!hasSchema.rows[0]?.places) {
+      console.warn("⚠ La base está vacía (sin tablas). Corre: npm run db:migrate && npm run db:seed");
+      return;
+    }
+
     const migrations = await pool.query<{ name: string; applied_at: Date }>(
       "SELECT name, applied_at FROM schema_migrations ORDER BY name"
     );

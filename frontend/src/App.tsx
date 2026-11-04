@@ -10,6 +10,7 @@ import { useHashRoute } from "./hooks/useHashRoute";
 import { useOnline } from "./hooks/useOnline";
 import { usePageRoute } from "./hooks/usePageRoute";
 import { usePlaces } from "./hooks/usePlaces";
+ HEAD
 import { useI18n } from "./i18n/I18nProvider";
 import { onSavedChange, readSaved, toggleSavedList, writeSaved } from "./lib/favorites";
 import { mergePlaces, primaryCategory } from "./lib/places";
@@ -19,6 +20,9 @@ import { ExplorePage } from "./pages/ExplorePage";
 import { HomePage } from "./pages/HomePage";
 import { PlannerPage } from "./pages/PlannerPage";
 import { RoutePage } from "./pages/RoutePage";
+
+import { matchesQuery } from "./lib/search";
+ 
 import type { Place } from "./types";
 
 type ExploreView = "grid" | "map";
@@ -30,8 +34,14 @@ export default function App() {
   const { page, navigate } = usePageRoute();
   const { t } = useI18n();
 
+HEAD
   const places = useMemo(() => mergePlaces(apiPlaces), [apiPlaces]);
   const [saved, setSaved] = useState<string[]>(readSaved);
+
+  const [category, setCategory] = useState<string>("todos");
+  const [query, setQuery] = useState<string>("");
+  const [mapFocus, setMapFocus] = useState<string | null>(null);
+
   const [pano, setPano] = useState<Place | null>(null);
   const [chatOpen, setChatOpen] = useState(false);
   const [exploreQuery, setExploreQuery] = useState("");
@@ -41,7 +51,13 @@ export default function App() {
 
   const openPlace = places.find((place) => place.slug === route.slug) ?? null;
 
+HEAD
   useEffect(() => onSavedChange(setSaved), []);
+
+  const visible = useMemo(() => {
+    const byCategory = category === "todos" ? places : places.filter((p) => p.category === category);
+    return byCategory.filter((p) => matchesQuery(p, query));
+  }, [places, category, query]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -183,6 +199,7 @@ export default function App() {
               Hablar con Zulmita
             </button>
           </div>
+ HEAD
         </div>
         <div className="container vm-footer__legal">
           <p>{t("footer.university")}</p>
@@ -190,6 +207,77 @@ export default function App() {
             <IconSparkles width={13} height={13} />
             {t("footer.draft")}
           </p>
+
+        </section>
+
+        <section id="lugares" className="section section--tint">
+          <div className="container">
+            <h2 className="section__title">Lugares para visitar</h2>
+
+            <div className="search">
+              <label className="search__label" htmlFor="buscar">
+                Buscar un lugar
+              </label>
+              <input
+                id="buscar"
+                className="search__input"
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Nombre, etiqueta o palabra: teatro, iglesia, atardecer…"
+                autoComplete="off"
+              />
+            </div>
+
+            {categories.length > 1 && (
+              <div className="filters" role="group" aria-label="Filtrar por categoría">
+                <button
+                  type="button"
+                  className="filter"
+                  aria-pressed={category === "todos"}
+                  onClick={() => setCategory("todos")}
+                >
+                  Todos
+                </button>
+                {categories.map((c) => (
+                  <button
+                    key={c.slug}
+                    type="button"
+                    className="filter"
+                    aria-pressed={category === c.slug}
+                    onClick={() => setCategory(c.slug)}
+                  >
+                    {c.name}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {error && (
+              <p className="notice" role="alert">
+                No pudimos cargar los lugares. Conéctate a internet y vuelve a intentarlo.
+              </p>
+            )}
+
+            {!loading && !error && visible.length === 0 && (
+              <p className="notice" role="status">
+                No encontramos lugares para «{query.trim()}». Prueba con otra palabra o quita el filtro.
+              </p>
+            )}
+
+            <div className="grid" key={category}>
+              {visible.map((p, i) => (
+                <PlaceCard key={p.slug} place={p} index={i} onOpen={route.open} />
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="footer">
+        <div className="container">
+          <p>Proyecto universitario para impulsar el turismo en el municipio Maracaibo.</p>
+          <p className="footer__small">Contenido preliminar: los textos y ubicaciones están en revisión.</p>
         </div>
       </footer>
 

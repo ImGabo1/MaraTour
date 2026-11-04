@@ -1,0 +1,13 @@
+# Alternativa a Vercel si prefieres Netlify (plan gratuito, sin tarjeta).
+[build]
+  command = "npm run build -w frontend"
+  publish = "frontend/dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# La app usa rutas con #, pero esto evita 404 si algún día se usan rutas normales.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

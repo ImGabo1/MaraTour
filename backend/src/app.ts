@@ -5,7 +5,11 @@ import { z } from "zod";
 import type { PlaceRepository } from "./repo/types";
 
 const slugSchema = z.string().regex(/^[a-z0-9-]{1,80}$/);
-const listQuerySchema = z.object({ category: slugSchema.optional() });
+const listQuerySchema = z.object({
+  category: slugSchema.optional(),
+  // Búsqueda libre en español (nombre, descripción, etiquetas, historia, dirección).
+  q: z.string().trim().min(1).max(80).optional(),
+});
 
 // Los datos cambian poco: el navegador y el service worker pueden reutilizarlos.
 const CACHE_HEADER = "public, max-age=300, stale-while-revalidate=86400";

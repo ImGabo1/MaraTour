@@ -4,11 +4,14 @@ import { CategoryIcon } from "./icons";
 
 /** Foto 2D del lugar; si aún no hay, una portada generada según la categoría. */
 export function Cover({ place, className = "" }: { place: Place; className?: string }) {
-  if (place.imageUrl) {
+  // Primero la foto principal; si no hay, la primera de la galería.
+  const src = place.imageUrl ?? place.media.find((m) => m.kind === "photo")?.url ?? null;
+
+  if (src) {
     return (
       <img
         className={`cover cover--photo ${className}`}
-        src={place.imageUrl}
+        src={src}
         alt={`Foto de ${place.name}`}
         loading="lazy"
         decoding="async"

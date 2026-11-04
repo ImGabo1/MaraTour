@@ -17,7 +17,15 @@
         "tradición",
         "centro"
       ],
-      "categoryName": "Fe y tradición"
+      "categoryName": "Fe y tradición",
+      "media": [
+        {
+          "kind": "pano",
+          "url": "/panos/placeholder-atardecer.svg",
+          "caption": null,
+          "credit": null
+        }
+      ]
     },
     {
       "slug": "teatro-baralt",
@@ -36,7 +44,15 @@
         "arquitectura",
         "centro"
       ],
-      "categoryName": "Cultura y arte"
+      "categoryName": "Cultura y arte",
+      "media": [
+        {
+          "kind": "pano",
+          "url": "/panos/placeholder-atardecer.svg",
+          "caption": null,
+          "credit": null
+        }
+      ]
     },
     {
       "slug": "plaza-bolivar",
@@ -55,7 +71,15 @@
         "patrimonio",
         "centro"
       ],
-      "categoryName": "Historia y patrimonio"
+      "categoryName": "Historia y patrimonio",
+      "media": [
+        {
+          "kind": "pano",
+          "url": "/panos/placeholder-atardecer.svg",
+          "caption": null,
+          "credit": null
+        }
+      ]
     },
     {
       "slug": "calle-carabobo",
@@ -74,7 +98,15 @@
         "caminata",
         "fotografía"
       ],
-      "categoryName": "Historia y patrimonio"
+      "categoryName": "Historia y patrimonio",
+      "media": [
+        {
+          "kind": "pano",
+          "url": "/panos/placeholder-atardecer.svg",
+          "caption": null,
+          "credit": null
+        }
+      ]
     },
     {
       "slug": "santa-lucia",
@@ -93,7 +125,15 @@
         "tradición",
         "cultura"
       ],
-      "categoryName": "Cultura y arte"
+      "categoryName": "Cultura y arte",
+      "media": [
+        {
+          "kind": "pano",
+          "url": "/panos/placeholder-atardecer.svg",
+          "caption": null,
+          "credit": null
+        }
+      ]
     },
     {
       "slug": "paseo-del-lago",
@@ -112,7 +152,15 @@
         "atardecer",
         "aire libre"
       ],
-      "categoryName": "Naturaleza y paisaje"
+      "categoryName": "Naturaleza y paisaje",
+      "media": [
+        {
+          "kind": "pano",
+          "url": "/panos/placeholder-atardecer.svg",
+          "caption": null,
+          "credit": null
+        }
+      ]
     }
   ],
   "meta": {

@@ -4,6 +4,8 @@ import { Pool } from "pg";
 
 // Carga .env de la raíz del repo (y, si existe, el de database/)
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+// Neon CLI escribe las credenciales en .env.local (no sobreescribe .env).
+dotenv.config({ path: path.resolve(__dirname, "../../.env.local") });
 dotenv.config();
 
 export function createPool(): Pool {

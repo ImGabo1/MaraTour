@@ -6,6 +6,7 @@
   "scripts": {
     "migrate": "tsx scripts/migrate.ts",
     "seed": "tsx scripts/seed.ts",
+    "check": "tsx scripts/check.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

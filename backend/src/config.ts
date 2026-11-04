@@ -2,8 +2,10 @@ import path from "node:path";
 import dotenv from "dotenv";
 import { z } from "zod";
 
-// .env en la raíz del repo (compartido) y, si existe, en backend/
+// .env en la raíz del repo (compartido) y, si existe, en backend/.
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+// Neon CLI escribe las credenciales en .env.local (no sobreescribe .env).
+dotenv.config({ path: path.resolve(__dirname, "../../.env.local") });
 dotenv.config();
 
 const schema = z.object({

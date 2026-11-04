@@ -19,6 +19,16 @@ Todas las respuestas son JSON. Solo lectura por ahora.
 | `imageUrl` | string \| null | Foto 2D. `null` → el front genera una portada. |
 | `panoUrl` | string \| null | Panorámica 360° (2:1). `null` → sin vista 360°. |
 | `tags` | string[] | |
+| `media` | `PlaceMedia[]` | Galería (tabla `place_media`). Siempre incluye `imageUrl`/`panoUrl` si no están ya en la galería. |
+
+### Tipo `PlaceMedia`
+
+| Campo | Tipo | Notas |
+| --- | --- | --- |
+| `kind` | `"photo"` \| `"pano"` | Foto 2D o panorama 360°. |
+| `url` | string | Ruta relativa (`/panos/...`) o URL absoluta (CDN). |
+| `caption` | string \| null | Pie de foto opcional. |
+| `credit` | string \| null | Autor o fuente de la imagen. |
 
 Tipos TypeScript: `backend/src/types.ts` y `frontend/src/types.ts` (mantener iguales).
 
@@ -30,11 +40,21 @@ Tipos TypeScript: `backend/src/types.ts` y `frontend/src/types.ts` (mantener igu
 ```
 `503` con `"status": "degraded"` si la base de datos no responde. `source` es `postgres` o `memory`.
 
-### `GET /api/places?category=<slug>`
+### `GET /api/places?category=<slug>&q=<texto>`
 ```json
 { "data": [ /* Place[] */ ], "meta": { "count": 6 } }
 ```
-`400` si `category` no cumple `^[a-z0-9-]+$`. Caché: `public, max-age=300, stale-while-revalidate=86400`.
+- `category` (opcional): filtra por categoría; `400` si no cumple `^[a-z0-9-]+$`.
+- `q` (opcional): búsqueda de texto libre en español sobre nombre, descripción, etiquetas, historia
+  y dirección. Ignora acentos (`basilica` encuentra `Basílica`) y exige todas las palabras.
+  `400` si viene vacío o supera 80 caracteres. Los resultados salen ordenados por relevancia.
+- Se pueden combinar: `?q=teatro&category=cultura`.
+- Caché: `public, max-age=300, stale-while-revalidate=86400`.
+
+```bash
+curl "https://<api>/api/places?q=iglesia"
+curl "https://<api>/api/places?q=atardecer&category=naturaleza"
+```
 
 ### `GET /api/places/:slug`
 ```json

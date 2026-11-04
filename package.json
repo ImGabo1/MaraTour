@@ -12,6 +12,7 @@
     "db:up": "docker compose up -d db",
     "db:migrate": "npm run migrate -w database",
     "db:seed": "npm run seed -w database",
+    "db:check": "npm run check -w database",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "build": "npm run build --workspaces --if-present"

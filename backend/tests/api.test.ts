@@ -34,6 +34,27 @@ describe("API de lugares", () => {
     expect(res.body.data.every((p: { category: string }) => p.category === "cultura")).toBe(true);
   });
 
+  it("GET /api/places?q= busca por texto y sin acentos", async () => {
+    const res = await request(app).get("/api/places?q=basilica");
+    expect(res.status).toBe(200);
+    expect(res.body.data.map((p: { slug: string }) => p.slug)).toContain("basilica-chiquinquira");
+  });
+
+  it("GET /api/places combina búsqueda y categoría", async () => {
+    const res = await request(app).get("/api/places?q=teatro&category=cultura");
+    expect(res.status).toBe(200);
+    expect(res.body.data.map((p: { slug: string }) => p.slug)).toEqual(["teatro-baralt"]);
+
+    const sinResultados = await request(app).get("/api/places?q=teatro&category=religioso");
+    expect(sinResultados.status).toBe(200);
+    expect(sinResultados.body.data).toEqual([]);
+  });
+
+  it("rechaza una búsqueda vacía", async () => {
+    const res = await request(app).get("/api/places?q=");
+    expect(res.status).toBe(400);
+  });
+
   it("rechaza categorías con formato inválido", async () => {
     const res = await request(app).get("/api/places?category=DROP%20TABLE");
     expect(res.status).toBe(400);
@@ -43,6 +64,13 @@ describe("API de lugares", () => {
     const res = await request(app).get("/api/places/teatro-baralt");
     expect(res.status).toBe(200);
     expect(res.body.data.slug).toBe("teatro-baralt");
+  });
+
+  it("cada lugar trae su galería (media) incluso si viene de imageUrl/panoUrl", async () => {
+    const res = await request(app).get("/api/places/teatro-baralt");
+    expect(Array.isArray(res.body.data.media)).toBe(true);
+    const kinds = res.body.data.media.map((m: { kind: string }) => m.kind);
+    expect(kinds).toContain("pano");
   });
 
   it("devuelve 404 para un lugar inexistente", async () => {

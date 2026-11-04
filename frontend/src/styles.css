@@ -1342,7 +1342,51 @@ button {
   gap: 15px;
 }
 
+<<<<<<< HEAD
 .place-card {
+=======
+.search {
+  max-width: 520px;
+  margin: 16px 0 4px;
+}
+.search__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+.search__input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 18px;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+}
+.search__input::placeholder {
+  color: #8a9aa2;
+}
+.search__input:focus {
+  border-color: var(--teal);
+  outline: none;
+}
+.search__input:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.card {
+>>>>>>> b2a212e84986e771267991aa5d5deaf95cd85552
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -1831,6 +1875,7 @@ button {
   font-size: 15px;
   line-height: 1.55;
 }
+<<<<<<< HEAD
 
 .sheet__popularity {
   display: flex;
@@ -1877,6 +1922,35 @@ button {
   font-weight: 850;
 }
 
+=======
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+.gallery__item {
+  margin: 0;
+}
+.gallery__item img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.gallery__caption {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.gallery__credit {
+  font-style: italic;
+  opacity: 0.8;
+}
+>>>>>>> b2a212e84986e771267991aa5d5deaf95cd85552
 .sheet__h {
   margin: 18px 0 4px;
   color: var(--teal-dark);

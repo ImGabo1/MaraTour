@@ -2,7 +2,9 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { registerSW } from "virtual:pwa-register";
 import App from "./App";
+import { I18nProvider } from "./i18n/I18nProvider";
 import "./styles.css";
+import "./theme.css";
 
 // Service worker: guarda la app y los datos para usarla sin conexión (solo en build de producción).
 registerSW({ immediate: true });
@@ -12,6 +14,8 @@ if (!root) throw new Error("No se encontró #root");
 
 createRoot(root).render(
   <StrictMode>
-    <App />
+    <I18nProvider>
+      <App />
+    </I18nProvider>
   </StrictMode>
 );

@@ -1,44 +1,201 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useI18n } from "../i18n/I18nProvider";
+import { LANGUAGES } from "../i18n/messages";
 import { useInstallPrompt } from "../hooks/useInstallPrompt";
 import { useModal } from "../hooks/useModal";
-import { IconClose, IconDownload, IconShare, IconWave } from "./icons";
+import type { Page } from "../hooks/usePageRoute";
+import { LanguagePicker } from "./LanguagePicker";
+import {
+  IconBook,
+  IconBridge,
+  IconChat,
+  IconClose,
+  IconCompass,
+  IconDownload,
+  IconGlobe,
+  IconHeart,
+  IconHome,
+  IconMenu,
+  IconShare,
+  IconSparkles,
+} from "./icons";
 
-export function Header() {
+interface Props {
+  page: Page;
+  savedCount?: number;
+  onOpenChat?: () => void;
+}
+
+const NAV: readonly { page: Page; key: "nav.home" | "nav.explore" | "nav.planner" | "nav.dictionary" | "nav.saved"; icon: typeof IconHome }[] = [
+  { page: "inicio", key: "nav.home", icon: IconHome },
+  { page: "explorar", key: "nav.explore", icon: IconCompass },
+  { page: "plan", key: "nav.planner", icon: IconSparkles },
+  { page: "diccionario", key: "nav.dictionary", icon: IconBook },
+  { page: "mi-ruta", key: "nav.saved", icon: IconHeart },
+];
+
+export function Header({ page, savedCount = 0, onOpenChat }: Props) {
+  const { lang, t } = useI18n();
   const { mode, install } = useInstallPrompt();
+  const [languageOpen, setLanguageOpen] = useState(false);
   const [iosHelp, setIosHelp] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const currentLanguage = LANGUAGES.find((language) => language.code === lang);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [page]);
 
   return (
-    <header className="header">
-      <div className="container header__inner">
-        <a className="brand" href="#top" aria-label="Visita Maracaibo, inicio">
-          <span className="brand__logo">
-            <IconWave width={20} height={20} />
-          </span>
-          <span className="brand__name">Visita Maracaibo</span>
-        </a>
+    <>
+      <header className="vm-header">
+        <div className="vm-header__inner container">
+          <a className="vm-brand" href="#/inicio" aria-label={`Visita Maracaibo · ${t("nav.home")}`}>
+            <span className="vm-brand__mark" aria-hidden="true">
+              <IconBridge width={23} height={23} />
+            </span>
+            <span className="vm-brand__text">
+              <strong>Visita Maracaibo</strong>
+              <span>Zulia · Venezuela</span>
+            </span>
+          </a>
 
-        <nav className="nav" aria-label="Secciones">
-          <a href="#mapa">Mapa</a>
-          <a href="#lugares">Lugares</a>
-        </nav>
+          <nav className="vm-nav" aria-label={t("nav.home")}>
+            {NAV.map((item) => {
+              const Icon = item.icon;
+              return (
+                <a
+                  key={item.page}
+                  href={`#/${item.page}`}
+                  className={page === item.page ? "is-active" : undefined}
+                  aria-current={page === item.page ? "page" : undefined}
+                >
+                  <Icon width={16} height={16} />
+                  <span>{t(item.key)}</span>
+                </a>
+              );
+            })}
+          </nav>
 
-        {mode === "prompt" && (
-          <button type="button" className="btn btn--primary btn--sm" onClick={install}>
-            <IconDownload width={16} height={16} /> Instalar app
-          </button>
-        )}
-        {mode === "ios" && (
-          <button type="button" className="btn btn--primary btn--sm" onClick={() => setIosHelp(true)}>
-            <IconDownload width={16} height={16} /> Instalar
-          </button>
-        )}
-      </div>
+          <div className="vm-header__actions">
+            <a
+              className="vm-saved-btn"
+              href="#/mi-ruta"
+              aria-label={`${t("nav.saved")}${savedCount > 0 ? ` · ${savedCount}` : ""}`}
+            >
+              <IconHeart width={18} height={18} />
+              <span>{t("nav.saved")}</span>
+              {savedCount > 0 && <b>{savedCount}</b>}
+            </a>
+
+            <button
+              type="button"
+              className="vm-lang-btn"
+              onClick={() => setLanguageOpen(true)}
+              aria-label={`${t("nav.language")}: ${currentLanguage?.native ?? "Español"}`}
+              aria-haspopup="dialog"
+            >
+              <IconGlobe width={17} height={17} />
+              <span>{currentLanguage?.native ?? "Español"}</span>
+            </button>
+
+            {onOpenChat && (
+              <button
+                type="button"
+                className="vm-chat-btn"
+                onClick={onOpenChat}
+                aria-label={t("nav.chat")}
+                title={t("nav.chat")}
+              >
+                <IconChat width={18} height={18} />
+              </button>
+            )}
+
+            {(mode === "prompt" || mode === "ios") && (
+              <button
+                type="button"
+                className="vm-install-btn"
+                onClick={() => (mode === "prompt" ? install() : setIosHelp(true))}
+              >
+                <IconDownload width={15} height={15} />
+                <span>{t("nav.installShort")}</span>
+              </button>
+            )}
+
+            <button
+              type="button"
+              className="vm-menu-btn"
+              onClick={() => setMenuOpen((open) => !open)}
+              aria-expanded={menuOpen}
+              aria-label={menuOpen ? t("common.close") : t("nav.home")}
+            >
+              {menuOpen ? <IconClose width={21} height={21} /> : <IconMenu width={21} height={21} />}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {menuOpen && (
+        <div className="vm-drawer" onClick={() => setMenuOpen(false)}>
+          <nav
+            className="vm-drawer__panel"
+            aria-label={t("nav.home")}
+            onClick={(event) => event.stopPropagation()}
+          >
+            {NAV.map((item) => {
+              const Icon = item.icon;
+              return (
+                <a
+                  key={item.page}
+                  href={`#/${item.page}`}
+                  className={page === item.page ? "is-active" : undefined}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <Icon width={19} height={19} />
+                  <span>{t(item.key)}</span>
+                </a>
+              );
+            })}
+            <button
+              type="button"
+              className="vm-drawer__chat"
+              onClick={() => {
+                setMenuOpen(false);
+                onOpenChat?.();
+              }}
+            >
+              <IconChat width={19} height={19} />
+              <span>{t("nav.chat")}</span>
+            </button>
+          </nav>
+        </div>
+      )}
+
+      <nav className="vm-tabbar" aria-label={t("nav.home")}>
+        {NAV.map((item) => {
+          const Icon = item.icon;
+          return (
+            <a
+              key={item.page}
+              href={`#/${item.page}`}
+              className={page === item.page ? "is-active" : undefined}
+              aria-current={page === item.page ? "page" : undefined}
+            >
+              <Icon width={20} height={20} />
+              <span>{t(item.key)}</span>
+            </a>
+          );
+        })}
+      </nav>
+
+      {languageOpen && <LanguagePicker onClose={() => setLanguageOpen(false)} />}
       {iosHelp && <IosInstallHelp onClose={() => setIosHelp(false)} />}
-    </header>
+    </>
   );
 }
 
 function IosInstallHelp({ onClose }: { onClose: () => void }) {
+  const { t } = useI18n();
   const closeRef = useModal<HTMLButtonElement>(onClose);
   return (
     <div className="overlay overlay--center" onClick={onClose}>
@@ -47,26 +204,28 @@ function IosInstallHelp({ onClose }: { onClose: () => void }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="ios-title"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(event) => event.stopPropagation()}
       >
         <h2 id="ios-title" className="dialog__title">
-          Instalar en iPhone o iPad
+          {t("ios.title")}
         </h2>
         <ol className="dialog__steps">
+          <li>{t("ios.step1")}</li>
           <li>
-            Abre esta página en <strong>Safari</strong>.
+            {t("ios.step2")}
+            <IconShare width={18} height={18} className="dialog__inline-icon" />
           </li>
-          <li>
-            Toca el botón <strong>Compartir</strong> <IconShare width={18} height={18} style={{ verticalAlign: "-3px" }} />.
-          </li>
-          <li>
-            Elige <strong>Agregar a pantalla de inicio</strong>.
-          </li>
+          <li>{t("ios.step3")}</li>
         </ol>
         <button ref={closeRef} type="button" className="btn btn--dark" onClick={onClose}>
-          Entendido
+          {t("common.gotIt")}
         </button>
-        <button type="button" className="icon-btn dialog__close" onClick={onClose} aria-label="Cerrar">
+        <button
+          type="button"
+          className="icon-btn dialog__close"
+          onClick={onClose}
+          aria-label={t("common.close")}
+        >
           <IconClose />
         </button>
       </div>

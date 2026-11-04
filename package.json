@@ -6,6 +6,7 @@
   "workspaces": ["frontend", "backend", "database"],
   "engines": { "node": ">=20" },
   "scripts": {
+    "dev": "node scripts/dev.mjs",
     "dev:front": "npm run dev -w frontend",
     "dev:back": "npm run dev -w backend",
     "db:up": "docker compose up -d db",

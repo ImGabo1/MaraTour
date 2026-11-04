@@ -1,4 +1,4 @@
-import { categoryStyle } from "../lib/categories";
+import { categoryStyleForPlace } from "../lib/categories";
 import type { Place } from "../types";
 import { CategoryIcon } from "./icons";
 
@@ -15,15 +15,18 @@ export function Cover({ place, className = "" }: { place: Place; className?: str
       />
     );
   }
-  const style = categoryStyle(place.category);
+
+  const category = categoryStyleForPlace(place);
   return (
     <div
-      className={`cover ${className}`}
-      style={{ background: `linear-gradient(150deg, ${style.from}, ${style.to})` }}
+      className={`cover cover--generated ${className}`}
+      style={{
+        background: `radial-gradient(circle at 82% 16%, rgba(255,255,255,.34), transparent 42%), linear-gradient(145deg, ${category.from}, ${category.to})`,
+      }}
       role="img"
       aria-label={`Portada de ${place.name}`}
     >
-      <CategoryIcon name={style.icon} className="cover__icon" />
+      <CategoryIcon name={category.icon} className="cover__icon" />
     </div>
   );
 }

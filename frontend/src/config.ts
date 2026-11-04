@@ -7,9 +7,11 @@ export const API_URL: string = (import.meta.env.VITE_API_URL ?? "").replace(/\/$
 export const MAPS_GENERAL_QUERY = "Maracaibo, Zulia, Venezuela";
 
 /**
- * Mapa real (idea del equipo: una imagen del mapa en lugar de la API de Google Maps).
- * 1. Guarda una captura del mapa en frontend/public/img/mapa-maracaibo.png
- * 2. Pon aquí su ruta y las coordenadas de sus cuatro bordes (norte, sur, oeste, este).
- * Con `image: null` se usa el mapa ilustrativo dibujado en SVG.
+ * Mapa base real de Maracaibo (teselas de OpenStreetMap · CARTO, uso libre con
+ * atribución). Es una imagen local para no depender de una API de pago ni de red.
+ * Si se cambia la imagen hay que actualizar los cuatro bordes geográficos.
  */
-export const MAP_IMAGE: { image: string; bounds: Bounds } | null = null;
+export const MAP_IMAGE: { image: string; bounds: Bounds } | null = {
+  image: "/img/mapa-maracaibo.jpg",
+  bounds: { north: 10.705, south: 10.545, west: -71.762724, east: -71.512276 },
+};

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useI18n } from "../i18n/I18nProvider";
 import { useModal } from "../hooks/useModal";
 import { IconClose, IconPhone } from "./icons";
 
@@ -22,6 +23,7 @@ const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(mi
  * el siguiente paso es Photo Sphere Viewer o three.js + WebXR (ver docs/PLAN_7_DIAS.md).
  */
 export function PanoViewer({ src, title, onClose }: Props) {
+  const { t } = useI18n();
   const closeRef = useModal<HTMLButtonElement>(onClose);
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -189,15 +191,13 @@ export function PanoViewer({ src, title, onClose }: Props) {
         }}
       >
         <canvas ref={canvasRef} className="pano__canvas" role="img" aria-label={`Panorámica de ${title}`} />
-        {status === "loading" && <p className="pano__msg">Cargando vista 360°…</p>}
-        {status === "error" && (
-          <p className="pano__msg">No se pudo cargar la vista 360°. Revisa tu conexión e inténtalo de nuevo.</p>
-        )}
+        {status === "loading" && <p className="pano__msg">{t("pano.loading")}</p>}
+        {status === "error" && <p className="pano__msg">{t("pano.error")}</p>}
       </div>
 
       <div className="pano__top">
         <span className="pano__title">{title} · 360°</span>
-        <button ref={closeRef} type="button" className="icon-btn" onClick={onClose} aria-label="Cerrar vista 360°">
+        <button ref={closeRef} type="button" className="icon-btn" onClick={onClose} aria-label={t("pano.close")}>
           <IconClose />
         </button>
       </div>
@@ -205,18 +205,14 @@ export function PanoViewer({ src, title, onClose }: Props) {
       <div className="pano__bottom">
         <span className="pano__hint">
           <IconPhone width={16} height={16} />
-          {gyro === "on" ? "Mueve el teléfono para mirar alrededor" : "Arrastra para mirar alrededor"}
+          {gyro === "on" ? t("pano.move") : t("pano.drag")}
         </span>
         {gyroSupported && (
           <button type="button" className="btn btn--light" onClick={toggleGyro} aria-pressed={gyro === "on"}>
-            {gyro === "on" ? "Usar el dedo" : "Usar movimiento del teléfono"}
+            {gyro === "on" ? t("pano.useTouch") : t("pano.useMotion")}
           </button>
         )}
-        {gyro === "denied" && (
-          <span className="pano__hint pano__hint--warn">
-            Sin permiso de movimiento. Actívalo en los ajustes del navegador o sigue arrastrando.
-          </span>
-        )}
+        {gyro === "denied" && <span className="pano__hint pano__hint--warn">{t("pano.denied")}</span>}
       </div>
     </div>
   );

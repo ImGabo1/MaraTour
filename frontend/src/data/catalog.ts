@@ -2,11 +2,14 @@ import type { Place } from "../types";
 import type { CategorySlug } from "./categories";
 
 /**
- * Catálogo curado de la fachada.
+ * Catálogo empaquetado de respaldo.
  *
- * La API trae seis lugares base; aquí se suman los puntos confirmados por el
- * equipo para que cada tema tenga al menos tres opciones. Las coordenadas son
- * aproximadas (`coordsVerified: false`) hasta la revisión final en campo.
+ * La fuente de verdad es `database/seed/places.json` (43 lugares) y la API los
+ * sirve todos. Esta copia se mantiene dentro del bundle para que la app siga
+ * mostrando el catálogo completo aunque falle la API y también falle el
+ * respaldo `public/data/places.json` (por ejemplo, en una instalación PWA que
+ * nunca llegó a cachearlo).
+ *
  * Las fotos, galerías y panoramas se conectan por slug desde `data/media.ts`.
  */
 

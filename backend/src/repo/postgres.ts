@@ -19,6 +19,7 @@ const SELECT = `
          p.image_url          AS "imageUrl",
          p.pano_url           AS "panoUrl",
          p.tags,
+         p.sector,
          pm.media
     FROM places p
     JOIN categories c ON c.slug = p.category_slug
@@ -95,5 +96,5 @@ function toPlace(row: PlaceRow): Place {
   if (row.panoUrl && !has(row.panoUrl)) {
     media.push({ kind: "pano", url: row.panoUrl, caption: null, credit: null });
   }
-  return { ...row, media };
+  return { ...row, sector: row.sector ?? undefined, media };
 }

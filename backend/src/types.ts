@@ -11,7 +11,7 @@ export interface PlaceMedia {
 export interface Place {
   slug: string;
   name: string;
-  /** slug de la categoría (historia, cultura, religioso, naturaleza...) */
+  /** slug de la categoría (plazas, historia, cultura, fe, museos, salud...) */
   category: string;
   categoryName: string;
   shortDescription: string;

@@ -49,6 +49,17 @@ async function main(): Promise<void> {
     const c = counts.rows[0];
     console.log(`✔ Datos: ${c?.categories ?? 0} categorías, ${c?.places ?? 0} lugares, ${c?.media ?? 0} medios.`);
 
+    // Usuarios: la tabla es opcional para el catálogo, pero necesaria para login/register.
+    const usersTable = await pool.query<{ users: string | null }>(
+      "SELECT to_regclass('public.users') AS users"
+    );
+    if (!usersTable.rows[0]?.users) {
+      console.warn("⚠ Falta la tabla users. Corre: npm run db:migrate (003_users.sql).");
+    } else {
+      const userCount = await pool.query<{ users: number }>("SELECT count(*)::int AS users FROM users");
+      console.log(`✔ Cuentas: ${userCount.rows[0]?.users ?? 0} usuarios registrados.`);
+    }
+
     const search = await pool.query<{ ok: boolean }>(
       "SELECT to_tsvector('spanish', 'Basílica de Chiquinquirá') @@ websearch_to_tsquery('spanish', 'basilica') AS ok"
     );

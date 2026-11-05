@@ -22,3 +22,6 @@ services:
         value: "true"
       - key: NODE_ENV
         value: production
+      # Coincide con EXPOSE 3001 en Dockerfile
+      - key: PORT
+        value: "3001"

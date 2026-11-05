@@ -2,7 +2,7 @@
 
 Aplicación web progresiva (PWA) para impulsar el turismo **solo en el municipio Maracaibo**: mapa con lugares, fichas con historia, vistas 360° y modo sin conexión. Todo en **TypeScript**.
 
-> Estado: **demo funcional**. Portada, acceso local, catálogo curado de 43 lugares, planificador, diccionario, mapa, fichas y 360°. Los textos y coordenadas siguen siendo borradores que el equipo debe verificar.
+> Estado: **demo funcional**. Portada, acceso con cuentas en la API, catálogo de 43 lugares, planificador, diccionario, mapa, fichas y 360°. Las coordenadas siguen sin verificar en campo.
 
 ```
 turismo-maracaibo-pwa/
@@ -95,4 +95,4 @@ Hay trabajo que no es código y es lo que más pesa en un proyecto de turismo; a
 - El visor 360° es una aproximación cilíndrica: no hay mirada arriba/abajo completa, zoom ni modo visor VR.
 - El mapa es ilustrativo; el este está dibujado como el lago pero no es a escala.
 - Solo lectura: no hay panel para editar lugares (se editan en `database/seed/places.json`).
-- El acceso es una **demostración local**: las cuentas se guardan en el navegador (localStorage), no en la API. Falta autenticación real y límite de peticiones antes de publicar.
+- Las cuentas se registran en PostgreSQL/Neon a través de la API (`users`); la sesión y el modo invitado se guardan en el navegador. Falta límite de peticiones y verificación de correo antes de publicar.

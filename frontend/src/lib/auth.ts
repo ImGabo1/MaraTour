@@ -1,11 +1,12 @@
 /**
- * Sesión local de Maratur.
+ * Sesión de Maratur.
  *
- * Este proyecto es una PWA demostrativa: las cuentas viven en el navegador y la
- * contraseña se guarda como hash SHA-256 (nunca en texto plano). Cuando exista
- * un backend real, estas funciones se sustituyen por llamadas a la API sin
- * cambiar las pantallas.
+ * - Las cuentas se crean e inician sesión en la API (tabla `users` de Neon/Postgres).
+ * - La sesión del navegador se guarda en localStorage para no pedir login en cada visita.
+ * - El modo invitado sigue siendo local: no crea cuenta ni llama a la API.
  */
+
+import { API_URL } from "../config";
 
 export interface UserSession {
   kind: "user";
@@ -23,15 +24,22 @@ export interface GuestSession {
 
 export type AuthSession = UserSession | GuestSession;
 
-interface StoredAccount {
+interface ApiUser {
+  id: string;
   name: string;
   email: string;
-  passwordHash: string;
-  createdAt: number;
+  createdAt: string;
+}
+
+interface ApiAuthResponse {
+  data: ApiUser;
+}
+
+interface ApiErrorResponse {
+  error?: string;
 }
 
 const SESSION_KEY = "maratur.session.v1";
-const ACCOUNTS_KEY = "maratur.accounts.v1";
 
 function readJson<T>(key: string, fallback: T): T {
   try {
@@ -58,22 +66,40 @@ function validEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
 }
 
-async function hashPassword(email: string, password: string): Promise<string> {
-  const value = `${normalizeEmail(email)}::${password}`;
-  if (typeof crypto !== "undefined" && crypto.subtle) {
-    const data = new TextEncoder().encode(value);
-    const digest = await crypto.subtle.digest("SHA-256", data);
-    return Array.from(new Uint8Array(digest))
-      .map((byte) => byte.toString(16).padStart(2, "0"))
-      .join("");
+async function authRequest(path: string, body: unknown): Promise<ApiUser> {
+  let res: Response;
+  try {
+    res = await fetch(`${API_URL}${path}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(body),
+    });
+  } catch {
+    throw new AuthError("No pudimos conectar con el servidor. Revisa tu conexión e inténtalo otra vez.");
   }
-  // Respaldo para navegadores muy antiguos sin Web Crypto.
-  let hash = 2166136261;
-  for (let index = 0; index < value.length; index += 1) {
-    hash ^= value.charCodeAt(index);
-    hash = Math.imul(hash, 16777619);
+
+  const payload = (await res.json().catch(() => null)) as Partial<ApiAuthResponse & ApiErrorResponse> | null;
+  if (!res.ok) {
+    throw new AuthError(
+      typeof payload?.error === "string" && payload.error
+        ? payload.error
+        : "No pudimos completar el acceso. Inténtalo otra vez."
+    );
   }
-  return `fallback-${(hash >>> 0).toString(16)}`;
+  if (!payload?.data?.email || !payload.data.name) {
+    throw new AuthError("El servidor devolvió una respuesta inesperada. Inténtalo otra vez.");
+  }
+  return payload.data;
+}
+
+function toSession(user: ApiUser): UserSession {
+  const since = Date.parse(user.createdAt);
+  return {
+    kind: "user",
+    name: user.name,
+    email: user.email,
+    since: Number.isFinite(since) ? since : Date.now(),
+  };
 }
 
 export function readSession(): AuthSession | null {
@@ -114,20 +140,8 @@ export async function registerAccount(input: {
   if (!validEmail(email)) throw new AuthError("Ese correo no parece válido.");
   if (input.password.length < 8) throw new AuthError("Usa una contraseña de al menos 8 caracteres.");
 
-  const accounts = readJson<StoredAccount[]>(ACCOUNTS_KEY, []);
-  if (accounts.some((account) => normalizeEmail(account.email) === email)) {
-    throw new AuthError("Ya existe una cuenta con ese correo. Inicia sesión.");
-  }
-
-  const account: StoredAccount = {
-    name,
-    email,
-    passwordHash: await hashPassword(email, input.password),
-    createdAt: Date.now(),
-  };
-  writeJson(ACCOUNTS_KEY, [...accounts, account]);
-
-  return { kind: "user", name, email, since: account.createdAt };
+  const user = await authRequest("/api/auth/register", { name, email, password: input.password });
+  return toSession(user);
 }
 
 export async function loginAccount(input: {
@@ -136,19 +150,10 @@ export async function loginAccount(input: {
 }): Promise<UserSession> {
   const email = normalizeEmail(input.email);
   if (!validEmail(email)) throw new AuthError("Escribe un correo válido.");
+  if (!input.password) throw new AuthError("Escribe tu contraseña.");
 
-  const accounts = readJson<StoredAccount[]>(ACCOUNTS_KEY, []);
-  const account = accounts.find((item) => normalizeEmail(item.email) === email);
-  if (!account) {
-    throw new AuthError("No encontramos esa cuenta. Regístrate para comenzar.");
-  }
-
-  const passwordHash = await hashPassword(email, input.password);
-  if (passwordHash !== account.passwordHash) {
-    throw new AuthError("La contraseña no coincide. Inténtalo de nuevo.");
-  }
-
-  return { kind: "user", name: account.name, email: account.email, since: account.createdAt };
+  const user = await authRequest("/api/auth/login", { email, password: input.password });
+  return toSession(user);
 }
 
 export function initials(name: string): string {

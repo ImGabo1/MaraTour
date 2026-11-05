@@ -6,7 +6,8 @@ backend/src/
 ├── app.ts             # rutas, validación (zod), CORS, helmet, caché
 ├── config.ts          # variables de entorno
 ├── types.ts           # contrato de la API (Place)
-└── repo/              # acceso a datos (interfaz + Postgres + memoria)
+├── auth/password.ts   # hash scrypt y verificación de contraseñas
+└── repo/              # acceso a datos (interfaces + Postgres + memoria, lugares y usuarios)
 backend/tests/         # vitest + supertest
 ```
 
@@ -22,7 +23,9 @@ npm test -w backend
 
 | Método | Ruta                      | Descripción                                       |
 | ------ | ------------------------- | ------------------------------------------------- |
-| GET    | `/api/health`             | Estado y fuente de datos                          |
+| GET    | `/api/health`             | Estado y fuentes de datos (lugares y cuentas)     |
+| POST   | `/api/auth/register`      | Crea una cuenta en `users`                        |
+| POST   | `/api/auth/login`         | Verifica correo/contraseña y registra el acceso   |
 | GET    | `/api/places`             | Lista; filtros opcionales `?category=` y `?q=`     |
 | GET    | `/api/places/:slug`       | Detalle de un lugar                               |
 

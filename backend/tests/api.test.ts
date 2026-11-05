@@ -1,9 +1,14 @@
+import fs from "node:fs";
+import path from "node:path";
 import request from "supertest";
 import { describe, expect, it } from "vitest";
 import { createApp } from "../src/app";
 import { MemoryPlaceRepository } from "../src/repo/memory";
 
 const app = createApp(new MemoryPlaceRepository());
+const seed = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, "../../database/seed/places.json"), "utf8")
+) as { slug: string }[];
 
 describe("API de lugares", () => {
   it("GET /api/health responde ok", async () => {
@@ -38,6 +43,19 @@ describe("API de lugares", () => {
     const res = await request(app).get("/api/places?q=basilica");
     expect(res.status).toBe(200);
     expect(res.body.data.map((p: { slug: string }) => p.slug)).toContain("basilica-chiquinquira");
+  });
+
+  it("sirve todo el catálogo del seed y encuentra lugares que antes solo vivían en el frontend", async () => {
+    const res = await request(app).get("/api/places");
+    expect(res.body.data.length).toBe(seed.length);
+    expect(seed.length).toBe(43);
+
+    const maczul = await request(app).get("/api/places?q=maczul");
+    expect(maczul.body.data.map((p: { slug: string }) => p.slug)).toContain("maczul");
+
+    const salud = await request(app).get("/api/places?category=salud");
+    expect(salud.body.data.length).toBeGreaterThan(0);
+    expect(salud.body.data.every((p: { category: string }) => p.category === "salud")).toBe(true);
   });
 
   it("GET /api/places combina búsqueda y categoría", async () => {

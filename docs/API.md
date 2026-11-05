@@ -1,7 +1,7 @@
 # Contrato de la API
 
 Base: `http://localhost:3001` (desarrollo) · en producción, la URL del backend (`VITE_API_URL` en el front).
-Todas las respuestas son JSON. Solo lectura por ahora.
+Todas las respuestas son JSON. Lectura de lugares y autenticación de cuentas.
 
 ## Tipo `Place`
 
@@ -9,7 +9,7 @@ Todas las respuestas son JSON. Solo lectura por ahora.
 | --- | --- | --- |
 | `slug` | string | Identificador único y legible (`teatro-baralt`). Se usa en la URL del front: `#/lugar/<slug>`. |
 | `name` | string | |
-| `category` | string | Slug de categoría: `historia`, `cultura`, `religioso`, `naturaleza`. |
+| `category` | string | Slug de categoría: `plazas`, `historia`, `cultura`, `fe`, `museos`, `naturaleza`, `lago`, `gastronomia`, `compras`, `salud`, `educacion`, `deportes`, `noche`, `transporte`, `arquitectura`. |
 | `categoryName` | string | Nombre para mostrar. |
 | `shortDescription` | string | Una o dos frases (tarjeta y mapa). |
 | `history` | string | Texto de la ficha. |
@@ -20,6 +20,7 @@ Todas las respuestas son JSON. Solo lectura por ahora.
 | `panoUrl` | string \| null | Panorámica 360° (2:1). `null` → sin vista 360°. |
 | `tags` | string[] | |
 | `media` | `PlaceMedia[]` | Galería (tabla `place_media`). Siempre incluye `imageUrl`/`panoUrl` si no están ya en la galería. |
+| `sector` | `"publico"` \| `"privado"` \| ausente | Solo hospitales, clínicas y servicios de salud. |
 
 ### Tipo `PlaceMedia`
 
@@ -36,13 +37,40 @@ Tipos TypeScript: `backend/src/types.ts` y `frontend/src/types.ts` (mantener igu
 
 ### `GET /api/health`
 ```json
-{ "status": "ok", "source": "postgres", "time": "2026-10-30T00:00:00.000Z" }
+{ "status": "ok", "source": "postgres", "authSource": "postgres", "time": "2026-10-30T00:00:00.000Z" }
 ```
-`503` con `"status": "degraded"` si la base de datos no responde. `source` es `postgres` o `memory`.
+`503` con `"status": "degraded"` si la base de datos no responde. `source` es `postgres` o `memory`; `authSource` indica de dónde salen las cuentas (`postgres` o `memory`).
+
+### `POST /api/auth/register`
+```json
+{ "name": "Ana Pérez", "email": "ana@example.com", "password": "mínimo 8 caracteres" }
+```
+```json
+{
+  "data": {
+    "id": "uuid",
+    "name": "Ana Pérez",
+    "email": "ana@example.com",
+    "createdAt": "2026-10-30T00:00:00.000Z"
+  }
+}
+```
+- `201` si crea la cuenta. `409` si el correo ya existe (sin distinguir mayúsculas).
+- `400` si el nombre tiene menos de 2 caracteres, el correo no es válido o la contraseña tiene menos de 8.
+- El hash de la contraseña se genera en el backend con scrypt; la API nunca devuelve `passwordHash`.
+
+### `POST /api/auth/login`
+```json
+{ "email": "ana@example.com", "password": "clave-segura-123" }
+```
+- `200` con el mismo objeto `data` del registro.
+- `401` con `{ "error": "Correo o contraseña incorrectos." }` para credenciales inválidas.
+- `400` si faltan datos o el correo no tiene formato válido.
+- Actualiza `users.last_login_at` en cada inicio de sesión correcto.
 
 ### `GET /api/places?category=<slug>&q=<texto>`
 ```json
-{ "data": [ /* Place[] */ ], "meta": { "count": 6 } }
+{ "data": [ /* Place[] */ ], "meta": { "count": 43 } }
 ```
 - `category` (opcional): filtra por categoría; `400` si no cumple `^[a-z0-9-]+$`.
 - `q` (opcional): búsqueda de texto libre en español sobre nombre, descripción, etiquetas, historia

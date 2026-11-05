@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ChatWidget } from "./components/ChatWidget";
 import { Header } from "./components/Header";
+import { InstallPrompt } from "./components/InstallPrompt";
 import { OfflineBanner } from "./components/OfflineBanner";
 import { PanoViewer } from "./components/PanoViewer";
 import { PlaceSheet } from "./components/PlaceSheet";
@@ -42,7 +43,7 @@ type ExploreView = "grid" | "map";
 const AUTH_PAGES = new Set(["bienvenida", "entrar", "registro"]);
 
 export default function App() {
-  const { places: apiPlaces, source, loading } = usePlaces();
+  const { places: apiPlaces, loading } = usePlaces();
   const online = useOnline();
   const route = useHashRoute();
   const { page, navigate } = usePageRoute();
@@ -182,7 +183,8 @@ export default function App() {
         session={session}
         onLogout={handleLogout}
       />
-      <OfflineBanner online={online} source={source} />
+      <OfflineBanner online={online} />
+      <InstallPrompt />
 
       <div id="top">
         {viewPage === "inicio" && (

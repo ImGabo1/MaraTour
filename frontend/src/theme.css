@@ -9337,6 +9337,84 @@ body {
   color: #8f3b06;
 }
 
+/* ===== Banner de instalación de la PWA ===== */
+.vm-install-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: linear-gradient(135deg, #eef6fb 0%, #e3f2fd 100%);
+  border: 1px solid #bcd7ec;
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin: 14px 0 20px;
+  box-shadow: 0 4px 14px rgba(15, 107, 121, 0.08);
+}
+
+.vm-install-banner__icon {
+  font-size: 24px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.vm-install-banner__text {
+  flex: 1;
+  font-size: 14px;
+  color: #1f4e5c;
+}
+
+.vm-install-banner__text strong {
+  display: block;
+  font-size: 15px;
+  color: #0a3d4a;
+  margin-bottom: 2px;
+}
+
+.vm-install-banner__text p {
+  margin: 0;
+  line-height: 1.4;
+  color: #3e6b78;
+}
+
+.vm-install-banner__actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.vm-install-banner__actions .vm-btn {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.vm-install-banner__close {
+  background: transparent !important;
+  color: #0a3d4a !important;
+  border: 1px solid #bcd7ec !important;
+  padding: 6px 14px !important;
+  font-size: 13px !important;
+}
+
+.vm-install-banner__close:hover {
+  background: #d7eaf5 !important;
+}
+
+@media (max-width: 640px) {
+  .vm-install-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .vm-install-banner__actions {
+    width: 100%;
+    flex-direction: column;
+  }
+  .vm-install-banner__actions .vm-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 @media (max-width: 640px) {
   .vm-guest-notice {
     flex-direction: column;

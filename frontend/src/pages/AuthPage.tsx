@@ -10,7 +10,6 @@ import {
   IconMail,
   IconMapPin,
   IconSparkles,
-  IconSun,
   IconUser,
   IconUsers,
 } from "../components/icons";
@@ -79,7 +78,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
 
           <div className="vm-auth__brand">
             <span className="vm-auth__brand-mark">
-              <IconSun width={24} height={24} />
+              <img src="/icons/icon.svg" alt="" width={44} height={44} />
             </span>
             <span>
               <strong>Maratur</strong>
@@ -127,6 +126,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
                   <IconUser width={18} height={18} />
                   <input
                     type="text"
+                    name="name"
                     value={name}
                     onChange={(event) => setName(event.target.value)}
                     placeholder="¿Cómo te llamas?"
@@ -143,10 +143,13 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
                 <IconMail width={18} height={18} />
                 <input
                   type="email"
+                  name="email"
+                  inputMode="email"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                   placeholder="tucorreo@ejemplo.com"
                   autoComplete="email"
+                  spellCheck={false}
                   required
                 />
               </span>
@@ -161,6 +164,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
                 <IconLock width={18} height={18} />
                 <input
                   type={showPassword ? "text" : "password"}
+                  name="password"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   placeholder={isRegister ? "Crea una contraseña segura" : "Tu contraseña"}

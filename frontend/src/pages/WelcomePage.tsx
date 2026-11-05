@@ -67,7 +67,7 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
       <header className="vm-welcome__top container">
         <a className="vm-welcome__brand" href="#/bienvenida" aria-label="Maratur · Visita Maracaibo">
           <span className="vm-welcome__brand-mark" aria-hidden="true">
-            <IconSun width={23} height={23} />
+            <img src="/icons/icon.svg" alt="" width={44} height={44} />
           </span>
           <span>
             <strong>Maratur</strong>

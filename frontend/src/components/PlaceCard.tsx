@@ -85,7 +85,7 @@ export function PlaceCard({ place, index, onOpen, onToggleSave, saved = false }:
             </span>
             <span className="vm-place-card__addr">
               <IconMapPin width={13} height={13} />
-              {place.address}
+              <span>{place.address}</span>
             </span>
           </span>
           <span className="vm-place-card__cta">

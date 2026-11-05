@@ -11,3 +11,5 @@ coverage/
 *.tsbuildinfo
 frontend/dev-dist/
 .neon
+.vercel
+.env*

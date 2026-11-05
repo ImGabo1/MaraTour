@@ -12,6 +12,7 @@ import {
   type PlanResult,
 } from "../lib/planner";
 import type { Page } from "../hooks/usePageRoute";
+import type { AuthSession } from "../lib/auth";
 import type { Place } from "../types";
 import { Cover } from "../components/Cover";
 import { CategoryIcon, IconArrowRight, IconBulb, IconCalendar, IconCheck, IconClock, IconHeart, IconLeaf, IconRotate, IconRoute, IconSparkles, IconStar, IconUsers, IconWallet } from "../components/icons";
@@ -19,6 +20,7 @@ import { CategoryIcon, IconArrowRight, IconBulb, IconCalendar, IconCheck, IconCl
 interface Props {
   places: readonly Place[];
   saved: readonly string[];
+  session?: AuthSession | null;
   onOpenPlace: (slug: string) => void;
   onSavePlan: (slugs: readonly string[]) => void;
   onNavigate: (page: Page) => void;
@@ -57,8 +59,9 @@ const FOOD_LABEL = {
 } as const;
 
 /** Sistema experto: convierte gustos, días y compañía en un plan completo con comidas. */
-export function PlannerPage({ places, saved, onOpenPlace, onSavePlan, onNavigate }: Props) {
+export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, onNavigate }: Props) {
   const { t } = useI18n();
+  const isGuest = !session || session.kind === "guest";
   const [step, setStep] = useState<0 | 1>(0);
   const [days, setDays] = useState(2);
   const [companion, setCompanion] = useState<Companion>("pareja");
@@ -122,6 +125,16 @@ export function PlannerPage({ places, saved, onOpenPlace, onSavePlan, onNavigate
       <div className="container vm-planner__layout">
         {!plan ? (
           <div className="vm-wizard">
+            {isGuest && (
+              <div className="vm-guest-banner">
+                <span>
+                  💡 <strong>Estás creando una ruta temporal como invitado.</strong> Regístrate o inicia sesión para guardar tu itinerario personal y llevarlo contigo.
+                  <button type="button" className="vm-inline-link" onClick={() => onNavigate("registro")}>
+                    Regístrate o inicia sesión
+                  </button>.
+                </span>
+              </div>
+            )}
             <div className="vm-wizard__steps" aria-label="Pasos del planificador">
               <span className={step >= 0 ? "is-active" : undefined}>
                 <b>1</b> Tu viaje
@@ -342,6 +355,7 @@ export function PlannerPage({ places, saved, onOpenPlace, onSavePlan, onNavigate
           <PlanResultView
             plan={plan}
             planSaved={planSaved}
+            isGuest={isGuest}
             onOpenPlace={onOpenPlace}
             onSave={() => onSavePlan(planSlugs(plan))}
             onReset={reset}
@@ -356,6 +370,7 @@ export function PlannerPage({ places, saved, onOpenPlace, onSavePlan, onNavigate
 function PlanResultView({
   plan,
   planSaved,
+  isGuest,
   onOpenPlace,
   onSave,
   onReset,
@@ -363,6 +378,7 @@ function PlanResultView({
 }: {
   plan: PlanResult;
   planSaved: boolean;
+  isGuest: boolean;
   onOpenPlace: (slug: string) => void;
   onSave: () => void;
   onReset: () => void;
@@ -371,6 +387,22 @@ function PlanResultView({
   const { t } = useI18n();
   return (
     <section id="plan-resultado" className="vm-plan-result">
+      {isGuest && (
+        <div className="vm-guest-notice">
+          <span className="vm-guest-notice__icon" aria-hidden="true">💡</span>
+          <div className="vm-guest-notice__text">
+            <strong>Estás creando una ruta temporal como invitado.</strong>
+            <p>Regístrate o inicia sesión para guardar tu itinerario personal y llevarlo contigo.</p>
+          </div>
+          <button
+            type="button"
+            className="vm-btn vm-btn--primary"
+            onClick={() => onNavigate("registro")}
+          >
+            Regístrate o inicia sesión
+          </button>
+        </div>
+      )}
       <header className="vm-plan-result__hero">
         <div className="vm-plan-result__score">
           <span style={{ ["--score" as string]: plan.score }}>

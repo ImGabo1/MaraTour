@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import type { AuthSession } from "../lib/auth";
 import { categoryBySlug } from "../data/categories";
 import { googleMapsRouteUrl } from "../lib/maps";
 import { optimizeRoute, estimateVisitMinutes } from "../lib/route";
@@ -23,13 +24,16 @@ import {
 interface Props {
   places: readonly Place[];
   saved: readonly string[];
+  session?: AuthSession | null;
   onOpenPlace: (slug: string) => void;
   onRemove: (slug: string) => void;
   onReorder: (slugs: string[]) => void;
+  onNavigate?: (page: string) => void;
 }
 
 /** Mi ruta: los lugares guardados, reordenables, optimizados y listos para Google Maps. */
-export function RoutePage({ places, saved, onOpenPlace, onRemove, onReorder }: Props) {
+export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReorder, onNavigate }: Props) {
+  const isGuest = !session || session.kind === "guest";
   const [copied, setCopied] = useState(false);
   const bySlug = useMemo(() => new Map(places.map((place) => [place.slug, place])), [places]);
   const ordered = useMemo(
@@ -97,6 +101,25 @@ export function RoutePage({ places, saved, onOpenPlace, onRemove, onReorder }: P
       </section>
 
       <div className="container vm-route__layout">
+        {isGuest && (
+          <div className="vm-guest-notice">
+            <span className="vm-guest-notice__icon" aria-hidden="true">💡</span>
+            <div className="vm-guest-notice__text">
+              <strong>Estás creando una ruta temporal como invitado.</strong>
+              <p>Regístrate o inicia sesión para guardar tu itinerario personal y llevarlo contigo.</p>
+            </div>
+            {onNavigate && (
+              <button
+                type="button"
+                className="vm-btn vm-btn--primary"
+                onClick={() => onNavigate("registro")}
+              >
+                Regístrate o inicia sesión
+              </button>
+            )}
+          </div>
+        )}
+
         {ordered.length === 0 ? (
           <div className="vm-empty vm-empty--route">
             <span className="vm-empty__icon" aria-hidden="true">

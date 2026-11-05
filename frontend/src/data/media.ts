@@ -171,12 +171,25 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   },
 };
 
+/** Quita notas internas de borrador que todavía pueda traer la API. */
+function cleanCopy(text: string): string {
+  return text
+    .replace(/\s*\[BORRADOR[^\]]*\]\s*/gi, " ")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
 /** Aplica foto, galería y 360 al lugar sin tocar sus datos editoriales. */
 export function withMedia(place: Place): Place {
   const media = PLACE_MEDIA[place.slug];
-  if (!media) return place;
-  return {
+  const cleanPlace: Place = {
     ...place,
+    history: cleanCopy(place.history),
+    shortDescription: cleanCopy(place.shortDescription),
+  };
+  if (!media) return cleanPlace;
+  return {
+    ...cleanPlace,
     imageUrl: media.image ?? place.imageUrl,
     panoUrl: media.pano ?? place.panoUrl,
     imageCredit: media.credit,

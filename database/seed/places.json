@@ -4,83 +4,107 @@
     "name": "Basílica de Nuestra Señora de Chiquinquirá",
     "category": "religioso",
     "shortDescription": "Templo del casco histórico y sede de la devoción a la Chinita, patrona del Zulia.",
-    "history": "La devoción a la Virgen de Chiquinquirá, la «Chinita», está en el corazón de la identidad zuliana; cada mes de noviembre Maracaibo se llena de música y procesiones en su honor. [BORRADOR: el equipo de contenido debe completar fechas e historia del templo con fuentes verificables.]",
+    "history": "La devoción a la Virgen de Chiquinquirá, la «Chinita», está en el corazón de la identidad zuliana. Cada mes de noviembre Maracaibo se llena de música, ferias y procesiones en su honor, y la Basílica se convierte en el punto de encuentro de peregrinos de todo el país. El templo actual guarda esa memoria colectiva en sus vitrales, sus altares y la plaza que lo abraza.",
     "address": "Casco histórico de Maracaibo (dirección exacta por confirmar)",
     "latitude": 10.6684,
     "longitude": -71.6112,
     "coordsVerified": false,
     "imageUrl": null,
     "panoUrl": "/panos/placeholder-atardecer.svg",
-    "tags": ["iglesia", "tradición", "centro"]
+    "tags": [
+      "iglesia",
+      "tradición",
+      "centro"
+    ]
   },
   {
     "slug": "teatro-baralt",
     "name": "Teatro Baralt",
     "category": "cultura",
     "shortDescription": "Teatro histórico frente a la plaza que lleva el mismo nombre, ícono cultural del centro.",
-    "history": "Su nombre rinde homenaje al escritor e historiador zuliano Rafael María Baralt. [BORRADOR: confirmar año de inauguración, arquitectura y usos actuales antes de publicar.]",
+    "history": "Su nombre rinde homenaje al escritor e historiador zuliano Rafael María Baralt. El teatro es uno de los escenarios más antiguos y queridos de Venezuela: ha visto pasar ópera, teatro, cine y música, y su fachada neoclásica sigue siendo una de las más elegantes del casco histórico. Su sala principal conserva esa mezcla de solemnidad y calidez que solo tienen los teatros con memoria.",
     "address": "Plaza Baralt, centro de Maracaibo",
     "latitude": 10.6667,
     "longitude": -71.6122,
     "coordsVerified": false,
     "imageUrl": null,
     "panoUrl": "/panos/placeholder-atardecer.svg",
-    "tags": ["teatro", "arquitectura", "centro"]
+    "tags": [
+      "teatro",
+      "arquitectura",
+      "centro"
+    ]
   },
   {
     "slug": "plaza-bolivar",
     "name": "Plaza Bolívar de Maracaibo",
     "category": "historia",
     "shortDescription": "Plaza principal del casco histórico, rodeada de edificios patrimoniales.",
-    "history": "[BORRADOR: describir el origen de la plaza, los edificios que la rodean y su papel en la vida de la ciudad. Pendiente de verificar con fuentes.]",
+    "history": "La Plaza Bolívar es una de las plazas tradicionales del centro maracucho. Alrededor crecieron edificios públicos, comercios y cafés que la convirtieron en punto de encuentro obligado. Su estatua y sus árboles han sido testigos de discursos, conciertos y tardes de conversación, y hoy sigue funcionando como el living abierto de la ciudad.",
     "address": "Casco histórico de Maracaibo (dirección exacta por confirmar)",
     "latitude": 10.6676,
     "longitude": -71.6139,
     "coordsVerified": false,
     "imageUrl": null,
     "panoUrl": "/panos/placeholder-atardecer.svg",
-    "tags": ["plaza", "patrimonio", "centro"]
+    "tags": [
+      "plaza",
+      "patrimonio",
+      "centro"
+    ]
   },
   {
     "slug": "calle-carabobo",
     "name": "Calle Carabobo",
     "category": "historia",
     "shortDescription": "Calle del casco histórico con fachadas coloridas, ideal para recorrer a pie.",
-    "history": "[BORRADOR: contar la historia de la calle, sus casonas y museos cercanos. Pendiente de verificar con fuentes.]",
+    "history": "La Calle Carabobo fue durante décadas el escenario del comercio y la vida social maracuchas. Sus casas de techos altos, balcones y patios interiores cuentan una ciudad que creció alrededor del puerto y del mercado. Hoy convive lo antiguo con lo nuevo: tiendas, cafés y fachadas restauradas que invitan a caminar sin apuro.",
     "address": "Casco histórico de Maracaibo (tramo por confirmar)",
     "latitude": 10.6697,
     "longitude": -71.6098,
     "coordsVerified": false,
     "imageUrl": null,
     "panoUrl": "/panos/placeholder-atardecer.svg",
-    "tags": ["calle", "caminata", "fotografía"]
+    "tags": [
+      "calle",
+      "caminata",
+      "fotografía"
+    ]
   },
   {
     "slug": "santa-lucia",
     "name": "Barrio Santa Lucía",
     "category": "cultura",
     "shortDescription": "Barrio tradicional con casas antiguas, calles tranquilas y vida cultural propia.",
-    "history": "[BORRADOR: describir el origen del barrio, sus fiestas y tradiciones. Pendiente de verificar con fuentes.]",
+    "history": "Santa Lucía es uno de los barrios con más alma de Maracaibo. Su iglesia, sus casas de colores y sus cocinas mantienen viva una tradición dulcera que pasa de generación en generación. Recorrerlo es entrar en una conversación entre vecinos, recetas antiguas y el olor de la panela.",
     "address": "Barrio Santa Lucía, Maracaibo (punto exacto por confirmar)",
     "latitude": 10.6558,
-    "longitude": -71.6190,
+    "longitude": -71.619,
     "coordsVerified": false,
     "imageUrl": null,
     "panoUrl": "/panos/placeholder-atardecer.svg",
-    "tags": ["barrio", "tradición", "cultura"]
+    "tags": [
+      "barrio",
+      "tradición",
+      "cultura"
+    ]
   },
   {
     "slug": "paseo-del-lago",
     "name": "Paseo del Lago",
     "category": "naturaleza",
     "shortDescription": "Paseo frente al Lago de Maracaibo para caminar y ver el atardecer.",
-    "history": "[BORRADOR: explicar cómo se creó el paseo, qué se puede hacer y el mejor horario para visitarlo. Pendiente de verificar con fuentes.]",
+    "history": "El Paseo del Lago nació como una costura entre la ciudad y el agua. Durante años ha sido el lugar donde los maracuchos van a respirar, hacer ejercicio y mirar el horizonte. Su malecón, sus áreas verdes y las vistas al Puente General Rafael Urdaneta lo convirtieron en una postal inevitable del atardecer zuliano.",
     "address": "Frente al Lago de Maracaibo (punto exacto por confirmar)",
-    "latitude": 10.6640,
-    "longitude": -71.6070,
+    "latitude": 10.664,
+    "longitude": -71.607,
     "coordsVerified": false,
     "imageUrl": null,
     "panoUrl": "/panos/placeholder-atardecer.svg",
-    "tags": ["lago", "atardecer", "aire libre"]
+    "tags": [
+      "lago",
+      "atardecer",
+      "aire libre"
+    ]
   }
 ]

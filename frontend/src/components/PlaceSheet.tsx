@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MAP_IMAGE } from "../config";
 import { categoryBySlug } from "../data/categories";
+import { profileFor } from "../data/placeProfiles";
 import { useI18n } from "../i18n/I18nProvider";
 import { useModal } from "../hooks/useModal";
 import { googleMapsPlaceUrl } from "../lib/maps";
@@ -10,10 +11,12 @@ import { boundsFor, project } from "../lib/projection";
 import type { Place } from "../types";
 import { Cover } from "./Cover";
 import { MAP_H, MAP_W, MapBackdrop } from "./MapView";
+import { PlaceEmblem } from "./PlaceEmblem";
 import {
   CategoryIcon,
   IconArrowRight,
   IconCheck,
+  IconClock,
   IconClose,
   IconCopy,
   IconExternal,
@@ -21,7 +24,11 @@ import {
   IconMapPin,
   IconRotate,
   IconShare,
+  IconSparkles,
   IconStar,
+  IconSun,
+  IconUsers,
+  IconWallet,
 } from "./icons";
 
 interface Props {
@@ -50,10 +57,10 @@ export function PlaceSheet({
 }: Props) {
   const { t, lang } = useI18n();
   const closeRef = useModal<HTMLButtonElement>(onClose);
-<<<<<<< HEAD
   const [toast, setToast] = useState<Toast>(null);
   const timer = useRef<number | null>(null);
   const category = categoryBySlug(primaryCategory(place));
+  const profile = profileFor(place);
   const score = popularityScore(place.slug);
 
   const miniBounds = useMemo(
@@ -132,59 +139,54 @@ export function PlaceSheet({
       /* sin portapapeles la dirección sigue visible */
     }
   };
-=======
-  const coverSrc = place.imageUrl ?? place.media.find((m) => m.kind === "photo")?.url ?? null;
-  const gallery = place.media.filter((m) => m.kind === "photo" && m.url !== coverSrc);
-  const panoramas = place.media.filter((m) => m.kind === "pano");
-  const panoSrc = place.panoUrl ?? panoramas[0]?.url ?? null;
->>>>>>> b2a212e84986e771267991aa5d5deaf95cd85552
 
   return (
     <div className="vm-overlay" onClick={onClose}>
-      <div
-        className="vm-sheet"
+      <article
+        className="vm-sheet vms-sheet"
         role="dialog"
         aria-modal="true"
         aria-labelledby="sheet-title"
         onClick={(event) => event.stopPropagation()}
+        style={{
+          ["--place-from" as string]: profile.colors.from,
+          ["--place-to" as string]: profile.colors.to,
+          ["--place-accent" as string]: profile.colors.accent,
+          ["--place-soft" as string]: profile.colors.soft,
+          ["--place-ink" as string]: profile.colors.ink,
+        }}
       >
-        <div className="vm-sheet__hero">
-          <Cover place={place} className="vm-sheet__cover" />
-          <span className="vm-sheet__shade" aria-hidden="true" />
+        <header className="vms-hero">
+          <Cover place={place} className="vms-hero__cover" />
+          <span className="vms-hero__shade" aria-hidden="true" />
 
-          <div className="vm-sheet__top">
-            <span
-              className="vm-sheet__category"
-              style={{
-                ["--from" as string]: category?.from ?? "#0D6B76",
-                ["--to" as string]: category?.to ?? "#2FAFBE",
-              }}
-            >
+          <div className="vms-hero__top">
+            <span className="vms-hero__badge">
               {category && <CategoryIcon name={category.icon} width={14} height={14} />}
               {category ? t(category.nameKey) : place.categoryName}
             </span>
-            <div className="vm-sheet__top-actions">
+            <div className="vms-hero__actions">
               <button
                 type="button"
-                className={`vm-sheet__icon${saved ? " is-saved" : ""}`}
+                className={`vms-hero__icon${saved ? " is-saved" : ""}`}
                 onClick={() => onToggleSave(place.slug)}
                 aria-pressed={saved}
                 aria-label={saved ? t("sheet.saved") : t("sheet.save")}
               >
-                <IconHeart width={20} height={20} />
+                <IconHeart width={19} height={19} />
               </button>
               <button
                 type="button"
-                className="vm-sheet__icon"
+                className="vms-hero__icon"
                 onClick={share}
                 aria-label={t("sheet.share")}
               >
-                <IconShare width={19} height={19} />
+                <IconShare width={18} height={18} />
               </button>
               <button
                 ref={closeRef}
                 type="button"
-                className="vm-sheet__icon vm-sheet__close"
+                className="vms-hero__icon vms-hero__close"
                 onClick={onClose}
                 aria-label={t("sheet.close")}
               >
@@ -193,295 +195,404 @@ export function PlaceSheet({
             </div>
           </div>
 
-          <div className="vm-sheet__hero-copy">
-            <h2 id="sheet-title" className="vm-sheet__title">
-              {place.name}
-            </h2>
-            <p className="vm-sheet__lead">{place.shortDescription}</p>
-            <div className="vm-sheet__chips">
-              <span className="vm-sheet__chip vm-sheet__chip--score">
-                <IconStar width={13} height={13} />
-                {score}/100
-              </span>
-              {place.panoUrl && (
-                <span className="vm-sheet__chip">
-                  <IconRotate width={13} height={13} />
-                  Vista 360°
+          <div className="vms-hero__identity">
+            <span className="vms-emblem" aria-hidden="true">
+              <PlaceEmblem name={profile.emblem} width={32} height={32} />
+            </span>
+            <div className="vms-hero__copy">
+              <p className="vms-hero__essence">
+                <IconSparkles width={14} height={14} />
+                {profile.essence}
+              </p>
+              <h2 id="sheet-title" className="vms-hero__title">
+                {place.name}
+              </h2>
+              <p className="vms-hero__lead">{place.shortDescription}</p>
+              <div className="vms-hero__chips">
+                <span className="vms-chip">
+                  <IconStar width={13} height={13} />
+                  {score}/100
                 </span>
-              )}
-              {place.coordsVerified ? (
-                <span className="vm-sheet__chip vm-sheet__chip--ok">
-                  <IconCheck width={13} height={13} />
-                  {t("sheet.verified")}
+                <span className="vms-chip">
+                  <IconSun width={13} height={13} />
+                  {profile.bestTime}
                 </span>
-              ) : (
-                import.meta.env.DEV && (
-                  <span className="vm-sheet__chip vm-sheet__chip--warn">
-                    {t("sheet.unverified")}
+                {place.panoUrl && (
+                  <span className="vms-chip">
+                    <IconRotate width={13} height={13} />
+                    360°
                   </span>
-                )
-              )}
+                )}
+                {place.sector && (
+                  <span className="vms-chip">
+                    <IconCheck width={13} height={13} />
+                    {place.sector === "publico" ? "Atención pública" : "Atención privada"}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        </header>
 
-        <div className="vm-sheet__body">
-          <dl className="vm-sheet__facts" aria-label={t("sheet.facts")}>
-            <div>
-              <dt>{t("sheet.theme")}</dt>
-              <dd>
-                {category && <CategoryIcon name={category.icon} width={14} height={14} />}
-                {category ? t(category.nameKey) : place.categoryName}
-              </dd>
-            </div>
-            <div>
-              <dt>{t("sheet.popularity")}</dt>
-              <dd>
-                <span className="vm-sheet__bar" aria-hidden="true">
-                  <span style={{ width: `${score}%` }} />
+        <div className="vms-body">
+          <div className="vms-main">
+            <section className="vms-facts" aria-label="Datos prácticos del lugar">
+              <div className="vms-fact">
+                <span className="vms-fact__icon">
+                  <IconClock width={18} height={18} />
                 </span>
-                {score}
-              </dd>
-            </div>
-            <div>
-              <dt>{t("sheet.coords")}</dt>
-              <dd className="vm-sheet__mono">
-                {place.latitude.toFixed(4)}, {place.longitude.toFixed(4)}
-              </dd>
-            </div>
-            <div>
-              <dt>{t("sheet.where")}</dt>
-              <dd>{place.coordsVerified ? t("sheet.verified") : t("sheet.unverified")}</dd>
-            </div>
-          </dl>
+                <span>
+                  <small>Mejor momento</small>
+                  <strong>{profile.bestTime}</strong>
+                </span>
+              </div>
+              <div className="vms-fact">
+                <span className="vms-fact__icon">
+                  <IconSun width={18} height={18} />
+                </span>
+                <span>
+                  <small>Tiempo sugerido</small>
+                  <strong>{profile.duration}</strong>
+                </span>
+              </div>
+              <div className="vms-fact">
+                <span className="vms-fact__icon">
+                  <IconWallet width={18} height={18} />
+                </span>
+                <span>
+                  <small>Presupuesto</small>
+                  <strong>{profile.budget}</strong>
+                </span>
+              </div>
+              <div className="vms-fact">
+                <span className="vms-fact__icon">
+                  <IconUsers width={18} height={18} />
+                </span>
+                <span>
+                  <small>Ideal para</small>
+                  <strong>{profile.idealFor}</strong>
+                </span>
+              </div>
+            </section>
 
-<<<<<<< HEAD
-          <section className="vm-sheet__section">
-            <p className="vm-sheet__eyebrow">Memoria del lugar</p>
-            <h3 className="vm-sheet__h">{t("sheet.history")}</h3>
-            <p className="vm-sheet__story">{place.history}</p>
-          </section>
-=======
-          {gallery.length > 0 && (
-            <ul className="gallery" aria-label={`Más fotos de ${place.name}`}>
-              {gallery.map((m) => (
-                <li key={m.url} className="gallery__item">
-                  <img
-                    src={m.url}
-                    alt={m.caption ?? `Foto de ${place.name}`}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  {(m.caption ?? m.credit) && (
-                    <p className="gallery__caption">
-                      {m.caption}
-                      {m.caption && m.credit ? " · " : ""}
-                      {m.credit && <span className="gallery__credit">{m.credit}</span>}
-                    </p>
-                  )}
-                </li>
-              ))}
-            </ul>
-          )}
-
-          <h3 className="sheet__h">Historia</h3>
-          <p className="sheet__text">{place.history}</p>
->>>>>>> b2a212e84986e771267991aa5d5deaf95cd85552
-
-          <section className="vm-sheet__section">
-            <p className="vm-sheet__eyebrow">Cómo llegar</p>
-            <h3 className="vm-sheet__h">{t("sheet.where")}</h3>
-            <div className="vm-sheet__address">
-              <span className="vm-sheet__address-icon" aria-hidden="true">
-                <IconMapPin width={18} height={18} />
-              </span>
-              <p>{place.address}</p>
-              <button
-                type="button"
-                className="vm-sheet__copy"
-                onClick={copyAddress}
-                aria-label={t("sheet.copyAddress")}
-              >
-                {toast === "address" ? <IconCheck width={15} height={15} /> : <IconCopy width={15} height={15} />}
-                <span>{toast === "address" ? t("sheet.addressCopied") : t("sheet.copyAddress")}</span>
-              </button>
-            </div>
-
-            <div className="vm-minimap">
-              <svg
-                viewBox={
-                  miniView
-                    ? `${miniView.x} ${miniView.y} ${miniView.width} ${miniView.height}`
-                    : `0 0 ${MAP_W} ${MAP_H}`
-                }
-                className="vm-minimap__svg"
-                role="img"
-                aria-label={`${t("sheet.where")}: ${place.address}`}
-              >
-                {MAP_IMAGE ? (
-                  <image
-                    href={MAP_IMAGE.image}
-                    x="0"
-                    y="0"
-                    width={MAP_W}
-                    height={MAP_H}
-                    preserveAspectRatio="xMidYMid slice"
-                    className="vm-minimap__photo"
-                  />
-                ) : (
-                  <MapBackdrop compact />
-                )}
-                {miniPins.map((pin) => (
-                  <circle
-                    key={pin.place.slug}
-                    className={`vm-minimap__dot${pin.place.slug === place.slug ? " is-active" : ""}`}
-                    cx={pin.x}
-                    cy={pin.y}
-                    r={pin.place.slug === place.slug ? 9 : 3.2}
-                  />
-                ))}
-                <g transform={`translate(${point.x} ${point.y})`} pointerEvents="none">
-                  <circle className="vm-minimap__ring" r="18" />
-                  <circle className="vm-minimap__pin" r="6" />
-                </g>
-              </svg>
-              <button type="button" className="vm-minimap__cta" onClick={() => onShowOnMap(place.slug)}>
-                <IconMapPin width={15} height={15} />
-                {t("sheet.showOnMap")}
-              </button>
-            </div>
-          </section>
-
-          <section className={`vm-sheet__pano${place.panoUrl ? "" : " vm-sheet__pano--off"}`}>
-            <div
-              className="vm-sheet__pano-art"
-              style={{
-                background: `radial-gradient(circle at 72% 22%, rgba(255,255,255,.36), transparent 38%), linear-gradient(145deg, ${category?.from ?? "#0D6B76"}, ${category?.to ?? "#2FAFBE"})`,
-              }}
-              aria-hidden="true"
-            >
-              <IconRotate width={34} height={34} />
-              <span>360°</span>
-            </div>
-            <div className="vm-sheet__pano-copy">
-              <p className="vm-sheet__eyebrow">Vista 360° opcional</p>
-              <h3 className="vm-sheet__h">
-                {place.panoUrl ? "¿Quieres conocerlo antes de ir?" : "Aún sin vista 360°"}
-              </h3>
-              <p>
-                {place.panoUrl
-                  ? "Es opcional: abre la panorámica y gira la vista con el dedo o el movimiento del teléfono."
-                  : "Este lugar todavía no tiene panorámica. Mientras tanto puedes ver su historia, su mapa y sus datos."}
+            <section className="vms-section">
+              <p className="vms-eyebrow">
+                <IconSparkles width={14} height={14} />
+                Memoria del lugar
               </p>
-              {place.panoUrl && (
-                <button type="button" className="vm-btn vm-btn--primary" onClick={() => onOpenPano(place)}>
-                  <IconRotate width={17} height={17} />
-                  {t("sheet.pano")}
-                </button>
+              <h3 className="vms-title">{t("sheet.history")}</h3>
+              <div className="vms-story">
+                <p>{place.history}</p>
+                <p>{profile.history}</p>
+              </div>
+              {place.imageCredit && (
+                <p className="vms-credit">
+                  {place.imageCredit}
+                  {place.imageSource && (
+                    <>
+                      {" · "}
+                      <a href={place.imageSource} target="_blank" rel="noopener noreferrer">
+                        Ver fuente
+                      </a>
+                    </>
+                  )}
+                </p>
               )}
-            </div>
-          </section>
+            </section>
 
-          {place.tags.length > 0 && (
-            <section className="vm-sheet__section">
-              <p className="vm-sheet__eyebrow">Para tu visita</p>
-              <h3 className="vm-sheet__h">{t("sheet.tags")}</h3>
-              <ul className="vm-sheet__tags" aria-label={t("sheet.tags")}>
-                {place.tags.map((tag) => (
-                  <li key={tag}>{tag}</li>
+            <section className="vms-section">
+              <p className="vms-eyebrow">
+                <IconStar width={14} height={14} />
+                Lo que no te puedes perder
+              </p>
+              <h3 className="vms-title">Imperdibles de {place.name}</h3>
+              <ul className="vms-highlights">
+                {profile.highlights.map((item, index) => (
+                  <li key={item} style={{ ["--i" as string]: index }}>
+                    <span className="vms-highlights__star" aria-hidden="true">
+                      <IconStar width={13} height={13} />
+                    </span>
+                    {item}
+                  </li>
                 ))}
               </ul>
             </section>
-          )}
 
-          {related.length > 0 && (
-            <section className="vm-sheet__related" aria-label={t("sheet.related")}>
-              <div className="vm-sheet__related-head">
-                <div>
-                  <p className="vm-sheet__eyebrow">Sigue explorando</p>
-                  <h3 className="vm-sheet__h">{t("sheet.related")}</h3>
-                </div>
-                <span>{t("sheet.relatedHint")}</span>
-              </div>
-              <div className="vm-sheet__related-grid">
-                {related.map((item) => {
-                  const itemCategory = categoryBySlug(primaryCategory(item));
-                  return (
-                    <button
-                      key={item.slug}
-                      type="button"
-                      className="vm-sheet__related-card"
-                      onClick={() => onOpenPlace(item.slug)}
-                    >
-                      <Cover place={item} className="vm-sheet__related-cover" />
-                      <span className="vm-sheet__related-body">
-                        <strong>{item.name}</strong>
-                        <span>{itemCategory ? t(itemCategory.nameKey) : item.categoryName}</span>
-                      </span>
-                      <IconArrowRight width={15} height={15} />
-                    </button>
-                  );
-                })}
+            <section className="vms-section">
+              <p className="vms-eyebrow">
+                <IconSparkles width={14} height={14} />
+                Consejos de Zulmita
+              </p>
+              <h3 className="vms-title">Para que el plan salga redondo</h3>
+              <div className="vms-tips">
+                {profile.suggestions.map((tip, index) => (
+                  <article key={tip.title} className="vms-tip" style={{ ["--i" as string]: index }}>
+                    <span className="vms-tip__num">{String(index + 1).padStart(2, "0")}</span>
+                    <strong>{tip.title}</strong>
+                    <p>{tip.text}</p>
+                  </article>
+                ))}
               </div>
             </section>
-          )}
 
-          {lang !== "es" && <p className="vm-sheet__note">{t("sheet.contentNote")}</p>}
+            <section className="vms-funfact">
+              <span className="vms-funfact__icon" aria-hidden="true">
+                <IconSparkles width={20} height={20} />
+              </span>
+              <div>
+                <p className="vms-eyebrow">Dato curioso</p>
+                <p className="vms-funfact__text">{profile.funFact}</p>
+              </div>
+            </section>
+
+            {place.tags.length > 0 && (
+              <section className="vms-section">
+                <p className="vms-eyebrow">Para tu visita</p>
+                <h3 className="vms-title">{t("sheet.tags")}</h3>
+                <ul className="vms-tags" aria-label={t("sheet.tags")}>
+                  {place.tags.map((tag) => (
+                    <li key={tag}>{tag}</li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {related.length > 0 && (
+              <section className="vms-section" aria-label={t("sheet.related")}>
+                <div className="vms-related__head">
+                  <div>
+                    <p className="vms-eyebrow">Sigue explorando</p>
+                    <h3 className="vms-title">{t("sheet.related")}</h3>
+                  </div>
+                  <span>{t("sheet.relatedHint")}</span>
+                </div>
+                <div className="vms-related">
+                  {related.map((item) => {
+                    const itemProfile = profileFor(item);
+                    const itemCategory = categoryBySlug(primaryCategory(item));
+                    return (
+                      <button
+                        key={item.slug}
+                        type="button"
+                        className="vms-related__card"
+                        onClick={() => onOpenPlace(item.slug)}
+                        style={{
+                          ["--item-from" as string]: itemProfile.colors.from,
+                          ["--item-to" as string]: itemProfile.colors.to,
+                          ["--item-soft" as string]: itemProfile.colors.soft,
+                        }}
+                      >
+                        <span className="vms-related__emblem" aria-hidden="true">
+                          <PlaceEmblem name={itemProfile.emblem} width={17} height={17} />
+                        </span>
+                        <span className="vms-related__copy">
+                          <strong>{item.name}</strong>
+                          <small>{itemCategory ? t(itemCategory.nameKey) : item.categoryName}</small>
+                          <em>{itemProfile.essence}</em>
+                        </span>
+                        <IconArrowRight width={15} height={15} />
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+            )}
+
+            {lang !== "es" && <p className="vms-note">{t("sheet.contentNote")}</p>}
+          </div>
+
+          <aside className="vms-aside">
+            <section className="vms-panel vms-panel--place">
+              <p className="vms-eyebrow">El plan perfecto</p>
+              <p className="vms-panel__plan">{profile.plan}</p>
+              <div className="vms-panel__row">
+                <span className="vms-panel__label">
+                  <IconMapPin width={15} height={15} />
+                  Cerca de aquí
+                </span>
+                <div className="vms-nearby">
+                  {profile.nearby.length > 0 ? (
+                    profile.nearby.map((item) => <span key={item}>{item}</span>)
+                  ) : (
+                    <span>Otros rincones de Maracaibo</span>
+                  )}
+                </div>
+              </div>
+              <div className="vms-panel__row">
+                <span className="vms-panel__label">
+                  <IconSparkles width={15} height={15} />
+                  Para comer
+                </span>
+                <p className="vms-panel__food">{profile.food}</p>
+              </div>
+            </section>
+
+            <section className="vms-panel">
+              <p className="vms-eyebrow">Cómo llegar</p>
+              <h3 className="vms-title">{t("sheet.where")}</h3>
+              <div className="vms-address">
+                <span className="vms-address__icon" aria-hidden="true">
+                  <IconMapPin width={18} height={18} />
+                </span>
+                <p>{place.address}</p>
+                <button
+                  type="button"
+                  className="vms-address__copy"
+                  onClick={copyAddress}
+                  aria-label={t("sheet.copyAddress")}
+                >
+                  {toast === "address" ? (
+                    <IconCheck width={15} height={15} />
+                  ) : (
+                    <IconCopy width={15} height={15} />
+                  )}
+                  <span>{toast === "address" ? t("sheet.addressCopied") : t("sheet.copyAddress")}</span>
+                </button>
+              </div>
+
+              <div className="vm-minimap vms-minimap">
+                <svg
+                  viewBox={
+                    miniView
+                      ? `${miniView.x} ${miniView.y} ${miniView.width} ${miniView.height}`
+                      : `0 0 ${MAP_W} ${MAP_H}`
+                  }
+                  className="vm-minimap__svg"
+                  role="img"
+                  aria-label={`${t("sheet.where")}: ${place.address}`}
+                >
+                  {MAP_IMAGE ? (
+                    <image
+                      href={MAP_IMAGE.image}
+                      x="0"
+                      y="0"
+                      width={MAP_W}
+                      height={MAP_H}
+                      preserveAspectRatio="xMidYMid slice"
+                      className="vm-minimap__photo"
+                    />
+                  ) : (
+                    <MapBackdrop compact />
+                  )}
+                  {miniPins.map((pin) => (
+                    <circle
+                      key={pin.place.slug}
+                      className={`vm-minimap__dot${pin.place.slug === place.slug ? " is-active" : ""}`}
+                      cx={pin.x}
+                      cy={pin.y}
+                      r={pin.place.slug === place.slug ? 9 : 3.2}
+                    />
+                  ))}
+                  <g transform={`translate(${point.x} ${point.y})`} pointerEvents="none">
+                    <circle className="vm-minimap__ring" r="18" />
+                    <circle className="vm-minimap__pin" r="6" />
+                  </g>
+                </svg>
+                <button
+                  type="button"
+                  className="vm-minimap__cta"
+                  onClick={() => onShowOnMap(place.slug)}
+                >
+                  <IconMapPin width={15} height={15} />
+                  {t("sheet.showOnMap")}
+                </button>
+              </div>
+
+              <div className="vms-coords">
+                <span className="vms-coords__mono">
+                  {place.latitude.toFixed(4)}, {place.longitude.toFixed(4)}
+                </span>
+                <span className={place.coordsVerified ? "is-ok" : "is-warn"}>
+                  {place.coordsVerified ? t("sheet.verified") : t("sheet.unverified")}
+                </span>
+              </div>
+            </section>
+
+            <section className={`vms-pano${place.panoUrl ? "" : " is-off"}`}>
+              <div className="vms-pano__art" aria-hidden="true">
+                <IconRotate width={30} height={30} />
+                <span>360°</span>
+              </div>
+              <div className="vms-pano__copy">
+                <p className="vms-eyebrow">Vista 360° opcional</p>
+                <h3 className="vms-title">
+                  {place.panoUrl ? "Conócelo antes de ir" : "Aún sin vista 360°"}
+                </h3>
+                <p>
+                  {place.panoUrl
+                    ? "Abre la panorámica y gira la vista con el dedo o el movimiento del teléfono."
+                    : "Este lugar todavía no tiene panorámica. Mientras tanto puedes ver su historia, su mapa y sus datos."}
+                </p>
+                {place.panoUrl && (
+                  <button
+                    type="button"
+                    className="vms-btn vms-btn--primary"
+                    onClick={() => onOpenPano(place)}
+                  >
+                    <IconRotate width={17} height={17} />
+                    {t("sheet.pano")}
+                  </button>
+                )}
+              </div>
+            </section>
+
+            <section className="vms-panel vms-panel--score">
+              <div>
+                <p className="vms-eyebrow">Popularidad</p>
+                <strong className="vms-panel__score">
+                  {score}
+                  <span>/100</span>
+                </strong>
+              </div>
+              <span className="vms-panel__bar" aria-hidden="true">
+                <span style={{ width: `${score}%` }} />
+              </span>
+            </section>
+          </aside>
         </div>
 
-<<<<<<< HEAD
-        <div className="vm-sheet__actions">
+        <footer className="vms-actions">
           <button
             type="button"
-            className={`vm-btn ${saved ? "vm-btn--primary" : "vm-btn--soft"}`}
+            className={`vms-btn ${saved ? "vms-btn--primary" : "vms-btn--soft"}`}
             onClick={() => onToggleSave(place.slug)}
             aria-pressed={saved}
           >
             <IconHeart width={17} height={17} />
             {saved ? t("sheet.saved") : t("sheet.save")}
           </button>
-          <button type="button" className="vm-btn vm-btn--soft" onClick={() => onShowOnMap(place.slug)}>
+          <button
+            type="button"
+            className="vms-btn vms-btn--soft"
+            onClick={() => onShowOnMap(place.slug)}
+          >
             <IconMapPin width={17} height={17} />
             {t("sheet.showOnMap")}
           </button>
           <a
-            className="vm-btn vm-btn--dark"
+            className="vms-btn vms-btn--dark"
             href={googleMapsPlaceUrl(place)}
             target="_blank"
             rel="noopener noreferrer"
           >
             {t("sheet.howTo")}
             <IconExternal width={16} height={16} />
-=======
-        <div className="sheet__actions">
-          {panoSrc && (
-            <button
-              type="button"
-              className="btn btn--ghost"
-              onClick={() => onOpenPano({ ...place, panoUrl: panoSrc })}
-            >
-              <IconRotate width={18} height={18} /> Ver en 360°
-            </button>
-          )}
-          <a className="btn btn--dark" href={googleMapsPlaceUrl(place)} target="_blank" rel="noopener noreferrer">
-            Cómo llegar en Google Maps <IconExternal width={16} height={16} />
->>>>>>> b2a212e84986e771267991aa5d5deaf95cd85552
           </a>
           <button
             type="button"
-            className="vm-sheet__share"
+            className="vms-actions__share"
             onClick={share}
             aria-label={t("sheet.share")}
           >
             <IconShare width={18} height={18} />
           </button>
           {toast && (
-            <span className="vm-sheet__toast" role="status">
+            <span className="vms-actions__toast" role="status">
               {toast === "link" ? t("sheet.copied") : t("sheet.addressCopied")}
             </span>
           )}
-        </div>
-      </div>
+        </footer>
+      </article>
     </div>
   );
 }

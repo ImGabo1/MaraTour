@@ -332,6 +332,149 @@ export const IconCamera = (p: P) => (
   </svg>
 );
 
+export const IconUser = (p: P) => (
+  <svg {...base} {...p}>
+    <circle cx="12" cy="8" r="4" />
+    <path d="M4.5 21a7.5 7.5 0 0 1 15 0" />
+  </svg>
+);
+
+export const IconLogout = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M14 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4" />
+    <path d="M10 8l-4 4 4 4" />
+    <path d="M6 12h9" />
+  </svg>
+);
+
+export const IconMail = (p: P) => (
+  <svg {...base} {...p}>
+    <rect x="3" y="5" width="18" height="14" rx="2.5" />
+    <path d="M4 7l8 6 8-6" />
+  </svg>
+);
+
+export const IconLock = (p: P) => (
+  <svg {...base} {...p}>
+    <rect x="4" y="10" width="16" height="10" rx="2.5" />
+    <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+    <path d="M12 14v2" />
+  </svg>
+);
+
+export const IconEye = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+);
+
+export const IconEyeOff = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M3 3l18 18" />
+    <path d="M10.6 6.1A9.8 9.8 0 0 1 12 6c6 0 9.5 6 9.5 6a15.4 15.4 0 0 1-2.6 3.2" />
+    <path d="M6.1 7.4A15.7 15.7 0 0 0 2.5 12s3.5 6 9.5 6a9.6 9.6 0 0 0 4.1-.9" />
+    <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2" />
+  </svg>
+);
+
+export const IconSun = (p: P) => (
+  <svg {...base} {...p}>
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8" />
+  </svg>
+);
+
+export const IconArrowLeft = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M20 12H4" />
+    <path d="M10 18l-6-6 6-6" />
+  </svg>
+);
+
+export const IconGoogle = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M21 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.1a4.4 4.4 0 0 1-1.9 2.9v2.5h3.1c1.8-1.7 2.7-4.2 2.7-7.3z" />
+    <path d="M12 21.5c2.5 0 4.7-.8 6.3-2.2l-3.1-2.5c-.9.6-2 .9-3.2.9-2.5 0-4.6-1.7-5.3-4H3.5v2.6A9.5 9.5 0 0 0 12 21.5z" />
+    <path d="M6.7 13.7a5.7 5.7 0 0 1 0-3.4V7.7H3.5a9.5 9.5 0 0 0 0 8.6l3.2-2.6z" />
+    <path d="M12 6.3c1.4 0 2.6.5 3.5 1.4l2.6-2.6A9.3 9.3 0 0 0 12 2.5a9.5 9.5 0 0 0-8.5 5.2l3.2 2.6c.7-2.3 2.8-4 5.3-4z" />
+  </svg>
+);
+
+export const IconChinita = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M5 10a7 7 0 0 1 14 0" />
+    <path d="M7.5 9.4A4.8 4.8 0 0 1 12 6a4.8 4.8 0 0 1 4.5 3.4" />
+    <path d="M12 11.2l1.2 2.4 2.6.4-1.9 1.8.5 2.6-2.4-1.2-2.4 1.2.5-2.6-1.9-1.8 2.6-.4 1.2-2.4z" />
+    <path d="M4 15.5c2.5 2.4 5.4 3.6 8 3.6s5.5-1.2 8-3.6" />
+  </svg>
+);
+
+export const IconTheater = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M3 5h8v7a4 4 0 0 1-8 0V5z" />
+    <path d="M13 8h8v7a4 4 0 0 1-8 0V8z" />
+    <path d="M5.5 8.5h.01M8.5 8.5h.01M15.5 11.5h.01M18.5 11.5h.01" />
+    <path d="M5.5 12.5c1.2 1 2.8 1 4 0M15.5 15.5c1.2 1 2.8 1 4 0" />
+  </svg>
+);
+
+export const IconCoffee = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M4 8h12v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8z" />
+    <path d="M16 9h2.5a2.5 2.5 0 0 1 0 5H16" />
+    <path d="M7 3c0 1 1 1.5 1 2.5M11 3c0 1 1 1.5 1 2.5" />
+    <path d="M3 22h15" />
+  </svg>
+);
+
+export const IconCake = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M4 20h16v-5a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v5z" />
+    <path d="M4 16c2 1.6 4 1.6 6 0s4-1.6 6 0 2 1.2 4 0" />
+    <path d="M12 9V5" />
+    <path d="M12 2.5c.8 1-.6 1.6 0 2.5" />
+  </svg>
+);
+
+export const IconPlane = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M10.5 13.5L3 11l1-2 7 .8 3.7-5.6a1.4 1.4 0 0 1 2.4 1.4L14.5 11l5.6 2.2-1 2-6.2-1.2-3.4 5.4-1.6-.6 1.6-4.8-1-1.5z" />
+  </svg>
+);
+
+export const IconMusic = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M9 18V6l10-2v12" />
+    <circle cx="6" cy="18" r="3" />
+    <circle cx="16" cy="16" r="3" />
+  </svg>
+);
+
+export const IconKey = (p: P) => (
+  <svg {...base} {...p}>
+    <circle cx="8" cy="8" r="4.5" />
+    <path d="M11.2 11.2L20 20" />
+    <path d="M17 17l2-2M19.5 19.5l2-2" />
+  </svg>
+);
+
+export const IconShield = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6l8-3z" />
+    <path d="M8.5 12l2.4 2.4L15.8 9.6" />
+  </svg>
+);
+
+export const IconBoat = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M4 15h16l-2.5 5h-11L4 15z" />
+    <path d="M12 15V4" />
+    <path d="M12 4l7 8h-7" />
+    <path d="M3 20c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0" />
+  </svg>
+);
+
 export type CategoryIconName =
   | "landmark"
   | "bank"

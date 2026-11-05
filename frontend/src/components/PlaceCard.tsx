@@ -1,9 +1,11 @@
 import { categoryBySlug } from "../data/categories";
+import { profileFor } from "../data/placeProfiles";
 import { useI18n } from "../i18n/I18nProvider";
 import { isPopular, popularityScore } from "../lib/popularity";
 import { primaryCategory } from "../lib/places";
 import type { Place } from "../types";
 import { Cover } from "./Cover";
+import { PlaceEmblem } from "./PlaceEmblem";
 import { CategoryIcon, IconArrowRight, IconFlame, IconHeart, IconMapPin, IconRotate, IconStar } from "./icons";
 
 interface Props {
@@ -17,13 +19,21 @@ interface Props {
 export function PlaceCard({ place, index, onOpen, onToggleSave, saved = false }: Props) {
   const { t } = useI18n();
   const category = categoryBySlug(primaryCategory(place));
+  const profile = profileFor(place);
   const score = popularityScore(place.slug);
   const popular = isPopular(score);
 
   return (
     <article
-      className={`vm-place-card reveal${onToggleSave ? " vm-place-card--save" : ""}`}
-      style={{ ["--i" as string]: Math.min(index, 14) }}
+      className={`vm-place-card vm-place-card--themed reveal${onToggleSave ? " vm-place-card--save" : ""}`}
+      style={{
+        ["--i" as string]: Math.min(index, 14),
+        ["--place-from" as string]: profile.colors.from,
+        ["--place-to" as string]: profile.colors.to,
+        ["--place-accent" as string]: profile.colors.accent,
+        ["--place-soft" as string]: profile.colors.soft,
+        ["--place-ink" as string]: profile.colors.ink,
+      }}
     >
       <button
         type="button"
@@ -34,11 +44,14 @@ export function PlaceCard({ place, index, onOpen, onToggleSave, saved = false }:
         <span className="vm-place-card__media">
           <Cover place={place} className="vm-place-card__cover" />
           <span className="vm-place-card__shade" aria-hidden="true" />
+          <span className="vm-place-card__emblem" aria-hidden="true">
+            <PlaceEmblem name={profile.emblem} width={18} height={18} />
+          </span>
           <span
             className="vm-place-card__cat"
             style={{
-              ["--from" as string]: category?.from ?? "#0D6B76",
-              ["--to" as string]: category?.to ?? "#2FAFBE",
+              ["--from" as string]: profile.colors.from,
+              ["--to" as string]: profile.colors.to,
             }}
           >
             {category && <CategoryIcon name={category.icon} width={13} height={13} />}
@@ -62,6 +75,7 @@ export function PlaceCard({ place, index, onOpen, onToggleSave, saved = false }:
 
         <span className="vm-place-card__body">
           <span className="vm-place-card__title">{place.name}</span>
+          <span className="vm-place-card__essence">{profile.essence}</span>
           <span className="vm-place-card__text">{place.shortDescription}</span>
           <span className="vm-place-card__meta">
             <span className="vm-place-card__score">

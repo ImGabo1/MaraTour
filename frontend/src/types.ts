@@ -23,6 +23,16 @@ export interface Place {
   panoUrl: string | null;
   tags: string[];
   media: PlaceMedia[];
+  /** Crédito de la foto principal (se muestra en la ficha). */
+  imageCredit?: string | null;
+  /** Enlace a la fuente original de la foto. */
+  imageSource?: string | null;
+  /** Galería adicional de fotos locales. */
+  gallery?: string[];
+  /** Video corto del lugar (opcional). */
+  videoUrl?: string | null;
+  /** Para hospitales y servicios: si la atención es pública o privada. */
+  sector?: "publico" | "privado";
 }
 
 export interface PlacesResponse {

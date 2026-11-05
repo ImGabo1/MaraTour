@@ -4,6 +4,7 @@ import { LANGUAGES } from "../i18n/messages";
 import { useInstallPrompt } from "../hooks/useInstallPrompt";
 import { useModal } from "../hooks/useModal";
 import type { Page } from "../hooks/usePageRoute";
+import { initials, type AuthSession } from "../lib/auth";
 import { LanguagePicker } from "./LanguagePicker";
 import {
   IconBook,
@@ -15,15 +16,19 @@ import {
   IconGlobe,
   IconHeart,
   IconHome,
+  IconLogout,
   IconMenu,
   IconShare,
   IconSparkles,
+  IconUser,
 } from "./icons";
 
 interface Props {
   page: Page;
   savedCount?: number;
   onOpenChat?: () => void;
+  session: AuthSession;
+  onLogout: () => void;
 }
 
 const NAV: readonly { page: Page; key: "nav.home" | "nav.explore" | "nav.planner" | "nav.dictionary" | "nav.saved"; icon: typeof IconHome }[] = [
@@ -34,7 +39,7 @@ const NAV: readonly { page: Page; key: "nav.home" | "nav.explore" | "nav.planner
   { page: "mi-ruta", key: "nav.saved", icon: IconHeart },
 ];
 
-export function Header({ page, savedCount = 0, onOpenChat }: Props) {
+export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: Props) {
   const { lang, t } = useI18n();
   const { mode, install } = useInstallPrompt();
   const [languageOpen, setLanguageOpen] = useState(false);
@@ -78,6 +83,19 @@ export function Header({ page, savedCount = 0, onOpenChat }: Props) {
           </nav>
 
           <div className="vm-header__actions">
+            <div className="vm-user">
+              <span className="vm-user__avatar" aria-hidden="true">
+                {session.kind === "guest" ? <IconUser width={17} height={17} /> : initials(session.name)}
+              </span>
+              <span className="vm-user__copy">
+                <strong>{session.name}</strong>
+                <small>{session.kind === "guest" ? "Invitado" : session.email}</small>
+              </span>
+              <button type="button" className="vm-user__out" onClick={onLogout} aria-label="Cerrar sesión" title="Cerrar sesión">
+                <IconLogout width={17} height={17} />
+              </button>
+            </div>
+
             <a
               className="vm-saved-btn"
               href="#/mi-ruta"
@@ -166,6 +184,17 @@ export function Header({ page, savedCount = 0, onOpenChat }: Props) {
             >
               <IconChat width={19} height={19} />
               <span>{t("nav.chat")}</span>
+            </button>
+            <button
+              type="button"
+              className="vm-drawer__logout"
+              onClick={() => {
+                setMenuOpen(false);
+                onLogout();
+              }}
+            >
+              <IconLogout width={19} height={19} />
+              <span>Cerrar sesión</span>
             </button>
           </nav>
         </div>

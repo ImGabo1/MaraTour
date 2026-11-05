@@ -5,27 +5,34 @@ import { OfflineBanner } from "./components/OfflineBanner";
 import { PanoViewer } from "./components/PanoViewer";
 import { PlaceSheet } from "./components/PlaceSheet";
 import { IconBridge, IconChat, IconSparkles } from "./components/icons";
-import { type CategoryFilter } from "./lib/places";
 import { useHashRoute } from "./hooks/useHashRoute";
 import { useOnline } from "./hooks/useOnline";
 import { usePageRoute } from "./hooks/usePageRoute";
 import { usePlaces } from "./hooks/usePlaces";
- HEAD
 import { useI18n } from "./i18n/I18nProvider";
 import { onSavedChange, readSaved, toggleSavedList, writeSaved } from "./lib/favorites";
-import { mergePlaces, primaryCategory } from "./lib/places";
+import { withMedia } from "./data/media";
+import { mergePlaces, primaryCategory, type CategoryFilter } from "./lib/places";
 import { recordVisit } from "./lib/popularity";
+import {
+  clearSession,
+  guestSession,
+  readSession,
+  writeSession,
+  type AuthSession,
+} from "./lib/auth";
+import { AuthPage } from "./pages/AuthPage";
 import { DictionaryPage } from "./pages/DictionaryPage";
 import { ExplorePage } from "./pages/ExplorePage";
 import { HomePage } from "./pages/HomePage";
 import { PlannerPage } from "./pages/PlannerPage";
 import { RoutePage } from "./pages/RoutePage";
-
-import { matchesQuery } from "./lib/search";
- 
+import { WelcomePage } from "./pages/WelcomePage";
 import type { Place } from "./types";
 
 type ExploreView = "grid" | "map";
+
+const AUTH_PAGES = new Set(["bienvenida", "entrar", "registro"]);
 
 export default function App() {
   const { places: apiPlaces, source, loading } = usePlaces();
@@ -33,14 +40,10 @@ export default function App() {
   const route = useHashRoute();
   const { page, navigate } = usePageRoute();
   const { t } = useI18n();
+  const [session, setSession] = useState<AuthSession | null>(readSession);
 
-HEAD
-  const places = useMemo(() => mergePlaces(apiPlaces), [apiPlaces]);
+  const places = useMemo(() => mergePlaces(apiPlaces).map(withMedia), [apiPlaces]);
   const [saved, setSaved] = useState<string[]>(readSaved);
-
-  const [category, setCategory] = useState<string>("todos");
-  const [query, setQuery] = useState<string>("");
-  const [mapFocus, setMapFocus] = useState<string | null>(null);
 
   const [pano, setPano] = useState<Place | null>(null);
   const [chatOpen, setChatOpen] = useState(false);
@@ -50,18 +53,18 @@ HEAD
   const [exploreKey, setExploreKey] = useState(0);
 
   const openPlace = places.find((place) => place.slug === route.slug) ?? null;
+  const signedIn = session !== null;
+  const viewPage = signedIn && AUTH_PAGES.has(page) ? "inicio" : page;
 
-HEAD
   useEffect(() => onSavedChange(setSaved), []);
 
-  const visible = useMemo(() => {
-    const byCategory = category === "todos" ? places : places.filter((p) => p.category === category);
-    return byCategory.filter((p) => matchesQuery(p, query));
-  }, [places, category, query]);
+  useEffect(() => {
+    if (signedIn && AUTH_PAGES.has(page)) navigate("inicio");
+  }, [signedIn, page, navigate]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
-  }, [page]);
+  }, [viewPage]);
 
   const open = (slug: string) => {
     recordVisit(slug);
@@ -114,13 +117,57 @@ HEAD
     window.location.replace(`${window.location.pathname}${window.location.search}#/explorar`);
   };
 
+  const handleAuthenticated = (next: AuthSession) => {
+    writeSession(next);
+    setSession(next);
+    route.close();
+    navigate("inicio");
+  };
+
+  const handleGuest = () => {
+    handleAuthenticated(guestSession());
+  };
+
+  const handleLogout = () => {
+    clearSession();
+    setSession(null);
+    setPano(null);
+    setChatOpen(false);
+    navigate("bienvenida");
+  };
+
+  if (!signedIn) {
+    if (page === "entrar" || page === "registro") {
+      return (
+        <AuthPage
+          mode={page}
+          onAuthenticated={handleAuthenticated}
+          onGuest={handleGuest}
+        />
+      );
+    }
+    return (
+      <WelcomePage
+        onLogin={() => navigate("entrar")}
+        onRegister={() => navigate("registro")}
+        onGuest={handleGuest}
+      />
+    );
+  }
+
   return (
     <>
-      <Header page={page} savedCount={saved.length} onOpenChat={openChat} />
+      <Header
+        page={viewPage}
+        savedCount={saved.length}
+        onOpenChat={openChat}
+        session={session}
+        onLogout={handleLogout}
+      />
       <OfflineBanner online={online} source={source} />
 
       <div id="top">
-        {page === "inicio" && (
+        {viewPage === "inicio" && (
           <HomePage
             places={places}
             saved={saved}
@@ -134,7 +181,7 @@ HEAD
           />
         )}
 
-        {page === "explorar" && (
+        {viewPage === "explorar" && (
           <ExplorePage
             key={`${exploreCategory ?? "todo"}-${exploreQuery}-${exploreView}-${exploreKey}`}
             places={places}
@@ -148,7 +195,7 @@ HEAD
           />
         )}
 
-        {page === "plan" && (
+        {viewPage === "plan" && (
           <PlannerPage
             places={places}
             saved={saved}
@@ -158,9 +205,9 @@ HEAD
           />
         )}
 
-        {page === "diccionario" && <DictionaryPage />}
+        {viewPage === "diccionario" && <DictionaryPage />}
 
-        {page === "mi-ruta" && (
+        {viewPage === "mi-ruta" && (
           <RoutePage
             places={places}
             saved={saved}
@@ -199,7 +246,6 @@ HEAD
               Hablar con Zulmita
             </button>
           </div>
- HEAD
         </div>
         <div className="container vm-footer__legal">
           <p>{t("footer.university")}</p>
@@ -207,77 +253,6 @@ HEAD
             <IconSparkles width={13} height={13} />
             {t("footer.draft")}
           </p>
-
-        </section>
-
-        <section id="lugares" className="section section--tint">
-          <div className="container">
-            <h2 className="section__title">Lugares para visitar</h2>
-
-            <div className="search">
-              <label className="search__label" htmlFor="buscar">
-                Buscar un lugar
-              </label>
-              <input
-                id="buscar"
-                className="search__input"
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Nombre, etiqueta o palabra: teatro, iglesia, atardecer…"
-                autoComplete="off"
-              />
-            </div>
-
-            {categories.length > 1 && (
-              <div className="filters" role="group" aria-label="Filtrar por categoría">
-                <button
-                  type="button"
-                  className="filter"
-                  aria-pressed={category === "todos"}
-                  onClick={() => setCategory("todos")}
-                >
-                  Todos
-                </button>
-                {categories.map((c) => (
-                  <button
-                    key={c.slug}
-                    type="button"
-                    className="filter"
-                    aria-pressed={category === c.slug}
-                    onClick={() => setCategory(c.slug)}
-                  >
-                    {c.name}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {error && (
-              <p className="notice" role="alert">
-                No pudimos cargar los lugares. Conéctate a internet y vuelve a intentarlo.
-              </p>
-            )}
-
-            {!loading && !error && visible.length === 0 && (
-              <p className="notice" role="status">
-                No encontramos lugares para «{query.trim()}». Prueba con otra palabra o quita el filtro.
-              </p>
-            )}
-
-            <div className="grid" key={category}>
-              {visible.map((p, i) => (
-                <PlaceCard key={p.slug} place={p} index={i} onOpen={route.open} />
-              ))}
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <footer className="footer">
-        <div className="container">
-          <p>Proyecto universitario para impulsar el turismo en el municipio Maracaibo.</p>
-          <p className="footer__small">Contenido preliminar: los textos y ubicaciones están en revisión.</p>
         </div>
       </footer>
 

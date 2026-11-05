@@ -1,14 +1,36 @@
 import { useEffect, useState } from "react";
 
-export type Page = "inicio" | "explorar" | "plan" | "diccionario" | "mi-ruta";
+export type Page =
+  | "bienvenida"
+  | "entrar"
+  | "registro"
+  | "inicio"
+  | "explorar"
+  | "plan"
+  | "diccionario"
+  | "mi-ruta";
 
-const PAGES: readonly Page[] = ["inicio", "explorar", "plan", "diccionario", "mi-ruta"];
-const PAGE_PATTERN = /^#\/?(inicio|explorar|plan|diccionario|mi-ruta)(?:\/|$)/;
+const PAGES: readonly Page[] = [
+  "bienvenida",
+  "entrar",
+  "registro",
+  "inicio",
+  "explorar",
+  "plan",
+  "diccionario",
+  "mi-ruta",
+];
+
+const PAGE_PATTERN =
+  /^#\/?(bienvenida|entrar|registro|inicio|explorar|plan|diccionario|mi-ruta)(?:\/|$)/;
 
 function readPage(): Page {
+  // Un enlace compartido a una ficha (#/lugar/<slug>) se abre sobre Inicio:
+  // así el botón «atrás» y la recarga no pierden el lugar.
+  if (window.location.hash.startsWith("#/lugar/")) return "inicio";
   const match = PAGE_PATTERN.exec(window.location.hash);
   const page = match?.[1] as Page | undefined;
-  return page && PAGES.includes(page) ? page : "inicio";
+  return page && PAGES.includes(page) ? page : "bienvenida";
 }
 
 /**

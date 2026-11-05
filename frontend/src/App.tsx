@@ -7,10 +7,17 @@ import { PlaceSheet } from "./components/PlaceSheet";
 import { IconBridge, IconChat, IconSparkles } from "./components/icons";
 import { useHashRoute } from "./hooks/useHashRoute";
 import { useOnline } from "./hooks/useOnline";
-import { usePageRoute } from "./hooks/usePageRoute";
+import { usePageRoute, type Page } from "./hooks/usePageRoute";
 import { usePlaces } from "./hooks/usePlaces";
 import { useI18n } from "./i18n/I18nProvider";
-import { onSavedChange, readSaved, toggleSavedList, writeSaved } from "./lib/favorites";
+import {
+  onSavedChange,
+  readSaved,
+  storageKeyFor,
+  toggleSavedList,
+  transferGuestSavedToUser,
+  writeSaved,
+} from "./lib/favorites";
 import { withMedia } from "./data/media";
 import { mergePlaces, primaryCategory, type CategoryFilter } from "./lib/places";
 import { recordVisit } from "./lib/popularity";
@@ -41,9 +48,10 @@ export default function App() {
   const { page, navigate } = usePageRoute();
   const { t } = useI18n();
   const [session, setSession] = useState<AuthSession | null>(readSession);
+  const activeKey = storageKeyFor(session);
 
   const places = useMemo(() => mergePlaces(apiPlaces).map(withMedia), [apiPlaces]);
-  const [saved, setSaved] = useState<string[]>(readSaved);
+  const [saved, setSaved] = useState<string[]>(() => readSaved(activeKey));
 
   const [pano, setPano] = useState<Place | null>(null);
   const [chatOpen, setChatOpen] = useState(false);
@@ -56,7 +64,11 @@ export default function App() {
   const signedIn = session !== null;
   const viewPage = signedIn && AUTH_PAGES.has(page) ? "inicio" : page;
 
-  useEffect(() => onSavedChange(setSaved), []);
+  useEffect(() => {
+    setSaved(readSaved(activeKey));
+  }, [activeKey]);
+
+  useEffect(() => onSavedChange(activeKey, setSaved), [activeKey]);
 
   useEffect(() => {
     if (signedIn && AUTH_PAGES.has(page)) navigate("inicio");
@@ -74,7 +86,7 @@ export default function App() {
   const toggleSave = (slug: string) => {
     setSaved((previous) => {
       const next = toggleSavedList(previous, slug);
-      writeSaved(next);
+      writeSaved(next, activeKey);
       return next;
     });
   };
@@ -82,14 +94,14 @@ export default function App() {
   const savePlan = (slugs: readonly string[]) => {
     setSaved((previous) => {
       const next = [...new Set([...previous, ...slugs])];
-      writeSaved(next);
+      writeSaved(next, activeKey);
       return next;
     });
   };
 
   const reorder = (slugs: string[]) => {
     setSaved(slugs);
-    writeSaved(slugs);
+    writeSaved(slugs, activeKey);
   };
 
   const openPano = (place: Place) => {
@@ -119,7 +131,12 @@ export default function App() {
 
   const handleAuthenticated = (next: AuthSession) => {
     writeSession(next);
+    if (next.kind === "user") {
+      transferGuestSavedToUser(next.email);
+    }
+    const nextKey = storageKeyFor(next);
     setSession(next);
+    setSaved(readSaved(nextKey));
     route.close();
     navigate("inicio");
   };
@@ -131,6 +148,7 @@ export default function App() {
   const handleLogout = () => {
     clearSession();
     setSession(null);
+    setSaved(readSaved(storageKeyFor(null)));
     setPano(null);
     setChatOpen(false);
     navigate("bienvenida");
@@ -199,6 +217,7 @@ export default function App() {
           <PlannerPage
             places={places}
             saved={saved}
+            session={session}
             onOpenPlace={open}
             onSavePlan={savePlan}
             onNavigate={navigate}
@@ -211,9 +230,11 @@ export default function App() {
           <RoutePage
             places={places}
             saved={saved}
+            session={session}
             onOpenPlace={open}
             onRemove={toggleSave}
             onReorder={reorder}
+            onNavigate={(page) => navigate(page as Page)}
           />
         )}
       </div>

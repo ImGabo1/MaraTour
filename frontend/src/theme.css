@@ -9264,3 +9264,86 @@ body {
     opacity: 1;
   }
 }
+
+/* ===== Aviso de ruta personalizada para invitados ===== */
+.vm-guest-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: linear-gradient(135deg, #fffbf2 0%, #fef3df 100%);
+  border: 1px solid #f3d49b;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 18px 0 24px;
+  box-shadow: 0 4px 14px rgba(224, 138, 26, 0.08);
+}
+
+.vm-guest-notice__icon {
+  font-size: 26px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.vm-guest-notice__text {
+  flex: 1;
+  font-size: 14px;
+  color: #4b361a;
+}
+
+.vm-guest-notice__text strong {
+  display: block;
+  font-size: 15px;
+  color: #2b1f0e;
+  margin-bottom: 2px;
+}
+
+.vm-guest-notice__text p {
+  margin: 0;
+  line-height: 1.4;
+  color: #6b5331;
+}
+
+.vm-guest-notice .vm-btn {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.vm-guest-banner {
+  background: #fff8eb;
+  border: 1px solid #fae1b4;
+  border-radius: 12px;
+  padding: 10px 16px;
+  margin-bottom: 20px;
+  font-size: 13.5px;
+  color: #5c4320;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vm-inline-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: #c95610;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.vm-inline-link:hover {
+  color: #8f3b06;
+}
+
+@media (max-width: 640px) {
+  .vm-guest-notice {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .vm-guest-notice .vm-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

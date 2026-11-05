@@ -1,6 +1,77 @@
 [
-  { "slug": "historia", "name": "Historia y patrimonio", "sortOrder": 1 },
-  { "slug": "cultura", "name": "Cultura y arte", "sortOrder": 2 },
-  { "slug": "religioso", "name": "Fe y tradición", "sortOrder": 3 },
-  { "slug": "naturaleza", "name": "Naturaleza y paisaje", "sortOrder": 4 }
+  {
+    "slug": "plazas",
+    "name": "Plazas y parques",
+    "sortOrder": 1
+  },
+  {
+    "slug": "historia",
+    "name": "Historia y patrimonio",
+    "sortOrder": 2
+  },
+  {
+    "slug": "cultura",
+    "name": "Cultura y arte",
+    "sortOrder": 3
+  },
+  {
+    "slug": "fe",
+    "name": "Fe y tradición",
+    "sortOrder": 4
+  },
+  {
+    "slug": "museos",
+    "name": "Museos",
+    "sortOrder": 5
+  },
+  {
+    "slug": "naturaleza",
+    "name": "Naturaleza",
+    "sortOrder": 6
+  },
+  {
+    "slug": "lago",
+    "name": "Lago y malecón",
+    "sortOrder": 7
+  },
+  {
+    "slug": "gastronomia",
+    "name": "Gastronomía",
+    "sortOrder": 8
+  },
+  {
+    "slug": "compras",
+    "name": "Compras y mercados",
+    "sortOrder": 9
+  },
+  {
+    "slug": "salud",
+    "name": "Hospitales y salud",
+    "sortOrder": 10
+  },
+  {
+    "slug": "educacion",
+    "name": "Escuelas y universidades",
+    "sortOrder": 11
+  },
+  {
+    "slug": "deportes",
+    "name": "Deportes",
+    "sortOrder": 12
+  },
+  {
+    "slug": "noche",
+    "name": "Vida nocturna",
+    "sortOrder": 13
+  },
+  {
+    "slug": "transporte",
+    "name": "Transporte",
+    "sortOrder": 14
+  },
+  {
+    "slug": "arquitectura",
+    "name": "Arquitectura",
+    "sortOrder": 15
+  }
 ]

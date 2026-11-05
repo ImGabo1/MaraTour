@@ -219,7 +219,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
 
           <p className="vm-auth__legal">
             <IconLock width={13} height={13} />
-            Demostración local: tus datos se guardan solo en este navegador.
+            Tu cuenta se guarda en el servidor. El modo invitado sigue siendo local.
           </p>
         </section>
 

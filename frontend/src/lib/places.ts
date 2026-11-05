@@ -15,7 +15,7 @@ const LEGACY_CATEGORY: Record<string, CategorySlug> = {
   naturaleza: "naturaleza",
 };
 
-/** Une la respuesta de la API con el catálogo provisional, sin repetir slugs. */
+/** Une la respuesta de la API con el catálogo empaquetado, sin repetir slugs. */
 export function mergePlaces(apiPlaces: readonly Place[]): Place[] {
   const seen = new Set(apiPlaces.map((place) => place.slug));
   return [...apiPlaces, ...EXTRA_PLACES.filter((place) => !seen.has(place.slug))];

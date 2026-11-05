@@ -29,6 +29,8 @@ interface SeedPlace {
   imageUrl: string | null;
   panoUrl: string | null;
   tags: string[];
+  /** Para hospitales y servicios: atención pública o privada. */
+  sector?: "publico" | "privado";
   /** Galería opcional (002_media_search.sql). */
   media?: SeedMedia[];
 }
@@ -57,8 +59,8 @@ async function main(): Promise<void> {
       await client.query(
         `INSERT INTO places
            (slug, name, category_slug, short_description, history, address,
-            latitude, longitude, coords_verified, image_url, pano_url, tags)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
+            latitude, longitude, coords_verified, image_url, pano_url, tags, sector)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
          ON CONFLICT (slug) DO UPDATE SET
            name = EXCLUDED.name,
            category_slug = EXCLUDED.category_slug,
@@ -71,10 +73,11 @@ async function main(): Promise<void> {
            image_url = EXCLUDED.image_url,
            pano_url = EXCLUDED.pano_url,
            tags = EXCLUDED.tags,
+           sector = EXCLUDED.sector,
            updated_at = now()`,
         [
           p.slug, p.name, p.category, p.shortDescription, p.history, p.address,
-          p.latitude, p.longitude, p.coordsVerified, p.imageUrl, p.panoUrl, p.tags,
+          p.latitude, p.longitude, p.coordsVerified, p.imageUrl, p.panoUrl, p.tags, p.sector ?? null,
         ]
       );
 
@@ -89,6 +92,16 @@ async function main(): Promise<void> {
         );
       }
     }
+
+    // El seed es la fuente de verdad del catálogo: elimina categorías viejas
+    // que ya no usa ningún lugar (por ejemplo la legacy "religioso", ahora "fe").
+    await client.query(
+      `DELETE FROM categories c
+        WHERE c.slug <> ALL($1::text[])
+          AND NOT EXISTS (SELECT 1 FROM places p WHERE p.category_slug = c.slug)`,
+      [categories.map((c) => c.slug)]
+    );
+
     await client.query("COMMIT");
     console.log(`✔ ${categories.length} categorías y ${places.length} lugares cargados.`);
   } catch (err) {

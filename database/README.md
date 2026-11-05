@@ -6,6 +6,8 @@ Esquema, migraciones y datos semilla del proyecto.
 database/
 ├── migrations/001_init.sql          # tablas categories y places
 ├── migrations/002_media_search.sql  # place_media, updated_at y búsqueda (tsvector + GIN)
+├── migrations/003_users.sql         # cuentas de usuario (login/register)
+├── migrations/004_place_sector.sql  # sector público/privado (hospitales y clínicas)
 ├── seed/categories.json             # FUENTE DE VERDAD de las categorías
 ├── seed/places.json                 # FUENTE DE VERDAD de los lugares (contenido)
 └── scripts/                         # migrate.ts, seed.ts y check.ts (TypeScript)
@@ -28,9 +30,10 @@ en `.env` (con `DATABASE_SSL=true`). La guía paso a paso está en `docs/DESPLIE
 
 | Tabla | Para qué |
 | --- | --- |
-| `categories` | Slugs y orden de las categorías (`historia`, `cultura`, `religioso`, `naturaleza`). |
-| `places` | Un lugar por fila. `search_vector` se calcula solo (columna generada) e indexa en GIN. |
+| `categories` | Slugs y orden de las 15 categorías (`historia`, `cultura`, `fe`, `museos`, `salud`…). |
+| `places` | Un lugar por fila (43 en el seed). `search_vector` se calcula solo (columna generada) e indexa en GIN. `sector` distingue atención pública/privada. |
 | `place_media` | Varias fotos (`photo`) y panoramas (`pano`) por lugar, con pie y crédito. |
+| `users` | Cuentas de login/register. El hash scrypt lo genera el backend. |
 | `schema_migrations` | Registro de migraciones aplicadas (lo crea `migrate.ts`). |
 
 Búsqueda desde la API:

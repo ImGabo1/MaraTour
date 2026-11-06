@@ -8,7 +8,6 @@ import { initials, type AuthSession } from "../lib/auth";
 import { LanguagePicker } from "./LanguagePicker";
 import {
   IconBook,
-  IconBridge,
   IconChat,
   IconClose,
   IconCompass,
@@ -57,11 +56,11 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
         <div className="vm-header__inner container">
           <a className="vm-brand" href="#/inicio" aria-label={`Visita Maracaibo · ${t("nav.home")}`}>
             <span className="vm-brand__mark" aria-hidden="true">
-              <IconBridge width={23} height={23} />
+              <img src="/icons/icon.svg" alt="" width={44} height={44} />
             </span>
             <span className="vm-brand__text">
-              <strong>Visita Maracaibo</strong>
-              <span>Zulia · Venezuela</span>
+              <strong>Maratur</strong>
+              <span>Visita Maracaibo</span>
             </span>
           </a>
 
@@ -89,7 +88,7 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
               </span>
               <span className="vm-user__copy">
                 <strong>{session.name}</strong>
-                <small>{session.kind === "guest" ? "Invitado" : session.email}</small>
+                <small>{session.kind === "guest" ? "Sesión de invitado" : session.email}</small>
               </span>
               <button type="button" className="vm-user__out" onClick={onLogout} aria-label="Cerrar sesión" title="Cerrar sesión">
                 <IconLogout width={17} height={17} />

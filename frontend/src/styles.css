@@ -2665,6 +2665,12 @@ button {
   aspect-ratio: auto;
 }
 
+.map-card--expanded .vm-map__canvas {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+}
+
 .map-card--expanded .map-bar,
 .map-card--expanded .map-strip {
   flex: none;

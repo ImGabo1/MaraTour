@@ -114,3 +114,64 @@ npm run build      # versión de producción
 ```
 
 No hace falta reiniciar la base de datos para cambiar imágenes.
+
+## 7. Fotos de las categorías
+
+Las tarjetas de «Ocho formas de sentir Maracaibo» usan una foto por tema.
+Están centralizadas en `frontend/src/data/categories.ts` → `CATEGORY_MEDIA`:
+
+```ts
+gastronomia: {
+  image: "/media/categorias/gastronomia.jpg",
+  credit: "Foto: Jdvillalobos · CC BY-SA 3.0 · Wikimedia Commons",
+},
+```
+
+- Para cambiar una categoría, reemplaza el archivo en
+  `frontend/public/media/categorias/` o apunta `image` a otra ruta.
+- **Todas** las categorías deben tener `image`; si falta una, la tarjeta se ve
+  incompleta.
+- El `credit` se muestra como tooltip y debe conservarse cuando la licencia lo
+  exija (CC BY, CC BY-SA).
+
+## 8. Logo
+
+El logo de la app es `frontend/public/icons/icon.svg` (sol, lago y puente). Se
+usa en la cabecera, la bienvenida, el registro y como icono de la PWA. Para
+cambiar el logo, reemplaza ese archivo (y, si quieres, los PNG de
+`frontend/public/icons/` para la instalación en el teléfono).
+
+## 9. Mapa base
+
+El mapa no depende de Google Maps ni de una clave de API. Es una imagen local:
+
+```
+frontend/public/img/mapa-maracaibo.jpg   (1800 × 1170)
+```
+
+Se renderizó una sola vez desde **OpenStreetMap** con el estilo *Positron* de
+**OpenFreeMap**, recoloreado con la paleta de la app y con las etiquetas en
+español. Leaflet aporta zoom, arrastre, gestos táctiles y agrupación de pines.
+
+- Bordes geográficos: `frontend/src/config.ts` → `MAP_IMAGE.bounds`
+  (`north`, `south`, `west`, `east`).
+- Si reemplazas la imagen, mantén la misma proporción (ancho/alto ≈ 1.538) y
+  actualiza los bordes. Si no, los pines quedarán desalineados.
+- Crédito visible en la esquina del mapa: **© OpenStreetMap · OpenFreeMap**.
+- La imagen se precarga en el service worker para que el mapa siga funcionando
+  sin conexión.
+
+## 10. Fotos referenciales pendientes
+
+Estas fichas usan una foto de la categoría como referencia temporal. Cuando el
+equipo envíe la foto correcta, reemplaza el archivo y actualiza `credit` en
+`frontend/src/data/media.ts`:
+
+- `jardin-botanico-maracaibo`, `rincon-zuliano`, `mi-vaquita`
+- `hospital-universitario-maracaibo`, `hospital-clinico-maracaibo`,
+  `clinica-paraiso`
+- `terminal-pasajeros-maracaibo`, `doral-center`
+
+Las demás fotos son del lugar o de un espacio equivalente (malecón / Paseo del
+Lago). Los créditos completos están en `frontend/src/data/media.ts` y
+`frontend/src/data/categories.ts`.

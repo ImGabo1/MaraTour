@@ -7,8 +7,9 @@ export const API_URL: string = (import.meta.env.VITE_API_URL ?? "").replace(/\/$
 export const MAPS_GENERAL_QUERY = "Maracaibo, Zulia, Venezuela";
 
 /**
- * Mapa base real de Maracaibo (teselas de OpenStreetMap · CARTO, uso libre con
- * atribución). Es una imagen local para no depender de una API de pago ni de red.
+ * Mapa base real de Maracaibo, renderizado una sola vez desde OpenStreetMap /
+ * OpenFreeMap y guardado como imagen local. Así el mapa funciona sin conexión,
+ * sin claves de API y sin depender de un servicio de teselas en producción.
  * Si se cambia la imagen hay que actualizar los cuatro bordes geográficos.
  */
 export const MAP_IMAGE: { image: string; bounds: Bounds } | null = {

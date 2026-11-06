@@ -7,7 +7,13 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["icons/icon.svg", "icons/apple-touch-icon.png", "panos/*.svg", "data/places.json"],
+      includeAssets: [
+        "icons/icon.svg",
+        "icons/apple-touch-icon.png",
+        "img/mapa-maracaibo.jpg",
+        "panos/*.svg",
+        "data/places.json",
+      ],
       manifest: {
         name: "Visita Maracaibo",
         short_name: "Maracaibo",
@@ -27,6 +33,9 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,svg,png,jpg,jpeg,webp,ico,json,woff2}"],
+        // Las fotos de los lugares se guardan al verlas (runtimeCaching), no en la
+        // instalación: son varios MB y no deben bloquear la primera visita.
+        globIgnores: ["**/media/lugares/**", "**/media/360/**", "**/media/video/**"],
         navigateFallback: "/index.html",
         runtimeCaching: [
           {

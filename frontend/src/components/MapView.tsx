@@ -1,11 +1,17 @@
-import { useEffect, useId, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import * as L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import "leaflet.markercluster";
+import "leaflet.markercluster/dist/MarkerCluster.css";
+import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import { MAPS_GENERAL_QUERY, MAP_IMAGE } from "../config";
 import { categoryBySlug } from "../data/categories";
 import { useI18n } from "../i18n/I18nProvider";
 import { googleMapsPlaceUrl, googleMapsSearchUrl } from "../lib/maps";
 import { primaryCategory } from "../lib/places";
-import { boundsFor, project } from "../lib/projection";
+import { boundsFor } from "../lib/projection";
 import type { Place } from "../types";
+import { MAP_H, MAP_W } from "./MapBackdrop";
 import { Cover } from "./Cover";
 import {
   CategoryIcon,
@@ -17,9 +23,6 @@ import {
   IconMinimize,
   IconSearch,
 } from "./icons";
-
-export const MAP_W = 800;
-export const MAP_H = 520;
 
 interface Props {
   places: readonly Place[];
@@ -37,31 +40,77 @@ function normalize(value: string): string {
     .trim();
 }
 
+/** Ajusta la imagen al contenedor: completa (cover) o encaja entera (contain). */
+function fitImage(map: L.Map, bounds: L.LatLngBounds, mode: "contain" | "cover"): void {
+  const fitZoom = map.getBoundsZoom(bounds, false);
+  if (mode === "contain") {
+    map.setView(bounds.getCenter(), fitZoom, { animate: false });
+    return;
+  }
+  const northWest = map.project(bounds.getNorthWest(), fitZoom);
+  const southEast = map.project(bounds.getSouthEast(), fitZoom);
+  const width = Math.abs(southEast.x - northWest.x);
+  const height = Math.abs(southEast.y - northWest.y);
+  const size = map.getSize();
+  if (width <= 0 || height <= 0) return;
+  const scale = Math.max(size.x / width, size.y / height);
+  const zoom = Math.min(map.getMaxZoom(), fitZoom + Math.log2(scale));
+  map.setView(bounds.getCenter(), zoom, { animate: false });
+}
+
+/** Icono de gota con el número del lugar, dibujado como SVG dentro de Leaflet. */
+function pinHtml(n: number, from: string, to: string, active: boolean): string {
+  return `
+    <svg class="vm-pin${active ? " is-active" : ""}" width="34" height="44" viewBox="0 0 34 44" aria-hidden="true">
+      <defs>
+        <linearGradient id="vm-pin-grad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="${from}" />
+          <stop offset="100%" stop-color="${to}" />
+        </linearGradient>
+      </defs>
+      <ellipse cx="17" cy="41.4" rx="8" ry="2.4" fill="rgba(16,43,51,.28)" />
+      <path d="M17 42C12.6 33.8 2.5 27 2.5 16.2a14.5 14.5 0 1 1 29 0C31.5 27 21.4 33.8 17 42Z" fill="url(#vm-pin-grad)" stroke="#fff" stroke-width="2.4" />
+      <circle cx="17" cy="16" r="9.4" fill="#fff" />
+      <text x="17" y="20.1" text-anchor="middle" font-size="10.5" font-weight="850" fill="#13323b">${n}</text>
+    </svg>`;
+}
+
 /**
- * Mapa de Maracaibo con imagen base real (OpenStreetMap · CARTO) y puntos
- * tocables. Para la ruta exacta, los botones abren Google Maps.
+ * Mapa interactivo de Maracaibo.
+ *
+ * Usa una imagen base local (OpenStreetMap · OpenFreeMap) para que el mapa
+ * funcione sin conexión y no dependa de claves de API. Leaflet aporta zoom,
+ * arrastre y gestos táctiles; MarkerCluster agrupa los pines que se solapan.
  */
 export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace }: Props) {
   const { t } = useI18n();
   const [expanded, setExpanded] = useState(false);
   const [query, setQuery] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   const minimizeRef = useRef<HTMLButtonElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
-  const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
-  const bounds = useMemo(() => MAP_IMAGE?.bounds ?? boundsFor([...places], MAP_W / MAP_H), [places]);
-  const pins = useMemo(
-    () =>
-      places.map((place, index) => ({
-        place,
-        n: index + 1,
-        ...project(place.latitude, place.longitude, bounds, MAP_W, MAP_H),
-      })),
-    [places, bounds]
-  );
+  const stripRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<L.Map | null>(null);
+  const clusterRef = useRef<L.MarkerClusterGroup | null>(null);
+  const markersRef = useRef(new Map<string, L.Marker>());
+  const onSelectRef = useRef(onSelect);
+  const lastPlacesKey = useRef("");
+  const lastSelected = useRef<string | null>(null);
+
+  useEffect(() => {
+    onSelectRef.current = onSelect;
+  }, [onSelect]);
+
   const selected = places.find((place) => place.slug === selectedSlug) ?? null;
-  const selectedPin = pins.find((pin) => pin.place.slug === selectedSlug) ?? null;
   const selectedCategory = selected ? categoryBySlug(primaryCategory(selected)) : undefined;
+  const imageBounds = useMemo(() => {
+    const bounds = MAP_IMAGE?.bounds ?? boundsFor([...places], MAP_W / MAP_H);
+    return L.latLngBounds(
+      L.latLng(bounds.south, bounds.west),
+      L.latLng(bounds.north, bounds.east)
+    );
+  }, [places]);
 
   const results = useMemo(() => {
     const needle = normalize(query);
@@ -86,20 +135,173 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
 
   const showResults = searchFocused && query.trim().length > 0;
 
+  // Crear el mapa una sola vez.
   useEffect(() => {
-    if (!expanded) return;
+    const container = containerRef.current;
+    if (!container) return;
+
+    const map = L.map(container, {
+      zoomControl: false,
+      attributionControl: false,
+      minZoom: 11,
+      maxZoom: 14,
+      zoomSnap: 0,
+      zoomDelta: 0.5,
+      wheelPxPerZoomLevel: 120,
+      maxBoundsViscosity: 0.85,
+      preferCanvas: true,
+    });
+
+    if (MAP_IMAGE) {
+      L.imageOverlay(MAP_IMAGE.image, imageBounds, {
+        alt: "Mapa de Maracaibo",
+        interactive: false,
+        className: "vm-map__image",
+      }).addTo(map);
+    }
+
+    fitImage(map, imageBounds, "contain");
+    map.setMaxBounds(imageBounds.pad(0.06));
+    map.on("click", () => onSelectRef.current(null));
+
+    const cluster = L.markerClusterGroup({
+      showCoverageOnHover: false,
+      spiderfyOnMaxZoom: true,
+      zoomToBoundsOnClick: true,
+      removeOutsideVisibleBounds: true,
+      maxClusterRadius: 42,
+      iconCreateFunction: (group) =>
+        L.divIcon({
+          className: "vm-cluster-wrap",
+          html: `<span class="vm-cluster"><b>${group.getChildCount()}</b></span>`,
+          iconSize: [44, 44],
+          iconAnchor: [22, 22],
+        }),
+    });
+    cluster.addTo(map);
+
+    mapRef.current = map;
+    clusterRef.current = cluster;
+
+    const observer = new ResizeObserver(() => map.invalidateSize());
+    observer.observe(container);
+
+    return () => {
+      observer.disconnect();
+      map.remove();
+      mapRef.current = null;
+      clusterRef.current = null;
+      markersRef.current.clear();
+    };
+    // El mapa se crea una vez; los pines se actualizan en el efecto siguiente.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Pintar / actualizar los pines.
+  useEffect(() => {
+    const map = mapRef.current;
+    const cluster = clusterRef.current;
+    if (!map || !cluster) return;
+
+    cluster.clearLayers();
+    const markers = new Map<string, L.Marker>();
+    const layers: L.Marker[] = [];
+
+    places.forEach((place, index) => {
+      const category = categoryBySlug(primaryCategory(place));
+      const active = place.slug === selectedSlug;
+      const icon = L.divIcon({
+        className: "vm-pin-wrap",
+        html: pinHtml(index + 1, category?.from ?? "#E8604C", category?.to ?? "#B43A2A", active),
+        iconSize: [34, 44],
+        iconAnchor: [17, 43],
+      });
+      const marker = L.marker(L.latLng(place.latitude, place.longitude), {
+        icon,
+        title: place.name,
+        alt: place.name,
+        keyboard: true,
+        riseOnHover: true,
+      });
+      marker.on("click", () => onSelectRef.current(place.slug));
+      marker.bindTooltip(place.name, {
+        direction: "top",
+        offset: [0, -6],
+        opacity: 1,
+        className: "vm-map__tip",
+      });
+      markers.set(place.slug, marker);
+      layers.push(marker);
+    });
+
+    markersRef.current = markers;
+    cluster.addLayers(layers);
+
+    // Ajustar la vista solo cuando cambia el conjunto de lugares.
+    const key = places.map((place) => place.slug).join("|");
+    if (key !== lastPlacesKey.current) {
+      lastPlacesKey.current = key;
+      if (!expanded && places.length > 1) {
+        const points = places.map((place) => L.latLng(place.latitude, place.longitude));
+        map.fitBounds(L.latLngBounds(points), {
+          padding: [38, 38],
+          maxZoom: 12.75,
+          animate: true,
+          duration: 0.4,
+        });
+      }
+    }
+
+    if (selectedSlug) {
+      const marker = markers.get(selectedSlug);
+      if (marker && lastSelected.current !== selectedSlug) {
+        lastSelected.current = selectedSlug;
+        cluster.zoomToShowLayer(marker, () => {
+          const place = places.find((item) => item.slug === selectedSlug);
+          if (place) {
+            map.panTo(L.latLng(place.latitude, place.longitude), { animate: true, duration: 0.45 });
+          }
+        });
+      }
+    } else {
+      lastSelected.current = null;
+    }
+  }, [places, selectedSlug, expanded]);
+
+  // Mantener visible la ficha activa en la tira inferior.
+  useEffect(() => {
+    if (!selectedSlug) return;
+    const item = stripRef.current?.querySelector<HTMLElement>(`[data-slug="${selectedSlug}"]`);
+    item?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  }, [selectedSlug]);
+
+  // Pantalla completa.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!expanded) {
+      const timer = window.setTimeout(() => {
+        map?.invalidateSize();
+        if (map) fitImage(map, imageBounds, "contain");
+      }, 280);
+      return () => window.clearTimeout(timer);
+    }
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     minimizeRef.current?.focus();
+    const timer = window.setTimeout(() => {
+      map?.invalidateSize();
+      if (map) fitImage(map, imageBounds, "cover");
+    }, 280);
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") setExpanded(false);
     };
     document.addEventListener("keydown", onKey);
     return () => {
+      window.clearTimeout(timer);
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = previousOverflow;
     };
-  }, [expanded]);
+  }, [expanded, imageBounds]);
 
   const pick = (slug: string) => {
     onSelect(slug);
@@ -122,126 +324,12 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
   return (
     <div className={`map-card vm-map${expanded ? " map-card--expanded" : ""}`}>
       <div className="map-frame vm-map__frame">
-        <svg
-          viewBox={`0 0 ${MAP_W} ${MAP_H}`}
-          className="map-svg vm-map__svg"
-          role="group"
+        <div
+          ref={containerRef}
+          className="vm-map__canvas"
+          role="region"
           aria-label={t("map.title")}
-          onClick={() => onSelect(null)}
-        >
-          <defs>
-            <linearGradient id={`pin-shine-${uid}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.55" />
-              <stop offset="55%" stopColor="#ffffff" stopOpacity="0.05" />
-              <stop offset="100%" stopColor="#000000" stopOpacity="0.16" />
-            </linearGradient>
-            <radialGradient id={`map-glow-${uid}`} cx="50%" cy="46%" r="58%">
-              <stop offset="55%" stopColor="#0a3d45" stopOpacity="0" />
-              <stop offset="100%" stopColor="#0a3d45" stopOpacity="0.24" />
-            </radialGradient>
-            <filter id={`pin-shadow-${uid}`} x="-80%" y="-60%" width="260%" height="240%">
-              <feDropShadow dx="0" dy="4" stdDeviation="3.2" floodColor="#14303a" floodOpacity="0.36" />
-            </filter>
-          </defs>
-
-          {MAP_IMAGE ? (
-            <image
-              href={MAP_IMAGE.image}
-              x="0"
-              y="0"
-              width={MAP_W}
-              height={MAP_H}
-              preserveAspectRatio="xMidYMid slice"
-              className="vm-map__photo"
-            />
-          ) : (
-            <MapBackdrop />
-          )}
-
-          <rect
-            width={MAP_W}
-            height={MAP_H}
-            fill={`url(#map-glow-${uid})`}
-            className="vm-map__vignette"
-            pointerEvents="none"
-          />
-
-          {pins.map(({ place, n, x, y }) => {
-            const active = place.slug === selectedSlug;
-            const category = categoryBySlug(primaryCategory(place));
-            return (
-              <g
-                key={place.slug}
-                transform={`translate(${x.toFixed(1)} ${y.toFixed(1)})`}
-                className={`pin${active ? " pin--active" : ""}`}
-                role="button"
-                tabIndex={0}
-                aria-label={`${place.name}. ${t("map.tapPin")}`}
-                aria-pressed={active}
-                style={
-                  {
-                    "--pin": category?.from ?? "#E8604C",
-                    "--pin-2": category?.to ?? "#B43A2A",
-                  } as CSSProperties
-                }
-                onClick={(event) => {
-                  event.stopPropagation();
-                  onSelect(active ? null : place.slug);
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    onSelect(active ? null : place.slug);
-                  }
-                }}
-              >
-                <ellipse className="pin__shadow-pin" cy="2.5" rx="10" ry="3.4" />
-                <circle className="pin__hit" r="26" cy="-22" />
-                {active && (
-                  <>
-                    <circle className="pin__wave" cy="-26" r="16" />
-                    <circle className="pin__wave pin__wave--second" cy="-26" r="16" />
-                  </>
-                )}
-                <g filter={`url(#pin-shadow-${uid})`}>
-                  <path
-                    className="pin__shape"
-                    d="M0 0C-4.9-9.8-16-15.5-16-27.5a16 16 0 1 1 32 0C16-15.5 4.9-9.8 0 0z"
-                  />
-                  <circle className="pin__dot" cy="-27.5" r="10.5" />
-                  <path
-                    className="pin__shine"
-                    d="M0 0C-4.9-9.8-16-15.5-16-27.5a16 16 0 0 1 32 0C16-15.5 4.9-9.8 0 0z"
-                    fill={`url(#pin-shine-${uid})`}
-                  />
-                  <text className="pin__num" y="-23.6" textAnchor="middle">
-                    {n}
-                  </text>
-                </g>
-              </g>
-            );
-          })}
-
-          {selectedPin && (
-            <foreignObject
-              x={Math.min(Math.max(selectedPin.x - 100, 8), MAP_W - 208)}
-              y={Math.min(selectedPin.y + 12, MAP_H - 46)}
-              width="200"
-              height="38"
-              className="vm-map__callout"
-              pointerEvents="none"
-            >
-              <div className="vm-map__callout-pill">
-                <span
-                  className="vm-map__callout-dot"
-                  style={{ background: selectedCategory?.from ?? "#E8604C" }}
-                />
-                <span>{selectedPin.place.name}</span>
-              </div>
-            </foreignObject>
-          )}
-        </svg>
+        />
 
         <div className="vm-map__search">
           <div className={`vm-map__search-box${showResults ? " is-open" : ""}`}>
@@ -321,6 +409,26 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
           <span className="map-count">
             {overview ? t("map.showingTop") : t("map.showingAll", { n: places.length })}
           </span>
+          <div className="vm-map__zoom">
+            <button
+              type="button"
+              className="map-expand"
+              onClick={() => mapRef.current?.zoomIn()}
+              aria-label={t("map.zoomIn")}
+              title={t("map.zoomIn")}
+            >
+              <IconZoomIn width={16} height={16} />
+            </button>
+            <button
+              type="button"
+              className="map-expand"
+              onClick={() => mapRef.current?.zoomOut()}
+              aria-label={t("map.zoomOut")}
+              title={t("map.zoomOut")}
+            >
+              <IconZoomOut width={16} height={16} />
+            </button>
+          </div>
           <button
             ref={expanded ? minimizeRef : undefined}
             type="button"
@@ -339,7 +447,7 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
           target="_blank"
           rel="noopener noreferrer"
         >
-          © OpenStreetMap · © CARTO
+          © OpenStreetMap · OpenFreeMap
         </a>
       </div>
 
@@ -409,7 +517,7 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
         )}
       </div>
 
-      <div className="map-strip" role="group" aria-label={t("map.title")}>
+      <div ref={stripRef} className="map-strip" role="group" aria-label={t("map.title")}>
         {places.map((place, index) => {
           const category = categoryBySlug(primaryCategory(place));
           const active = place.slug === selectedSlug;
@@ -417,6 +525,7 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
             <button
               key={place.slug}
               type="button"
+              data-slug={place.slug}
               className={`map-strip__item${active ? " map-strip__item--active" : ""}`}
               aria-pressed={active}
               onClick={() => onSelect(active ? null : place.slug)}
@@ -451,141 +560,19 @@ function IconArrowMini() {
   );
 }
 
-/** Fondo dibujado de respaldo: barrios, parques, avenidas, el lago y el puente. */
-export function MapBackdrop({ compact = false }: { compact?: boolean }) {
-  const { t } = useI18n();
-  const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
-  const land = `map-land-${uid}`;
-  const water = `map-water-${uid}`;
-  const park = `map-park-${uid}`;
-
+function IconZoomIn(props: { width?: number; height?: number }) {
   return (
-    <g aria-hidden="true" className={`map-backdrop${compact ? " map-backdrop--compact" : ""}`}>
-      <defs>
-        <linearGradient id={land} x1="0" y1="0" x2="0.4" y2="1">
-          <stop offset="0%" stopColor="#F8F1E3" />
-          <stop offset="100%" stopColor="#EFE3CF" />
-        </linearGradient>
-        <linearGradient id={water} x1="0" y1="0" x2="1" y2="0.6">
-          <stop offset="0%" stopColor="#8FD3D8" />
-          <stop offset="100%" stopColor="#2A8D9B" />
-        </linearGradient>
-        <linearGradient id={park} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#CFE6B4" />
-          <stop offset="100%" stopColor="#A8D09A" />
-        </linearGradient>
-      </defs>
-
-      <rect width={MAP_W} height={MAP_H} fill={`url(#${land})`} />
-
-      {/* Barrios */}
-      <path d="M0 0h430l-34 148H0z" fill="#FBF6EC" opacity="0.8" />
-      <path d="M0 148h396l-26 146H0z" fill="#F3E7D1" opacity="0.65" />
-      <path d="M0 294h370l-22 132H0z" fill="#FBF4E8" opacity="0.7" />
-      <path d="M0 426h348l-18 94H0z" fill="#F1E4CE" opacity="0.6" />
-
-      {/* Parques */}
-      <rect x="76" y="96" width="148" height="104" rx="24" fill={`url(#${park})`} />
-      <rect x="352" y="338" width="170" height="108" rx="26" fill={`url(#${park})`} opacity="0.9" />
-      <rect x="206" y="414" width="96" height="62" rx="18" fill={`url(#${park})`} opacity="0.8" />
-      <g fill="#6FA96B" opacity="0.5">
-        <circle cx="112" cy="126" r="5" />
-        <circle cx="140" cy="154" r="4" />
-        <circle cx="176" cy="122" r="5" />
-        <circle cx="196" cy="164" r="4" />
-        <circle cx="386" cy="370" r="5" />
-        <circle cx="420" cy="404" r="4" />
-        <circle cx="466" cy="368" r="5" />
-        <circle cx="238" cy="440" r="4" />
-      </g>
-
-      {/* Lago de Maracaibo */}
-      <path
-        d="M638 0c42 64-8 132 36 196 34 50 8 98 38 146 20 32 16 74 10 178h78V0z"
-        fill={`url(#${water})`}
-      />
-      <path
-        d="M638 0c42 64-8 132 36 196 34 50 8 98 38 146 20 32 16 74 10 178"
-        fill="none"
-        stroke="#D9F2F1"
-        strokeWidth="5"
-        opacity="0.85"
-      />
-      <g stroke="#EAFBFA" strokeWidth="3.4" strokeLinecap="round" opacity="0.5">
-        <path d="M676 74h42M660 118h52M690 262h46M672 306h54M700 402h44M684 446h48" />
-      </g>
-
-      {/* Avenidas principales */}
-      <g fill="none" stroke="#DCCBAF" strokeWidth="10" strokeLinecap="round">
-        <path d="M0 150h612M0 296h584M0 438h548M170 0v520M342 0v520M512 0v452" />
-        <path d="M0 520C160 392 306 314 448 236S606 112 642 16" />
-      </g>
-      <g fill="none" stroke="#FFFDF7" strokeWidth="6" strokeLinecap="round">
-        <path d="M0 150h612M0 296h584M0 438h548M170 0v520M342 0v520M512 0v452" />
-        <path d="M0 520C160 392 306 314 448 236S606 112 642 16" />
-      </g>
-      <g fill="none" stroke="#FFFDF7" strokeWidth="3" opacity="0.75">
-        <path d="M64 0v520M252 0v520M428 0v520" />
-        <path d="M0 220h604M0 360h570M0 480h540" />
-      </g>
-
-      {/* Puente sobre el Lago */}
-      <g className="map-bridge">
-        <path d="M606 252c64-24 124-42 204-52" fill="none" stroke="#F7ECD8" strokeWidth="4" />
-        <path d="M606 257c64-24 124-42 204-52" fill="none" stroke="#F7ECD8" strokeWidth="1.4" opacity="0.7" />
-        <g stroke="#F7ECD8" strokeWidth="3" strokeLinecap="round">
-          <path d="M660 241v-44M668 239v-44M732 211v-38M740 209v-38" />
-          <path d="M654 197h20M726 173h20" />
-        </g>
-        <path
-          d="M606 247c54-8 84-42 112-42s48 30 84 18 54-28 108-34"
-          fill="none"
-          stroke="#F7ECD8"
-          strokeWidth="2"
-          opacity="0.9"
-        />
-        <g stroke="#F7ECD8" strokeWidth="0.9" opacity="0.55">
-          <path d="M624 250v-26M644 246v-34M682 236v-34M708 227v-32M760 212v-30M782 208v-30" />
-        </g>
-      </g>
-
-      {/* Brújula */}
-      {!compact && (
-        <g className="map-compass" transform="translate(744 466)">
-          <circle r="22" fill="rgba(255,255,255,.74)" />
-          <path d="M0 -14l6 20-6-5-6 5z" fill="#0B6A73" />
-          <text y="-26" textAnchor="middle">
-            N
-          </text>
-        </g>
-      )}
-
-      {/* Etiquetas */}
-      {!compact && (
-        <g className="map-labels">
-          <text className="map-label map-label--district" x="238" y="196" textAnchor="middle">
-            Centro
-          </text>
-          <text className="map-label map-label--district" x="436" y="352" textAnchor="middle">
-            Bella Vista
-          </text>
-          <text className="map-label map-label--district" x="150" y="480" textAnchor="middle">
-            La Chinita
-          </text>
-          <text
-            className="map-label map-label--water"
-            x="756"
-            y="336"
-            textAnchor="middle"
-            transform="rotate(-90 756 336)"
-          >
-            {t("map.lake")}
-          </text>
-          <text className="map-label map-label--bridge" x="700" y="146" textAnchor="middle">
-            {t("map.bridge")}
-          </text>
-        </g>
-      )}
-    </g>
+    <svg width={props.width ?? 16} height={props.height ?? 16} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+    </svg>
   );
 }
+
+function IconZoomOut(props: { width?: number; height?: number }) {
+  return (
+    <svg width={props.width ?? 16} height={props.height ?? 16} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 12h14" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+    </svg>
+  );
+}
+

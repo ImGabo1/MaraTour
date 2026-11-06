@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { CATEGORIES, FEATURED_CATEGORY_SLUGS, categoryBySlug, type CategorySlug } from "../data/categories";
+import { CATEGORIES, CATEGORY_MEDIA, FEATURED_CATEGORY_SLUGS, categoryBySlug, type CategorySlug } from "../data/categories";
 import { phraseOfTheDay } from "../data/dictionary";
 import { profileFor } from "../data/placeProfiles";
 import { WELCOME_SLIDES } from "../data/welcome";
@@ -386,6 +386,7 @@ export function HomePage({
             {FEATURED_CATEGORY_SLUGS.map((slug, index) => {
               const category = categoryBySlug(slug);
               if (!category) return null;
+              const media = CATEGORY_MEDIA[slug];
               return (
                 <button
                   key={slug}
@@ -398,9 +399,13 @@ export function HomePage({
                     ["--i" as string]: index,
                   }}
                   onClick={() => onOpenCategory(slug)}
+                  title={`${t(category.nameKey)} · ${media.credit}`}
                 >
-                  <span className="vmh-mood__icon">
-                    <CategoryIcon name={category.icon} width={22} height={22} />
+                  <span className="vmh-mood__thumb" aria-hidden="true">
+                    <img src={media.image} alt="" loading="lazy" decoding="async" />
+                    <span className="vmh-mood__icon">
+                      <CategoryIcon name={category.icon} width={16} height={16} />
+                    </span>
                   </span>
                   <span className="vmh-mood__copy">
                     <strong>{t(category.nameKey)}</strong>

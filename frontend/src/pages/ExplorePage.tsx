@@ -1,7 +1,6 @@
-import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useDeferredValue, useEffect, useMemo, useState } from "react";
 import { CATEGORIES, CATEGORY_GROUPS } from "../data/categories";
 import { useI18n } from "../i18n/I18nProvider";
-import { MapView } from "../components/MapView";
 import { PlaceCard } from "../components/PlaceCard";
 import {
   CategoryIcon,
@@ -22,6 +21,11 @@ import {
   type SortMode,
 } from "../lib/places";
 import type { Place } from "../types";
+
+// Leaflet y el visor solo se descargan cuando el visitante abre el mapa.
+const MapView = lazy(() =>
+  import("../components/MapView").then((module) => ({ default: module.MapView }))
+);
 
 const PAGE_SIZE = 12;
 
@@ -78,7 +82,7 @@ export function ExplorePage({
   };
 
   return (
-    <main className="vm-page vm-explore">
+    <main className={`vm-page vm-explore${view === "map" ? " vm-explore--map" : ""}`}>
       <section className="vm-page-hero">
         <div className="container">
           <p className="vm-kicker">
@@ -222,13 +226,15 @@ export function ExplorePage({
             {loading ? (
               <div className="vm-map-skeleton" aria-busy="true" />
             ) : (
-              <MapView
-                places={mapList}
-                selectedSlug={mapFocus}
-                overview={overview}
-                onSelect={setMapFocus}
-                onOpenPlace={onOpenPlace}
-              />
+              <Suspense fallback={<div className="vm-map-skeleton" aria-busy="true" />}>
+                <MapView
+                  places={mapList}
+                  selectedSlug={mapFocus}
+                  overview={overview}
+                  onSelect={setMapFocus}
+                  onOpenPlace={onOpenPlace}
+                />
+              </Suspense>
             )}
           </div>
         ) : loading ? (

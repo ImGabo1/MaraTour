@@ -10,7 +10,7 @@ import { popularityScore } from "../lib/popularity";
 import { boundsFor, project } from "../lib/projection";
 import type { Place } from "../types";
 import { Cover } from "./Cover";
-import { MAP_H, MAP_W, MapBackdrop } from "./MapView";
+import { MAP_H, MAP_W, MapBackdrop } from "./MapBackdrop";
 import { PlaceEmblem } from "./PlaceEmblem";
 import {
   CategoryIcon,

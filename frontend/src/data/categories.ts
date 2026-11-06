@@ -227,3 +227,82 @@ export function categoryBySlug(slug: string): CategoryDef | undefined {
 export function categoryLabelKey(slug: string): MessageKey | null {
   return BY_SLUG.get(slug)?.nameKey ?? null;
 }
+
+export interface CategoryMedia {
+  /** Foto de portada de la categoría. */
+  image: string;
+  /** Crédito visible para cumplir la licencia de la foto. */
+  credit: string;
+  /** Enlace a la ficha original de la imagen. */
+  source?: string;
+}
+
+/**
+ * Foto que representa cada categoría en la portada.
+ *
+ * Para cambiar una imagen, reemplaza el archivo o apunta `image` a la ruta
+ * nueva. Cuando el equipo envíe las fotos definitivas, basta con editar este
+ * mapa: no hay que tocar el diseño de las tarjetas.
+ */
+export const CATEGORY_MEDIA: Record<CategorySlug, CategoryMedia> = {
+  plazas: {
+    image: "/media/lugares/plaza-bolivar.jpg",
+    credit: "Foto: Zerojosefer · CC BY-SA 4.0 · Wikimedia Commons",
+  },
+  historia: {
+    image: "/media/lugares/palacio-gobierno-zulia.jpg",
+    credit: "Foto: Anata08 · CC BY 4.0 · Wikimedia Commons",
+  },
+  cultura: {
+    image: "/media/lugares/teatro-baralt.jpg",
+    credit: "Foto: Béria Lima de Rodríguez · CC BY-SA 3.0 · Wikimedia Commons",
+  },
+  fe: {
+    image: "/media/lugares/basilica-chiquinquira.jpg",
+    credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
+  },
+  museos: {
+    image: "/media/lugares/maczul.jpg",
+    credit: "Foto: HumbRios · CC BY-SA 3.0 · Wikimedia Commons",
+  },
+  naturaleza: {
+    image: "/media/categorias/naturaleza.jpg",
+    credit: "Foto: Rjcastillo · CC BY-SA 4.0 · Wikimedia Commons",
+  },
+  lago: {
+    image: "/media/lugares/paseo-del-lago.jpg",
+    credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
+  },
+  gastronomia: {
+    image: "/media/categorias/gastronomia.jpg",
+    credit: "Foto: Jdvillalobos · CC BY-SA 3.0 · Wikimedia Commons",
+  },
+  compras: {
+    image: "/media/lugares/sambil-maracaibo.jpg",
+    credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
+  },
+  salud: {
+    image: "/media/categorias/salud.jpg",
+    credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
+  },
+  educacion: {
+    image: "/media/lugares/universidad-del-zulia.jpg",
+    credit: "Foto: Rjcastillo · CC BY-SA 3.0 · Wikimedia Commons",
+  },
+  deportes: {
+    image: "/media/lugares/estadio-pachencho-romero.jpg",
+    credit: "Foto: Rjcastillo · CC BY-SA 3.0 · Wikimedia Commons",
+  },
+  noche: {
+    image: "/media/categorias/noche.jpg",
+    credit: "Foto: Rjcastillo · CC BY-SA 3.0 · Wikimedia Commons",
+  },
+  transporte: {
+    image: "/media/lugares/puente-rafael-urdaneta.jpg",
+    credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
+  },
+  arquitectura: {
+    image: "/media/lugares/casa-capitulacion.jpg",
+    credit: "Foto: Vzerpaquintero · CC BY-SA 4.0 · Wikimedia Commons",
+  },
+};

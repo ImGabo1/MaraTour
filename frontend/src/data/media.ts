@@ -169,6 +169,86 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
     credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:La_Chinita,_International_Airport,_Maracaibo,_Zulia,_Venezuela.jpg",
   },
+  "biblioteca-publica-zulia": {
+    image: photo("biblioteca-publica-zulia"),
+    credit: "Foto: Rjcastillo · CC BY-SA 3.0 · Wikimedia Commons",
+    source: "https://commons.wikimedia.org/wiki/File:Biblioteca_P%C3%BAblica_del_Estado_Zulia.JPG",
+  },
+  "iglesia-san-francisco": {
+    image: photo("iglesia-san-francisco"),
+    credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
+    source: "https://commons.wikimedia.org/wiki/File:Iglesia_San_Francisco_de_Maracaibo.jpg",
+  },
+  "jardin-botanico-maracaibo": {
+    image: photo("jardin-botanico-maracaibo"),
+    credit: "Foto referencial de naturaleza · Rjcastillo · CC BY-SA 3.0 · Wikimedia Commons",
+    source: "https://commons.wikimedia.org/wiki/File:Bismarckia_nobilis_-_Maracaibo_I.jpg",
+  },
+  "malecon-maracaibo": {
+    image: photo("paseo-del-lago"),
+    credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
+    source: "https://commons.wikimedia.org/wiki/File:Ca%C3%B1ada_del_Paseo_del_Lago,_Maracaibo,_Estado_Zulia,_Venezuela_2.jpg",
+  },
+  "sabor-zuliano": {
+    image: photo("sabor-zuliano"),
+    credit: "Foto: George Miquilena · CC BY-SA 3.0 · Wikimedia Commons",
+    source: "https://commons.wikimedia.org/wiki/File:Restaurante_Saz%C3%B3n_Zuliano,_Maracaibo,_Venezuela.jpg",
+  },
+  "rincon-zuliano": {
+    image: "/media/categorias/gastronomia.jpg",
+    credit: "Foto referencial de gastronomía zuliana · Jdvillalobos · CC BY-SA 3.0 · Wikimedia Commons",
+    source: "https://commons.wikimedia.org/wiki/File:Patacones.JPG",
+  },
+  "mi-vaquita": {
+    image: "/media/categorias/gastronomia.jpg",
+    credit: "Foto referencial de gastronomía zuliana · Jdvillalobos · CC BY-SA 3.0 · Wikimedia Commons",
+    source: "https://commons.wikimedia.org/wiki/File:Patacones.JPG",
+  },
+  "hospital-universitario-maracaibo": {
+    image: "/media/categorias/salud.jpg",
+    credit: "Foto referencial de salud en Maracaibo · Wilfredor · CC0 · Wikimedia Commons",
+    source: "https://commons.wikimedia.org/wiki/File:Central_Hospital_of_Maracaibo.jpg",
+  },
+  "hospital-central-maracaibo": {
+    image: "/media/categorias/salud.jpg",
+    credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
+    source: "https://commons.wikimedia.org/wiki/File:Central_Hospital_of_Maracaibo.jpg",
+  },
+  "hospital-clinico-maracaibo": {
+    image: "/media/categorias/salud.jpg",
+    credit: "Foto referencial de salud en Maracaibo · Wilfredor · CC0 · Wikimedia Commons",
+    source: "https://commons.wikimedia.org/wiki/File:Central_Hospital_of_Maracaibo.jpg",
+  },
+  "clinica-paraiso": {
+    image: "/media/categorias/salud.jpg",
+    credit: "Foto referencial de salud en Maracaibo · Wilfredor · CC0 · Wikimedia Commons",
+    source: "https://commons.wikimedia.org/wiki/File:Central_Hospital_of_Maracaibo.jpg",
+  },
+  "calle-72-bella-vista": {
+    image: "/media/categorias/noche.jpg",
+    credit: "Foto: Rjcastillo · CC BY-SA 3.0 · Wikimedia Commons",
+    source: "https://commons.wikimedia.org/wiki/File:Maracaibo_-_Av._4_Bella_Vista_-_Long_exposure_I.JPG",
+  },
+  "zona-rosa-bella-vista": {
+    image: photo("zona-rosa-bella-vista"),
+    credit: "Foto: Ddrriivvee · Dominio público · Wikimedia Commons",
+    source: "https://commons.wikimedia.org/wiki/File:Maracaibo_at_night.jpg",
+  },
+  "ruta-dulces-santa-lucia": {
+    image: photo("ruta-dulces-santa-lucia"),
+    credit: "Foto: HumbRios · CC BY-SA 3.0 · Wikimedia Commons",
+    source: "https://commons.wikimedia.org/wiki/File:Parroquia_Santa_Luc%C3%ADa_de_noche..jpg",
+  },
+  "doral-center": {
+    image: photo("sambil-maracaibo"),
+    credit: "Foto referencial de compras en Maracaibo · Wilfredor · CC0 · Wikimedia Commons",
+    source: "https://commons.wikimedia.org/wiki/File:Cupula_SAMBIL_Maracaibo.JPG",
+  },
+  "terminal-pasajeros-maracaibo": {
+    image: photo("puente-rafael-urdaneta"),
+    credit: "Foto referencial de transporte · Wilfredor · CC0 · Wikimedia Commons",
+    source: "https://commons.wikimedia.org/wiki/File:General_Rafael_Urdaneta_Bridge_view_from_the_lake_to_Cabimas_side.jpg",
+  },
 };
 
 /** Quita notas internas de borrador que todavía pueda traer la API. */

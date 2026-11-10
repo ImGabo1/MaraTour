@@ -99,7 +99,7 @@ export function PlaceSheet({
         score: popularityScore(item.slug),
       }))
       .filter((entry) => entry.shared > 0)
-      .sort((a, b) => b.shared - a.shared || b.score - a.score)
+      .sort((a, b) => b.shared - a.score || b.score - a.score)
       .slice(0, 3)
       .map((entry) => entry.place);
   }, [place, places]);
@@ -156,79 +156,83 @@ export function PlaceSheet({
           ["--place-ink" as string]: profile.colors.ink,
         }}
       >
+        {/* ===== Encabezado con imagen a la izquierda y identidad a la derecha (desktop) ===== */}
         <header className="vms-hero">
-          <Cover place={place} className="vms-hero__cover" />
-          <span className="vms-hero__shade" aria-hidden="true" />
-
-          <div className="vms-hero__top">
-            <span className="vms-hero__badge">
-              {category && <CategoryIcon name={category.icon} width={14} height={14} />}
-              {category ? t(category.nameKey) : place.categoryName}
-            </span>
-            <div className="vms-hero__actions">
-              <button
-                type="button"
-                className={`vms-hero__icon${saved ? " is-saved" : ""}`}
-                onClick={() => onToggleSave(place.slug)}
-                aria-pressed={saved}
-                aria-label={saved ? t("sheet.saved") : t("sheet.save")}
-              >
-                <IconHeart width={19} height={19} />
-              </button>
-              <button
-                type="button"
-                className="vms-hero__icon"
-                onClick={share}
-                aria-label={t("sheet.share")}
-              >
-                <IconShare width={18} height={18} />
-              </button>
-              <button
-                ref={closeRef}
-                type="button"
-                className="vms-hero__icon vms-hero__close"
-                onClick={onClose}
-                aria-label={t("sheet.close")}
-              >
-                <IconClose width={20} height={20} />
-              </button>
+          <div className="vms-hero__wrap">
+            <div className="vms-hero__media">
+              <Cover place={place} className="vms-hero__cover" />
+              <span className="vms-hero__shade" aria-hidden="true" />
+              <div className="vms-hero__top-right">
+                <span className="vms-hero__badge">
+                  {category && <CategoryIcon name={category.icon} width={14} height={14} />}
+                  {category ? t(category.nameKey) : place.categoryName}
+                </span>
+                <div className="vms-hero__actions">
+                  <button
+                    type="button"
+                    className={`vms-hero__icon${saved ? " is-saved" : ""}`}
+                    onClick={() => onToggleSave(place.slug)}
+                    aria-pressed={saved}
+                    aria-label={saved ? t("sheet.saved") : t("sheet.save")}
+                  >
+                    <IconHeart width={19} height={19} />
+                  </button>
+                  <button
+                    type="button"
+                    className="vms-hero__icon"
+                    onClick={share}
+                    aria-label={t("sheet.share")}
+                  >
+                    <IconShare width={18} height={18} />
+                  </button>
+                  <button
+                    ref={closeRef}
+                    type="button"
+                    className="vms-hero__icon vms-hero__close"
+                    onClick={onClose}
+                    aria-label={t("sheet.close")}
+                  >
+                    <IconClose width={20} height={20} />
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div className="vms-hero__identity">
-            <span className="vms-emblem" aria-hidden="true">
-              <PlaceEmblem name={profile.emblem} width={32} height={32} />
-            </span>
-            <div className="vms-hero__copy">
-              <p className="vms-hero__essence">
-                <IconSparkles width={14} height={14} />
-                {profile.essence}
-              </p>
-              <h2 id="sheet-title" className="vms-hero__title">
-                {place.name}
-              </h2>
-              <p className="vms-hero__lead">{place.shortDescription}</p>
-              <div className="vms-hero__chips">
-                <span className="vms-chip">
-                  <IconStar width={13} height={13} />
-                  {score}/100
-                </span>
-                <span className="vms-chip">
-                  <IconSun width={13} height={13} />
-                  {profile.bestTime}
-                </span>
-                {place.panoUrl && (
+            <div className="vms-hero__identity">
+              <span className="vms-emblem" aria-hidden="true">
+                <PlaceEmblem name={profile.emblem} width={34} height={34} />
+              </span>
+              <div className="vms-hero__copy">
+                <p className="vms-hero__essence">
+                  <IconSparkles width={14} height={14} />
+                  {profile.essence}
+                </p>
+                <h2 id="sheet-title" className="vms-hero__title">
+                  {place.name}
+                </h2>
+                <p className="vms-hero__lead">{place.shortDescription}</p>
+                <div className="vms-hero__chips">
                   <span className="vms-chip">
-                    <IconRotate width={13} height={13} />
-                    360°
+                    <IconStar width={13} height={13} />
+                    {score}/100
                   </span>
-                )}
-                {place.sector && (
                   <span className="vms-chip">
-                    <IconCheck width={13} height={13} />
-                    {place.sector === "publico" ? "Atención pública" : "Atención privada"}
+                    <IconSun width={13} height={13} />
+                    {profile.bestTime}
                   </span>
-                )}
+                  {place.panoUrl && (
+                    <span className="vms-chip">
+                      <IconRotate width={13} height={13} />
+                      360°
+                    </span>
+                  )}
+                  {place.sector && (
+                    <span className="vms-chip">
+                      <IconCheck width={13} height={13} />
+                      {place.sector === "publico" ? "Atención pública" : "Atención privada"}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </div>

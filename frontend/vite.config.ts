@@ -35,7 +35,7 @@ export default defineConfig({
         globPatterns: ["**/*.{js,css,html,svg,png,jpg,jpeg,webp,ico,json,woff2}"],
         // Las fotos de los lugares se guardan al verlas (runtimeCaching), no en la
         // instalación: son varios MB y no deben bloquear la primera visita.
-        globIgnores: ["**/media/lugares/**", "**/media/360/**", "**/media/video/**"],
+        globIgnores: ["**/media/lugares/**", "**/media/360/**", "**/media/video/**", "**/media/galeria/**"],
         navigateFallback: "/index.html",
         runtimeCaching: [
           {
@@ -61,6 +61,7 @@ export default defineConfig({
   // Navegadores un poco antiguos (Android 7+, iOS 12+ aprox.). Para más, añadir @vitejs/plugin-legacy.
   build: { target: ["es2018", "safari12"] },
   server: {
-    proxy: { "/api": { target: "http://localhost:3001", changeOrigin: true } },
+    // El frontend usa un respaldo local (public/data/places.json) cuando no hay backend.
+    // Proxy desactivado para evitar errores ECONNREFUSED en consola sin servidor API.
   },
 });

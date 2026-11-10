@@ -1,17 +1,20 @@
 import { useMemo, useState } from "react";
-import { MaracaiboScene } from "../components/MaracaiboScene";
+import { WELCOME_SLIDES } from "../data/welcome";
 import {
   IconArrowLeft,
   IconArrowRight,
-  IconCheck,
+  IconBoat,
+  IconChinita,
+  IconCompass,
   IconEye,
   IconEyeOff,
   IconLock,
   IconMail,
   IconMapPin,
   IconSparkles,
+  IconSun,
   IconUser,
-  IconUsers,
+  IconWave,
 } from "../components/icons";
 import {
   AuthError,
@@ -19,6 +22,7 @@ import {
   registerAccount,
   type AuthSession,
 } from "../lib/auth";
+import "./auth.css";
 
 interface Props {
   mode: "entrar" | "registro";
@@ -55,202 +59,313 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
         : await loginAccount({ email, password });
       onAuthenticated(session);
     } catch (caught) {
-      setError(caught instanceof AuthError ? caught.message : "No pudimos completar el acceso. Inténtalo otra vez.");
+      setError(
+        caught instanceof AuthError
+          ? caught.message
+          : "No pudimos completar el acceso. Inténtalo otra vez."
+      );
     } finally {
       setBusy(false);
     }
   };
 
+  const chinita = WELCOME_SLIDES[0]!;
+  const bridge = WELCOME_SLIDES[2] ?? chinita;
+  const vereda = WELCOME_SLIDES[1] ?? chinita;
+
   return (
-    <main className="vm-auth">
-      <div className="vm-auth__sky" aria-hidden="true">
-        <span className="vm-auth__glow vm-auth__glow--one" />
-        <span className="vm-auth__glow vm-auth__glow--two" />
-        <span className="vm-auth__sun" />
+    <main className="va-page">
+      {/* ===== Fondo tropical animado ===== */}
+      <div className="va-bg" aria-hidden="true">
+        <span className="va-aurora va-aurora--1" />
+        <span className="va-aurora va-aurora--2" />
+        <span className="va-aurora va-aurora--3" />
+
+        <div className="va-sun">
+          <span className="va-sun__glow" />
+          <span className="va-sun__rays" />
+          <span className="va-sun__core" />
+        </div>
+
+        <span className="va-cloud va-cloud--1" />
+        <span className="va-cloud va-cloud--2" />
+
+        <div className="va-tokens">
+          <span className="va-token va-token--1">
+            <IconChinita width={20} height={20} />
+          </span>
+          <span className="va-token va-token--2">
+            <IconBoat width={20} height={20} />
+          </span>
+          <span className="va-token va-token--3">
+            <IconWave width={20} height={20} />
+          </span>
+          <span className="va-token va-token--4">
+            <IconSun width={18} height={18} />
+          </span>
+        </div>
+
+        <div className="va-lake">
+          <span className="va-lake__wave va-lake__wave--1" />
+          <span className="va-lake__wave va-lake__wave--2" />
+          <svg
+            className="va-lake__bridge"
+            viewBox="0 0 1440 200"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M0 150C220 128 340 74 480 72s240 58 440 26 300-42 520 8"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              d="M210 132V58M226 130V58M690 92V32M706 90V32M1160 96V38M1176 94V38"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+          </svg>
+        </div>
       </div>
 
-      <div className="vm-auth__grid container">
-        <section className="vm-auth__panel">
-          <a className="vm-auth__back" href="#/bienvenida">
-            <IconArrowLeft width={16} height={16} />
-            Volver a la portada
-          </a>
-
-          <div className="vm-auth__brand">
-            <span className="vm-auth__brand-mark">
-              <img src="/icons/icon.svg" alt="" width={44} height={44} />
+      <div className="va-shell">
+        {/* ===== Columna visual ===== */}
+        <aside className="va-aside">
+          <a className="va-brand" href="#/bienvenida" aria-label="Maratour · Volver a la portada">
+            <span className="va-brand__mark" aria-hidden="true">
+              <img src="/icons/icon.svg" alt="" width={46} height={46} />
             </span>
-            <span>
-              <strong>Maratur</strong>
+            <span className="va-brand__text">
+              <strong>Maratour</strong>
               <small>Visita Maracaibo</small>
             </span>
+          </a>
+
+          <div className="va-aside__copy">
+            <p className="va-kicker">
+              <IconSparkles width={14} height={14} />
+              {isRegister ? "Crea tu cuenta" : "Bienvenido de vuelta"}
+            </p>
+            <h1 className="va-aside__title">
+              Tu próxima postal
+              <span>empieza aquí</span>
+            </h1>
+            <p className="va-aside__lead">
+              Guarda tus lugares favoritos, arma rutas por Maracaibo y vuelve a
+              ellas cuando quieras. La ciudad te espera a todo color.
+            </p>
           </div>
 
-          <p className="vm-kicker">
-            <IconSparkles width={15} height={15} />
-            {isRegister ? "Tu primera vez en Maratur" : "Qué bueno verte otra vez"}
-          </p>
-          <h1 className="vm-auth__title">
-            {isRegister ? "Crea tu cuenta y empieza a disfrutar" : "Entra y sigue tu ruta por Maracaibo"}
-          </h1>
-          <p className="vm-auth__lead">
-            {isRegister
-              ? "Guarda tus lugares favoritos, arma planes a tu medida y vuelve cuando quieras. Sin complicaciones."
-              : "Tu ruta, tus lugares guardados y los planes que armaste te están esperando."}
-          </p>
-
-          <div className="vm-auth__tabs" role="tablist" aria-label="Acceso a Maratur">
-            <a
-              href="#/entrar"
-              role="tab"
-              aria-selected={!isRegister}
-              className={!isRegister ? "is-active" : undefined}
-            >
-              Ingresar
-            </a>
-            <a
-              href="#/registro"
-              role="tab"
-              aria-selected={isRegister}
-              className={isRegister ? "is-active" : undefined}
-            >
-              Registrarme
-            </a>
+          <div className="va-postcards" aria-hidden="true">
+            <figure className="va-postcards__item va-postcards__item--one">
+              <img src={chinita.src} alt="" loading="lazy" decoding="async" />
+              <figcaption>Basílica de la Chinita</figcaption>
+            </figure>
+            <figure className="va-postcards__item va-postcards__item--two">
+              <img src={bridge.src} alt="" loading="lazy" decoding="async" />
+              <figcaption>Puente sobre el Lago</figcaption>
+            </figure>
+            <figure className="va-postcards__item va-postcards__item--three">
+              <img src={vereda.src} alt="" loading="lazy" decoding="async" />
+              <figcaption>Vereda del Lago</figcaption>
+            </figure>
+            <span className="va-postcards__pin">
+              <IconMapPin width={16} height={16} />
+              Maracaibo
+            </span>
           </div>
 
-          <form className="vm-auth__form" onSubmit={submit} noValidate>
-            {isRegister && (
-              <label className="vm-auth__field">
-                <span>Nombre completo</span>
-                <span className="vm-auth__control">
-                  <IconUser width={18} height={18} />
+          <ul className="va-stats">
+            <li>
+              <strong>43</strong>
+              <span>lugares</span>
+            </li>
+            <li>
+              <strong>7</strong>
+              <span>rutas</span>
+            </li>
+            <li>
+              <strong>100%</strong>
+              <span>gratis</span>
+            </li>
+          </ul>
+        </aside>
+
+        {/* ===== Columna del formulario ===== */}
+        <section className="va-panel">
+          <a className="va-panel__brand" href="#/bienvenida" aria-label="Maratour · Volver a la portada">
+            <span className="va-brand__mark" aria-hidden="true">
+              <img src="/icons/icon.svg" alt="" width={40} height={40} />
+            </span>
+            <span className="va-brand__text">
+              <strong>Maratour</strong>
+              <small>Visita Maracaibo</small>
+            </span>
+          </a>
+
+          <div className="va-card">
+            <a className="va-back" href="#/bienvenida">
+              <IconArrowLeft width={15} height={15} />
+              Volver a la portada
+            </a>
+
+            <header className="va-head">
+              <p className="va-head__kicker">
+                <IconSun width={14} height={14} />
+                Tierra del Sol Amada
+              </p>
+              <h2 className="va-head__title">
+                {isRegister ? "Crea tu cuenta" : "Ingresa a Maratour"}
+              </h2>
+              <p className="va-head__lead">
+                {isRegister
+                  ? "Solo toma un momento. Guarda lugares y arma tu ruta ideal."
+                  : "Continúa donde lo dejaste y descubre Maracaibo a todo color."}
+              </p>
+            </header>
+
+            <div className="va-tabs" role="tablist" aria-label="Acceso a Maratour">
+              <a
+                href="#/registro"
+                role="tab"
+                aria-selected={isRegister}
+                className={`va-tab${isRegister ? " is-active" : ""}`}
+              >
+                Registrarme
+              </a>
+              <a
+                href="#/entrar"
+                role="tab"
+                aria-selected={!isRegister}
+                className={`va-tab${!isRegister ? " is-active" : ""}`}
+              >
+                Ingresar
+              </a>
+            </div>
+
+            <form className="va-form" onSubmit={submit} noValidate>
+              {isRegister && (
+                <label className="va-field">
+                  <span className="va-label">Nombre completo</span>
+                  <span className="va-control">
+                    <IconUser width={18} height={18} />
+                    <input
+                      type="text"
+                      name="name"
+                      value={name}
+                      onChange={(event) => setName(event.target.value)}
+                      placeholder="Tu nombre y apellido"
+                      autoComplete="name"
+                      required
+                    />
+                  </span>
+                </label>
+              )}
+
+              <label className="va-field">
+                <span className="va-label">Correo electrónico</span>
+                <span className="va-control">
+                  <IconMail width={18} height={18} />
                   <input
-                    type="text"
-                    name="name"
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                    placeholder="¿Cómo te llamas?"
-                    autoComplete="name"
+                    type="email"
+                    name="email"
+                    inputMode="email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    placeholder="tucorreo@ejemplo.com"
+                    autoComplete="email"
+                    spellCheck={false}
                     required
                   />
                 </span>
               </label>
-            )}
 
-            <label className="vm-auth__field">
-              <span>Correo electrónico</span>
-              <span className="vm-auth__control">
-                <IconMail width={18} height={18} />
-                <input
-                  type="email"
-                  name="email"
-                  inputMode="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  placeholder="tucorreo@ejemplo.com"
-                  autoComplete="email"
-                  spellCheck={false}
-                  required
-                />
-              </span>
-            </label>
+              <label className="va-field">
+                <span className="va-label">
+                  Contraseña
+                  {isRegister && <small>Mínimo 8 caracteres</small>}
+                </span>
+                <span className="va-control">
+                  <IconLock width={18} height={18} />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    placeholder={isRegister ? "Crea una contraseña segura" : "Tu contraseña"}
+                    autoComplete={isRegister ? "new-password" : "current-password"}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="va-eye"
+                    onClick={() => setShowPassword((visible) => !visible)}
+                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  >
+                    {showPassword ? <IconEyeOff width={18} height={18} /> : <IconEye width={18} height={18} />}
+                  </button>
+                </span>
+              </label>
 
-            <label className="vm-auth__field">
-              <span>
-                Contraseña
-                {isRegister && <small>Mínimo 8 caracteres</small>}
-              </span>
-              <span className="vm-auth__control">
-                <IconLock width={18} height={18} />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  placeholder={isRegister ? "Crea una contraseña segura" : "Tu contraseña"}
-                  autoComplete={isRegister ? "new-password" : "current-password"}
-                  required
-                />
-                <button
-                  type="button"
-                  className="vm-auth__eye"
-                  onClick={() => setShowPassword((visible) => !visible)}
-                  aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-                >
-                  {showPassword ? <IconEyeOff width={18} height={18} /> : <IconEye width={18} height={18} />}
-                </button>
-              </span>
-            </label>
+              {isRegister && password && (
+                <div className={`va-strength is-${strength}`} aria-live="polite">
+                  <div className="va-strength__bars">
+                    <span />
+                    <span />
+                    <span />
+                  </div>
+                  <small>
+                    {strength <= 1
+                      ? "Contraseña débil"
+                      : strength === 2
+                        ? "Buena contraseña"
+                        : "Contraseña fuerte"}
+                  </small>
+                </div>
+              )}
 
-            {isRegister && password && (
-              <div className={`vm-auth__strength is-${strength}`} aria-live="polite">
-                <span />
-                <span />
-                <span />
-                <small>
-                  {strength <= 1 ? "Contraseña débil" : strength === 2 ? "Buena contraseña" : "Contraseña fuerte"}
-                </small>
-              </div>
-            )}
+              {error && (
+                <p className="va-error" role="alert">
+                  {error}
+                </p>
+              )}
 
-            {error && (
-              <p className="vm-auth__error" role="alert">
-                {error}
-              </p>
-            )}
+              <button type="submit" className="va-submit" disabled={busy}>
+                <span>
+                  {busy
+                    ? "Un momento…"
+                    : isRegister
+                      ? "Crear mi cuenta gratis"
+                      : "Entrar a Maratour"}
+                </span>
+                {!busy && <IconArrowRight width={18} height={18} />}
+              </button>
+            </form>
 
-            <button type="submit" className="vm-btn vm-btn--primary vm-btn--xl vm-auth__submit" disabled={busy}>
-              {busy ? "Un momento…" : isRegister ? "Crear mi cuenta" : "Entrar a Maratur"}
-              {!busy && <IconArrowRight width={18} height={18} />}
+            <div className="va-divider">
+              <span>o entra sin registrarte</span>
+            </div>
+
+            <button type="button" className="va-guest" onClick={onGuest}>
+              <IconCompass width={17} height={17} />
+              Explorar como invitado
             </button>
-          </form>
 
-          <div className="vm-auth__divider">
-            <span>o si prefieres</span>
+            <p className="va-switch">
+              {isRegister
+                ? "¿Ya tienes una cuenta registrada?"
+                : "¿Aún no tienes una cuenta?"}{" "}
+              <a href={isRegister ? "#/entrar" : "#/registro"}>
+                {isRegister ? "Inicia sesión aquí" : "Regístrate gratis"}
+              </a>
+            </p>
           </div>
 
-          <button type="button" className="vm-btn vm-btn--soft vm-auth__guest" onClick={onGuest}>
-            <IconUsers width={18} height={18} />
-            Explorar como invitado
-          </button>
-
-          <p className="vm-auth__switch">
-            {isRegister ? "¿Ya tienes cuenta?" : "¿Todavía no tienes cuenta?"}{" "}
-            <a href={isRegister ? "#/entrar" : "#/registro"}>
-              {isRegister ? "Ingresa aquí" : "Regístrate gratis"}
-            </a>
-          </p>
-
-          <p className="vm-auth__legal">
-            <IconLock width={13} height={13} />
-            Tu cuenta se guarda en el servidor. El modo invitado sigue siendo local.
+          <p className="va-footnote">
+            <IconSun width={12} height={12} />
+            Maracaibo, Zulia · Venezuela
           </p>
         </section>
-
-        <aside className="vm-auth__aside" aria-label="Maracaibo te espera">
-          <MaracaiboScene className="vm-auth__scene" />
-          <div className="vm-auth__aside-copy">
-            <p className="vm-auth__aside-kicker">
-              <IconMapPin width={15} height={15} />
-              Maracaibo · Zulia
-            </p>
-            <h2>La ciudad se disfruta mejor cuando sabes por dónde empezar.</h2>
-            <ul>
-              <li>
-                <IconCheck width={16} height={16} />
-                Fotos reales y vistas 360° de los lugares
-              </li>
-              <li>
-                <IconCheck width={16} height={16} />
-                Planes inteligentes según tu tiempo y presupuesto
-              </li>
-              <li>
-                <IconCheck width={16} height={16} />
-                Diccionario maracucho incluido
-              </li>
-            </ul>
-          </div>
-        </aside>
       </div>
     </main>
   );

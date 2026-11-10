@@ -475,6 +475,55 @@ export const IconBoat = (p: P) => (
   </svg>
 );
 
+export const IconPlay = (p: P) => (
+  <svg {...base} {...p} viewBox="0 0 24 24" fill="currentColor">
+    <polygon points="5 3 19 12 5 21 5 3" />
+  </svg>
+);
+
+export const IconPause = (p: P) => (
+  <svg {...base} {...p} viewBox="0 0 24 24" fill="currentColor">
+    <rect x="6" y="4" width="4" height="16" rx="1" />
+    <rect x="14" y="4" width="4" height="16" rx="1" />
+  </svg>
+);
+
+export const IconVolumeMute = (p: P) => (
+  <svg {...base} {...p}>
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+    <line x1="23" y1="9" x2="17" y2="15" />
+    <line x1="17" y1="9" x2="23" y2="15" />
+  </svg>
+);
+
+export const IconSunGolden = (p: P) => (
+  <svg
+    viewBox="0 0 120 74"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ display: "inline-block", verticalAlign: "middle" }}
+    {...p}
+  >
+    {/* Rayos de sol radiantes */}
+    <line x1="60" y1="4" x2="60" y2="15" stroke="#F59E0B" strokeWidth="4.5" strokeLinecap="round" />
+    <line x1="43" y1="10" x2="48" y2="20" stroke="#F59E0B" strokeWidth="4.5" strokeLinecap="round" />
+    <line x1="77" y1="10" x2="72" y2="20" stroke="#F59E0B" strokeWidth="4.5" strokeLinecap="round" />
+    <line x1="27" y1="21" x2="35" y2="29" stroke="#F59E0B" strokeWidth="4.5" strokeLinecap="round" />
+    <line x1="93" y1="21" x2="85" y2="29" stroke="#F59E0B" strokeWidth="4.5" strokeLinecap="round" />
+    <line x1="14" y1="38" x2="24" y2="42" stroke="#F59E0B" strokeWidth="4.5" strokeLinecap="round" />
+    <line x1="106" y1="38" x2="96" y2="42" stroke="#F59E0B" strokeWidth="4.5" strokeLinecap="round" />
+    <line x1="8" y1="58" x2="20" y2="58" stroke="#F59E0B" strokeWidth="4.5" strokeLinecap="round" />
+    <line x1="112" y1="58" x2="100" y2="58" stroke="#F59E0B" strokeWidth="4.5" strokeLinecap="round" />
+    {/* Cúpula dorada del Sol Amado */}
+    <path d="M26 66 A34 34 0 0 1 94 66 Z" fill="#FBBF24" stroke="#F59E0B" strokeWidth="2.5" />
+    {/* Retícula sutil */}
+    <path d="M38 66 A22 22 0 0 1 82 66" stroke="#D97706" strokeWidth="1.5" strokeDasharray="3 2" fill="none" opacity="0.6" />
+    <line x1="60" y1="32" x2="60" y2="66" stroke="#D97706" strokeWidth="1.5" strokeDasharray="3 2" opacity="0.6" />
+    <path d="M47 38 Q56 50 47 66" stroke="#D97706" strokeWidth="1.2" strokeDasharray="2 2" fill="none" opacity="0.5" />
+    <path d="M73 38 Q64 50 73 66" stroke="#D97706" strokeWidth="1.2" strokeDasharray="2 2" fill="none" opacity="0.5" />
+  </svg>
+);
+
 export type CategoryIconName =
   | "landmark"
   | "bank"

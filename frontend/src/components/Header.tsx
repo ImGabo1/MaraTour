@@ -59,7 +59,7 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
               <img src="/icons/icon.svg" alt="" width={44} height={44} />
             </span>
             <span className="vm-brand__text">
-              <strong>Maratur</strong>
+              <strong>Maratour</strong>
               <span>Visita Maracaibo</span>
             </span>
           </a>
@@ -90,9 +90,6 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
                 <strong>{session.name}</strong>
                 <small>{session.kind === "guest" ? "Sesión de invitado" : session.email}</small>
               </span>
-              <button type="button" className="vm-user__out" onClick={onLogout} aria-label="Cerrar sesión" title="Cerrar sesión">
-                <IconLogout width={17} height={17} />
-              </button>
             </div>
 
             <a
@@ -128,16 +125,16 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
               </button>
             )}
 
-            {(mode === "prompt" || mode === "ios") && (
-              <button
-                type="button"
-                className="vm-install-btn"
-                onClick={() => (mode === "prompt" ? install() : setIosHelp(true))}
-              >
-                <IconDownload width={15} height={15} />
-                <span>{t("nav.installShort")}</span>
-              </button>
-            )}
+            <button
+              type="button"
+              className="vm-install-btn"
+              onClick={() => (mode === "prompt" ? install() : setIosHelp(true))}
+              aria-label="Descargar Maratour en tu dispositivo"
+              title="Descargar Maratour en tu dispositivo"
+            >
+              <IconDownload width={16} height={16} />
+              <span>{t("nav.installShort")}</span>
+            </button>
 
             <button
               type="button"
@@ -147,6 +144,16 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
               aria-label={menuOpen ? t("common.close") : t("nav.home")}
             >
               {menuOpen ? <IconClose width={21} height={21} /> : <IconMenu width={21} height={21} />}
+            </button>
+
+            <button
+              type="button"
+              className="vm-header__logout"
+              onClick={onLogout}
+              aria-label="Cerrar sesión"
+              title="Cerrar sesión"
+            >
+              <IconLogout width={17} height={17} />
             </button>
           </div>
         </div>

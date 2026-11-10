@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { CATEGORIES, CATEGORY_MEDIA, FEATURED_CATEGORY_SLUGS, categoryBySlug, type CategorySlug } from "../data/categories";
+import { CATEGORY_MEDIA, FEATURED_CATEGORY_SLUGS, categoryBySlug, type CategorySlug } from "../data/categories";
 import { phraseOfTheDay } from "../data/dictionary";
 import { profileFor } from "../data/placeProfiles";
 import { WELCOME_SLIDES } from "../data/welcome";
@@ -21,12 +21,10 @@ import {
   IconClock,
   IconCompass,
   IconHeart,
-  IconMapPin,
   IconRotate,
   IconSparkles,
   IconStar,
   IconSun,
-  IconUsers,
   IconWallet,
   IconWave,
 } from "../components/icons";
@@ -42,8 +40,6 @@ interface Props {
   onSearch: (query: string) => void;
   onOpenChat: () => void;
 }
-
-const SEARCH_IDEAS = ["Basílica", "Atardecer", "Patacón", "360°", "Museo"] as const;
 
 const QUICK_ACTIONS: readonly {
   title: string;
@@ -134,7 +130,6 @@ export function HomePage({
   const phrase = phraseOfTheDay();
   const categoryCounts = useMemo(() => countByCategory(places), [places]);
   const placeBySlug = useMemo(() => new Map(places.map((place) => [place.slug, place])), [places]);
-  const panoCount = useMemo(() => places.filter((place) => place.panoUrl).length, [places]);
 
   const submitSearch = (event: React.FormEvent) => {
     event.preventDefault();
@@ -142,17 +137,87 @@ export function HomePage({
     onNavigate("explorar");
   };
 
-  const searchIdea = (term: string) => {
-    onSearch(term);
-    onNavigate("explorar");
-  };
-
   return (
     <main className="vmh-home">
       {/* ===== Portada ===== */}
       <section className="vmh-hero">
+        <div className="vmh-hero__topline" aria-hidden="true">
+          <div className="container vmh-hero__topline-inner">
+            <div className="vmh-hero__place-badge">
+              <span className="vmh-hero__place-dot" />
+              <span>Maracaibo · Zulia · Tierra del Sol Amada</span>
+            </div>
+          </div>
+        </div>
+        <div className="vmh-hero__bridge" aria-hidden="true">
+          <svg className="bridge-bg-anim" viewBox="0 0 1200 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="bridgeSilhouette" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#0284c7" stopOpacity="0.85" />
+                <stop offset="70%" stopColor="#0369a1" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="cableGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#0284c7" stopOpacity="0.7" />
+                <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.2" />
+              </linearGradient>
+            </defs>
+
+            <path d="M 600 220 L 0 80 L 0 280 Z" fill="#fbbf24" opacity="0.05" />
+            <path d="M 600 220 L 1200 80 L 1200 280 Z" fill="#fbbf24" opacity="0.05" />
+            <path d="M -50 225 L 1250 225" stroke="url(#bridgeSilhouette)" strokeWidth="5" strokeDasharray="12 4" />
+            <path d="M -50 222 L 1250 222" stroke="#0284c7" strokeWidth="2" opacity="0.4" />
+            <g fill="#f59e0b" opacity="0.85">
+              <circle cx="50" cy="220" r="2" />
+              <circle cx="150" cy="220" r="2" />
+              <circle cx="280" cy="220" r="2.5" />
+              <circle cx="430" cy="220" r="2.5" />
+              <circle cx="600" cy="220" r="3" />
+              <circle cx="770" cy="220" r="2.5" />
+              <circle cx="920" cy="220" r="2.5" />
+              <circle cx="1050" cy="220" r="2" />
+              <circle cx="1150" cy="220" r="2" />
+            </g>
+            <g>
+              <path d="M 230 225 L 270 65 L 290 65 L 330 225" fill="none" stroke="url(#bridgeSilhouette)" strokeWidth="4" />
+              <line x1="250" y1="145" x2="310" y2="145" stroke="#0284c7" strokeWidth="3" opacity="0.6" />
+              <g stroke="url(#cableGrad)" strokeWidth="1.5">
+                <line x1="280" y1="65" x2="130" y2="222" />
+                <line x1="280" y1="65" x2="180" y2="222" />
+                <line x1="280" y1="65" x2="230" y2="222" />
+                <line x1="280" y1="65" x2="330" y2="222" />
+                <line x1="280" y1="65" x2="380" y2="222" />
+                <line x1="280" y1="65" x2="430" y2="222" />
+              </g>
+            </g>
+            <g>
+              <path d="M 540 225 L 588 35 L 612 35 L 660 225" fill="none" stroke="url(#bridgeSilhouette)" strokeWidth="6" />
+              <rect x="585" y="25" width="30" height="12" rx="2" fill="#0284c7" opacity="0.7" />
+              <line x1="560" y1="130" x2="640" y2="130" stroke="#0369a1" strokeWidth="4" opacity="0.8" />
+              <g stroke="url(#cableGrad)" strokeWidth="2">
+                <line x1="600" y1="35" x2="410" y2="222" />
+                <line x1="600" y1="35" x2="475" y2="222" />
+                <line x1="600" y1="35" x2="535" y2="222" />
+                <line x1="600" y1="35" x2="665" y2="222" />
+                <line x1="600" y1="35" x2="725" y2="222" />
+                <line x1="600" y1="35" x2="790" y2="222" />
+              </g>
+            </g>
+            <g>
+              <path d="M 870 225 L 910 65 L 930 65 L 970 225" fill="none" stroke="url(#bridgeSilhouette)" strokeWidth="4" />
+              <line x1="890" y1="145" x2="950" y2="145" stroke="#0284c7" strokeWidth="3" opacity="0.6" />
+              <g stroke="url(#cableGrad)" strokeWidth="1.5">
+                <line x1="920" y1="65" x2="770" y2="222" />
+                <line x1="920" y1="65" x2="820" y2="222" />
+                <line x1="920" y1="65" x2="870" y2="222" />
+                <line x1="920" y1="65" x2="970" y2="222" />
+                <line x1="920" y1="65" x2="1020" y2="222" />
+                <line x1="920" y1="65" x2="1070" y2="222" />
+              </g>
+            </g>
+          </svg>
+        </div>
         <div className="vmh-hero__sky" aria-hidden="true">
-          <span className="vmh-hero__sun" />
           <span className="vmh-hero__cloud vmh-hero__cloud--one" />
           <span className="vmh-hero__cloud vmh-hero__cloud--two" />
           <span className="vmh-hero__cloud vmh-hero__cloud--three" />
@@ -162,32 +227,59 @@ export function HomePage({
         </div>
 
         <div className="container vmh-hero__inner">
-          <div className="vmh-hero__top">
-            <p className="vmh-eyebrow">
-              <IconMapPin width={14} height={14} />
-              Maracaibo · Zulia · Venezuela
-            </p>
-            <p className="vmh-hero__made">
-              <IconSparkles width={14} height={14} />
-              Guía local hecha a mano
-            </p>
-          </div>
-
           <div className="vmh-hero__grid">
             <div className="vmh-hero__copy">
-              <p className="vmh-hero__stamp">
-                <IconSun width={15} height={15} />
-                Tierra del sol amada
-              </p>
-              <h1 className="vmh-hero__title">
-                Maracaibo se disfruta
-                <span>a todo color</span>
-              </h1>
-              <p className="vmh-hero__lead">
-                Plazas con sombra, sabores que se recuerdan, atardeceres frente al lago y una
-                historia que se camina. Encuentra tu próximo plan, míralo en 360° y llega sin
-                perderte.
-              </p>
+              <div className="vmh-hero__sun-wrap">
+                <svg className="vmh-hero__sun-svg" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <defs>
+                    <radialGradient id="sunCoreGrad" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stopColor="#FFFFFF" />
+                      <stop offset="25%" stopColor="#FEF08A" />
+                      <stop offset="65%" stopColor="#FBBF24" />
+                      <stop offset="100%" stopColor="#F59E0B" />
+                    </radialGradient>
+                    <radialGradient id="sunAuraGrad" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stopColor="#FBBF24" stopOpacity="0.5" />
+                      <stop offset="60%" stopColor="#F59E0B" stopOpacity="0.15" />
+                      <stop offset="100%" stopColor="#F59E0B" stopOpacity="0" />
+                    </radialGradient>
+                    <linearGradient id="rayGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#FBBF24" />
+                      <stop offset="100%" stopColor="#D97706" />
+                    </linearGradient>
+                  </defs>
+                  <circle cx="120" cy="120" r="110" fill="url(#sunAuraGrad)" />
+                  <g className="sun-ray-spin">
+                    <g fill="url(#rayGrad)">
+                      <path d="M120 10 L126 35 L114 35 Z" />
+                      <path d="M120 230 L126 205 L114 205 Z" />
+                      <path d="M10 120 L35 126 L35 114 Z" />
+                      <path d="M230 120 L205 126 L205 114 Z" />
+                      <path d="M42 42 L64 54 L54 64 Z" />
+                      <path d="M198 198 L176 186 L186 176 Z" />
+                      <path d="M42 198 L54 176 L64 186 Z" />
+                      <path d="M198 42 L186 64 L176 54 Z" />
+                    </g>
+                    <g stroke="#FBBF24" strokeWidth="2" strokeLinecap="round">
+                      <line x1="120" y1="20" x2="120" y2="40" />
+                      <line x1="120" y1="200" x2="120" y2="220" />
+                      <line x1="20" y1="120" x2="40" y2="120" />
+                      <line x1="200" y1="120" x2="220" y2="120" />
+                      <line x1="49" y1="49" x2="63" y2="63" />
+                      <line x1="177" y1="177" x2="191" y2="191" />
+                      <line x1="49" y1="191" x2="63" y2="177" />
+                      <line x1="177" y1="63" x2="191" y2="49" />
+                    </g>
+                  </g>
+                  <circle cx="120" cy="120" r="62" fill="none" stroke="#FBBF24" strokeWidth="2" strokeDasharray="4 4" opacity="0.8" />
+                  <circle cx="120" cy="120" r="54" fill="url(#sunCoreGrad)" stroke="#D97706" strokeWidth="2" />
+                  <circle cx="120" cy="120" r="44" fill="none" stroke="#FFFFFF" strokeWidth="1.5" opacity="0.7" />
+                  <circle cx="120" cy="120" r="36" fill="none" stroke="#78350F" strokeWidth="1" strokeDasharray="3 3" opacity="0.4" />
+                </svg>
+              </div>
+
+              <h1 className="vmh-hero__title-main">Maracaibo</h1>
+              <h2 className="vmh-hero__title-sub">Tierra Del Sol Amada</h2>
 
               <form className="vmh-search" onSubmit={submitSearch} role="search">
                 <span className="vmh-search__icon" aria-hidden="true">
@@ -207,82 +299,13 @@ export function HomePage({
                 </button>
               </form>
 
-              <div className="vmh-search__ideas" aria-label="Búsquedas rápidas">
-                <span>Prueba con:</span>
-                {SEARCH_IDEAS.map((idea) => (
-                  <button key={idea} type="button" onClick={() => searchIdea(idea)}>
-                    {idea}
-                  </button>
-                ))}
-              </div>
-
-              <div className="vmh-hero__actions">
-                <button
-                  type="button"
-                  className="vmh-btn vmh-btn--primary"
-                  onClick={() => onNavigate("plan")}
-                >
-                  <IconSparkles width={17} height={17} />
-                  Arma tu plan perfecto
-                </button>
-                <button
-                  type="button"
-                  className="vmh-btn vmh-btn--soft"
-                  onClick={() => onNavigate("explorar")}
-                >
-                  <IconCompass width={17} height={17} />
-                  Ver todos los lugares
-                </button>
-              </div>
-
-              <ul className="vmh-hero__perks">
-                <li>
-                  <IconCamera width={15} height={15} />
-                  Fotos y 360° reales
-                </li>
-                <li>
-                  <IconUsers width={15} height={15} />
-                  Para toda la familia
-                </li>
-                <li>
-                  <IconHeart width={15} height={15} />
-                  Guarda y comparte
-                </li>
-              </ul>
             </div>
 
             <div className="vmh-hero__visual">
               <HomeCarousel slides={WELCOME_SLIDES} onOpenPlace={onOpenPlace} />
-              <div className="vmh-hero__sticker" aria-hidden="true">
-                <span className="vmh-hero__sticker-icon">
-                  <IconSun width={20} height={20} />
-                </span>
-                <span>
-                  <small>Sol de Maracaibo</small>
-                  <strong>Todo el año</strong>
-                </span>
-              </div>
             </div>
           </div>
 
-          <dl className="vmh-hero__stats">
-            <div>
-              <dt>Lugares curados</dt>
-              <dd>{places.length || "—"}</dd>
-            </div>
-            <div>
-              <dt>Temas para explorar</dt>
-              <dd>{CATEGORIES.length}</dd>
-            </div>
-            <div>
-              <dt>Con vista 360°</dt>
-              <dd>{panoCount || "—"}</dd>
-            </div>
-            <div>
-              <dt>Palabras maracuchas</dt>
-              <dd>74</dd>
-            </div>
-          </dl>
         </div>
       </section>
 

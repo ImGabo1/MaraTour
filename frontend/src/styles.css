@@ -24,9 +24,8 @@
   --shadow-sm: 0 1px 2px rgba(19, 42, 51, 0.04);
   --shadow-md: 0 16px 36px -24px rgba(19, 42, 51, 0.34);
   --shadow-lg: 0 30px 70px -32px rgba(19, 42, 51, 0.45);
-  --font: "Avenir Next", "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --font: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  --serif: Arial, "Helvetica Neue", Helvetica, sans-serif;
   --header-h: 68px;
 }
 

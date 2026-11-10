@@ -186,7 +186,7 @@ const RAW: Record<string, Seed> = {
     budget: "Entrada gratuita",
     idealFor: "Fe, historia y fotos",
     history:
-      "La devoción por la Virgen de Chiquinquirá nació junto al lago y creció hasta volverse el símbolo espiritual del estado. Cada 18 de noviembre la ciudad entera se organiza alrededor de la Basílica: hay misas, música, ferias y una marea de gente vestida de colores. El templo actual guarda esa memoria colectiva en sus vitrales, sus altares y en la plaza que lo abraza.",
+      "La devoción por la Virgen de Chiquinquirá nació junto al lago y creció hasta volverse el símbolo espiritual del estado. Cada 18 de noviembre la ciudad entera se organiza alrededor de la Basílica: hay misas, música, ferias y una marea de gente vestida de colores. El templo actual guarda esa memoria colectiva en sus vitrales, sus altares y en la plaza que lo abraza. Su fachada rosa y sus vitrales son el ícono espiritual más reconocido de Maracaibo.",
     highlights: [
       "El altar mayor y el manto de la Virgen",
       "Los vitrales que cuentan la historia de la devoción",
@@ -213,7 +213,7 @@ const RAW: Record<string, Seed> = {
     budget: "Gratis, con compras opcionales",
     idealFor: "Caminar, fotografiar y comprar",
     history:
-      "La Calle Carabobo fue durante décadas el escenario del comercio y la vida social maracuchas. Sus casas de techos altos, balcones y patios interiores cuentan una ciudad que creció alrededor del puerto y del mercado. Hoy convive lo antiguo con lo nuevo: tiendas, cafés y fachadas restauradas que siguen invitando a caminar sin apuro.",
+      "La Calle Carabobo fue durante décadas el escenario del comercio y la vida social maracuchas. Sus casas de techos altos, balcones y patios interiores cuentan una ciudad que creció alrededor del puerto y del mercado. Hoy convive lo antiguo con lo nuevo: tiendas, cafés y fachadas restauradas que siguen invitando a caminar sin apuro. Es el corazón colonial de Maracaibo, donde cada fachada tiene una historia y cada balcón una vista al lago.",
     highlights: [
       "Fachadas patrimoniales y balcones de colores",
       "El bullicio del comercio tradicional",

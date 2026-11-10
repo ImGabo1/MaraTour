@@ -31,31 +31,40 @@ const photo = (slug: string): string => `/media/lugares/${slug}.jpg`;
 export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   "basilica-chiquinquira": {
     image: photo("basilica-chiquinquira"),
+    pano: "/media/360/basilica-chiquinquira.jpg",
+    video: "/media/video/basilica-chiquinquira.mp4",
     credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Bas%C3%ADlica_de_nuestra_se%C3%B1ora_de_la_Chiquinquira.jpg",
   },
   "teatro-baralt": {
     image: photo("teatro-baralt"),
+    pano: "/media/360/teatro-baralt.jpg",
+    video: "/media/video/teatro-baralt.mp4",
     credit: "Foto: Béria Lima de Rodríguez · CC BY-SA 3.0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Teatro_Baralt_by_Beria.jpg",
   },
   "plaza-bolivar": {
     image: photo("plaza-bolivar"),
+    pano: "/media/360/plaza-bolivar.jpg",
     credit: "Foto: Zerojosefer · CC BY-SA 4.0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Plaza_Bol%C3%ADvar_(Maracaibo).jpg",
   },
   "calle-carabobo": {
     image: photo("calle-carabobo"),
+    pano: "/media/360/calle-carabobo.jpg",
     credit: "Foto: Rjcastillo · CC BY 4.0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Calle_Carabobo,_Maracaibo_MG_484420250831.jpg",
   },
   "santa-lucia": {
     image: photo("santa-lucia"),
+    pano: "/media/360/santa-lucia.jpg",
+    video: "/media/video/santa-lucia.mp4",
     credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Blue_tower_of_Iglesia_de_Santa_Luc%C3%ADa_above_an_evening_street_gathering_in_Maracaibo,_Venezuela.jpg",
   },
   "paseo-del-lago": {
     image: photo("paseo-del-lago"),
+    pano: "/media/360/paseo-del-lago.jpg",
     credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Ca%C3%B1ada_del_Paseo_del_Lago,_Maracaibo,_Estado_Zulia,_Venezuela_2.jpg",
   },
@@ -66,11 +75,14 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   },
   "plaza-republica": {
     image: photo("plaza-republica"),
+    pano: "/media/360/plaza-republica.jpg",
+    video: "/media/video/plaza-republica.mp4",
     credit: "Foto: Jarrypalomino · CC BY-SA 3.0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Plaza_de_la_Rep%C3%BAblica,_Maracaibo.jpg",
   },
   "plaza-monumento-chinita": {
     image: photo("plaza-monumento-chinita"),
+    pano: "/media/360/plaza-monumento-chinita.jpg",
     credit: "Foto: Loreina Velandia · CC BY-SA 3.0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Plaza_monumento_a_la_virgen_del_Chiquinquira._Maracaibo_estado_Zulia.JPG",
   },
@@ -91,6 +103,7 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   },
   "centro-arte-lia-bermudez": {
     image: photo("centro-arte-lia-bermudez"),
+    pano: "/media/360/centro-arte-lia-bermudez.jpg",
     credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Art_Center_Maracaibo_Lia_Bermudez.jpg",
   },
@@ -101,6 +114,8 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   },
   "parque-urdaneta": {
     image: photo("parque-urdaneta"),
+    pano: "/media/360/parque-urdaneta.jpg",
+    video: "/media/video/parque-urdaneta.mp4",
     credit: "Foto: Zerojosefer · CC BY-SA 4.0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Parque_Rafael_Urdaneta_005.jpg",
   },
@@ -151,6 +166,8 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   },
   "vereda-del-lago": {
     image: photo("vereda-del-lago"),
+    pano: "/media/360/vereda-del-lago.jpg",
+    video: "/media/video/vereda-del-lago.mp4",
     credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Sunrise_on_Vereda_del_Lago_and_Eagle_Austin_Ship_in_Maracaibo_lake.jpg",
   },
@@ -186,6 +203,7 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   },
   "malecon-maracaibo": {
     image: photo("paseo-del-lago"),
+    pano: "/media/360/malecon-maracaibo.jpg",
     credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Ca%C3%B1ada_del_Paseo_del_Lago,_Maracaibo,_Estado_Zulia,_Venezuela_2.jpg",
   },

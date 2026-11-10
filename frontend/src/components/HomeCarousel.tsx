@@ -1,152 +1,182 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { WelcomeSlide } from "../data/welcome";
-import { useI18n } from "../i18n/I18nProvider";
-import { IconArrowLeft, IconArrowRight, IconCamera, IconHeart, IconMapPin, IconSparkles } from "./icons";
+import { IconArrowLeft, IconArrowRight, IconCompass, IconMapPin } from "./icons";
 
 interface Props {
   slides: readonly WelcomeSlide[];
   onOpenPlace: (slug: string) => void;
 }
 
-/**
- * Carrusel principal de la portada.
- * Avanza solo, se pausa al pasar el mouse o al enfocar y responde a flechas,
- * puntos y gestos de deslizamiento.
- */
+const AUTOPLAY_MS = 5200;
+
 export function HomeCarousel({ slides, onOpenPlace }: Props) {
-  const { t } = useI18n();
+  const viewportRef = useRef<HTMLDivElement | null>(null);
+  const pausedRef = useRef(false);
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
-  const touchStart = useRef<number | null>(null);
   const total = slides.length;
+  const pad = (value: number) => String(value + 1).padStart(2, "0");
+
+  const scrollToIndex = useCallback((index: number) => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    const card = viewport.querySelector<HTMLElement>(`[data-carousel-card="${index}"]`);
+    if (!card) return;
+    viewport.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
+  }, []);
+
+  const goTo = useCallback(
+    (index: number) => {
+      if (!total) return;
+      const next = ((index % total) + total) % total;
+      setActive(next);
+      scrollToIndex(next);
+    },
+    [scrollToIndex, total],
+  );
+
+  const go = (step: number) => goTo(active + step);
 
   useEffect(() => {
-    if (paused || total < 2) return;
+    pausedRef.current = paused;
+  }, [paused]);
+
+  useEffect(() => {
+    if (total < 2) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const timer = window.setInterval(() => {
-      setActive((index) => (index + 1) % total);
-    }, 5600);
+      if (pausedRef.current) return;
+      setActive((current) => {
+        const next = (current + 1) % total;
+        scrollToIndex(next);
+        return next;
+      });
+    }, AUTOPLAY_MS);
     return () => window.clearInterval(timer);
-  }, [paused, total]);
+  }, [scrollToIndex, total]);
 
-  const go = (step: number) => setActive((index) => (index + step + total) % total);
-  const current = slides[active];
-
-  if (!current) return null;
-
-  const onTouchStart = (event: React.TouchEvent) => {
-    touchStart.current = event.touches[0]?.clientX ?? null;
-  };
-
-  const onTouchEnd = (event: React.TouchEvent) => {
-    const start = touchStart.current;
-    const end = event.changedTouches[0]?.clientX ?? null;
-    touchStart.current = null;
-    if (start === null || end === null) return;
-    if (Math.abs(end - start) < 48) return;
-    go(end < start ? 1 : -1);
+  const handleScroll = () => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    const cards = Array.from(viewport.querySelectorAll<HTMLElement>("[data-carousel-card]"));
+    if (!cards.length) return;
+    const center = viewport.scrollLeft + viewport.clientWidth / 2;
+    let nearest = 0;
+    let distance = Number.POSITIVE_INFINITY;
+    cards.forEach((card, index) => {
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const current = Math.abs(cardCenter - center);
+      if (current < distance) {
+        distance = current;
+        nearest = index;
+      }
+    });
+    setActive(nearest);
   };
 
   return (
-    <div
+    <section
       className={`vmh-carousel${paused ? " is-paused" : ""}`}
+      aria-roledescription="carrusel"
+      aria-label="Postales de Maracaibo"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
-      role="region"
-      aria-roledescription="carrusel"
-      aria-label="Postales de Maracaibo"
     >
-      <div className="vmh-carousel__stage" aria-live="polite">
-        {slides.map((slide, index) => {
-          const isActive = index === active;
-          return (
-            <figure
-              key={slide.src}
-              className={`vmh-carousel__slide${isActive ? " is-active" : ""}`}
-              aria-hidden={!isActive}
-            >
-              <img
-                src={slide.src}
-                alt={`${slide.title} · ${slide.caption}`}
-                loading={index === 0 ? "eager" : "lazy"}
-                decoding="async"
-              />
-              <span className="vmh-carousel__shade" aria-hidden="true" />
-              <figcaption>
-                <span className="vmh-carousel__kicker">
-                  <IconMapPin width={13} height={13} />
-                  {slide.kicker}
-                </span>
-                <strong>{slide.title}</strong>
-                <p>{slide.caption}</p>
-                {slide.slug && (
-                  <button
-                    type="button"
-                    className="vmh-carousel__cta"
-                    onClick={() => onOpenPlace(slide.slug!)}
-                  >
-                    {t("places.details")}
-                    <IconArrowRight width={15} height={15} />
-                  </button>
-                )}
-              </figcaption>
-            </figure>
-          );
-        })}
+      <div className="vmh-carousel__head">
+        <div className="vmh-carousel__heading">
+          <p className="vmh-carousel__eyebrow">
+            <IconCompass width={13} height={13} />
+            Postales de la ciudad
+          </p>
+          <h3 className="vmh-carousel__title">Maracaibo, en imágenes</h3>
+        </div>
 
-        <span className="vmh-carousel__badge">
-          <IconCamera width={14} height={14} />
-          Postal {active + 1}/{total}
-        </span>
-
-        <button
-          type="button"
-          className="vmh-carousel__arrow vmh-carousel__arrow--prev"
-          onClick={() => go(-1)}
-          aria-label="Postal anterior"
-        >
-          <IconArrowLeft width={19} height={19} />
-        </button>
-        <button
-          type="button"
-          className="vmh-carousel__arrow vmh-carousel__arrow--next"
-          onClick={() => go(1)}
-          aria-label="Postal siguiente"
-        >
-          <IconArrowRight width={19} height={19} />
-        </button>
-
-        <div className="vmh-carousel__progress" aria-hidden="true">
-          <span key={active} />
+        <div className="vmh-carousel__controls">
+          <span className="vmh-carousel__count" aria-live="polite">
+            {pad(active)} <i>/</i> {pad(total - 1)}
+          </span>
+          <button
+            type="button"
+            className="vmh-carousel__arrow"
+            onClick={() => go(-1)}
+            aria-label="Postal anterior"
+          >
+            <IconArrowLeft width={18} height={18} />
+          </button>
+          <button
+            type="button"
+            className="vmh-carousel__arrow"
+            onClick={() => go(1)}
+            aria-label="Postal siguiente"
+          >
+            <IconArrowRight width={18} height={18} />
+          </button>
         </div>
       </div>
 
-      <div className="vmh-carousel__rail" role="tablist" aria-label="Elige una postal">
+      <div
+        ref={viewportRef}
+        className="vmh-carousel__viewport"
+        onScroll={handleScroll}
+        role="region"
+        aria-live="polite"
+        tabIndex={0}
+      >
         {slides.map((slide, index) => (
-          <button
-            key={slide.src}
-            type="button"
-            role="tab"
-            aria-selected={index === active}
-            className={index === active ? "is-active" : undefined}
-            onClick={() => setActive(index)}
-            title={slide.title}
+          <article
+            key={`${slide.slug ?? slide.title}-${index}`}
+            data-carousel-card={index}
+            className={`vmh-carousel__slide${index === active ? " is-active" : ""}`}
           >
-            <img src={slide.src} alt="" loading="lazy" decoding="async" />
-            <span>{slide.title}</span>
-          </button>
+            <div className="vmh-carousel__media">
+              <img
+                src={slide.src}
+                alt={`${slide.title} · ${slide.caption}`}
+                loading={index < 3 ? "eager" : "lazy"}
+                decoding="async"
+              />
+              <span className="vmh-carousel__badge">
+                <IconMapPin width={12} height={12} />
+                {slide.kicker}
+              </span>
+              <span className="vmh-carousel__num" aria-hidden="true">
+                {pad(index)}
+              </span>
+            </div>
+
+            <div className="vmh-carousel__body">
+              <h4>{slide.title}</h4>
+              <p>{slide.caption}</p>
+              <button
+                type="button"
+                className="vmh-carousel__cta"
+                onClick={() => slide.slug && onOpenPlace(slide.slug)}
+              >
+                Ver sitio
+                <IconArrowRight width={15} height={15} />
+              </button>
+            </div>
+          </article>
         ))}
       </div>
 
-      <p className="vmh-carousel__hint">
-        <IconSparkles width={13} height={13} />
-        Desliza o usa las flechas para recorrer Maracaibo.
-        <IconHeart width={13} height={13} />
-      </p>
-    </div>
+      <div className="vmh-carousel__dots" role="tablist" aria-label="Seleccionar postal">
+        {slides.map((slide, index) => (
+          <button
+            key={`dot-${slide.slug ?? slide.title}-${index}`}
+            type="button"
+            role="tab"
+            aria-selected={index === active}
+            aria-label={`Ir a ${slide.title}`}
+            className={index === active ? "is-active" : ""}
+            onClick={() => goTo(index)}
+          />
+        ))}
+      </div>
+
+      <p className="vmh-carousel__hint">Desliza para descubrir más postales →</p>
+    </section>
   );
 }

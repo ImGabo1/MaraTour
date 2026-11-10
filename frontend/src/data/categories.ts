@@ -246,63 +246,63 @@ export interface CategoryMedia {
  */
 export const CATEGORY_MEDIA: Record<CategorySlug, CategoryMedia> = {
   plazas: {
-    image: "/media/lugares/plaza-bolivar.jpg",
-    credit: "Foto: Zerojosefer · CC BY-SA 4.0 · Wikimedia Commons",
+    image: "/media/galeria/optimized/IMG_20261103_091819.jpg",
+    credit: "Foto: Equipo Maratour · CC BY 4.0",
   },
   historia: {
-    image: "/media/lugares/palacio-gobierno-zulia.jpg",
-    credit: "Foto: Anata08 · CC BY 4.0 · Wikimedia Commons",
+    image: "/media/galeria/optimized/IMG_20261102_151725.jpg",
+    credit: "Foto: Equipo Maratour · CC BY 4.0",
   },
   cultura: {
-    image: "/media/lugares/teatro-baralt.jpg",
-    credit: "Foto: Béria Lima de Rodríguez · CC BY-SA 3.0 · Wikimedia Commons",
+    image: "/media/galeria/optimized/IMG_20261102_151730.jpg",
+    credit: "Foto: Equipo Maratour · CC BY 4.0",
   },
   fe: {
-    image: "/media/lugares/basilica-chiquinquira.jpg",
-    credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
+    image: "/media/galeria/optimized/IMG_20261103_090135.jpg",
+    credit: "Foto: Equipo Maratour · CC BY 4.0",
   },
   museos: {
-    image: "/media/lugares/maczul.jpg",
-    credit: "Foto: HumbRios · CC BY-SA 3.0 · Wikimedia Commons",
+    image: "/media/galeria/optimized/IMG_20261103_090136.jpg",
+    credit: "Foto: Equipo Maratour · CC BY 4.0",
   },
   naturaleza: {
-    image: "/media/categorias/naturaleza.jpg",
-    credit: "Foto: Rjcastillo · CC BY-SA 4.0 · Wikimedia Commons",
+    image: "/media/galeria/optimized/IMG_20261103_090135.jpg",
+    credit: "Foto: Equipo Maratour · CC BY 4.0",
   },
   lago: {
-    image: "/media/lugares/paseo-del-lago.jpg",
-    credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
+    image: "/media/galeria/optimized/IMG_20261102_160508.jpg",
+    credit: "Foto: Equipo Maratour · CC BY 4.0",
   },
   gastronomia: {
-    image: "/media/categorias/gastronomia.jpg",
-    credit: "Foto: Jdvillalobos · CC BY-SA 3.0 · Wikimedia Commons",
+    image: "/media/galeria/optimized/IMG_20261103_092240.jpg",
+    credit: "Foto: Equipo Maratour · CC BY 4.0",
   },
   compras: {
-    image: "/media/lugares/sambil-maracaibo.jpg",
-    credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
+    image: "/media/galeria/optimized/IMG_20261102_151730.jpg",
+    credit: "Foto: Equipo Maratour · CC BY 4.0",
   },
   salud: {
-    image: "/media/categorias/salud.jpg",
-    credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
+    image: "/media/galeria/optimized/IMG_20261103_095026.jpg",
+    credit: "Foto: Equipo Maratour · CC BY 4.0",
   },
   educacion: {
-    image: "/media/lugares/universidad-del-zulia.jpg",
-    credit: "Foto: Rjcastillo · CC BY-SA 3.0 · Wikimedia Commons",
+    image: "/media/galeria/optimized/IMG_20261103_095011.jpg",
+    credit: "Foto: Equipo Maratour · CC BY 4.0",
   },
   deportes: {
-    image: "/media/lugares/estadio-pachencho-romero.jpg",
-    credit: "Foto: Rjcastillo · CC BY-SA 3.0 · Wikimedia Commons",
+    image: "/media/galeria/optimized/IMG_20261103_094027.jpg",
+    credit: "Foto: Equipo Maratour · CC BY 4.0",
   },
   noche: {
-    image: "/media/categorias/noche.jpg",
-    credit: "Foto: Rjcastillo · CC BY-SA 3.0 · Wikimedia Commons",
+    image: "/media/galeria/optimized/IMG_20261103_095026.jpg",
+    credit: "Foto: Equipo Maratour · CC BY 4.0",
   },
   transporte: {
-    image: "/media/lugares/puente-rafael-urdaneta.jpg",
-    credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
+    image: "/media/galeria/optimized/IMG_20261102_160505.jpg",
+    credit: "Foto: Equipo Maratour · CC BY 4.0",
   },
   arquitectura: {
-    image: "/media/lugares/casa-capitulacion.jpg",
-    credit: "Foto: Vzerpaquintero · CC BY-SA 4.0 · Wikimedia Commons",
+    image: "/media/galeria/optimized/IMG_20261103_094027.jpg",
+    credit: "Foto: Equipo Maratour · CC BY 4.0",
   },
 };

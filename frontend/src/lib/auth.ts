@@ -1,5 +1,5 @@
 /**
- * Sesión de Maratur.
+ * Sesión de Maratour.
  *
  * - Las cuentas se crean e inician sesión en la API (tabla `users` de Neon/Postgres).
  * - La sesión del navegador se guarda en localStorage para no pedir login en cada visita.

@@ -3,8 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "description": "PWA para impulsar el turismo en el municipio Maracaibo",
-  "workspaces": ["frontend", "backend", "database"],
-  "engines": { "node": ">=20" },
+  "workspaces": [
+    "frontend",
+    "backend",
+    "database"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "dev:front": "npm run dev -w frontend",
@@ -16,5 +22,9 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "build": "npm run build --workspaces --if-present"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "esbuild@0.21.5": true
   }
 }

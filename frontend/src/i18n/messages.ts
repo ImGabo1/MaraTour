@@ -195,6 +195,9 @@ const es = {
   "ios.step2": "Toca el botón Compartir.",
   "ios.step3": "Elige Agregar a pantalla de inicio.",
 
+  "nav.more": "Más opciones",
+  "theme.switchToDark": "Activar modo oscuro",
+  "theme.switchToLight": "Activar modo claro",
   "common.close": "Cerrar",
   "common.gotIt": "Entendido",
 } as const;
@@ -366,6 +369,9 @@ const en: Record<MessageKey, string> = {
   "ios.step2": "Tap the Share button.",
   "ios.step3": "Choose Add to Home Screen.",
 
+  "nav.more": "More options",
+  "theme.switchToDark": "Switch to dark mode",
+  "theme.switchToLight": "Switch to light mode",
   "common.close": "Close",
   "common.gotIt": "Got it",
 };
@@ -536,6 +542,9 @@ const pt: Record<MessageKey, string> = {
   "ios.step2": "Toque no botão Compartilhar.",
   "ios.step3": "Escolha Adicionar à Tela de Início.",
 
+  "nav.more": "Mais opções",
+  "theme.switchToDark": "Ativar modo escuro",
+  "theme.switchToLight": "Ativar modo claro",
   "common.close": "Fechar",
   "common.gotIt": "Entendi",
 };
@@ -706,6 +715,9 @@ const fr: Record<MessageKey, string> = {
   "ios.step2": "Touchez le bouton Partager.",
   "ios.step3": "Choisissez Ajouter à l'écran d'accueil.",
 
+  "nav.more": "Plus d’options",
+  "theme.switchToDark": "Activer le mode sombre",
+  "theme.switchToLight": "Activer le mode clair",
   "common.close": "Fermer",
   "common.gotIt": "Compris",
 };
@@ -876,6 +888,9 @@ const de: Record<MessageKey, string> = {
   "ios.step2": "Tippe auf die Schaltfläche Teilen.",
   "ios.step3": "Wähle Zum Home-Bildschirm.",
 
+  "nav.more": "Weitere Optionen",
+  "theme.switchToDark": "Dunkelmodus aktivieren",
+  "theme.switchToLight": "Hellmodus aktivieren",
   "common.close": "Schließen",
   "common.gotIt": "Verstanden",
 };
@@ -1046,6 +1061,9 @@ const it: Record<MessageKey, string> = {
   "ios.step2": "Tocca il pulsante Condividi.",
   "ios.step3": "Scegli Aggiungi alla schermata Home.",
 
+  "nav.more": "Altre opzioni",
+  "theme.switchToDark": "Attiva la modalità scura",
+  "theme.switchToLight": "Attiva la modalità chiara",
   "common.close": "Chiudi",
   "common.gotIt": "Capito",
 };
@@ -1216,6 +1234,9 @@ const ru: Record<MessageKey, string> = {
   "ios.step2": "Нажмите кнопку «Поделиться».",
   "ios.step3": "Выберите «На экран «Домой»».",
 
+  "nav.more": "Дополнительные параметры",
+  "theme.switchToDark": "Включить тёмный режим",
+  "theme.switchToLight": "Включить светлый режим",
   "common.close": "Закрыть",
   "common.gotIt": "Понятно",
 };
@@ -1383,6 +1404,9 @@ const zh: Record<MessageKey, string> = {
   "ios.step2": "点击分享按钮。",
   "ios.step3": "选择“添加到主屏幕”。",
 
+  "nav.more": "更多选项",
+  "theme.switchToDark": "切换到深色模式",
+  "theme.switchToLight": "切换到浅色模式",
   "common.close": "关闭",
   "common.gotIt": "明白了",
 };
@@ -1550,6 +1574,9 @@ const ja: Record<MessageKey, string> = {
   "ios.step2": "共有ボタンをタップします。",
   "ios.step3": "「ホーム画面に追加」を選びます。",
 
+  "nav.more": "その他のオプション",
+  "theme.switchToDark": "ダークモードに切り替え",
+  "theme.switchToLight": "ライトモードに切り替え",
   "common.close": "閉じる",
   "common.gotIt": "わかりました",
 };
@@ -1717,6 +1744,9 @@ const ar: Record<MessageKey, string> = {
   "ios.step2": "اضغط على زر المشاركة.",
   "ios.step3": "اختر إضافة إلى الشاشة الرئيسية.",
 
+  "nav.more": "خيارات إضافية",
+  "theme.switchToDark": "تفعيل الوضع الداكن",
+  "theme.switchToLight": "تفعيل الوضع الفاتح",
   "common.close": "إغلاق",
   "common.gotIt": "فهمت",
 };

@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { registerSW } from "virtual:pwa-register";
 import App from "./App";
 import { I18nProvider } from "./i18n/I18nProvider";
+import { ThemeProvider } from "./theme/ThemeProvider";
 import "./styles.css";
 import "./theme.css";
 
@@ -15,7 +16,9 @@ if (!root) throw new Error("No se encontró #root");
 createRoot(root).render(
   <StrictMode>
     <I18nProvider>
-      <App />
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </I18nProvider>
   </StrictMode>
 );

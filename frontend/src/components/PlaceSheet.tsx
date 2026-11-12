@@ -7,7 +7,7 @@ import { useModal } from "../hooks/useModal";
 import { googleMapsPlaceUrl } from "../lib/maps";
 import { groupsFor, primaryCategory } from "../lib/places";
 import { popularityScore } from "../lib/popularity";
-import { boundsFor, project } from "../lib/projection";
+import { boundsFor, project, projectMercator } from "../lib/projection";
 import type { Place } from "../types";
 import { Cover } from "./Cover";
 import { MAP_H, MAP_W, MapBackdrop } from "./MapBackdrop";
@@ -63,31 +63,38 @@ export function PlaceSheet({
   const profile = profileFor(place);
   const score = popularityScore(place.slug);
 
+  // Minimapa: mismo espacio de coordenadas que la imagen base (Mercator), para
+  // que el pin caiga sobre la cuadra real y no sobre una imagen recortada.
+  const miniW = MAP_IMAGE?.width ?? MAP_W;
+  const miniH = MAP_IMAGE?.height ?? MAP_H;
   const miniBounds = useMemo(
     () => MAP_IMAGE?.bounds ?? boundsFor([...places], MAP_W / MAP_H, 0.1),
     [places]
   );
+  const toPoint = MAP_IMAGE ? projectMercator : project;
   const miniPins = useMemo(
     () =>
       places.map((item) => ({
         place: item,
-        ...project(item.latitude, item.longitude, miniBounds, MAP_W, MAP_H),
+        ...toPoint(item.latitude, item.longitude, miniBounds, miniW, miniH),
       })),
-    [places, miniBounds]
+    [places, miniBounds, toPoint, miniW, miniH]
   );
-  const point = project(place.latitude, place.longitude, miniBounds, MAP_W, MAP_H);
+  const point = toPoint(place.latitude, place.longitude, miniBounds, miniW, miniH);
   const miniView = MAP_IMAGE
     ? (() => {
-        const width = 320;
-        const height = 208;
+        // Ventana de ~4 km de ancho centrada en el lugar.
+        const width = 120;
+        const height = 78;
         return {
-          x: Math.min(Math.max(point.x - width / 2, 0), MAP_W - width),
-          y: Math.min(Math.max(point.y - height / 2, 0), MAP_H - height),
+          x: Math.min(Math.max(point.x - width / 2, 0), miniW - width),
+          y: Math.min(Math.max(point.y - height / 2, 0), miniH - height),
           width,
           height,
         };
       })()
     : null;
+  const miniScale = miniView ? miniView.width / 320 : 1;
 
   const related = useMemo(() => {
     const themes = new Set(groupsFor(place));
@@ -459,7 +466,7 @@ export function PlaceSheet({
                   viewBox={
                     miniView
                       ? `${miniView.x} ${miniView.y} ${miniView.width} ${miniView.height}`
-                      : `0 0 ${MAP_W} ${MAP_H}`
+                      : `0 0 ${miniW} ${miniH}`
                   }
                   className="vm-minimap__svg"
                   role="img"
@@ -470,9 +477,9 @@ export function PlaceSheet({
                       href={MAP_IMAGE.image}
                       x="0"
                       y="0"
-                      width={MAP_W}
-                      height={MAP_H}
-                      preserveAspectRatio="xMidYMid slice"
+                      width={miniW}
+                      height={miniH}
+                      preserveAspectRatio="none"
                       className="vm-minimap__photo"
                     />
                   ) : (
@@ -484,10 +491,10 @@ export function PlaceSheet({
                       className={`vm-minimap__dot${pin.place.slug === place.slug ? " is-active" : ""}`}
                       cx={pin.x}
                       cy={pin.y}
-                      r={pin.place.slug === place.slug ? 9 : 3.2}
+                      r={(pin.place.slug === place.slug ? 9 : 3.2) * miniScale}
                     />
                   ))}
-                  <g transform={`translate(${point.x} ${point.y})`} pointerEvents="none">
+                  <g transform={`translate(${point.x} ${point.y}) scale(${miniScale})`} pointerEvents="none">
                     <circle className="vm-minimap__ring" r="18" />
                     <circle className="vm-minimap__pin" r="6" />
                   </g>

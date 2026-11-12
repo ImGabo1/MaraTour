@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { WELCOME_SLIDES } from "../data/welcome";
+import { ThemeToggle } from "../components/ThemeToggle";
 import {
   IconArrowLeft,
   IconArrowRight,
@@ -128,12 +129,16 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
         </div>
       </div>
 
+      <div className="va-theme-toggle-wrap">
+        <ThemeToggle className="va-theme-toggle-button" />
+      </div>
+
       <div className="va-shell">
         {/* ===== Columna visual ===== */}
         <aside className="va-aside">
           <a className="va-brand" href="#/bienvenida" aria-label="Maratour · Volver a la portada">
             <span className="va-brand__mark" aria-hidden="true">
-              <img src="/icons/icon.svg" alt="" width={46} height={46} />
+              <img src="/img/logo-emblema-192.png" alt="" width={46} height={46} />
             </span>
             <span className="va-brand__text">
               <strong>Maratour</strong>
@@ -195,7 +200,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
         <section className="va-panel">
           <a className="va-panel__brand" href="#/bienvenida" aria-label="Maratour · Volver a la portada">
             <span className="va-brand__mark" aria-hidden="true">
-              <img src="/icons/icon.svg" alt="" width={40} height={40} />
+              <img src="/img/logo-emblema-192.png" alt="" width={40} height={40} />
             </span>
             <span className="va-brand__text">
               <strong>Maratour</strong>

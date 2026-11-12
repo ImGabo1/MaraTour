@@ -1,15 +1,19 @@
 /**
  * Fotos y medios por lugar.
  *
- * Cada lugar puede tener una carpeta en `frontend/public/media/lugares/` con:
- *   - `<slug>.jpg`  → foto de portada (1200 × 800 recomendado)
- *   - `../360/<slug>.jpg` → panorama 360° equirectangular (2:1)
- *   - `../video/<slug>.mp4` → video corto del lugar
+ * Cada lugar tiene su carpeta en `frontend/public/media/sitios/<slug>/`:
+ *   - `portada.jpg`            → foto principal (1600 × 1000 recomendado)
+ *   - `360.jpg`, `360-2.jpg`   → panoramas 360° equirectangulares (2:1)
+ *   - `video.mp4`              → video corto del lugar
+ *   - `foto-01.jpg`, …         → galería
  *
- * Para cambiar una foto basta con reemplazar el archivo y recargar. Si el lugar
- * todavía no tiene foto propia, la tarjeta usa una portada generada por categoría.
+ * `scripts/sync-data.mjs` recorre esas carpetas y genera `media-manifest.json`,
+ * así que basta con soltar el archivo con el nombre correcto y recargar.
+ * Aquí solo quedan los créditos y las fotos referenciales de respaldo.
  */
 import type { Place } from "../types";
+import coords from "./coords.json";
+import manifest from "./media-manifest.json";
 
 export interface PlaceMedia {
   /** Ruta local de la foto de portada. */
@@ -26,45 +30,39 @@ export interface PlaceMedia {
   video?: string;
 }
 
-const photo = (slug: string): string => `/media/lugares/${slug}.jpg`;
+const photo = (slug: string): string => `/media/sitios/${slug}/portada.jpg`;
 
 export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   "basilica-chiquinquira": {
     image: photo("basilica-chiquinquira"),
-    pano: "/media/360/basilica-chiquinquira.jpg",
-    video: "/media/video/basilica-chiquinquira.mp4",
+    video: "/media/sitios/basilica-chiquinquira/video.mp4",
     credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Bas%C3%ADlica_de_nuestra_se%C3%B1ora_de_la_Chiquinquira.jpg",
   },
   "teatro-baralt": {
     image: photo("teatro-baralt"),
-    pano: "/media/360/teatro-baralt.jpg",
-    video: "/media/video/teatro-baralt.mp4",
+    video: "/media/sitios/teatro-baralt/video.mp4",
     credit: "Foto: Béria Lima de Rodríguez · CC BY-SA 3.0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Teatro_Baralt_by_Beria.jpg",
   },
   "plaza-bolivar": {
     image: photo("plaza-bolivar"),
-    pano: "/media/360/plaza-bolivar.jpg",
     credit: "Foto: Zerojosefer · CC BY-SA 4.0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Plaza_Bol%C3%ADvar_(Maracaibo).jpg",
   },
   "calle-carabobo": {
     image: photo("calle-carabobo"),
-    pano: "/media/360/calle-carabobo.jpg",
     credit: "Foto: Rjcastillo · CC BY 4.0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Calle_Carabobo,_Maracaibo_MG_484420250831.jpg",
   },
   "santa-lucia": {
     image: photo("santa-lucia"),
-    pano: "/media/360/santa-lucia.jpg",
-    video: "/media/video/santa-lucia.mp4",
+    video: "/media/sitios/santa-lucia/video.mp4",
     credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Blue_tower_of_Iglesia_de_Santa_Luc%C3%ADa_above_an_evening_street_gathering_in_Maracaibo,_Venezuela.jpg",
   },
   "paseo-del-lago": {
     image: photo("paseo-del-lago"),
-    pano: "/media/360/paseo-del-lago.jpg",
     credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Ca%C3%B1ada_del_Paseo_del_Lago,_Maracaibo,_Estado_Zulia,_Venezuela_2.jpg",
   },
@@ -75,14 +73,12 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   },
   "plaza-republica": {
     image: photo("plaza-republica"),
-    pano: "/media/360/plaza-republica.jpg",
-    video: "/media/video/plaza-republica.mp4",
+    video: "/media/sitios/plaza-republica/video.mp4",
     credit: "Foto: Jarrypalomino · CC BY-SA 3.0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Plaza_de_la_Rep%C3%BAblica,_Maracaibo.jpg",
   },
   "plaza-monumento-chinita": {
     image: photo("plaza-monumento-chinita"),
-    pano: "/media/360/plaza-monumento-chinita.jpg",
     credit: "Foto: Loreina Velandia · CC BY-SA 3.0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Plaza_monumento_a_la_virgen_del_Chiquinquira._Maracaibo_estado_Zulia.JPG",
   },
@@ -103,7 +99,6 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   },
   "centro-arte-lia-bermudez": {
     image: photo("centro-arte-lia-bermudez"),
-    pano: "/media/360/centro-arte-lia-bermudez.jpg",
     credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Art_Center_Maracaibo_Lia_Bermudez.jpg",
   },
@@ -114,13 +109,12 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   },
   "parque-urdaneta": {
     image: photo("parque-urdaneta"),
-    pano: "/media/360/parque-urdaneta.jpg",
-    video: "/media/video/parque-urdaneta.mp4",
+    video: "/media/sitios/parque-urdaneta/video.mp4",
     credit: "Foto: Zerojosefer · CC BY-SA 4.0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Parque_Rafael_Urdaneta_005.jpg",
   },
   "parque-universitario-luz": {
-    image: photo("parque-universitario"),
+    image: photo("parque-universitario-luz"),
     credit: "Foto: Rjcastillo · CC BY-SA 3.0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Monumento_LUZ_(Universidad_del_Zulia).jpg",
   },
@@ -166,8 +160,7 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   },
   "vereda-del-lago": {
     image: photo("vereda-del-lago"),
-    pano: "/media/360/vereda-del-lago.jpg",
-    video: "/media/video/vereda-del-lago.mp4",
+    video: "/media/sitios/vereda-del-lago/video.mp4",
     credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Sunrise_on_Vereda_del_Lago_and_Eagle_Austin_Ship_in_Maracaibo_lake.jpg",
   },
@@ -203,7 +196,6 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   },
   "malecon-maracaibo": {
     image: photo("paseo-del-lago"),
-    pano: "/media/360/malecon-maracaibo.jpg",
     credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
     source: "https://commons.wikimedia.org/wiki/File:Ca%C3%B1ada_del_Paseo_del_Lago,_Maracaibo,_Estado_Zulia,_Venezuela_2.jpg",
   },
@@ -277,22 +269,56 @@ function cleanCopy(text: string): string {
     .trim();
 }
 
-/** Aplica foto, galería y 360 al lugar sin tocar sus datos editoriales. */
+interface SiteMedia {
+  cover?: string;
+  panos?: string[];
+  video?: string;
+  photos?: string[];
+}
+
+const SITE_MEDIA = manifest as Record<string, SiteMedia>;
+const COORDS = coords as unknown as Record<string, [number, number, number]>;
+
+/** Rutas de la estructura anterior que todavía pueda devolver la API o la caché. */
+function legacyUrl(url: string): string {
+  return url
+    .replace(/^\/media\/lugares\/parque-universitario\.jpg$/, "/media/sitios/parque-universitario-luz/portada.jpg")
+    .replace(/^\/media\/lugares\/([a-z0-9-]+)\.jpg$/, "/media/sitios/$1/portada.jpg")
+    .replace(/^\/media\/video\/([a-z0-9-]+)\.mp4$/, "/media/sitios/$1/video.mp4");
+}
+
+function unique(list: (string | null | undefined)[]): string[] {
+  return [...new Set(list.filter((item): item is string => Boolean(item)))];
+}
+
+/**
+ * Aplica al lugar sus medios y sus coordenadas sin tocar los datos editoriales.
+ * Prioridad de la foto: carpeta `media/sitios/<slug>/` → ajuste manual de
+ * PLACE_MEDIA → lo que diga la API.
+ */
 export function withMedia(place: Place): Place {
   const media = PLACE_MEDIA[place.slug];
-  const cleanPlace: Place = {
+  const site = SITE_MEDIA[place.slug];
+  const fixed = COORDS[place.slug];
+  const apiImage = place.imageUrl ? legacyUrl(place.imageUrl) : null;
+  const imageUrl = site?.cover ?? media?.image ?? site?.photos?.[0] ?? apiImage;
+  // Los panoramas de marcador de posición (SVG) no cuentan como vista 360° real.
+  const apiPano = place.panoUrl && !place.panoUrl.includes("placeholder") ? place.panoUrl : null;
+  // El crédito de PLACE_MEDIA describe la portada, no las fotos propias de la galería.
+  const credited = Boolean(imageUrl) && (imageUrl === site?.cover || imageUrl === media?.image);
+  const gallery = unique([imageUrl, ...(site?.photos ?? []), ...(media?.gallery ?? [])]);
+
+  return {
     ...place,
     history: cleanCopy(place.history),
     shortDescription: cleanCopy(place.shortDescription),
-  };
-  if (!media) return cleanPlace;
-  return {
-    ...cleanPlace,
-    imageUrl: media.image ?? place.imageUrl,
-    panoUrl: media.pano ?? place.panoUrl,
-    imageCredit: media.credit,
-    imageSource: media.source,
-    gallery: media.gallery ?? (media.image ? [media.image] : place.gallery),
-    videoUrl: media.video ?? place.videoUrl,
+    ...(fixed ? { latitude: fixed[0], longitude: fixed[1], coordsVerified: fixed[2] === 1 } : {}),
+    media: place.media.map((item) => ({ ...item, url: legacyUrl(item.url) })),
+    imageUrl,
+    panoUrl: site?.panos?.[0] ?? media?.pano ?? apiPano,
+    imageCredit: credited ? media?.credit : undefined,
+    imageSource: credited ? media?.source : undefined,
+    gallery: gallery.length > 0 ? gallery : place.gallery,
+    videoUrl: site?.video ?? media?.video ?? place.videoUrl,
   };
 }

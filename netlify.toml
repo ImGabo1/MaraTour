@@ -6,6 +6,13 @@
 [build.environment]
   NODE_VERSION = "20"
 
+# /api se reenvía al backend de Render: mismo origen, sin CORS.
+[[redirects]]
+  from = "/api/*"
+  to = "https://maratour-api.onrender.com/api/:splat"
+  status = 200
+  force = true
+
 # La app usa rutas con #, pero esto evita 404 si algún día se usan rutas normales.
 [[redirects]]
   from = "/*"

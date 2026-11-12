@@ -1994,7 +1994,11 @@ button {
 .pano {
   position: fixed;
   inset: 0;
-  z-index: 80;
+  /* Por encima de la ficha del lugar (.vm-overlay, 100) y del chat (200):
+     mientras el visor está abierto no se puede tocar nada de la página. */
+  z-index: 1000;
+  touch-action: none;
+  overscroll-behavior: contain;
   background: #101b2d;
   animation: fadeIn 0.25s ease both;
 }

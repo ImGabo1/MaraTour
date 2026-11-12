@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { useTheme } from "../theme/ThemeProvider";
+import { ThemeToggle } from "../components/ThemeToggle";
 import { WELCOME_SLIDES } from "../data/welcome";
 import {
   IconArrowLeft,
   IconArrowRight,
+  IconBolt,
   IconBoat,
   IconBridge,
   IconCamera,
@@ -29,6 +32,8 @@ const FALLBACK_SLIDE = WELCOME_SLIDES[0]!;
 export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [portraitSlides, setPortraitSlides] = useState<Record<number, boolean>>({});
+  const { isDark: darkMode } = useTheme();
   const total = WELCOME_SLIDES.length;
 
   useEffect(() => {
@@ -48,17 +53,23 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
   const miniTwo = WELCOME_SLIDES[1] ?? FALLBACK_SLIDE;
 
   return (
-    <main className="vw-page">
+    <main className={`vw-page${darkMode ? " vw-page--dark" : ""}`} data-theme={darkMode ? "dark" : "light"}>
       {/* ===== Fondo tropical animado ===== */}
       <div className="vw-bg" aria-hidden="true">
         <span className="vw-aurora vw-aurora--1" />
         <span className="vw-aurora vw-aurora--2" />
         <span className="vw-aurora vw-aurora--3" />
 
-        <div className="vw-sun">
-          <span className="vw-sun__glow" />
-          <span className="vw-sun__rays" />
-          <span className="vw-sun__core" />
+        <div className="vw-sun" aria-hidden="true">
+          {darkMode ? (
+            <IconBolt className="vw-sun__bolt" width={190} height={250} />
+          ) : (
+            <>
+              <span className="vw-sun__glow" />
+              <span className="vw-sun__rays" />
+              <span className="vw-sun__core" />
+            </>
+          )}
         </div>
 
         <div className="vw-cloud vw-cloud--1" />
@@ -85,7 +96,7 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
             <IconBridge width={22} height={22} />
           </span>
           <span className="vw-token vw-token--7">
-            <IconSun width={20} height={20} />
+            {darkMode ? <IconBolt width={15} height={20} /> : <IconSun width={20} height={20} />}
           </span>
           <span className="vw-token vw-token--8">
             <IconWave width={22} height={22} />
@@ -126,7 +137,7 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
       <header className="vw-top container">
         <a className="vw-brand" href="#/bienvenida" aria-label="Maratour · Visita Maracaibo">
           <span className="vw-brand__mark" aria-hidden="true">
-            <img src="/icons/icon.svg" alt="" width={44} height={44} />
+            <img src="/img/logo-emblema-192.png" alt="" width={44} height={44} />
           </span>
           <span className="vw-brand__text">
             <strong>Maratour</strong>
@@ -135,8 +146,9 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
         </a>
 
         <div className="vw-top__actions">
+          <ThemeToggle className="vw-theme-toggle" showLabel />
           <span className="vw-top__tag">
-            <IconSun width={14} height={14} />
+            {darkMode ? <IconBolt width={14} height={18} /> : <IconSun width={14} height={14} />}
             Tierra del Sol Amada
           </span>
           <button type="button" className="vw-btn vw-btn--ghost" onClick={onLogin}>
@@ -180,7 +192,7 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
 
           <ul className="vw-perks">
             <li>
-              <IconSun width={14} height={14} />
+              {darkMode ? <IconBolt width={11} height={14} /> : <IconSun width={14} height={14} />}
               100% gratis
             </li>
             <li>
@@ -205,7 +217,11 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
           >
             <span className="vw-postcard__stamp">Maracaibo · Zulia</span>
 
-            <div className="vw-postcard__stage" aria-live="polite">
+            <div
+              className={`vw-postcard__stage${portraitSlides[active] ? " is-portrait" : ""}`}
+              style={{ backgroundImage: `url("${current.src}")` }}
+              aria-live="polite"
+            >
               {WELCOME_SLIDES.map((slide, index) => (
                 <figure
                   key={`${slide.slug ?? slide.title}-${index}`}
@@ -217,6 +233,14 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
                     alt={`${slide.title} · ${slide.caption}`}
                     loading={index === 0 ? "eager" : "lazy"}
                     decoding="async"
+                    onLoad={(event) => {
+                      const image = event.currentTarget;
+                      setPortraitSlides((currentSlides) => {
+                        const isPortrait = image.naturalHeight > image.naturalWidth;
+                        if (currentSlides[index] === isPortrait) return currentSlides;
+                        return { ...currentSlides, [index]: isPortrait };
+                      });
+                    }}
                   />
                   <div className="vw-postcard__shade" />
                   <figcaption>

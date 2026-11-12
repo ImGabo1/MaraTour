@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { API_URL } from "../config";
+import { apiFetch } from "../config";
 
 /**
  * Detecta conectividad real con el backend, no solo si el navegador dice
@@ -16,16 +16,17 @@ export function useOnline(): boolean {
       try {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 5000);
-        const res = await fetch(`${API_URL}/api/health`, {
+        const res = await apiFetch("/api/health", {
           method: "GET",
           headers: { Accept: "application/json" },
           cache: "no-store",
           signal: controller.signal,
         });
         clearTimeout(timeout);
-        if (!cancelled) setOnline(res.ok);
+        if (!cancelled) setOnline(res.ok || navigator.onLine);
       } catch {
-        if (!cancelled) setOnline(false);
+        // El servidor puede estar despertando (Render tarda en frío): eso no es estar sin internet.
+        if (!cancelled) setOnline(navigator.onLine);
       }
     };
 

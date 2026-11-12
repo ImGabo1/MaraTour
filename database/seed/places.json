@@ -6,10 +6,10 @@
     "shortDescription": "Templo del casco histórico y sede de la devoción a la Chinita, patrona del Zulia.",
     "history": "La devoción a la Virgen de Chiquinquirá, la «Chinita», está en el corazón de la identidad zuliana. Cada mes de noviembre Maracaibo se llena de música, ferias y procesiones en su honor, y la Basílica se convierte en el punto de encuentro de peregrinos de todo el país. El templo actual guarda esa memoria colectiva en sus vitrales, sus altares y la plaza que lo abraza.",
     "address": "Casco histórico de Maracaibo (dirección exacta por confirmar)",
-    "latitude": 10.6684,
-    "longitude": -71.6112,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/basilica-chiquinquira.jpg",
+    "latitude": 10.6429,
+    "longitude": -71.6158,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/basilica-chiquinquira/portada.jpg",
     "panoUrl": "/panos/placeholder-atardecer.svg",
     "tags": [
       "iglesia",
@@ -19,7 +19,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/basilica-chiquinquira.jpg",
+        "url": "/media/sitios/basilica-chiquinquira/portada.jpg",
         "caption": null,
         "credit": "Foto: Wilfredor · CC0 · Wikimedia Commons"
       },
@@ -38,10 +38,10 @@
     "shortDescription": "Teatro histórico frente a la plaza que lleva el mismo nombre, ícono cultural del centro.",
     "history": "Su nombre rinde homenaje al escritor e historiador zuliano Rafael María Baralt. El teatro es uno de los escenarios más antiguos y queridos de Venezuela: ha visto pasar ópera, teatro, cine y música, y su fachada neoclásica sigue siendo una de las más elegantes del casco histórico. Su sala principal conserva esa mezcla de solemnidad y calidez que solo tienen los teatros con memoria.",
     "address": "Plaza Baralt, centro de Maracaibo",
-    "latitude": 10.6667,
-    "longitude": -71.6122,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/teatro-baralt.jpg",
+    "latitude": 10.6424,
+    "longitude": -71.6081,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/teatro-baralt/portada.jpg",
     "panoUrl": "/panos/placeholder-atardecer.svg",
     "tags": [
       "teatro",
@@ -51,7 +51,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/teatro-baralt.jpg",
+        "url": "/media/sitios/teatro-baralt/portada.jpg",
         "caption": null,
         "credit": "Foto: Béria Lima de Rodríguez · CC BY-SA 3.0 · Wikimedia Commons"
       },
@@ -70,10 +70,10 @@
     "shortDescription": "Plaza principal del casco histórico, rodeada de edificios patrimoniales.",
     "history": "La Plaza Bolívar es una de las plazas tradicionales del centro maracucho. Alrededor crecieron edificios públicos, comercios y cafés que la convirtieron en punto de encuentro obligado. Su estatua y sus árboles han sido testigos de discursos, conciertos y tardes de conversación, y hoy sigue funcionando como el living abierto de la ciudad.",
     "address": "Casco histórico de Maracaibo (dirección exacta por confirmar)",
-    "latitude": 10.6676,
-    "longitude": -71.6139,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/plaza-bolivar.jpg",
+    "latitude": 10.6416,
+    "longitude": -71.6077,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/plaza-bolivar/portada.jpg",
     "panoUrl": "/panos/placeholder-atardecer.svg",
     "tags": [
       "plaza",
@@ -83,7 +83,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/plaza-bolivar.jpg",
+        "url": "/media/sitios/plaza-bolivar/portada.jpg",
         "caption": null,
         "credit": "Foto: Zerojosefer · CC BY-SA 4.0 · Wikimedia Commons"
       },
@@ -102,10 +102,10 @@
     "shortDescription": "Calle del casco histórico con fachadas coloridas, ideal para recorrer a pie.",
     "history": "La Calle Carabobo fue durante décadas el escenario del comercio y la vida social maracuchas. Sus casas de techos altos, balcones y patios interiores cuentan una ciudad que creció alrededor del puerto y del mercado. Hoy convive lo antiguo con lo nuevo: tiendas, cafés y fachadas restauradas que invitan a caminar sin apuro.",
     "address": "Casco histórico de Maracaibo (tramo por confirmar)",
-    "latitude": 10.6697,
-    "longitude": -71.6098,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/calle-carabobo.jpg",
+    "latitude": 10.6431,
+    "longitude": -71.6083,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/calle-carabobo/portada.jpg",
     "panoUrl": "/panos/placeholder-atardecer.svg",
     "tags": [
       "calle",
@@ -115,7 +115,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/calle-carabobo.jpg",
+        "url": "/media/sitios/calle-carabobo/portada.jpg",
         "caption": null,
         "credit": "Foto: Rjcastillo · CC BY 4.0 · Wikimedia Commons"
       },
@@ -134,10 +134,10 @@
     "shortDescription": "Barrio tradicional con casas antiguas, calles tranquilas y vida cultural propia.",
     "history": "Santa Lucía es uno de los barrios con más alma de Maracaibo. Su iglesia, sus casas de colores y sus cocinas mantienen viva una tradición dulcera que pasa de generación en generación. Recorrerlo es entrar en una conversación entre vecinos, recetas antiguas y el olor de la panela.",
     "address": "Barrio Santa Lucía, Maracaibo (punto exacto por confirmar)",
-    "latitude": 10.6558,
-    "longitude": -71.619,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/santa-lucia.jpg",
+    "latitude": 10.6469,
+    "longitude": -71.6044,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/santa-lucia/portada.jpg",
     "panoUrl": "/panos/placeholder-atardecer.svg",
     "tags": [
       "barrio",
@@ -147,7 +147,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/santa-lucia.jpg",
+        "url": "/media/sitios/santa-lucia/portada.jpg",
         "caption": null,
         "credit": "Foto: Wilfredor · CC0 · Wikimedia Commons"
       },
@@ -166,10 +166,10 @@
     "shortDescription": "Paseo frente al Lago de Maracaibo para caminar y ver el atardecer.",
     "history": "El Paseo del Lago nació como una costura entre la ciudad y el agua. Durante años ha sido el lugar donde los maracuchos van a respirar, hacer ejercicio y mirar el horizonte. Su malecón, sus áreas verdes y las vistas al Puente General Rafael Urdaneta lo convirtieron en una postal inevitable del atardecer zuliano.",
     "address": "Frente al Lago de Maracaibo (punto exacto por confirmar)",
-    "latitude": 10.664,
-    "longitude": -71.607,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/paseo-del-lago.jpg",
+    "latitude": 10.6646,
+    "longitude": -71.5896,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/paseo-del-lago/portada.jpg",
     "panoUrl": "/panos/placeholder-atardecer.svg",
     "tags": [
       "lago",
@@ -179,7 +179,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/paseo-del-lago.jpg",
+        "url": "/media/sitios/paseo-del-lago/portada.jpg",
         "caption": null,
         "credit": "Foto: Wilfredor · CC0 · Wikimedia Commons"
       },
@@ -198,10 +198,10 @@
     "shortDescription": "La plaza recoleta frente al Teatro Baralt, en pleno corazón del casco histórico.",
     "history": "Desde el siglo XIX la Plaza Baralt acompaña la vida del centro: es punto de encuentro, sombra para el café y antesala del teatro. Su entorno reúne edificios patrimoniales y el movimiento cotidiano del comercio maracucho.",
     "address": "Plaza Baralt, casco histórico de Maracaibo",
-    "latitude": 10.6668,
-    "longitude": -71.6128,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/plaza-baralt.jpg",
+    "latitude": 10.6409,
+    "longitude": -71.6095,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/plaza-baralt/portada.jpg",
     "panoUrl": null,
     "tags": [
       "plaza",
@@ -213,7 +213,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/plaza-baralt.jpg",
+        "url": "/media/sitios/plaza-baralt/portada.jpg",
         "caption": null,
         "credit": "Foto: Aledussa · CC BY-SA 3.0 · Wikimedia Commons"
       }
@@ -226,10 +226,10 @@
     "shortDescription": "Un espacio abierto con árboles añosos, ideal para una pausa mientras recorres la ciudad.",
     "history": "La Plaza de la República es uno de los espacios tradicionales del centro maracucho. Sus árboles y bancos la convierten en una parada tranquila para descansar entre una visita y la siguiente.",
     "address": "Centro de Maracaibo, Zulia",
-    "latitude": 10.6706,
-    "longitude": -71.6106,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/plaza-republica.jpg",
+    "latitude": 10.6664,
+    "longitude": -71.6073,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/plaza-republica/portada.jpg",
     "panoUrl": null,
     "tags": [
       "plaza",
@@ -241,7 +241,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/plaza-republica.jpg",
+        "url": "/media/sitios/plaza-republica/portada.jpg",
         "caption": null,
         "credit": "Foto: Jarrypalomino · CC BY-SA 3.0 · Wikimedia Commons"
       }
@@ -254,10 +254,10 @@
     "shortDescription": "La silueta de la Virgen que recibe a quienes llegan a la ciudad por la autopista.",
     "history": "Este espacio rinde homenaje a Nuestra Señora de Chiquinquirá, patrona del Zulia. Es una postal moderna de Maracaibo y un punto de encuentro para la fe, la fotografía y las actividades familiares.",
     "address": "Avenida Bella Vista, Maracaibo",
-    "latitude": 10.682,
-    "longitude": -71.613,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/plaza-monumento-chinita.jpg",
+    "latitude": 10.6426,
+    "longitude": -71.612,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/plaza-monumento-chinita/portada.jpg",
     "panoUrl": null,
     "tags": [
       "plaza",
@@ -269,7 +269,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/plaza-monumento-chinita.jpg",
+        "url": "/media/sitios/plaza-monumento-chinita/portada.jpg",
         "caption": null,
         "credit": "Foto: Loreina Velandia · CC BY-SA 3.0 · Wikimedia Commons"
       }
@@ -282,10 +282,10 @@
     "shortDescription": "Sede del gobierno regional, con una fachada de aire republicano en el centro.",
     "history": "El Palacio de Gobierno del Zulia forma parte del conjunto patrimonial del casco histórico. Su arquitectura y su valor simbólico lo han convertido en una referencia de la vida política del estado.",
     "address": "Casco histórico de Maracaibo",
-    "latitude": 10.6657,
-    "longitude": -71.6138,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/palacio-gobierno-zulia.jpg",
+    "latitude": 10.6422,
+    "longitude": -71.6076,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/palacio-gobierno-zulia/portada.jpg",
     "panoUrl": null,
     "tags": [
       "gobierno",
@@ -296,7 +296,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/palacio-gobierno-zulia.jpg",
+        "url": "/media/sitios/palacio-gobierno-zulia/portada.jpg",
         "caption": null,
         "credit": "Foto: Anata08 · CC BY 4.0 · Wikimedia Commons"
       }
@@ -309,8 +309,8 @@
     "shortDescription": "Un refugio tranquilo para leer, estudiar y conocer el acervo regional.",
     "history": "La red de bibliotecas públicas del Zulia conserva parte de la memoria documental de la región. Es un buen plan para una pausa cultural, especialmente en días de calor.",
     "address": "Centro de Maracaibo, Zulia",
-    "latitude": 10.6689,
-    "longitude": -71.6157,
+    "latitude": 10.659,
+    "longitude": -71.596,
     "coordsVerified": false,
     "imageUrl": null,
     "panoUrl": null,
@@ -330,10 +330,10 @@
     "shortDescription": "Templo histórico del centro, punto de referencia de la vida religiosa zuliana.",
     "history": "La Catedral de Maracaibo integra el conjunto patrimonial del centro histórico. Su presencia acompaña la vida de la ciudad desde la época colonial y sigue siendo un espacio de encuentro para la fe.",
     "address": "Casco histórico de Maracaibo",
-    "latitude": 10.6672,
-    "longitude": -71.6124,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/catedral-maracaibo.jpg",
+    "latitude": 10.6415,
+    "longitude": -71.607,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/catedral-maracaibo/portada.jpg",
     "panoUrl": null,
     "tags": [
       "catedral",
@@ -345,7 +345,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/catedral-maracaibo.jpg",
+        "url": "/media/sitios/catedral-maracaibo/portada.jpg",
         "caption": null,
         "credit": "Foto: Rjcastillo · CC BY-SA 3.0 · Wikimedia Commons"
       }
@@ -358,9 +358,9 @@
     "shortDescription": "Una iglesia de escala humana en el centro, con misas y actividad comunitaria.",
     "history": "La Iglesia San Francisco es parte de la vida cotidiana del centro de Maracaibo. Su comunidad mantiene una agenda de misas y actividades que invita a conocerla con respeto y calma.",
     "address": "Sector centro, Maracaibo",
-    "latitude": 10.6642,
-    "longitude": -71.6219,
-    "coordsVerified": false,
+    "latitude": 10.6413,
+    "longitude": -71.6093,
+    "coordsVerified": true,
     "imageUrl": null,
     "panoUrl": null,
     "tags": [
@@ -379,10 +379,10 @@
     "shortDescription": "Antiguo mercado convertido en centro cultural con exposiciones y actividades.",
     "history": "El CAMLB ocupa un edificio patrimonial que antes fue mercado y hoy es uno de los espacios culturales más activos de la ciudad. Su programación combina artes visuales, música y actividades para toda la familia.",
     "address": "Avenida 2, casco histórico de Maracaibo",
-    "latitude": 10.6661,
-    "longitude": -71.6118,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/centro-arte-lia-bermudez.jpg",
+    "latitude": 10.6393,
+    "longitude": -71.6096,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/centro-arte-lia-bermudez/portada.jpg",
     "panoUrl": null,
     "tags": [
       "arte",
@@ -394,7 +394,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/centro-arte-lia-bermudez.jpg",
+        "url": "/media/sitios/centro-arte-lia-bermudez/portada.jpg",
         "caption": null,
         "credit": "Foto: Wilfredor · CC0 · Wikimedia Commons"
       }
@@ -407,10 +407,10 @@
     "shortDescription": "El MACZUL reúne arte contemporáneo y una de las colecciones más importantes de la región.",
     "history": "El MACZUL es un museo universitario de arte contemporáneo. Su colección y sus salas acercan al público al trabajo de artistas venezolanos y latinoamericanos.",
     "address": "Avenida Universidad, Maracaibo",
-    "latitude": 10.6753,
-    "longitude": -71.6114,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/maczul.jpg",
+    "latitude": 10.6768,
+    "longitude": -71.6323,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/maczul/portada.jpg",
     "panoUrl": null,
     "tags": [
       "museo",
@@ -422,7 +422,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/maczul.jpg",
+        "url": "/media/sitios/maczul/portada.jpg",
         "caption": null,
         "credit": "Foto: HumbRios · CC BY-SA 3.0 · Wikimedia Commons"
       }
@@ -435,10 +435,10 @@
     "shortDescription": "Casona colonial convertida en museo, testimonio del pasado político de la ciudad.",
     "history": "En esta casona colonial se reunieron autoridades y se firmaron documentos clave de la historia zuliana. Hoy funciona como museo y permite asomarse a la Maracaibo de siglos pasados.",
     "address": "Casco histórico de Maracaibo",
-    "latitude": 10.6671,
-    "longitude": -71.6133,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/casa-capitulacion.jpg",
+    "latitude": 10.6423,
+    "longitude": -71.6079,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/casa-capitulacion/portada.jpg",
     "panoUrl": null,
     "tags": [
       "museo",
@@ -450,7 +450,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/casa-capitulacion.jpg",
+        "url": "/media/sitios/casa-capitulacion/portada.jpg",
         "caption": null,
         "credit": "Foto: Vzerpaquintero · CC BY-SA 4.0 · Wikimedia Commons"
       }
@@ -463,10 +463,10 @@
     "shortDescription": "Zona verde del centro con caminerías y sombra para descansar entre visitas.",
     "history": "El Parque Urdaneta es un pulmón tradicional del centro de Maracaibo. Sus caminerías y árboles ofrecen una pausa verde en medio del recorrido urbano.",
     "address": "Sector centro, Maracaibo",
-    "latitude": 10.6724,
-    "longitude": -71.6152,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/parque-urdaneta.jpg",
+    "latitude": 10.6456,
+    "longitude": -71.6103,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/parque-urdaneta/portada.jpg",
     "panoUrl": null,
     "tags": [
       "parque",
@@ -478,7 +478,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/parque-urdaneta.jpg",
+        "url": "/media/sitios/parque-urdaneta/portada.jpg",
         "caption": null,
         "credit": "Foto: Zerojosefer · CC BY-SA 4.0 · Wikimedia Commons"
       }
@@ -491,9 +491,9 @@
     "shortDescription": "Un pulmón verde para caminar entre árboles, aves y vegetación tropical.",
     "history": "El Jardín Botánico reúne vegetación representativa de la región y ofrece un espacio para caminar, observar aves y aprender sobre el entorno natural del Zulia.",
     "address": "Sector norte de Maracaibo",
-    "latitude": 10.681,
-    "longitude": -71.639,
-    "coordsVerified": false,
+    "latitude": 10.5878,
+    "longitude": -71.7132,
+    "coordsVerified": true,
     "imageUrl": null,
     "panoUrl": null,
     "tags": [
@@ -512,10 +512,10 @@
     "shortDescription": "Zona verde junto a la universidad, frecuentada por estudiantes y vecinos.",
     "history": "El Parque Universitario acompaña la vida de la Ciudad Universitaria. Es un espacio de recreación y deporte que también permite apreciar el patrimonio arquitectónico de la zona.",
     "address": "Ciudad Universitaria, Maracaibo",
-    "latitude": 10.6795,
-    "longitude": -71.632,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/parque-universitario.jpg",
+    "latitude": 10.6825,
+    "longitude": -71.6396,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/parque-universitario-luz/portada.jpg",
     "panoUrl": null,
     "tags": [
       "parque",
@@ -527,7 +527,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/parque-universitario.jpg",
+        "url": "/media/sitios/parque-universitario-luz/portada.jpg",
         "caption": null,
         "credit": "Foto: Rjcastillo · CC BY-SA 3.0 · Wikimedia Commons"
       }
@@ -540,10 +540,10 @@
     "shortDescription": "El paseo favorito para ver el atardecer sobre el Lago de Maracaibo.",
     "history": "La Vereda del Lago es uno de los espacios públicos más queridos de Maracaibo. Su malecón, sus áreas verdes y sus vistas al lago la vuelven una parada obligatoria para caminar, hacer deporte y ver caer el sol.",
     "address": "Vereda del Lago, Maracaibo",
-    "latitude": 10.678,
-    "longitude": -71.603,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/vereda-del-lago.jpg",
+    "latitude": 10.6557,
+    "longitude": -71.5931,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/vereda-del-lago/portada.jpg",
     "panoUrl": null,
     "tags": [
       "lago",
@@ -555,7 +555,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/vereda-del-lago.jpg",
+        "url": "/media/sitios/vereda-del-lago/portada.jpg",
         "caption": null,
         "credit": "Foto: Wilfredor · CC0 · Wikimedia Commons"
       }
@@ -568,8 +568,8 @@
     "shortDescription": "Orilla del lago para caminar al atardecer y sentir la brisa de Maracaibo.",
     "history": "El malecón junto al Lago de Maracaibo es un espacio tradicional para la caminata y la contemplación. La brisa y la luz del atardecer son parte de la experiencia.",
     "address": "Orilla del Lago de Maracaibo",
-    "latitude": 10.6656,
-    "longitude": -71.6051,
+    "latitude": 10.6385,
+    "longitude": -71.6065,
     "coordsVerified": false,
     "imageUrl": null,
     "panoUrl": null,
@@ -589,9 +589,9 @@
     "shortDescription": "Cocina zuliana casera: arepas, patacones y platos que saben a casa.",
     "history": "Sabor Zuliano es una parada para probar la cocina de todos los días con sazón local. Ideal para almorzar sin prisa y compartir varios platos en familia.",
     "address": "Avenida Bella Vista, Maracaibo",
-    "latitude": 10.6788,
-    "longitude": -71.6155,
-    "coordsVerified": false,
+    "latitude": 10.6697,
+    "longitude": -71.6065,
+    "coordsVerified": true,
     "imageUrl": null,
     "panoUrl": null,
     "tags": [
@@ -610,8 +610,8 @@
     "shortDescription": "Un rincón de sabores tradicionales para entrar en confianza con la ciudad.",
     "history": "El Rincón Zuliano reúne recetas de la región en un ambiente cercano. Es una buena primera parada para entender por qué la cocina maracucha se disfruta tanto.",
     "address": "Bella Vista, Maracaibo",
-    "latitude": 10.6763,
-    "longitude": -71.6198,
+    "latitude": 10.676,
+    "longitude": -71.606,
     "coordsVerified": false,
     "imageUrl": null,
     "panoUrl": null,
@@ -631,9 +631,9 @@
     "shortDescription": "Carnes a la parrilla, buena mesa y un plan tranquilo para cerrar el día.",
     "history": "Mi Vaquita Steak House & Bar propone una experiencia de parrilla y coctelería en un ambiente relajado. Una opción para celebrar o darse un gusto después de recorrer la ciudad.",
     "address": "Avenida Bella Vista, Maracaibo",
-    "latitude": 10.6804,
-    "longitude": -71.6142,
-    "coordsVerified": false,
+    "latitude": 10.6672,
+    "longitude": -71.6062,
+    "coordsVerified": true,
     "imageUrl": null,
     "panoUrl": null,
     "tags": [
@@ -652,10 +652,10 @@
     "shortDescription": "Opciones de moda, tecnología y entretenimiento en un solo lugar.",
     "history": "Galerías Mall es uno de los centros comerciales de referencia de Maracaibo. Reúne tiendas, cines y opciones de comida en un espacio cómodo para toda la familia.",
     "address": "Avenida Universidad, Maracaibo",
-    "latitude": 10.6702,
-    "longitude": -71.6408,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/galerias-mall.jpg",
+    "latitude": 10.6716,
+    "longitude": -71.6537,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/galerias-mall/portada.jpg",
     "panoUrl": null,
     "tags": [
       "compras",
@@ -667,7 +667,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/galerias-mall.jpg",
+        "url": "/media/sitios/galerias-mall/portada.jpg",
         "caption": null,
         "credit": "Foto: Wilfredor · CC0 · Wikimedia Commons"
       }
@@ -680,10 +680,10 @@
     "shortDescription": "Centro comercial amplio con tiendas, cines y opciones para toda la familia.",
     "history": "Sambil Maracaibo es un centro comercial de gran formato con tiendas, entretenimiento y restaurantes. Su cúpula y sus espacios abiertos lo hacen fácil de recorrer.",
     "address": "Avenida Bella Vista, Maracaibo",
-    "latitude": 10.6905,
-    "longitude": -71.6302,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/sambil-maracaibo.jpg",
+    "latitude": 10.7226,
+    "longitude": -71.6327,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/sambil-maracaibo/portada.jpg",
     "panoUrl": null,
     "tags": [
       "compras",
@@ -695,7 +695,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/sambil-maracaibo.jpg",
+        "url": "/media/sitios/sambil-maracaibo/portada.jpg",
         "caption": null,
         "credit": "Foto: Wilfredor · CC0 · Wikimedia Commons"
       }
@@ -708,9 +708,9 @@
     "shortDescription": "Un centro comercial cómodo para compras rápidas y una pausa de café.",
     "history": "Doral Center es una opción práctica para compras puntuales, servicios y una pausa de café en la zona de Bella Vista.",
     "address": "Sector Bella Vista, Maracaibo",
-    "latitude": 10.6843,
-    "longitude": -71.6247,
-    "coordsVerified": false,
+    "latitude": 10.6981,
+    "longitude": -71.625,
+    "coordsVerified": true,
     "imageUrl": null,
     "panoUrl": null,
     "tags": [
@@ -729,9 +729,9 @@
     "shortDescription": "Principal hospital universitario de la región, junto a la Ciudad Universitaria.",
     "history": "El Hospital Universitario de Maracaibo es un centro de referencia para la formación médica y la atención de la región. Antes de acudir conviene confirmar servicios y horarios por los canales oficiales.",
     "address": "Avenida Universidad, Maracaibo",
-    "latitude": 10.6762,
-    "longitude": -71.6361,
-    "coordsVerified": false,
+    "latitude": 10.6733,
+    "longitude": -71.6285,
+    "coordsVerified": true,
     "imageUrl": null,
     "panoUrl": null,
     "tags": [
@@ -751,9 +751,9 @@
     "shortDescription": "Hospital público de referencia en la zona de Bella Vista.",
     "history": "El Hospital Central de Maracaibo atiende a la población de la ciudad y forma parte de la red pública de salud del estado. Verifica siempre los servicios disponibles y los canales de contacto oficiales.",
     "address": "Avenida 20, Bella Vista, Maracaibo",
-    "latitude": 10.6772,
-    "longitude": -71.6276,
-    "coordsVerified": false,
+    "latitude": 10.6424,
+    "longitude": -71.6056,
+    "coordsVerified": true,
     "imageUrl": null,
     "panoUrl": null,
     "tags": [
@@ -773,9 +773,9 @@
     "shortDescription": "Centro hospitalario público con servicios de atención médica general.",
     "history": "El Hospital Clínico de Maracaibo forma parte de la red de atención de la ciudad. Es recomendable confirmar la disponibilidad de cada servicio antes de la visita.",
     "address": "Avenida 20, Maracaibo",
-    "latitude": 10.6718,
-    "longitude": -71.6288,
-    "coordsVerified": false,
+    "latitude": 10.6859,
+    "longitude": -71.6264,
+    "coordsVerified": true,
     "imageUrl": null,
     "panoUrl": null,
     "tags": [
@@ -794,9 +794,9 @@
     "shortDescription": "Clínica privada con atención médica y servicios de hospitalización.",
     "history": "La Clínica Paraíso es una opción privada de atención médica en Maracaibo. Para visitas o emergencias conviene llamar antes y confirmar disponibilidad y cobertura.",
     "address": "Sector Las Delicias, Maracaibo",
-    "latitude": 10.6812,
-    "longitude": -71.6024,
-    "coordsVerified": false,
+    "latitude": 10.6839,
+    "longitude": -71.6162,
+    "coordsVerified": true,
     "imageUrl": null,
     "panoUrl": null,
     "tags": [
@@ -816,10 +816,10 @@
     "shortDescription": "La Ciudad Universitaria es un ícono educativo y arquitectónico del Zulia.",
     "history": "La Universidad del Zulia es la principal universidad pública de la región. Su Ciudad Universitaria reúne patrimonio arquitectónico, vida estudiantil y espacios culturales.",
     "address": "Ciudad Universitaria, Maracaibo",
-    "latitude": 10.679,
-    "longitude": -71.6337,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/universidad-del-zulia.jpg",
+    "latitude": 10.6754,
+    "longitude": -71.6283,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/universidad-del-zulia/portada.jpg",
     "panoUrl": null,
     "tags": [
       "universidad",
@@ -831,7 +831,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/universidad-del-zulia.jpg",
+        "url": "/media/sitios/universidad-del-zulia/portada.jpg",
         "caption": null,
         "credit": "Foto: Rjcastillo · CC BY-SA 3.0 · Wikimedia Commons"
       }
@@ -844,10 +844,10 @@
     "shortDescription": "Universidad privada de inspiración católica, con actividad cultural y académica.",
     "history": "La UNICA es una universidad privada de Maracaibo con una propuesta académica vinculada a la formación humanista y católica.",
     "address": "Maracaibo, Zulia",
-    "latitude": 10.6705,
-    "longitude": -71.6243,
+    "latitude": 10.6577,
+    "longitude": -71.6594,
     "coordsVerified": false,
-    "imageUrl": "/media/lugares/unica.jpg",
+    "imageUrl": "/media/sitios/unica/portada.jpg",
     "panoUrl": null,
     "tags": [
       "universidad",
@@ -859,7 +859,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/unica.jpg",
+        "url": "/media/sitios/unica/portada.jpg",
         "caption": null,
         "credit": "Foto: Zerojosefer · CC BY-SA 4.0 · Wikimedia Commons"
       }
@@ -872,10 +872,10 @@
     "shortDescription": "Campus universitario de gran extensión, con oferta académica en varias áreas.",
     "history": "La Universidad Rafael Belloso Chacín (URBE) es una universidad privada de Maracaibo con un campus amplio y una oferta académica que abarca distintas disciplinas.",
     "address": "Sector norte de Maracaibo",
-    "latitude": 10.6912,
-    "longitude": -71.648,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/urbe.jpg",
+    "latitude": 10.6941,
+    "longitude": -71.6342,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/urbe/portada.jpg",
     "panoUrl": null,
     "tags": [
       "universidad",
@@ -887,7 +887,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/urbe.jpg",
+        "url": "/media/sitios/urbe/portada.jpg",
         "caption": null,
         "credit": "Foto: Orlando Ortega · CC BY-SA 4.0 · Wikimedia Commons"
       }
@@ -900,10 +900,10 @@
     "shortDescription": "El gran estadio de fútbol de Maracaibo y escenario de la selección nacional.",
     "history": "El estadio Pachencho Romero es el principal escenario del fútbol zuliano. Ha recibido partidos de la selección de Venezuela y eventos deportivos de gran convocatoria.",
     "address": "Sector norte de Maracaibo",
-    "latitude": 10.6789,
-    "longitude": -71.6585,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/estadio-pachencho-romero.jpg",
+    "latitude": 10.674,
+    "longitude": -71.645,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/estadio-pachencho-romero/portada.jpg",
     "panoUrl": null,
     "tags": [
       "estadio",
@@ -915,7 +915,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/estadio-pachencho-romero.jpg",
+        "url": "/media/sitios/estadio-pachencho-romero/portada.jpg",
         "caption": null,
         "credit": "Foto: Rjcastillo · CC BY-SA 3.0 · Wikimedia Commons"
       }
@@ -928,10 +928,10 @@
     "shortDescription": "Casa del béisbol zuliano y uno de los escenarios deportivos más queridos.",
     "history": "El estadio Luis Aparicio es la casa de las Águilas del Zulia y una parada obligatoria para quienes siguen el béisbol venezolano.",
     "address": "Maracaibo, Zulia",
-    "latitude": 10.6707,
-    "longitude": -71.6182,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/estadio-luis-aparicio.jpg",
+    "latitude": 10.6728,
+    "longitude": -71.6481,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/estadio-luis-aparicio/portada.jpg",
     "panoUrl": null,
     "tags": [
       "estadio",
@@ -943,7 +943,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/estadio-luis-aparicio.jpg",
+        "url": "/media/sitios/estadio-luis-aparicio/portada.jpg",
         "caption": null,
         "credit": "Foto: EliasDML · CC BY-SA 3.0 · Wikimedia Commons"
       }
@@ -956,10 +956,10 @@
     "shortDescription": "Escenario histórico del deporte maracaibero, hoy parte de la memoria de la ciudad.",
     "history": "El estadio Alejandro Borges conserva valor histórico para el deporte de Maracaibo. Es un punto de referencia para entender la tradición deportiva de la ciudad.",
     "address": "Centro de Maracaibo",
-    "latitude": 10.6649,
-    "longitude": -71.6176,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/estadio-alejandro-borges.jpg",
+    "latitude": 10.6658,
+    "longitude": -71.6367,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/estadio-alejandro-borges/portada.jpg",
     "panoUrl": null,
     "tags": [
       "estadio",
@@ -971,7 +971,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/estadio-alejandro-borges.jpg",
+        "url": "/media/sitios/estadio-alejandro-borges/portada.jpg",
         "caption": null,
         "credit": "Foto: Rjcastillo · CC BY-SA 3.0 · Wikimedia Commons"
       }
@@ -984,8 +984,8 @@
     "shortDescription": "La zona de restaurantes, terrazas y vida nocturna más conocida de la ciudad.",
     "history": "La Calle 72 y el sector Bella Vista concentran restaurantes, terrazas y propuestas para salir de noche. Es una zona animada para cenar y compartir sin alejarse del centro.",
     "address": "Bella Vista, Maracaibo",
-    "latitude": 10.6784,
-    "longitude": -71.6126,
+    "latitude": 10.6739,
+    "longitude": -71.6062,
     "coordsVerified": false,
     "imageUrl": null,
     "panoUrl": null,
@@ -1005,8 +1005,8 @@
     "shortDescription": "Restaurantes, música y terrazas para cerrar el día con sabor maracaibero.",
     "history": "La Zona Rosa de Bella Vista reúne propuestas gastronómicas y de entretenimiento para la noche. Ideal para una cena tranquila o una salida con amigos.",
     "address": "Bella Vista, Maracaibo",
-    "latitude": 10.679,
-    "longitude": -71.6145,
+    "latitude": 10.6705,
+    "longitude": -71.6061,
     "coordsVerified": false,
     "imageUrl": null,
     "panoUrl": null,
@@ -1026,9 +1026,9 @@
     "shortDescription": "Un recorrido dulce por las casas y tradiciones del barrio Santa Lucía.",
     "history": "La ruta de los dulces de Santa Lucía es una experiencia de barrio para probar postres tradicionales y conocer a las familias que mantienen las recetas. Suele disfrutarse mejor al caer la tarde.",
     "address": "Barrio Santa Lucía, Maracaibo",
-    "latitude": 10.6558,
-    "longitude": -71.6193,
-    "coordsVerified": false,
+    "latitude": 10.6488,
+    "longitude": -71.6036,
+    "coordsVerified": true,
     "imageUrl": null,
     "panoUrl": null,
     "tags": [
@@ -1047,10 +1047,10 @@
     "shortDescription": "La puerta aérea de Maracaibo, nombrada en honor a la Virgen de Chiquinquirá.",
     "history": "El Aeropuerto Internacional La Chinita conecta a Maracaibo con el resto del país y con destinos internacionales. Conviene confirmar vuelos y transporte terrestre antes de salir.",
     "address": "Avenida La Chinita, Maracaibo",
-    "latitude": 10.5583,
-    "longitude": -71.7279,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/aeropuerto-la-chinita.jpg",
+    "latitude": 10.5578,
+    "longitude": -71.7263,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/aeropuerto-la-chinita/portada.jpg",
     "panoUrl": null,
     "tags": [
       "aeropuerto",
@@ -1062,7 +1062,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/aeropuerto-la-chinita.jpg",
+        "url": "/media/sitios/aeropuerto-la-chinita/portada.jpg",
         "caption": null,
         "credit": "Foto: Wilfredor · CC0 · Wikimedia Commons"
       }
@@ -1075,9 +1075,9 @@
     "shortDescription": "Punto de salida y llegada de rutas interurbanas del occidente del país.",
     "history": "La terminal de pasajeros de Maracaibo concentra rutas hacia distintos destinos del Zulia y del occidente venezolano. Llega con tiempo y confirma horarios con la línea que vayas a usar.",
     "address": "Maracaibo, Zulia",
-    "latitude": 10.6661,
-    "longitude": -71.6405,
-    "coordsVerified": false,
+    "latitude": 10.6355,
+    "longitude": -71.6191,
+    "coordsVerified": true,
     "imageUrl": null,
     "panoUrl": null,
     "tags": [
@@ -1096,10 +1096,10 @@
     "shortDescription": "El gran puente sobre el Lago de Maracaibo, una obra que cambió la conexión del Zulia.",
     "history": "Inaugurado en 1962, el Puente General Rafael Urdaneta es una de las obras de ingeniería más importantes de Venezuela. Une Maracaibo con la costa oriental del lago y se ha convertido en símbolo de la ciudad.",
     "address": "Sobre el Lago de Maracaibo, al sur de la ciudad",
-    "latitude": 10.5767,
-    "longitude": -71.5835,
-    "coordsVerified": false,
-    "imageUrl": "/media/lugares/puente-rafael-urdaneta.jpg",
+    "latitude": 10.5747,
+    "longitude": -71.5741,
+    "coordsVerified": true,
+    "imageUrl": "/media/sitios/puente-rafael-urdaneta/portada.jpg",
     "panoUrl": null,
     "tags": [
       "puente",
@@ -1111,7 +1111,7 @@
     "media": [
       {
         "kind": "photo",
-        "url": "/media/lugares/puente-rafael-urdaneta.jpg",
+        "url": "/media/sitios/puente-rafael-urdaneta/portada.jpg",
         "caption": null,
         "credit": "Foto: Wilfredor · CC0 · Wikimedia Commons"
       }

@@ -1,5 +1,6 @@
 import { EXTRA_PLACES, PLACE_GROUPS } from "../data/catalog";
 import { isCategorySlug, type CategorySlug } from "../data/categories";
+import { withVerifiedCoords } from "../data/coords";
 import { popularityScore } from "./popularity";
 import type { Place } from "../types";
 
@@ -18,7 +19,9 @@ const LEGACY_CATEGORY: Record<string, CategorySlug> = {
 /** Une la respuesta de la API con el catálogo empaquetado, sin repetir slugs. */
 export function mergePlaces(apiPlaces: readonly Place[]): Place[] {
   const seen = new Set(apiPlaces.map((place) => place.slug));
-  return [...apiPlaces, ...EXTRA_PLACES.filter((place) => !seen.has(place.slug))];
+  return [...apiPlaces, ...EXTRA_PLACES.filter((place) => !seen.has(place.slug))].map(
+    withVerifiedCoords
+  );
 }
 
 /** Categorías de un lugar; la primera es la principal. */

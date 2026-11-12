@@ -14,6 +14,7 @@ export function HomeCarousel({ slides, onOpenPlace }: Props) {
   const pausedRef = useRef(false);
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [portraitSlides, setPortraitSlides] = useState<Record<number, boolean>>({});
   const total = slides.length;
   const pad = (value: number) => String(value + 1).padStart(2, "0");
 
@@ -130,12 +131,24 @@ export function HomeCarousel({ slides, onOpenPlace }: Props) {
             data-carousel-card={index}
             className={`vmh-carousel__slide${index === active ? " is-active" : ""}`}
           >
-            <div className="vmh-carousel__media">
+            <div
+              className={`vmh-carousel__media${portraitSlides[index] ? " is-portrait" : ""}`}
+              style={{ backgroundImage: `url("${slide.src}")` }}
+              aria-label={slide.title}
+            >
               <img
                 src={slide.src}
                 alt={`${slide.title} · ${slide.caption}`}
                 loading={index < 3 ? "eager" : "lazy"}
                 decoding="async"
+                onLoad={(event) => {
+                  const image = event.currentTarget;
+                  setPortraitSlides((currentSlides) => {
+                    const isPortrait = image.naturalHeight > image.naturalWidth;
+                    if (currentSlides[index] === isPortrait) return currentSlides;
+                    return { ...currentSlides, [index]: isPortrait };
+                  });
+                }}
               />
               <span className="vmh-carousel__badge">
                 <IconMapPin width={12} height={12} />

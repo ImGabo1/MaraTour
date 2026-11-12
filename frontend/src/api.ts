@@ -1,4 +1,5 @@
-import { API_URL } from "./config";
+import { apiFetch } from "./config";
+import { withVerifiedCoords } from "./data/coords";
 import type { Place, PlacesResponse } from "./types";
 
 export type DataSource = "api" | "respaldo";
@@ -20,10 +21,12 @@ async function fetchJson(url: string): Promise<PlacesResponse> {
  */
 export async function loadPlaces(): Promise<PlacesResult> {
   try {
-    const body = await fetchJson(`${API_URL}/api/places`);
-    return { places: body.data, source: "api" };
+    const res = await apiFetch("/api/places", { headers: { Accept: "application/json" } });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const body = (await res.json()) as PlacesResponse;
+    return { places: body.data.map(withVerifiedCoords), source: "api" };
   } catch {
     const body = await fetchJson("/data/places.json");
-    return { places: body.data, source: "respaldo" };
+    return { places: body.data.map(withVerifiedCoords), source: "respaldo" };
   }
 }

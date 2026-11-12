@@ -1,0 +1,209 @@
+{
+  "aeropuerto-la-chinita": {
+    "cover": "/media/sitios/aeropuerto-la-chinita/portada.jpg"
+  },
+  "basilica-chiquinquira": {
+    "cover": "/media/sitios/basilica-chiquinquira/portada.jpg",
+    "panos": [
+      "/media/sitios/basilica-chiquinquira/360-2.jpg",
+      "/media/sitios/basilica-chiquinquira/360.jpg"
+    ],
+    "video": "/media/sitios/basilica-chiquinquira/video.mp4",
+    "photos": [
+      "/media/sitios/basilica-chiquinquira/foto-01.jpg",
+      "/media/sitios/basilica-chiquinquira/foto-02.jpg",
+      "/media/sitios/basilica-chiquinquira/foto-03.jpg",
+      "/media/sitios/basilica-chiquinquira/foto-04.jpg",
+      "/media/sitios/basilica-chiquinquira/foto-05.jpg",
+      "/media/sitios/basilica-chiquinquira/foto-06.jpg",
+      "/media/sitios/basilica-chiquinquira/foto-07.jpg",
+      "/media/sitios/basilica-chiquinquira/foto-08.jpg"
+    ]
+  },
+  "biblioteca-publica-zulia": {
+    "cover": "/media/sitios/biblioteca-publica-zulia/portada.jpg"
+  },
+  "calle-carabobo": {
+    "cover": "/media/sitios/calle-carabobo/portada.jpg"
+  },
+  "casa-capitulacion": {
+    "cover": "/media/sitios/casa-capitulacion/portada.jpg"
+  },
+  "catedral-maracaibo": {
+    "cover": "/media/sitios/catedral-maracaibo/portada.jpg"
+  },
+  "centro-arte-lia-bermudez": {
+    "cover": "/media/sitios/centro-arte-lia-bermudez/portada.jpg",
+    "panos": [
+      "/media/sitios/centro-arte-lia-bermudez/360.jpg"
+    ],
+    "photos": [
+      "/media/sitios/centro-arte-lia-bermudez/foto-01.jpg",
+      "/media/sitios/centro-arte-lia-bermudez/foto-02.jpg",
+      "/media/sitios/centro-arte-lia-bermudez/foto-03.jpg",
+      "/media/sitios/centro-arte-lia-bermudez/foto-04.jpg",
+      "/media/sitios/centro-arte-lia-bermudez/foto-05.jpg",
+      "/media/sitios/centro-arte-lia-bermudez/foto-06.jpg",
+      "/media/sitios/centro-arte-lia-bermudez/foto-07.jpg",
+      "/media/sitios/centro-arte-lia-bermudez/foto-08.jpg",
+      "/media/sitios/centro-arte-lia-bermudez/foto-09.jpg"
+    ]
+  },
+  "estadio-alejandro-borges": {
+    "cover": "/media/sitios/estadio-alejandro-borges/portada.jpg"
+  },
+  "estadio-luis-aparicio": {
+    "cover": "/media/sitios/estadio-luis-aparicio/portada.jpg"
+  },
+  "estadio-pachencho-romero": {
+    "cover": "/media/sitios/estadio-pachencho-romero/portada.jpg"
+  },
+  "galerias-mall": {
+    "cover": "/media/sitios/galerias-mall/portada.jpg"
+  },
+  "hospital-central-maracaibo": {
+    "photos": [
+      "/media/sitios/hospital-central-maracaibo/foto-01.jpg",
+      "/media/sitios/hospital-central-maracaibo/foto-02.jpg",
+      "/media/sitios/hospital-central-maracaibo/foto-03.jpg",
+      "/media/sitios/hospital-central-maracaibo/foto-04.jpg",
+      "/media/sitios/hospital-central-maracaibo/foto-05.jpg",
+      "/media/sitios/hospital-central-maracaibo/foto-06.jpg",
+      "/media/sitios/hospital-central-maracaibo/foto-07.jpg",
+      "/media/sitios/hospital-central-maracaibo/foto-08.jpg",
+      "/media/sitios/hospital-central-maracaibo/foto-09.jpg",
+      "/media/sitios/hospital-central-maracaibo/foto-10.jpg",
+      "/media/sitios/hospital-central-maracaibo/foto-11.jpg",
+      "/media/sitios/hospital-central-maracaibo/foto-12.jpg"
+    ]
+  },
+  "iglesia-san-francisco": {
+    "cover": "/media/sitios/iglesia-san-francisco/portada.jpg"
+  },
+  "jardin-botanico-maracaibo": {
+    "cover": "/media/sitios/jardin-botanico-maracaibo/portada.jpg"
+  },
+  "maczul": {
+    "cover": "/media/sitios/maczul/portada.jpg"
+  },
+  "palacio-gobierno-zulia": {
+    "cover": "/media/sitios/palacio-gobierno-zulia/portada.jpg"
+  },
+  "parque-universitario-luz": {
+    "cover": "/media/sitios/parque-universitario-luz/portada.jpg"
+  },
+  "parque-urdaneta": {
+    "cover": "/media/sitios/parque-urdaneta/portada.jpg",
+    "panos": [
+      "/media/sitios/parque-urdaneta/360-2.jpg",
+      "/media/sitios/parque-urdaneta/360.jpg"
+    ],
+    "video": "/media/sitios/parque-urdaneta/video.mp4",
+    "photos": [
+      "/media/sitios/parque-urdaneta/foto-01.jpg",
+      "/media/sitios/parque-urdaneta/foto-02.jpg"
+    ]
+  },
+  "paseo-del-lago": {
+    "cover": "/media/sitios/paseo-del-lago/portada.jpg",
+    "photos": [
+      "/media/sitios/paseo-del-lago/foto-01.jpg",
+      "/media/sitios/paseo-del-lago/foto-02.jpg",
+      "/media/sitios/paseo-del-lago/foto-03.jpg",
+      "/media/sitios/paseo-del-lago/foto-04.jpg",
+      "/media/sitios/paseo-del-lago/foto-05.jpg"
+    ]
+  },
+  "plaza-baralt": {
+    "cover": "/media/sitios/plaza-baralt/portada.jpg"
+  },
+  "plaza-bolivar": {
+    "cover": "/media/sitios/plaza-bolivar/portada.jpg",
+    "panos": [
+      "/media/sitios/plaza-bolivar/360-2.jpg",
+      "/media/sitios/plaza-bolivar/360.jpg"
+    ],
+    "photos": [
+      "/media/sitios/plaza-bolivar/foto-01.jpg"
+    ]
+  },
+  "plaza-monumento-chinita": {
+    "cover": "/media/sitios/plaza-monumento-chinita/portada.jpg",
+    "panos": [
+      "/media/sitios/plaza-monumento-chinita/360-2.jpg",
+      "/media/sitios/plaza-monumento-chinita/360.jpg"
+    ],
+    "photos": [
+      "/media/sitios/plaza-monumento-chinita/foto-01.jpg",
+      "/media/sitios/plaza-monumento-chinita/foto-02.jpg",
+      "/media/sitios/plaza-monumento-chinita/foto-03.jpg",
+      "/media/sitios/plaza-monumento-chinita/foto-04.jpg",
+      "/media/sitios/plaza-monumento-chinita/foto-05.jpg",
+      "/media/sitios/plaza-monumento-chinita/foto-06.jpg",
+      "/media/sitios/plaza-monumento-chinita/foto-07.jpg",
+      "/media/sitios/plaza-monumento-chinita/foto-08.jpg",
+      "/media/sitios/plaza-monumento-chinita/foto-09.jpg",
+      "/media/sitios/plaza-monumento-chinita/foto-10.jpg",
+      "/media/sitios/plaza-monumento-chinita/foto-11.jpg",
+      "/media/sitios/plaza-monumento-chinita/foto-12.jpg"
+    ]
+  },
+  "plaza-republica": {
+    "cover": "/media/sitios/plaza-republica/portada.jpg",
+    "panos": [
+      "/media/sitios/plaza-republica/360.jpg"
+    ],
+    "video": "/media/sitios/plaza-republica/video.mp4"
+  },
+  "puente-rafael-urdaneta": {
+    "cover": "/media/sitios/puente-rafael-urdaneta/portada.jpg"
+  },
+  "ruta-dulces-santa-lucia": {
+    "cover": "/media/sitios/ruta-dulces-santa-lucia/portada.jpg"
+  },
+  "sabor-zuliano": {
+    "cover": "/media/sitios/sabor-zuliano/portada.jpg"
+  },
+  "sambil-maracaibo": {
+    "cover": "/media/sitios/sambil-maracaibo/portada.jpg"
+  },
+  "santa-lucia": {
+    "cover": "/media/sitios/santa-lucia/portada.jpg",
+    "video": "/media/sitios/santa-lucia/video.mp4"
+  },
+  "teatro-baralt": {
+    "cover": "/media/sitios/teatro-baralt/portada.jpg",
+    "video": "/media/sitios/teatro-baralt/video.mp4"
+  },
+  "unica": {
+    "cover": "/media/sitios/unica/portada.jpg"
+  },
+  "universidad-del-zulia": {
+    "cover": "/media/sitios/universidad-del-zulia/portada.jpg"
+  },
+  "urbe": {
+    "cover": "/media/sitios/urbe/portada.jpg"
+  },
+  "vereda-del-lago": {
+    "cover": "/media/sitios/vereda-del-lago/portada.jpg",
+    "panos": [
+      "/media/sitios/vereda-del-lago/360-2.jpg",
+      "/media/sitios/vereda-del-lago/360.jpg"
+    ],
+    "video": "/media/sitios/vereda-del-lago/video.mp4",
+    "photos": [
+      "/media/sitios/vereda-del-lago/foto-01.jpg",
+      "/media/sitios/vereda-del-lago/foto-02.jpg",
+      "/media/sitios/vereda-del-lago/foto-03.jpg",
+      "/media/sitios/vereda-del-lago/foto-04.jpg",
+      "/media/sitios/vereda-del-lago/foto-05.jpg",
+      "/media/sitios/vereda-del-lago/foto-06.jpg",
+      "/media/sitios/vereda-del-lago/foto-07.jpg",
+      "/media/sitios/vereda-del-lago/foto-08.jpg",
+      "/media/sitios/vereda-del-lago/foto-09.jpg"
+    ]
+  },
+  "zona-rosa-bella-vista": {
+    "cover": "/media/sitios/zona-rosa-bella-vista/portada.jpg"
+  }
+}

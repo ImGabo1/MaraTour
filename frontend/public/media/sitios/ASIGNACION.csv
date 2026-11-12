@@ -1,0 +1,165 @@
+original,tipo,archivo_en_la_app,estado,sitio_sugerido,nombre_sitio,distancia_m,segundo_candidato,distancia2_m,lat,lng
+PXL_20261102_150211078.PANO.jpg,pan,media/sitios/basilica-chiquinquira/foto-01.jpg,confirmado-por-gps,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,63,plaza-monumento-chinita,354,10.64284,-71.61523
+PXL_20261102_150301876.PANO.jpg,pan,media/sitios/basilica-chiquinquira/foto-02.jpg,confirmado-por-gps,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,63,plaza-monumento-chinita,354,10.64284,-71.61523
+PXL_20261102_150342837.PHOTOSPHERE.jpg,360,media/sitios/basilica-chiquinquira/360.jpg,confirmado-por-gps,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,46,plaza-monumento-chinita,371,10.64283,-71.61539
+PXL_20261102_150702717.PHOTOSPHERE.jpg,360,media/sitios/basilica-chiquinquira/360-2.jpg,confirmado-por-gps,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,3,plaza-monumento-chinita,416,10.64293,-71.61579
+PXL_20261102_151816897.PHOTOSPHERE.jpg,360,media/sitios/_por-revisar/plaza-monumento-chinita/360.jpg,REVISAR,plaza-monumento-chinita,Plaza Monumento a la Chinita,156,basilica-chiquinquira,263,10.64290,-71.61339
+PXL_20261102_152250384.PHOTOSPHERE.jpg,360,media/sitios/plaza-monumento-chinita/360.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,53,plaza-baralt,339,10.64222,-71.61230
+PXL_20261102_152922322.PHOTOSPHERE.jpg,360,media/sitios/plaza-monumento-chinita/360-2.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,115,iglesia-san-francisco,223,10.64248,-71.61095
+PXL_20261102_154039121.PHOTOSPHERE.jpg,360,media/sitios/_por-revisar/plaza-bolivar/360.jpg,REVISAR,plaza-bolivar,Plaza Bolívar de Maracaibo,62,catedral-maracaibo,77,10.64106,-71.60755
+PXL_20261102_154307352.PHOTOSPHERE.jpg,360,media/sitios/plaza-bolivar/360.jpg,confirmado-por-gps,plaza-bolivar,Plaza Bolívar de Maracaibo,14,palacio-gobierno-zulia,76,10.64154,-71.60782
+PXL_20261102_154819013.PHOTOSPHERE.jpg,360,media/sitios/plaza-bolivar/360-2.jpg,confirmado-por-gps,plaza-bolivar,Plaza Bolívar de Maracaibo,4,palacio-gobierno-zulia,71,10.64156,-71.60771
+PXL_20261102_161747200.PHOTOSPHERE.jpg,360,media/sitios/vereda-del-lago/360.jpg,confirmado-por-gps,vereda-del-lago,Vereda del Lago,407,paseo-del-lago,701,10.65938,-71.59324
+PXL_20261102_162941033.PHOTOSPHERE.jpg,360,media/sitios/vereda-del-lago/360-2.jpg,confirmado-por-gps,vereda-del-lago,Vereda del Lago,203,paseo-del-lago,1082,10.65631,-71.59486
+PXL_20261102_165752250.PHOTOSPHERE.jpg,360,media/sitios/plaza-republica/360.jpg,confirmado-por-gps,plaza-republica,Plaza de la República,1,mi-vaquita,150,10.66641,-71.60731
+PXL_20261103_085904810.PHOTOSPHERE.jpg,360,media/sitios/parque-urdaneta/360.jpg,confirmado-por-gps,parque-urdaneta,Parque Urdaneta,78,calle-carabobo,283,10.64492,-71.61012
+PXL_20261103_090206214.PHOTOSPHERE.jpg,360,media/sitios/parque-urdaneta/360-2.jpg,confirmado-por-gps,parque-urdaneta,Parque Urdaneta,71,calle-carabobo,307,10.64496,-71.61039
+PXL_20261103_092019426.PHOTOSPHERE.jpg,360,media/sitios/_por-revisar/parque-urdaneta/360.jpg,REVISAR,parque-urdaneta,Parque Urdaneta,194,plaza-monumento-chinita,219,10.64385,-71.61044
+PXL_20261103_092507852.PHOTOSPHERE.jpg,360,media/sitios/_por-revisar/basilica-chiquinquira/360.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,281,plaza-monumento-chinita,283,10.64446,-71.61377
+PXL_20261103_095036096.PHOTOSPHERE.jpg,360,media/sitios/centro-arte-lia-bermudez/360.jpg,confirmado-por-gps,centro-arte-lia-bermudez,Centro de Arte de Maracaibo Lía Bermúdez,64,plaza-baralt,241,10.63872,-71.60967
+IMG_20261102_150135.jpg,foto,media/sitios/basilica-chiquinquira/foto-03.jpg,confirmado-por-gps,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,114,plaza-monumento-chinita,303,10.64274,-71.61477
+IMG_20261102_150649.jpg,foto,media/sitios/basilica-chiquinquira/foto-04.jpg,confirmado-por-gps,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,3,plaza-monumento-chinita,416,10.64293,-71.61579
+IMG_20261102_150658.jpg,foto,media/sitios/basilica-chiquinquira/foto-05.jpg,confirmado-por-gps,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,3,plaza-monumento-chinita,416,10.64293,-71.61579
+IMG_20261102_151022.jpg,foto,media/sitios/basilica-chiquinquira/foto-06.jpg,confirmado-por-gps,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,16,plaza-monumento-chinita,401,10.64293,-71.61565
+IMG_20261102_151035.jpg,foto,media/sitios/basilica-chiquinquira/foto-07.jpg,confirmado-por-gps,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,16,plaza-monumento-chinita,401,10.64293,-71.61565
+IMG_20261102_151050.jpg,foto,media/sitios/basilica-chiquinquira/foto-08.jpg,confirmado-por-gps,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,16,plaza-monumento-chinita,401,10.64293,-71.61565
+IMG_20261102_151621.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-01.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,178,plaza-monumento-chinita,243,10.64303,-71.61418
+IMG_20261102_151622.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-02.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,178,plaza-monumento-chinita,243,10.64303,-71.61418
+IMG_20261102_151625.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-03.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,178,plaza-monumento-chinita,243,10.64303,-71.61418
+IMG_20261102_151633.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-04.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,177,plaza-monumento-chinita,241,10.64289,-71.61418
+IMG_20261102_151635.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-05.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,177,plaza-monumento-chinita,241,10.64289,-71.61418
+IMG_20261102_151725.jpg,foto,media/sitios/_por-revisar/_sin-ubicacion/foto-01.jpg,REVISAR,,,,,,,
+IMG_20261102_151727.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-06.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,209,plaza-monumento-chinita,263,10.64377,-71.61410
+IMG_20261102_151730.jpg,foto,media/sitios/_por-revisar/_sin-ubicacion/foto-02.jpg,REVISAR,,,,,,,
+IMG_20261102_151755.jpg,foto,media/sitios/_por-revisar/plaza-monumento-chinita/foto-01.jpg,REVISAR,plaza-monumento-chinita,Plaza Monumento a la Chinita,158,basilica-chiquinquira,263,10.64245,-71.61344
+IMG_20261102_151755_1.jpg,foto,media/sitios/_por-revisar/plaza-monumento-chinita/foto-02.jpg,REVISAR,plaza-monumento-chinita,Plaza Monumento a la Chinita,158,basilica-chiquinquira,263,10.64245,-71.61344
+IMG_20261102_151957.jpg,foto,media/sitios/_por-revisar/plaza-monumento-chinita/foto-03.jpg,REVISAR,plaza-monumento-chinita,Plaza Monumento a la Chinita,197,basilica-chiquinquira,252,10.64347,-71.61357
+IMG_20261102_152139.jpg,foto,media/sitios/plaza-monumento-chinita/foto-01.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,80,basilica-chiquinquira,359,10.64311,-71.61253
+IMG_20261102_152140.jpg,foto,media/sitios/plaza-monumento-chinita/foto-02.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,80,basilica-chiquinquira,359,10.64311,-71.61253
+IMG_20261102_152143.jpg,foto,media/sitios/plaza-monumento-chinita/foto-03.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,80,basilica-chiquinquira,359,10.64311,-71.61253
+IMG_20261102_152152.jpg,foto,media/sitios/plaza-monumento-chinita/foto-04.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,80,basilica-chiquinquira,359,10.64311,-71.61253
+IMG_20261102_152153.jpg,foto,media/sitios/plaza-monumento-chinita/foto-05.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,80,basilica-chiquinquira,359,10.64311,-71.61253
+IMG_20261102_152219.jpg,foto,media/sitios/plaza-monumento-chinita/foto-06.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,30,iglesia-san-francisco,307,10.64235,-71.61189
+IMG_20261102_152220.jpg,foto,media/sitios/plaza-monumento-chinita/foto-07.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,30,iglesia-san-francisco,307,10.64235,-71.61189
+IMG_20261102_152508.jpg,foto,media/sitios/plaza-monumento-chinita/foto-08.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,52,basilica-chiquinquira,364,10.64262,-71.61248
+IMG_20261102_152629.jpg,foto,media/sitios/plaza-monumento-chinita/foto-09.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,52,basilica-chiquinquira,364,10.64262,-71.61248
+IMG_20261102_152824.jpg,foto,media/sitios/_por-revisar/parque-urdaneta/foto-01.jpg,REVISAR,parque-urdaneta,Parque Urdaneta,192,plaza-monumento-chinita,195,10.64427,-71.61143
+IMG_20261102_152918.jpg,foto,media/sitios/_por-revisar/plaza-baralt/foto-01.jpg,REVISAR,plaza-baralt,Plaza Baralt,161,iglesia-san-francisco,166,10.64161,-71.61078
+IMG_20261102_154018.jpg,foto,media/sitios/_por-revisar/plaza-bolivar/foto-01.jpg,REVISAR,plaza-bolivar,Plaza Bolívar de Maracaibo,49,catedral-maracaibo,80,10.64116,-71.60765
+IMG_20261102_154021.jpg,foto,media/sitios/_por-revisar/plaza-bolivar/foto-02.jpg,REVISAR,plaza-bolivar,Plaza Bolívar de Maracaibo,49,catedral-maracaibo,80,10.64116,-71.60765
+IMG_20261102_154600.jpg,foto,media/sitios/plaza-bolivar/foto-01.jpg,confirmado-por-gps,plaza-bolivar,Plaza Bolívar de Maracaibo,49,catedral-maracaibo,91,10.64116,-71.60776
+IMG_20261102_154722.jpg,foto,media/sitios/_por-revisar/casa-capitulacion/foto-01.jpg,REVISAR,casa-capitulacion,Casa de la Capitulación,19,palacio-gobierno-zulia,32,10.64213,-71.60788
+IMG_20261102_154802.jpg,foto,media/sitios/_por-revisar/teatro-baralt/foto-01.jpg,REVISAR,teatro-baralt,Teatro Baralt,23,casa-capitulacion,39,10.64226,-71.60826
+IMG_20261102_154803.jpg,foto,media/sitios/_por-revisar/teatro-baralt/foto-02.jpg,REVISAR,teatro-baralt,Teatro Baralt,23,casa-capitulacion,39,10.64226,-71.60826
+IMG_20261102_154813.jpg,foto,media/sitios/_por-revisar/teatro-baralt/foto-03.jpg,REVISAR,teatro-baralt,Teatro Baralt,23,casa-capitulacion,39,10.64226,-71.60826
+IMG_20261102_155031.jpg,foto,media/sitios/_por-revisar/teatro-baralt/foto-04.jpg,REVISAR,teatro-baralt,Teatro Baralt,27,casa-capitulacion,44,10.64226,-71.60830
+IMG_20261102_155101.jpg,foto,media/sitios/_por-revisar/casa-capitulacion/foto-02.jpg,REVISAR,casa-capitulacion,Casa de la Capitulación,24,teatro-baralt,39,10.64208,-71.60795
+IMG_20261102_155131.jpg,foto,media/sitios/_por-revisar/casa-capitulacion/foto-03.jpg,REVISAR,casa-capitulacion,Casa de la Capitulación,14,palacio-gobierno-zulia,31,10.64218,-71.60788
+IMG_20261102_160243.jpg,foto,media/sitios/_por-revisar/_sin-ubicacion/foto-03.jpg,REVISAR,,,,,,,
+IMG_20261102_160243_1.jpg,foto,media/sitios/_por-revisar/ruta-dulces-santa-lucia/foto-01.jpg,REVISAR,ruta-dulces-santa-lucia,Ruta de los dulces de Santa Lucía,612,santa-lucia,787,10.65080,-71.59837
+IMG_20261102_160246.jpg,foto,media/sitios/_por-revisar/ruta-dulces-santa-lucia/foto-02.jpg,REVISAR,ruta-dulces-santa-lucia,Ruta de los dulces de Santa Lucía,612,santa-lucia,787,10.65080,-71.59837
+IMG_20261102_160436.jpg,foto,media/sitios/_por-revisar/_sin-ubicacion/foto-04.jpg,REVISAR,,,,,,,
+IMG_20261102_160437.jpg,foto,media/sitios/vereda-del-lago/foto-01.jpg,confirmado-por-gps,vereda-del-lago,Vereda del Lago,534,ruta-dulces-santa-lucia,1108,10.65702,-71.59780
+IMG_20261102_160443.jpg,foto,media/sitios/_por-revisar/_sin-ubicacion/foto-05.jpg,REVISAR,,,,,,,
+IMG_20261102_160456.jpg,foto,media/sitios/vereda-del-lago/foto-02.jpg,confirmado-por-gps,vereda-del-lago,Vereda del Lago,244,paseo-del-lago,1218,10.65383,-71.59191
+IMG_20261102_160505.jpg,foto,media/sitios/_por-revisar/_sin-ubicacion/foto-06.jpg,REVISAR,,,,,,,
+IMG_20261102_160508.jpg,foto,media/sitios/vereda-del-lago/foto-03.jpg,confirmado-por-gps,vereda-del-lago,Vereda del Lago,183,paseo-del-lago,1061,10.65519,-71.59150
+IMG_20261102_160510.jpg,foto,media/sitios/_por-revisar/_sin-ubicacion/foto-07.jpg,REVISAR,,,,,,,
+IMG_20261102_160514.jpg,foto,media/sitios/vereda-del-lago/foto-04.jpg,confirmado-por-gps,vereda-del-lago,Vereda del Lago,183,paseo-del-lago,1061,10.65519,-71.59150
+IMG_20261102_160519.jpg,foto,media/sitios/_por-revisar/_sin-ubicacion/foto-08.jpg,REVISAR,,,,,,,
+IMG_20261102_161953.jpg,foto,media/sitios/paseo-del-lago/foto-01.jpg,confirmado-por-gps,paseo-del-lago,Paseo del Lago,239,vereda-del-lago,986,10.66452,-71.59179
+IMG_20261102_162000.jpg,foto,media/sitios/paseo-del-lago/foto-02.jpg,confirmado-por-gps,paseo-del-lago,Paseo del Lago,239,vereda-del-lago,986,10.66452,-71.59179
+IMG_20261102_162002.jpg,foto,media/sitios/paseo-del-lago/foto-03.jpg,confirmado-por-gps,paseo-del-lago,Paseo del Lago,239,vereda-del-lago,986,10.66452,-71.59179
+IMG_20261102_162007.jpg,foto,media/sitios/paseo-del-lago/foto-04.jpg,confirmado-por-gps,paseo-del-lago,Paseo del Lago,239,vereda-del-lago,986,10.66452,-71.59179
+IMG_20261102_162008.jpg,foto,media/sitios/paseo-del-lago/foto-05.jpg,confirmado-por-gps,paseo-del-lago,Paseo del Lago,239,vereda-del-lago,986,10.66452,-71.59179
+IMG_20261102_162844.jpg,foto,media/sitios/vereda-del-lago/foto-05.jpg,confirmado-por-gps,vereda-del-lago,Vereda del Lago,539,ruta-dulces-santa-lucia,1140,10.65083,-71.59338
+IMG_20261102_162849.jpg,foto,media/sitios/vereda-del-lago/foto-06.jpg,confirmado-por-gps,vereda-del-lago,Vereda del Lago,584,ruta-dulces-santa-lucia,981,10.65070,-71.59483
+IMG_20261102_162910.jpg,foto,media/sitios/vereda-del-lago/foto-07.jpg,confirmado-por-gps,vereda-del-lago,Vereda del Lago,571,ruta-dulces-santa-lucia,1000,10.65077,-71.59467
+IMG_20261102_162914.jpg,foto,media/sitios/vereda-del-lago/foto-08.jpg,confirmado-por-gps,vereda-del-lago,Vereda del Lago,571,ruta-dulces-santa-lucia,1000,10.65077,-71.59467
+IMG_20261102_162927.jpg,foto,media/sitios/vereda-del-lago/foto-09.jpg,confirmado-por-gps,vereda-del-lago,Vereda del Lago,571,ruta-dulces-santa-lucia,1000,10.65077,-71.59467
+IMG_20261102_165542.jpg,foto,media/sitios/_por-revisar/plaza-republica/foto-01.jpg,REVISAR,plaza-republica,Plaza de la República,152,mi-vaquita,254,10.66505,-71.60702
+IMG_20261102_165544.jpg,foto,media/sitios/_por-revisar/plaza-republica/foto-02.jpg,REVISAR,plaza-republica,Plaza de la República,152,mi-vaquita,254,10.66505,-71.60702
+IMG_20261102_165655.jpg,foto,media/sitios/_por-revisar/plaza-republica/foto-03.jpg,REVISAR,plaza-republica,Plaza de la República,168,mi-vaquita,170,10.66569,-71.60595
+IMG_20261102_170519.jpg,foto,media/sitios/_por-revisar/plaza-republica/foto-04.jpg,REVISAR,plaza-republica,Plaza de la República,76,mi-vaquita,114,10.66626,-71.60662
+IMG_20261102_170521.jpg,foto,media/sitios/_por-revisar/plaza-republica/foto-05.jpg,REVISAR,plaza-republica,Plaza de la República,76,mi-vaquita,114,10.66626,-71.60662
+IMG_20261103_090043.jpg,foto,media/sitios/_por-revisar/parque-urdaneta/foto-02.jpg,REVISAR,parque-urdaneta,Parque Urdaneta,141,plaza-monumento-chinita,282,10.64510,-71.61148
+IMG_20261103_090135.jpg,foto,media/sitios/_por-revisar/parque-urdaneta/foto-03.jpg,REVISAR,parque-urdaneta,Parque Urdaneta,160,plaza-monumento-chinita,238,10.64467,-71.61143
+IMG_20261103_090136.jpg,foto,media/sitios/_por-revisar/parque-urdaneta/foto-04.jpg,REVISAR,parque-urdaneta,Parque Urdaneta,160,plaza-monumento-chinita,238,10.64467,-71.61143
+IMG_20261103_090421.jpg,foto,media/sitios/plaza-monumento-chinita/foto-10.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,44,iglesia-san-francisco,371,10.64269,-71.61239
+IMG_20261103_090424.jpg,foto,media/sitios/plaza-monumento-chinita/foto-11.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,44,iglesia-san-francisco,371,10.64269,-71.61239
+IMG_20261103_090441.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-07.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,143,plaza-monumento-chinita,517,10.64398,-71.61652
+IMG_20261103_090510.jpg,foto,media/sitios/_por-revisar/parque-urdaneta/foto-05.jpg,REVISAR,parque-urdaneta,Parque Urdaneta,156,plaza-monumento-chinita,236,10.64464,-71.61135
+IMG_20261103_090511.jpg,foto,media/sitios/_por-revisar/parque-urdaneta/foto-06.jpg,REVISAR,parque-urdaneta,Parque Urdaneta,156,plaza-monumento-chinita,236,10.64464,-71.61135
+IMG_20261103_090518.jpg,foto,media/sitios/_por-revisar/parque-urdaneta/foto-07.jpg,REVISAR,parque-urdaneta,Parque Urdaneta,174,plaza-monumento-chinita,220,10.64452,-71.61145
+IMG_20261103_090531.jpg,foto,media/sitios/_por-revisar/parque-urdaneta/foto-08.jpg,REVISAR,parque-urdaneta,Parque Urdaneta,174,plaza-monumento-chinita,220,10.64452,-71.61145
+IMG_20261103_091528.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-08.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,197,plaza-monumento-chinita,410,10.64457,-71.61518
+IMG_20261103_091532.jpg,foto,media/sitios/plaza-monumento-chinita/foto-12.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,73,parque-urdaneta,338,10.64322,-71.61224
+IMG_20261103_091537.jpg,foto,media/sitios/plaza-monumento-chinita/foto-13.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,73,parque-urdaneta,338,10.64322,-71.61224
+IMG_20261103_091540.jpg,foto,media/sitios/plaza-monumento-chinita/foto-14.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,73,parque-urdaneta,338,10.64322,-71.61224
+IMG_20261103_091541.jpg,foto,media/sitios/plaza-monumento-chinita/foto-15.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,73,parque-urdaneta,338,10.64322,-71.61224
+IMG_20261103_091543.jpg,foto,media/sitios/plaza-monumento-chinita/foto-16.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,73,parque-urdaneta,338,10.64322,-71.61224
+IMG_20261103_091601.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-09.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,281,plaza-monumento-chinita,283,10.64446,-71.61377
+IMG_20261103_091602.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-10.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,281,plaza-monumento-chinita,283,10.64446,-71.61377
+IMG_20261103_091605.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-11.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,281,plaza-monumento-chinita,283,10.64446,-71.61377
+IMG_20261103_091609.jpg,foto,media/sitios/plaza-monumento-chinita/foto-17.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,46,iglesia-san-francisco,328,10.64296,-71.61179
+IMG_20261103_091615.jpg,foto,media/sitios/plaza-monumento-chinita/foto-18.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,46,iglesia-san-francisco,328,10.64296,-71.61179
+IMG_20261103_091629.jpg,foto,media/sitios/_por-revisar/plaza-monumento-chinita/foto-04.jpg,REVISAR,plaza-monumento-chinita,Plaza Monumento a la Chinita,199,parque-urdaneta,214,10.64368,-71.61055
+IMG_20261103_091634.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-12.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,173,plaza-monumento-chinita,420,10.64441,-71.61538
+IMG_20261103_091704.jpg,foto,media/sitios/_por-revisar/plaza-monumento-chinita/foto-05.jpg,REVISAR,plaza-monumento-chinita,Plaza Monumento a la Chinita,206,parque-urdaneta,220,10.64361,-71.61042
+IMG_20261103_091709.jpg,foto,media/sitios/_por-revisar/plaza-monumento-chinita/foto-06.jpg,REVISAR,plaza-monumento-chinita,Plaza Monumento a la Chinita,206,parque-urdaneta,220,10.64361,-71.61042
+IMG_20261103_091711.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-13.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,160,plaza-monumento-chinita,265,10.64242,-71.61442
+IMG_20261103_091727.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-14.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,160,plaza-monumento-chinita,265,10.64242,-71.61442
+IMG_20261103_091728.jpg,foto,media/sitios/plaza-monumento-chinita/foto-19.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,51,iglesia-san-francisco,324,10.64298,-71.61173
+IMG_20261103_091819.jpg,foto,media/sitios/_por-revisar/_sin-ubicacion/foto-09.jpg,REVISAR,,,,,,,
+IMG_20261103_091820.jpg,foto,media/sitios/plaza-monumento-chinita/foto-20.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,51,iglesia-san-francisco,324,10.64298,-71.61173
+IMG_20261103_091838.jpg,foto,media/sitios/plaza-monumento-chinita/foto-21.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,51,iglesia-san-francisco,324,10.64298,-71.61173
+IMG_20261103_091839.jpg,foto,media/sitios/plaza-monumento-chinita/foto-22.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,51,iglesia-san-francisco,324,10.64298,-71.61173
+IMG_20261103_091841.jpg,foto,media/sitios/plaza-monumento-chinita/foto-23.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,51,iglesia-san-francisco,324,10.64298,-71.61173
+IMG_20261103_091942.jpg,foto,media/sitios/plaza-monumento-chinita/foto-24.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,51,iglesia-san-francisco,324,10.64298,-71.61173
+IMG_20261103_091947.jpg,foto,media/sitios/plaza-monumento-chinita/foto-25.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,51,iglesia-san-francisco,324,10.64298,-71.61173
+IMG_20261103_091952.jpg,foto,media/sitios/plaza-monumento-chinita/foto-26.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,53,iglesia-san-francisco,324,10.64299,-71.61172
+IMG_20261103_091953.jpg,foto,media/sitios/plaza-monumento-chinita/foto-27.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,53,iglesia-san-francisco,324,10.64299,-71.61172
+IMG_20261103_091958.jpg,foto,media/sitios/plaza-monumento-chinita/foto-28.jpg,confirmado-por-gps,plaza-monumento-chinita,Plaza Monumento a la Chinita,53,iglesia-san-francisco,324,10.64299,-71.61172
+IMG_20261103_092240.jpg,foto,media/sitios/_por-revisar/_sin-ubicacion/foto-10.jpg,REVISAR,,,,,,,
+IMG_20261103_092438.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-15.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,280,plaza-monumento-chinita,283,10.64446,-71.61378
+IMG_20261103_092446.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-16.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,280,plaza-monumento-chinita,283,10.64446,-71.61378
+IMG_20261103_092448.jpg,foto,media/sitios/_por-revisar/basilica-chiquinquira/foto-17.jpg,REVISAR,basilica-chiquinquira,Basílica de Nuestra Señora de Chiquinquirá,280,plaza-monumento-chinita,283,10.64446,-71.61378
+IMG_20261103_093310.jpg,foto,media/sitios/hospital-central-maracaibo/foto-01.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,53,catedral-maracaibo,235,10.64275,-71.60526
+IMG_20261103_093311.jpg,foto,media/sitios/hospital-central-maracaibo/foto-02.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,53,catedral-maracaibo,235,10.64275,-71.60526
+IMG_20261103_093314.jpg,foto,media/sitios/hospital-central-maracaibo/foto-03.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,53,catedral-maracaibo,235,10.64275,-71.60526
+IMG_20261103_093321.jpg,foto,media/sitios/hospital-central-maracaibo/foto-04.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,53,catedral-maracaibo,235,10.64275,-71.60526
+IMG_20261103_093333.jpg,foto,media/sitios/hospital-central-maracaibo/foto-05.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,54,catedral-maracaibo,236,10.64274,-71.60524
+IMG_20261103_093335.jpg,foto,media/sitios/hospital-central-maracaibo/foto-06.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,54,catedral-maracaibo,236,10.64274,-71.60524
+IMG_20261103_093348.jpg,foto,media/sitios/hospital-central-maracaibo/foto-07.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,86,catedral-maracaibo,207,10.64178,-71.60512
+IMG_20261103_093400.jpg,foto,media/sitios/hospital-central-maracaibo/foto-08.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,86,catedral-maracaibo,207,10.64178,-71.60512
+IMG_20261103_093432.jpg,foto,media/sitios/hospital-central-maracaibo/foto-09.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,111,catedral-maracaibo,181,10.64143,-71.60534
+IMG_20261103_093436.jpg,foto,media/sitios/hospital-central-maracaibo/foto-10.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,111,catedral-maracaibo,181,10.64143,-71.60534
+IMG_20261103_093441.jpg,foto,media/sitios/hospital-central-maracaibo/foto-11.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,111,catedral-maracaibo,181,10.64143,-71.60534
+IMG_20261103_093442.jpg,foto,media/sitios/hospital-central-maracaibo/foto-12.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,111,catedral-maracaibo,181,10.64143,-71.60534
+IMG_20261103_093457.jpg,foto,media/sitios/_por-revisar/hospital-central-maracaibo/foto-01.jpg,REVISAR,hospital-central-maracaibo,Hospital Central de Maracaibo,162,catedral-maracaibo,177,10.64094,-71.60548
+IMG_20261103_093515.jpg,foto,media/sitios/hospital-central-maracaibo/foto-13.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,87,catedral-maracaibo,211,10.64180,-71.60510
+IMG_20261103_093518.jpg,foto,media/sitios/hospital-central-maracaibo/foto-14.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,87,catedral-maracaibo,211,10.64180,-71.60510
+IMG_20261103_093812.jpg,foto,media/sitios/hospital-central-maracaibo/foto-15.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,81,catedral-maracaibo,238,10.64212,-71.60492
+IMG_20261103_093815.jpg,foto,media/sitios/hospital-central-maracaibo/foto-16.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,81,catedral-maracaibo,238,10.64212,-71.60492
+IMG_20261103_093822.jpg,foto,media/sitios/hospital-central-maracaibo/foto-17.jpg,confirmado-por-gps,hospital-central-maracaibo,Hospital Central de Maracaibo,81,catedral-maracaibo,238,10.64212,-71.60492
+IMG_20261103_094024.jpg,foto,media/sitios/centro-arte-lia-bermudez/foto-01.jpg,confirmado-por-gps,centro-arte-lia-bermudez,Centro de Arte de Maracaibo Lía Bermúdez,34,plaza-baralt,211,10.63900,-71.60965
+IMG_20261103_094027.jpg,foto,media/sitios/_por-revisar/_sin-ubicacion/foto-11.jpg,REVISAR,,,,,,,
+IMG_20261103_094029.jpg,foto,media/sitios/centro-arte-lia-bermudez/foto-02.jpg,confirmado-por-gps,centro-arte-lia-bermudez,Centro de Arte de Maracaibo Lía Bermúdez,34,plaza-baralt,211,10.63900,-71.60965
+IMG_20261103_094030.jpg,foto,media/sitios/centro-arte-lia-bermudez/foto-03.jpg,confirmado-por-gps,centro-arte-lia-bermudez,Centro de Arte de Maracaibo Lía Bermúdez,34,plaza-baralt,211,10.63900,-71.60965
+IMG_20261103_094040.jpg,foto,media/sitios/centro-arte-lia-bermudez/foto-04.jpg,confirmado-por-gps,centro-arte-lia-bermudez,Centro de Arte de Maracaibo Lía Bermúdez,34,plaza-baralt,211,10.63900,-71.60965
+IMG_20261103_094044.jpg,foto,media/sitios/centro-arte-lia-bermudez/foto-05.jpg,confirmado-por-gps,centro-arte-lia-bermudez,Centro de Arte de Maracaibo Lía Bermúdez,34,plaza-baralt,211,10.63900,-71.60965
+IMG_20261103_094241.jpg,foto,media/sitios/centro-arte-lia-bermudez/foto-06.jpg,confirmado-por-gps,centro-arte-lia-bermudez,Centro de Arte de Maracaibo Lía Bermúdez,37,plaza-baralt,214,10.63897,-71.60965
+IMG_20261103_094503.jpg,foto,media/sitios/centro-arte-lia-bermudez/foto-07.jpg,confirmado-por-gps,centro-arte-lia-bermudez,Centro de Arte de Maracaibo Lía Bermúdez,42,plaza-baralt,219,10.63893,-71.60964
+IMG_20261103_094649.jpg,foto,media/sitios/centro-arte-lia-bermudez/foto-08.jpg,confirmado-por-gps,centro-arte-lia-bermudez,Centro de Arte de Maracaibo Lía Bermúdez,41,plaza-baralt,218,10.63893,-71.60960
+IMG_20261103_095008.jpg,foto,media/sitios/centro-arte-lia-bermudez/foto-09.jpg,confirmado-por-gps,centro-arte-lia-bermudez,Centro de Arte de Maracaibo Lía Bermúdez,31,plaza-baralt,208,10.63903,-71.60966
+IMG_20261103_095011.jpg,foto,media/sitios/_por-revisar/_sin-ubicacion/foto-12.jpg,REVISAR,,,,,,,
+IMG_20261103_095012.jpg,foto,media/sitios/_por-revisar/plaza-baralt/foto-02.jpg,REVISAR,plaza-baralt,Plaza Baralt,88,centro-arte-lia-bermudez,95,10.64014,-71.60974
+IMG_20261103_095013.jpg,foto,media/sitios/_por-revisar/plaza-baralt/foto-03.jpg,REVISAR,plaza-baralt,Plaza Baralt,88,centro-arte-lia-bermudez,95,10.64014,-71.60974
+IMG_20261103_095021.jpg,foto,media/sitios/_por-revisar/plaza-baralt/foto-04.jpg,REVISAR,plaza-baralt,Plaza Baralt,88,centro-arte-lia-bermudez,95,10.64014,-71.60974
+IMG_20261103_095026.jpg,foto,media/sitios/_por-revisar/_sin-ubicacion/foto-13.jpg,REVISAR,,,,,,,
+IMG_20261103_095029.jpg,foto,media/sitios/_por-revisar/plaza-baralt/foto-05.jpg,REVISAR,plaza-baralt,Plaza Baralt,88,centro-arte-lia-bermudez,95,10.64014,-71.60974
+PXL_20261103_090326634.MV.jpg,foto,media/sitios/parque-urdaneta/foto-01.jpg,confirmado-por-gps,parque-urdaneta,Parque Urdaneta,51,plaza-monumento-chinita,330,10.64518,-71.61049
+PXL_20261103_090329800.MV.jpg,foto,media/sitios/_por-revisar/_sin-ubicacion/foto-14.jpg,REVISAR,,,,,,,
+PXL_20261103_090334213.MV.jpg,foto,media/sitios/_por-revisar/_sin-ubicacion/foto-15.jpg,REVISAR,,,,,,,
+PXL_20261103_090348879.MV.jpg,foto,media/sitios/parque-urdaneta/foto-02.jpg,confirmado-por-gps,parque-urdaneta,Parque Urdaneta,51,plaza-monumento-chinita,330,10.64518,-71.61049
+PXL_20261103_090353931.MV.jpg,foto,media/sitios/_por-revisar/_sin-ubicacion/foto-16.jpg,REVISAR,,,,,,,

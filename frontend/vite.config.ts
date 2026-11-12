@@ -2,29 +2,43 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 
+const apiProxy = {
+  "/api": {
+    target: process.env.DEV_API_TARGET ?? "http://localhost:3001",
+    changeOrigin: true,
+    configure: (proxy: { on: (event: string, handler: () => void) => void }) => {
+      proxy.on("error", () => {
+        /* backend apagado: la app cae al respaldo local sin ensuciar la consola */
+      });
+    },
+  },
+};
+
 export default defineConfig({
   plugins: [
     react(),
     VitePWA({
       registerType: "autoUpdate",
       includeAssets: [
-        "icons/icon.svg",
+        "icons/favicon-64.png",
+        "img/logo-emblema-192.png",
+        "img/logo-maratours.png",
         "icons/apple-touch-icon.png",
         "img/mapa-maracaibo.jpg",
         "panos/*.svg",
         "data/places.json",
       ],
       manifest: {
-        name: "Visita Maracaibo",
-        short_name: "Maracaibo",
+        name: "Maratours · Turismo en Maracaibo",
+        short_name: "Maratours",
         description: "Descubre los lugares turísticos del municipio Maracaibo: mapa, historia y vistas 360°.",
         lang: "es",
         start_url: "/",
         scope: "/",
         display: "standalone",
         orientation: "any",
-        background_color: "#FBF4E8",
-        theme_color: "#0F6B79",
+        background_color: "#f5fbff",
+        theme_color: "#f5fbff",
         icons: [
           { src: "icons/icon-192.png", sizes: "192x192", type: "image/png" },
           { src: "icons/icon-512.png", sizes: "512x512", type: "image/png" },
@@ -60,8 +74,8 @@ export default defineConfig({
   ],
   // Navegadores un poco antiguos (Android 7+, iOS 12+ aprox.). Para más, añadir @vitejs/plugin-legacy.
   build: { target: ["es2018", "safari12"] },
-  server: {
-    // El frontend usa un respaldo local (public/data/places.json) cuando no hay backend.
-    // Proxy desactivado para evitar errores ECONNREFUSED en consola sin servidor API.
-  },
+  // /api va al backend local (npm run dev levanta ambos). Sin backend, la app usa
+  // el respaldo public/data/places.json; DEV_API_TARGET permite apuntar a otro.
+  server: { proxy: apiProxy },
+  preview: { proxy: apiProxy },
 });

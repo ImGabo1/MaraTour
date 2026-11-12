@@ -42,7 +42,24 @@ export function createApp(repo: PlaceRepository, options: AppOptions = {}): Expr
 
   app.disable("x-powered-by");
   app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
-  app.use(cors({ origin: origins.length > 0 ? origins : true }));
+  const allowAny = origins.length === 0 || origins.includes("*");
+  app.use(
+    cors({
+      origin: (origin, callback) => {
+        if (allowAny || !origin) return callback(null, true);
+        const normalized = origin.replace(/\/+$/, "");
+        const allowed = origins.some((item) =>
+          item.includes("*")
+            ? new RegExp(`^${item.split("*").map(escapeRegExp).join("[a-z0-9-]+")}$`, "i").test(normalized)
+            : item.toLowerCase() === normalized.toLowerCase()
+        );
+        callback(null, allowed);
+      },
+      methods: ["GET", "POST", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Accept"],
+      maxAge: 86400,
+    })
+  );
   app.use(express.json({ limit: "16kb" }));
 
   app.get("/api/health", async (_req, res) => {
@@ -157,6 +174,10 @@ export function createApp(repo: PlaceRepository, options: AppOptions = {}): Expr
   app.use(onError);
 
   return app;
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 /** Datos públicos de la cuenta: nunca incluye passwordHash. */

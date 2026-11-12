@@ -385,6 +385,12 @@ export const IconSun = (p: P) => (
   </svg>
 );
 
+export const IconBolt = (p: P) => (
+  <svg {...base} {...p} viewBox="0 0 24 32" fill="currentColor" stroke="none">
+    <path d="M14.8 1.2 2.7 17h7.6L8.8 30.8 21.4 13h-7.7l1.1-11.8Z" />
+  </svg>
+);
+
 export const IconArrowLeft = (p: P) => (
   <svg {...base} {...p}>
     <path d="M20 12H4" />

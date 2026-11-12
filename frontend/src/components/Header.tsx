@@ -6,6 +6,7 @@ import { useModal } from "../hooks/useModal";
 import type { Page } from "../hooks/usePageRoute";
 import { initials, type AuthSession } from "../lib/auth";
 import { LanguagePicker } from "./LanguagePicker";
+import { ThemeToggle } from "./ThemeToggle";
 import {
   IconBook,
   IconChat,
@@ -56,7 +57,7 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
         <div className="vm-header__inner container">
           <a className="vm-brand" href="#/inicio" aria-label={`Visita Maracaibo · ${t("nav.home")}`}>
             <span className="vm-brand__mark" aria-hidden="true">
-              <img src="/icons/icon.svg" alt="" width={44} height={44} />
+              <img src="/img/logo-emblema-192.png" alt="" width={44} height={44} />
             </span>
             <span className="vm-brand__text">
               <strong>Maratour</strong>
@@ -76,85 +77,77 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
                 >
                   <Icon width={16} height={16} />
                   <span>{t(item.key)}</span>
+                  {item.page === "mi-ruta" && savedCount > 0 && <b className="vm-nav__count">{savedCount}</b>}
                 </a>
               );
             })}
           </nav>
 
           <div className="vm-header__actions">
-            <div className="vm-user">
-              <span className="vm-user__avatar" aria-hidden="true">
-                {session.kind === "guest" ? <IconUser width={17} height={17} /> : initials(session.name)}
-              </span>
-              <span className="vm-user__copy">
-                <strong>{session.name}</strong>
-                <small>{session.kind === "guest" ? "Sesión de invitado" : session.email}</small>
-              </span>
-            </div>
-
-            <a
-              className="vm-saved-btn"
-              href="#/mi-ruta"
-              aria-label={`${t("nav.saved")}${savedCount > 0 ? ` · ${savedCount}` : ""}`}
-            >
-              <IconHeart width={18} height={18} />
-              <span>{t("nav.saved")}</span>
-              {savedCount > 0 && <b>{savedCount}</b>}
-            </a>
-
-            <button
-              type="button"
-              className="vm-lang-btn"
-              onClick={() => setLanguageOpen(true)}
-              aria-label={`${t("nav.language")}: ${currentLanguage?.native ?? "Español"}`}
-              aria-haspopup="dialog"
-            >
-              <IconGlobe width={17} height={17} />
-              <span>{currentLanguage?.native ?? "Español"}</span>
-            </button>
-
-            {onOpenChat && (
+            <div className="vm-header__tools">
+              <ThemeToggle className="vm-theme-toggle" />
               <button
                 type="button"
-                className="vm-chat-btn"
-                onClick={onOpenChat}
-                aria-label={t("nav.chat")}
-                title={t("nav.chat")}
+                className="vm-lang-btn"
+                onClick={() => setLanguageOpen(true)}
+                aria-label={`${t("nav.language")}: ${currentLanguage?.native ?? "Español"}`}
+                aria-haspopup="dialog"
               >
-                <IconChat width={18} height={18} />
+                <IconGlobe width={17} height={17} />
+                <span>{currentLanguage?.native ?? "Español"}</span>
               </button>
-            )}
+              {onOpenChat && (
+                <button
+                  type="button"
+                  className="vm-chat-btn"
+                  onClick={onOpenChat}
+                  aria-label={t("nav.chat")}
+                  title={t("nav.chat")}
+                >
+                  <IconChat width={18} height={18} />
+                </button>
+              )}
+              <button
+                type="button"
+                className="vm-install-btn"
+                onClick={() => (mode === "prompt" ? install() : setIosHelp(true))}
+                aria-label="Descargar Maratour en tu dispositivo"
+                title="Descargar Maratour en tu dispositivo"
+              >
+                <IconDownload width={16} height={16} />
+                <span>{t("nav.installShort")}</span>
+              </button>
+            </div>
 
-            <button
-              type="button"
-              className="vm-install-btn"
-              onClick={() => (mode === "prompt" ? install() : setIosHelp(true))}
-              aria-label="Descargar Maratour en tu dispositivo"
-              title="Descargar Maratour en tu dispositivo"
-            >
-              <IconDownload width={16} height={16} />
-              <span>{t("nav.installShort")}</span>
-            </button>
-
-            <button
-              type="button"
-              className="vm-menu-btn"
-              onClick={() => setMenuOpen((open) => !open)}
-              aria-expanded={menuOpen}
-              aria-label={menuOpen ? t("common.close") : t("nav.home")}
-            >
-              {menuOpen ? <IconClose width={21} height={21} /> : <IconMenu width={21} height={21} />}
-            </button>
-
-            <button
-              type="button"
-              className="vm-header__logout"
-              onClick={onLogout}
-              aria-label="Cerrar sesión"
-              title="Cerrar sesión"
-            >
-              <IconLogout width={17} height={17} />
-            </button>
+            <div className="vm-header__account">
+              <div className="vm-user">
+                <span className="vm-user__avatar" aria-hidden="true">
+                  {session.kind === "guest" ? <IconUser width={17} height={17} /> : initials(session.name)}
+                </span>
+                <span className="vm-user__copy">
+                  <strong>{session.name}</strong>
+                  <small>{session.kind === "guest" ? "Sesión de invitado" : session.email}</small>
+                </span>
+              </div>
+              <button
+                type="button"
+                className="vm-menu-btn"
+                onClick={() => setMenuOpen((open) => !open)}
+                aria-expanded={menuOpen}
+                aria-label={menuOpen ? t("common.close") : t("nav.more")}
+              >
+                {menuOpen ? <IconClose width={21} height={21} /> : <IconMenu width={21} height={21} />}
+              </button>
+              <button
+                type="button"
+                className="vm-header__logout"
+                onClick={onLogout}
+                aria-label="Cerrar sesión"
+                title="Cerrar sesión"
+              >
+                <IconLogout width={17} height={17} />
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -163,23 +156,31 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
         <div className="vm-drawer" onClick={() => setMenuOpen(false)}>
           <nav
             className="vm-drawer__panel"
-            aria-label={t("nav.home")}
+            aria-label={t("nav.more")}
             onClick={(event) => event.stopPropagation()}
           >
-            {NAV.map((item) => {
-              const Icon = item.icon;
-              return (
-                <a
-                  key={item.page}
-                  href={`#/${item.page}`}
-                  className={page === item.page ? "is-active" : undefined}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  <Icon width={19} height={19} />
-                  <span>{t(item.key)}</span>
-                </a>
-              );
-            })}
+            <button
+              type="button"
+              className="vm-drawer__utility"
+              onClick={() => {
+                setMenuOpen(false);
+                setLanguageOpen(true);
+              }}
+            >
+              <IconGlobe width={19} height={19} />
+              <span>{t("nav.language")}: {currentLanguage?.native ?? "Español"}</span>
+            </button>
+            <button
+              type="button"
+              className="vm-drawer__utility"
+              onClick={() => {
+                setMenuOpen(false);
+                mode === "prompt" ? install() : setIosHelp(true);
+              }}
+            >
+              <IconDownload width={19} height={19} />
+              <span>{t("nav.install")}</span>
+            </button>
             <button
               type="button"
               className="vm-drawer__chat"

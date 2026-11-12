@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
-import { MAPS_GENERAL_QUERY, MAP_IMAGE } from "../config";
+import { MAPS_GENERAL_QUERY, MAP_IMAGE, MAP_TILES } from "../config";
 import { categoryBySlug } from "../data/categories";
 import { useI18n } from "../i18n/I18nProvider";
 import { googleMapsPlaceUrl, googleMapsSearchUrl } from "../lib/maps";
@@ -142,9 +142,9 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
 
     const map = L.map(container, {
       zoomControl: false,
-      attributionControl: false,
+      attributionControl: true,
       minZoom: 11,
-      maxZoom: 14,
+      maxZoom: 18,
       zoomSnap: 0,
       zoomDelta: 0.5,
       wheelPxPerZoomLevel: 120,
@@ -159,6 +159,18 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
         className: "vm-map__image",
       }).addTo(map);
     }
+
+    // Con internet, las calles reales van encima de la imagen local y permiten
+    // acercarse hasta ver cada sitio en su cuadra. Si una tesela falla, se ve la imagen.
+    map.attributionControl.setPrefix(false);
+    L.tileLayer(MAP_TILES.url, {
+      attribution: MAP_TILES.attribution,
+      maxNativeZoom: MAP_TILES.maxNativeZoom,
+      maxZoom: 18,
+      bounds: imageBounds,
+      crossOrigin: true,
+      className: "vm-map__tiles",
+    }).addTo(map);
 
     fitImage(map, imageBounds, "contain");
     map.setMaxBounds(imageBounds.pad(0.06));
@@ -245,7 +257,7 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
         const points = places.map((place) => L.latLng(place.latitude, place.longitude));
         map.fitBounds(L.latLngBounds(points), {
           padding: [38, 38],
-          maxZoom: 12.75,
+          maxZoom: 15,
           animate: true,
           duration: 0.4,
         });
@@ -259,7 +271,11 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
         cluster.zoomToShowLayer(marker, () => {
           const place = places.find((item) => item.slug === selectedSlug);
           if (place) {
-            map.panTo(L.latLng(place.latitude, place.longitude), { animate: true, duration: 0.45 });
+            // Acerca hasta ver la cuadra: varios sitios del casco están a menos de 100 m.
+            map.setView(L.latLng(place.latitude, place.longitude), Math.max(map.getZoom(), 16), {
+              animate: true,
+              duration: 0.45,
+            });
           }
         });
       }

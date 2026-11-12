@@ -60,3 +60,25 @@ export function boundsFor(
     east: centerLng + width / 2,
   };
 }
+
+const mercatorY = (latitude: number): number =>
+  Math.log(Math.tan(Math.PI / 4 + (latitude * Math.PI) / 360));
+
+/**
+ * Igual que `project`, pero con la latitud en Mercator: es la proyección de las
+ * teselas del mapa base, así el pin cae exactamente sobre la imagen.
+ */
+export function projectMercator(
+  latitude: number,
+  longitude: number,
+  bounds: Bounds,
+  width: number,
+  height: number
+): Point {
+  const top = mercatorY(bounds.north);
+  const bottom = mercatorY(bounds.south);
+  return {
+    x: ((longitude - bounds.west) / (bounds.east - bounds.west)) * width,
+    y: ((top - mercatorY(latitude)) / (top - bottom)) * height,
+  };
+}

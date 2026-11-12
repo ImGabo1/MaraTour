@@ -6,7 +6,7 @@
  * - El modo invitado sigue siendo local: no crea cuenta ni llama a la API.
  */
 
-import { API_URL } from "../config";
+import { apiFetch } from "../config";
 
 export interface UserSession {
   kind: "user";
@@ -69,7 +69,7 @@ function validEmail(email: string): boolean {
 async function authRequest(path: string, body: unknown): Promise<ApiUser> {
   let res: Response;
   try {
-    res = await fetch(`${API_URL}${path}`, {
+    res = await apiFetch(path, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify(body),

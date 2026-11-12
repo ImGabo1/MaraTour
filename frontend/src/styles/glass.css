@@ -1,0 +1,47 @@
+/* ============================================================
+   MaraTour · superficies de vidrio
+   Una sola clase (.glass) para header, tarjetas, ficha, modales y auth.
+   Úsala en superficies grandes y pocas a la vez: el blur cuesta GPU
+   en teléfonos de gama baja.
+   ============================================================ */
+
+.glass {
+  background: var(--mt-glass);
+  -webkit-backdrop-filter: blur(var(--mt-blur)) saturate(140%);
+  backdrop-filter: blur(var(--mt-blur)) saturate(140%);
+  border: 1px solid var(--mt-glass-border);
+  border-radius: var(--mt-radius-lg);
+  box-shadow: var(--mt-shadow-soft);
+  color: var(--mt-text);
+}
+
+/* Variante más opaca: barras fijas, hojas, formularios (mejor lectura). */
+.glass-strong {
+  background: var(--mt-glass-strong);
+}
+
+/* Variantes de radio para elementos pequeños (chips, botones, píldoras). */
+.glass--md {
+  border-radius: var(--mt-radius-md);
+}
+
+.glass--sm {
+  border-radius: var(--mt-radius-sm);
+}
+
+.glass--pill {
+  border-radius: var(--mt-radius-pill);
+}
+
+/* Sin sombra cuando el vidrio va anidado dentro de otro vidrio. */
+.glass--flat {
+  box-shadow: none;
+}
+
+/* Respaldo: navegadores sin backdrop-filter (fondo casi opaco, sin blur). */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass,
+  .glass-strong {
+    background: var(--mt-glass-fallback);
+  }
+}

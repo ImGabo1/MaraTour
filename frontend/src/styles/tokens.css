@@ -1,0 +1,104 @@
+/* ============================================================
+   MaraTour · tokens de diseño (rediseño "vidrio y sol")
+   Todo valor de color, radio, sombra y movimiento sale de aquí.
+   Los componentes usan var(--mt-*), nunca hex sueltos.
+
+   Breakpoints (las media queries no aceptan variables, se repiten):
+     móvil   < 640px
+     tablet  640px – 1023px
+     escritorio 1024px – 1439px
+     ancho   >= 1440px
+   ============================================================ */
+
+:root {
+  /* --- Celeste: cielo, fondo y lago --- */
+  --mt-sky-50: #eaf7ff;
+  --mt-sky-100: #d3eeff;
+  --mt-sky-300: #7fd3f7;
+  --mt-sky-500: #4fc3f7;
+  --mt-sky-700: #1b7fb8;
+
+  /* --- Neutros --- */
+  --mt-white: #ffffff;
+  --mt-ink: #0b2a4a;
+  --mt-ink-soft: #3d5a78;
+
+  /* --- Amarillo: sol, etiquetas y "Ver en 360°" --- */
+  --mt-sun-300: #ffe08a;
+  --mt-sun-500: #ffc83d;
+  --mt-sun-700: #e0a21b;
+
+  /* --- Rojo: única acción principal y pines del mapa --- */
+  --mt-red-500: #e63946;
+  --mt-red-700: #c22b38;
+
+  /* --- Vidrio --- */
+  --mt-glass: rgba(255, 255, 255, 0.55);
+  --mt-glass-strong: rgba(255, 255, 255, 0.78);
+  --mt-glass-border: rgba(255, 255, 255, 0.65);
+  --mt-glass-fallback: rgba(255, 255, 255, 0.94);
+  --mt-blur: 16px;
+
+  /* --- Radios --- */
+  --mt-radius-sm: 12px;
+  --mt-radius-md: 18px;
+  --mt-radius-lg: 26px;
+  --mt-radius-pill: 999px;
+
+  /* --- Sombras --- */
+  --mt-shadow-soft: 0 8px 30px rgba(11, 42, 74, 0.1);
+  --mt-shadow-lift: 0 18px 50px rgba(11, 42, 74, 0.18);
+
+  /* --- Movimiento --- */
+  --mt-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --mt-dur-fast: 160ms;
+  --mt-dur: 280ms;
+  --mt-dur-slow: 520ms;
+  --mt-stagger: 70ms;
+
+  /* --- Roles semánticos (cambian en modo oscuro) --- */
+  --mt-bg: var(--mt-sky-50);
+  --mt-bg-deep: var(--mt-sky-100);
+  --mt-text: var(--mt-ink);
+  --mt-text-soft: var(--mt-ink-soft);
+  --mt-accent: var(--mt-sky-700);
+  --mt-surface-solid: var(--mt-white);
+  --mt-skeleton: var(--mt-sky-100);
+  --mt-skeleton-shine: rgba(255, 255, 255, 0.75);
+  --mt-focus-ring: var(--mt-sun-500);
+
+  /* --- Layout --- */
+  --mt-container: 1280px;
+  --mt-gutter: clamp(16px, 4vw, 40px);
+  --mt-tap: 44px;
+  --mt-tabbar-h: 68px;
+  --mt-topbar-h: 72px;
+}
+
+/* ============================================================
+   Modo oscuro: lo activa ThemeProvider con <html data-theme="dark">
+   ============================================================ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --mt-bg: #071a2b;
+  --mt-bg-deep: #0b2640;
+  --mt-text: #eaf7ff;
+  --mt-text-soft: #b7cfe3;
+  --mt-accent: var(--mt-sky-300);
+  --mt-surface-solid: #0e2a42;
+  --mt-skeleton: rgba(255, 255, 255, 0.08);
+  --mt-skeleton-shine: rgba(255, 255, 255, 0.14);
+
+  --mt-glass: rgba(255, 255, 255, 0.08);
+  --mt-glass-strong: rgba(255, 255, 255, 0.14);
+  --mt-glass-border: rgba(255, 255, 255, 0.16);
+  --mt-glass-fallback: rgba(14, 42, 66, 0.96);
+
+  --mt-shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.35);
+  --mt-shadow-lift: 0 18px 50px rgba(0, 0, 0, 0.5);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}

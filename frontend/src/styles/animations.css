@@ -1,0 +1,179 @@
+/* ============================================================
+   MaraTour · animaciones base (solo presentación)
+   Regla: se anima únicamente transform y opacity.
+   Nada de width / height / top / left y nada de bucles infinitos
+   sobre contenido de lectura (el shimmer del skeleton es solo de carga).
+   ============================================================ */
+
+@keyframes mt-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes mt-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hoja inferior (móvil) y panel lateral (escritorio) de la ficha. */
+@keyframes mt-sheet-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes mt-panel-in {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes mt-shimmer {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+@keyframes mt-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Entrada de secciones ---------- */
+.mt-reveal {
+  animation: mt-fade-up var(--mt-dur-slow) var(--mt-ease) both;
+}
+
+/* ---------- Entrada escalonada de tarjetas (máximo 8 escalones) ---------- */
+.mt-stagger > * {
+  animation: mt-fade-up var(--mt-dur-slow) var(--mt-ease) both;
+  animation-delay: calc(8 * var(--mt-stagger));
+}
+.mt-stagger > :nth-child(1) { animation-delay: 0ms; }
+.mt-stagger > :nth-child(2) { animation-delay: calc(1 * var(--mt-stagger)); }
+.mt-stagger > :nth-child(3) { animation-delay: calc(2 * var(--mt-stagger)); }
+.mt-stagger > :nth-child(4) { animation-delay: calc(3 * var(--mt-stagger)); }
+.mt-stagger > :nth-child(5) { animation-delay: calc(4 * var(--mt-stagger)); }
+.mt-stagger > :nth-child(6) { animation-delay: calc(5 * var(--mt-stagger)); }
+.mt-stagger > :nth-child(7) { animation-delay: calc(6 * var(--mt-stagger)); }
+.mt-stagger > :nth-child(8) { animation-delay: calc(7 * var(--mt-stagger)); }
+
+/* ---------- Cambio de página: fundido corto, sin pantalla en blanco ---------- */
+.mt-page-enter {
+  animation: mt-fade-in 180ms var(--mt-ease) both;
+}
+
+/* ---------- Tarjetas: elevación al pasar el cursor o tocar ---------- */
+.mt-lift {
+  transition:
+    transform var(--mt-dur) var(--mt-ease),
+    box-shadow var(--mt-dur) var(--mt-ease);
+}
+
+.mt-lift:hover,
+.mt-lift:focus-within {
+  transform: translateY(-4px);
+  box-shadow: var(--mt-shadow-lift);
+}
+
+/* La foto de la tarjeta se acerca dentro de un contenedor con overflow hidden. */
+.mt-zoom {
+  overflow: hidden;
+}
+
+.mt-zoom > img {
+  transition: transform var(--mt-dur-slow) var(--mt-ease);
+}
+
+.mt-lift:hover .mt-zoom > img,
+.mt-lift:focus-within .mt-zoom > img {
+  transform: scale(1.04);
+}
+
+/* ---------- Botones: retroalimentación al presionar ---------- */
+.mt-press {
+  transition: transform var(--mt-dur-fast) var(--mt-ease);
+}
+
+.mt-press:active {
+  transform: scale(0.97);
+}
+
+/* ---------- Foco visible (anillo amarillo de 2 px) ---------- */
+.mt-focusable:focus-visible {
+  outline: 2px solid var(--mt-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---------- Skeleton de carga: celeste con brillo que se desliza ---------- */
+.mt-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--mt-skeleton);
+}
+
+.mt-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--mt-skeleton-shine), transparent);
+  transform: translateX(-100%);
+  animation: mt-shimmer 1.4s var(--mt-ease) infinite;
+  pointer-events: none;
+}
+
+/* Imagen que aparece con fundido cuando termina de cargar (onLoad). */
+.mt-fade-img {
+  opacity: 0;
+  transition: opacity var(--mt-dur) var(--mt-ease);
+}
+
+.mt-fade-img.is-loaded {
+  opacity: 1;
+}
+
+/* ---------- Spinner de botones en carga ---------- */
+.mt-spinner {
+  width: 1.1em;
+  height: 1.1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: mt-spin 700ms linear infinite;
+}
+
+/* ============================================================
+   Movimiento reducido: sin desplazamientos, solo fundidos.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .mt-reveal,
+  .mt-stagger > *,
+  .mt-stagger > :nth-child(n) {
+    animation-name: mt-fade-in;
+    animation-duration: var(--mt-dur-fast);
+    animation-delay: 0ms;
+  }
+
+  .mt-lift:hover,
+  .mt-lift:focus-within,
+  .mt-press:active {
+    transform: none;
+  }
+
+  .mt-lift:hover .mt-zoom > img,
+  .mt-lift:focus-within .mt-zoom > img {
+    transform: none;
+  }
+
+  /* El skeleton queda quieto: sin brillo animado. */
+  .mt-skeleton::after {
+    animation: none;
+    opacity: 0;
+  }
+
+  .mt-spinner {
+    animation-duration: 1.6s;
+  }
+}

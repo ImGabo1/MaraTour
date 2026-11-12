@@ -4,6 +4,10 @@ import { registerSW } from "virtual:pwa-register";
 import App from "./App";
 import { I18nProvider } from "./i18n/I18nProvider";
 import { ThemeProvider } from "./theme/ThemeProvider";
+import "./styles/tokens.css";
+import "./styles/glass.css";
+import "./styles/animations.css";
+import "./styles/typography.css";
 import "./styles.css";
 import "./theme.css";
 

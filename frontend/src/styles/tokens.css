@@ -37,6 +37,7 @@
   --mt-glass-strong: rgba(255, 255, 255, 0.78);
   --mt-glass-border: rgba(255, 255, 255, 0.65);
   --mt-glass-fallback: rgba(255, 255, 255, 0.94);
+  --mt-glass-bar: rgba(255, 255, 255, 0.86); /* barras fijas: más opacas para leer sobre fotos */
   --mt-blur: 16px;
 
   /* --- Radios --- */
@@ -66,6 +67,8 @@
   --mt-skeleton: var(--mt-sky-100);
   --mt-skeleton-shine: rgba(255, 255, 255, 0.75);
   --mt-focus-ring: var(--mt-sun-500);
+  --mt-chip-bg: var(--mt-sky-100);
+  --mt-sun-wash: rgba(255, 224, 138, 0.6);
 
   /* --- Layout --- */
   --mt-container: 1280px;
@@ -89,11 +92,14 @@
   --mt-surface-solid: #0e2a42;
   --mt-skeleton: rgba(255, 255, 255, 0.08);
   --mt-skeleton-shine: rgba(255, 255, 255, 0.14);
+  --mt-chip-bg: rgba(255, 255, 255, 0.14);
+  --mt-sun-wash: rgba(255, 200, 61, 0.16);
 
   --mt-glass: rgba(255, 255, 255, 0.08);
   --mt-glass-strong: rgba(255, 255, 255, 0.14);
   --mt-glass-border: rgba(255, 255, 255, 0.16);
   --mt-glass-fallback: rgba(14, 42, 66, 0.96);
+  --mt-glass-bar: rgba(7, 26, 43, 0.86);
 
   --mt-shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.35);
   --mt-shadow-lift: 0 18px 50px rgba(0, 0, 0, 0.5);

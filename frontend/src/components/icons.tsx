@@ -679,3 +679,9 @@ export function CategoryIcon({ name, ...rest }: P & { name: CategoryIconName }) 
       );
   }
 }
+
+export const IconMoon = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" />
+  </svg>
+);

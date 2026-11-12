@@ -1,0 +1,10 @@
+/* ============================================================
+   MaraTour · layout global
+   Reserva el espacio de la barra inferior móvil (< 1024 px).
+   ============================================================ */
+
+@media (max-width: 1023px) {
+  body {
+    padding-bottom: calc(var(--mt-tabbar-h) + env(safe-area-inset-bottom));
+  }
+}

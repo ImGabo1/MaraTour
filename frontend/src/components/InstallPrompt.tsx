@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { IconClose, IconDownload, IconShare } from "./icons";
+import "./InstallPrompt.css";
 
 interface Props {
   /** Si se quiere forzar a mostrar aunque ya esté instalado (solo pruebas). */
@@ -68,20 +70,21 @@ export function InstallPrompt({ force = false }: Props = {}) {
 
   if (ios) {
     return (
-      <div className="vm-install-banner vm-install-banner--ios">
-        <span className="vm-install-banner__icon" aria-hidden="true">
-          📱
-        </span>
-        <div className="vm-install-banner__text">
-          <strong>Instala Visita Maracaibo</strong>
-          <p>
-            Toca <strong>Compartir</strong> en Safari y luego{" "}
-            <strong>Agregar a pantalla de inicio</strong>.
-          </p>
-        </div>
-        <button type="button" className="vm-btn vm-btn--soft vm-install-banner__close" onClick={dismiss}>
-          Entendido
-        </button>
+      <div className="mt-install-banner mt-reveal">
+        <section className="mt-install-banner__card glass glass--md" aria-label="Instalar MaraTour">
+          <span className="mt-install-banner__icon" aria-hidden="true">
+            <IconShare width={22} height={22} />
+          </span>
+          <div className="mt-install-banner__text">
+            <strong>Instala MaraTour en tu iPhone</strong>
+            <p>
+              Toca <b>Compartir</b> en Safari y luego <b>Agregar a pantalla de inicio</b>.
+            </p>
+          </div>
+          <button type="button" className="mt-install-banner__ok mt-press mt-focusable" onClick={dismiss}>
+            Entendido
+          </button>
+        </section>
       </div>
     );
   }
@@ -89,22 +92,29 @@ export function InstallPrompt({ force = false }: Props = {}) {
   if (!deferred && !force) return null;
 
   return (
-    <div className="vm-install-banner vm-install-banner--android">
-      <span className="vm-install-banner__icon" aria-hidden="true">
-        ⬇️
-      </span>
-      <div className="vm-install-banner__text">
-        <strong>Instala la app de Maracaibo</strong>
-        <p>Tendrás los lugares, mapas y vistas 360° incluso sin internet.</p>
-      </div>
-      <div className="vm-install-banner__actions">
-        <button type="button" className="vm-btn vm-btn--primary" onClick={install}>
-          Instalar
-        </button>
-        <button type="button" className="vm-btn vm-btn--ghost vm-install-banner__close" onClick={dismiss}>
-          Quizás después
-        </button>
-      </div>
+    <div className="mt-install-banner mt-reveal">
+      <section className="mt-install-banner__card glass glass--md" aria-label="Instalar MaraTour">
+        <span className="mt-install-banner__icon" aria-hidden="true">
+          <IconDownload width={22} height={22} />
+        </span>
+        <div className="mt-install-banner__text">
+          <strong>Instala MaraTour</strong>
+          <p>Ten los lugares, mapas y vistas 360° a la mano, incluso sin internet.</p>
+        </div>
+        <div className="mt-install-banner__actions">
+          <button type="button" className="mt-install mt-press mt-focusable" onClick={install}>
+            Instalar
+          </button>
+          <button
+            type="button"
+            className="mt-install-banner__later mt-press mt-focusable"
+            onClick={dismiss}
+            aria-label="Quizás después"
+          >
+            <IconClose width={18} height={18} />
+          </button>
+        </div>
+      </section>
     </div>
   );
 }

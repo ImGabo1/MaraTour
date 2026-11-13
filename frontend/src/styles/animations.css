@@ -41,14 +41,17 @@
   to { transform: rotate(360deg); }
 }
 
+/* Nota: fill-mode "backwards" (no "both"): al terminar, el elemento vuelve a su estilo
+   normal y el hover/tap puede mover la tarjeta sin que la animación lo pise. */
+
 /* ---------- Entrada de secciones ---------- */
 .mt-reveal {
-  animation: mt-fade-up var(--mt-dur-slow) var(--mt-ease) both;
+  animation: mt-fade-up var(--mt-dur-slow) var(--mt-ease) backwards;
 }
 
 /* ---------- Entrada escalonada de tarjetas (máximo 8 escalones) ---------- */
 .mt-stagger > * {
-  animation: mt-fade-up var(--mt-dur-slow) var(--mt-ease) both;
+  animation: mt-fade-up var(--mt-dur-slow) var(--mt-ease) backwards;
   animation-delay: calc(8 * var(--mt-stagger));
 }
 .mt-stagger > :nth-child(1) { animation-delay: 0ms; }
@@ -62,7 +65,7 @@
 
 /* ---------- Cambio de página: fundido corto, sin pantalla en blanco ---------- */
 .mt-page-enter {
-  animation: mt-fade-in 180ms var(--mt-ease) both;
+  animation: mt-fade-in 180ms var(--mt-ease) backwards;
 }
 
 /* ---------- Tarjetas: elevación al pasar el cursor o tocar ---------- */

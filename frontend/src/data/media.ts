@@ -11,6 +11,7 @@
  * así que basta con soltar el archivo con el nombre correcto y recargar.
  * Aquí solo quedan los créditos y las fotos referenciales de respaldo.
  */
+import { MEDIA_MAP } from "../config/media";
 import type { Place } from "../types";
 import coords from "./coords.json";
 import manifest from "./media-manifest.json";
@@ -293,20 +294,21 @@ function unique(list: (string | null | undefined)[]): string[] {
 
 /**
  * Aplica al lugar sus medios y sus coordenadas sin tocar los datos editoriales.
- * Prioridad de la foto: carpeta `media/sitios/<slug>/` → ajuste manual de
- * PLACE_MEDIA → lo que diga la API.
+ * Prioridad de la foto: `MEDIA_MAP` (config/media.ts) → carpeta
+ * `media/sitios/<slug>/` → ajuste manual de PLACE_MEDIA → lo que diga la API.
  */
 export function withMedia(place: Place): Place {
   const media = PLACE_MEDIA[place.slug];
   const site = SITE_MEDIA[place.slug];
+  const manual = MEDIA_MAP[place.slug];
   const fixed = COORDS[place.slug];
   const apiImage = place.imageUrl ? legacyUrl(place.imageUrl) : null;
-  const imageUrl = site?.cover ?? media?.image ?? site?.photos?.[0] ?? apiImage;
+  const imageUrl = manual?.cover ?? site?.cover ?? media?.image ?? site?.photos?.[0] ?? apiImage;
   // Los panoramas de marcador de posición (SVG) no cuentan como vista 360° real.
   const apiPano = place.panoUrl && !place.panoUrl.includes("placeholder") ? place.panoUrl : null;
   // El crédito de PLACE_MEDIA describe la portada, no las fotos propias de la galería.
   const credited = Boolean(imageUrl) && (imageUrl === site?.cover || imageUrl === media?.image);
-  const gallery = unique([imageUrl, ...(site?.photos ?? []), ...(media?.gallery ?? [])]);
+  const gallery = unique([imageUrl, ...(manual?.gallery ?? site?.photos ?? []), ...(media?.gallery ?? [])]);
 
   return {
     ...place,
@@ -315,10 +317,10 @@ export function withMedia(place: Place): Place {
     ...(fixed ? { latitude: fixed[0], longitude: fixed[1], coordsVerified: fixed[2] === 1 } : {}),
     media: place.media.map((item) => ({ ...item, url: legacyUrl(item.url) })),
     imageUrl,
-    panoUrl: site?.panos?.[0] ?? media?.pano ?? apiPano,
+    panoUrl: manual?.pano ?? site?.panos?.[0] ?? media?.pano ?? apiPano,
     imageCredit: credited ? media?.credit : undefined,
     imageSource: credited ? media?.source : undefined,
     gallery: gallery.length > 0 ? gallery : place.gallery,
-    videoUrl: site?.video ?? media?.video ?? place.videoUrl,
+    videoUrl: manual?.video ?? site?.video ?? media?.video ?? place.videoUrl,
   };
 }

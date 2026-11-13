@@ -1,7 +1,7 @@
 import { lazy, Suspense, useDeferredValue, useEffect, useMemo, useState } from "react";
 import { CATEGORIES, CATEGORY_GROUPS } from "../data/categories";
 import { useI18n } from "../i18n/I18nProvider";
-import { PlaceCard } from "../components/PlaceCard";
+import { PlaceCard, PlaceCardSkeleton, PlaceGrid } from "../components/PlaceCard";
 import {
   CategoryIcon,
   IconArrowRight,
@@ -238,11 +238,11 @@ export function ExplorePage({
             )}
           </div>
         ) : loading ? (
-          <div className="vm-place-grid">
+          <PlaceGrid busy>
             {Array.from({ length: 9 }, (_, index) => (
-              <div key={index} className="vm-place-card vm-place-card--skeleton" />
+              <PlaceCardSkeleton key={index} />
             ))}
-          </div>
+          </PlaceGrid>
         ) : visible.length === 0 ? (
           <div className="vm-empty">
             <span className="vm-empty__icon" aria-hidden="true">
@@ -264,18 +264,18 @@ export function ExplorePage({
           </div>
         ) : (
           <>
-            <div className="vm-place-grid">
+            <PlaceGrid>
               {cards.map((place, index) => (
                 <PlaceCard
                   key={place.slug}
                   place={place}
-                  index={index}
+                  eager={index < 2}
                   onOpen={onOpenPlace}
                   onToggleSave={onToggleSave}
                   saved={savedSet.has(place.slug)}
                 />
               ))}
-            </div>
+            </PlaceGrid>
             {visible.length > cards.length && (
               <div className="vm-more">
                 <button type="button" className="vm-btn vm-btn--soft" onClick={() => setLimit((value) => value + PAGE_SIZE)}>

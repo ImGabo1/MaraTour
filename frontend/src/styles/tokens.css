@@ -40,6 +40,13 @@
   --mt-glass-bar: rgba(255, 255, 255, 0.86); /* barras fijas: más opacas para leer sobre fotos */
   --mt-blur: 16px;
 
+  /* --- Velo oscuro para texto sobre fotos (siempre oscuro, en claro y en oscuro) --- */
+  --mt-scrim-strong: rgba(7, 26, 43, 0.92);
+  --mt-scrim-mid: rgba(7, 26, 43, 0.7);
+  --mt-scrim-clear: rgba(7, 26, 43, 0);
+  --mt-on-scrim: var(--mt-white);
+  --mt-on-scrim-soft: rgba(255, 255, 255, 0.9);
+
   /* --- Radios --- */
   --mt-radius-sm: 12px;
   --mt-radius-md: 18px;

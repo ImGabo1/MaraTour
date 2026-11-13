@@ -8,7 +8,7 @@ import { useI18n } from "../i18n/I18nProvider";
 import { countByCategory, sortPlaces } from "../lib/places";
 import type { Place } from "../types";
 import { HomeCarousel } from "../components/HomeCarousel";
-import { PlaceCard } from "../components/PlaceCard";
+import { PlaceCard, PlaceCardSkeleton, PlaceGrid } from "../components/PlaceCard";
 import { PlaceEmblem } from "../components/PlaceEmblem";
 import {
   CategoryIcon,
@@ -468,24 +468,23 @@ export function HomePage({
           </div>
 
           {loading ? (
-            <div className="vm-place-grid">
+            <PlaceGrid busy>
               {Array.from({ length: 6 }, (_, index) => (
-                <div key={index} className="vm-place-card vm-place-card--skeleton" />
+                <PlaceCardSkeleton key={index} />
               ))}
-            </div>
+            </PlaceGrid>
           ) : (
-            <div className="vm-place-grid">
-              {highlights.map((place, index) => (
+            <PlaceGrid>
+              {highlights.map((place) => (
                 <PlaceCard
                   key={place.slug}
                   place={place}
-                  index={index}
                   onOpen={onOpenPlace}
                   onToggleSave={onToggleSave}
                   saved={savedSet.has(place.slug)}
                 />
               ))}
-            </div>
+            </PlaceGrid>
           )}
         </div>
       </section>

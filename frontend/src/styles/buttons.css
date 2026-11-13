@@ -1,0 +1,35 @@
+/* Botones compartidos. Rojo = acción principal; vidrio = secundaria; sol = 360°/instalar. */
+.mt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--mt-tap);
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: var(--mt-radius-pill);
+  font: inherit;
+  font-size: var(--mt-fs-small);
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform var(--mt-dur-fast) var(--mt-ease),
+    box-shadow var(--mt-dur) var(--mt-ease),
+    background-color var(--mt-dur) var(--mt-ease);
+}
+.mt-btn:active { transform: scale(0.97); }
+.mt-btn:focus-visible { outline: 2px solid var(--mt-focus-ring); outline-offset: 2px; }
+.mt-btn--primary { background: var(--mt-red-700); color: #fff; box-shadow: var(--mt-shadow-soft); }
+.mt-btn--primary:hover { background: var(--mt-red-500); box-shadow: var(--mt-shadow-lift); }
+.mt-btn--soft {
+  background: var(--mt-glass-strong);
+  border-color: var(--mt-glass-border);
+  color: var(--mt-text);
+}
+.mt-btn--soft:hover { box-shadow: var(--mt-shadow-soft); }
+.mt-btn--sun { background: var(--mt-sun-500); color: var(--mt-ink); }
+.mt-btn--sm { min-height: 36px; padding: 0 14px; }
+@media (prefers-reduced-motion: reduce) { .mt-btn:active { transform: none; } }

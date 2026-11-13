@@ -21,6 +21,7 @@ import {
   type SortMode,
 } from "../lib/places";
 import type { Place } from "../types";
+import "./ExplorePage.css";
 
 // Leaflet y el visor solo se descargan cuando el visitante abre el mapa.
 const MapView = lazy(() =>
@@ -57,14 +58,17 @@ export function ExplorePage({
   const [view, setView] = useState<"grid" | "map">(initialView);
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [mapFocus, setMapFocus] = useState<string | null>(null);
+  const [sector, setSector] = useState<"todos" | "publico" | "privado">("todos");
   const deferredQuery = useDeferredValue(query);
   const counts = useMemo(() => countByCategory(places), [places]);
   const savedSet = useMemo(() => new Set(saved), [saved]);
 
-  const visible = useMemo(
-    () => sortPlaces(filterPlaces(places, category, deferredQuery), sort, lang),
-    [places, category, deferredQuery, sort, lang]
-  );
+  const hasSector = useMemo(() => places.some((place) => place.sector), [places]);
+  const visible = useMemo(() => {
+    const found = filterPlaces(places, category, deferredQuery);
+    const bySector = sector === "todos" ? found : found.filter((place) => place.sector === sector);
+    return sortPlaces(bySector, sort, lang);
+  }, [places, category, deferredQuery, sort, lang, sector]);
 
   const mapList = useMemo(() => visible.slice(0, 24), [visible]);
   const overview = category === null && deferredQuery.trim() === "";
@@ -74,7 +78,7 @@ export function ExplorePage({
   useEffect(() => {
     setLimit(PAGE_SIZE);
     setMapFocus(null);
-  }, [category, deferredQuery, sort]);
+  }, [category, deferredQuery, sort, sector]);
 
   const selectCategory = (next: CategoryFilter) => {
     setCategory(next);
@@ -82,26 +86,26 @@ export function ExplorePage({
   };
 
   return (
-    <main className={`vm-page vm-explore${view === "map" ? " vm-explore--map" : ""}`}>
-      <section className="vm-page-hero">
-        <div className="container">
-          <p className="vm-kicker">
+    <main className={`mte-page mt-page-enter${view === "map" ? " mte-page--map" : ""}`}>
+      <section className="mte-hero">
+        <div className="mt-container">
+          <p className="mte-kicker">
             <IconSparkles width={15} height={15} />
             Explora a tu manera
           </p>
-          <h1 className="vm-page-hero__title">
+          <h1 className="mte-hero__title">
             Encuentra tu próximo <span>plan</span>
           </h1>
-          <p className="vm-page-hero__lead">
+          <p className="mte-hero__lead">
             Filtra por tema, busca por nombre o cambia al mapa. Cada ficha guarda su historia, su
             ubicación y la opción de verla en 360°.
           </p>
         </div>
       </section>
 
-      <div className="container vm-explore__layout">
-        <div className="vm-explore__toolbar">
-          <div className="vm-search">
+      <div className="mt-container mte-layout">
+        <div className="mte-toolbar">
+          <div className="mte-search glass glass--pill">
             <IconSearch width={20} height={20} />
             <input
               type="search"
@@ -118,7 +122,7 @@ export function ExplorePage({
             )}
           </div>
 
-          <div className="vm-segment" role="group" aria-label="Vista">
+          <div className="mte-segment" role="group" aria-label="Vista">
             <button
               type="button"
               className={view === "grid" ? "is-active" : undefined}
@@ -138,12 +142,13 @@ export function ExplorePage({
           </div>
         </div>
 
-        <div className="vm-filter-groups">
-          <div className="vm-filter-row">
-            <span className="vm-filter-row__label">Todo</span>
+        <div className="mte-filters">
+          <div className="mte-filters__row">
+            <span className="mte-filters__label">Todo</span>
             <button
               type="button"
-              className={`vm-filter-chip${category === null ? " is-active" : ""}`}
+              aria-pressed={category === null}
+              className={`mte-chip${category === null ? " is-active" : ""}`}
               onClick={() => selectCategory(null)}
             >
               <IconSparkles width={15} height={15} />
@@ -156,14 +161,15 @@ export function ExplorePage({
             const groupCategories = CATEGORIES.filter((item) => item.group === group.slug);
             if (groupCategories.length === 0) return null;
             return (
-              <div className="vm-filter-row" key={group.slug}>
-                <span className="vm-filter-row__label">{group.label}</span>
-                <div className="vm-filter-row__chips">
+              <div className="mte-filters__row" key={group.slug}>
+                <span className="mte-filters__label">{group.label}</span>
+                <div className="mte-filters__chips">
                   {groupCategories.map((item) => (
                     <button
                       key={item.slug}
                       type="button"
-                      className={`vm-filter-chip${category === item.slug ? " is-active" : ""}`}
+                      aria-pressed={category === item.slug}
+                      className={`mte-chip${category === item.slug ? " is-active" : ""}`}
                       style={{
                         ["--from" as string]: item.from,
                         ["--to" as string]: item.to,
@@ -182,22 +188,47 @@ export function ExplorePage({
           })}
         </div>
 
-        <div className="vm-results-bar">
+        {hasSector && (
+          <div className="mte-filters__row mte-sector" role="group" aria-label="Tipo de atención">
+            <span className="mte-filters__label">Atención</span>
+            <div className="mte-filters__chips">
+              {(
+                [
+                  ["todos", "Todas"],
+                  ["publico", "Pública"],
+                  ["privado", "Privada"],
+                ] as const
+              ).map(([value, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  className={`mte-chip${sector === value ? " is-active" : ""}`}
+                  aria-pressed={sector === value}
+                  onClick={() => setSector(value)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="mte-results">
           <div>
-            <h2 className="vm-results-bar__title">
+            <h2 className="mte-results__title">
               {deferredQuery.trim()
                 ? `Resultados para “${deferredQuery.trim()}”`
                 : activeCategory
                   ? t(activeCategory.nameKey)
                   : "Todo Maracaibo"}
             </h2>
-            <p>
+            <p className="mte-results__count" role="status" aria-live="polite">
               {loading
                 ? "Cargando lugares…"
                 : `${visible.length} ${visible.length === 1 ? "lugar" : "lugares"} para descubrir`}
             </p>
           </div>
-          <div className="vm-sort" role="group" aria-label={t("explore.sort")}>
+          <div className="mte-sort" role="group" aria-label={t("explore.sort")}>
             <span>
               <IconSort width={15} height={15} />
               {t("explore.sort")}
@@ -222,11 +253,11 @@ export function ExplorePage({
         </div>
 
         {view === "map" ? (
-          <div className="vm-explore__map">
+          <div className="mte-map vm-explore__map">
             {loading ? (
-              <div className="vm-map-skeleton" aria-busy="true" />
+              <div className="mte-map-skeleton vm-map-skeleton" aria-busy="true" />
             ) : (
-              <Suspense fallback={<div className="vm-map-skeleton" aria-busy="true" />}>
+              <Suspense fallback={<div className="mte-map-skeleton vm-map-skeleton" aria-busy="true" />}>
                 <MapView
                   places={mapList}
                   selectedSlug={mapFocus}
@@ -244,18 +275,28 @@ export function ExplorePage({
             ))}
           </PlaceGrid>
         ) : visible.length === 0 ? (
-          <div className="vm-empty">
-            <span className="vm-empty__icon" aria-hidden="true">
-              <IconSearch width={30} height={30} />
-            </span>
+          <div className="mte-empty">
+            <svg className="mte-empty__sun" viewBox="0 0 120 120" aria-hidden="true" fill="none">
+              <circle cx="60" cy="60" r="56" fill="#FFE08A" opacity="0.45" />
+              <g stroke="#FFC83D" strokeWidth="5" strokeLinecap="round">
+                {Array.from({ length: 12 }, (_, i) => (
+                  <line key={i} x1="60" y1="14" x2="60" y2="24" transform={`rotate(${i * 30} 60 60)`} />
+                ))}
+              </g>
+              <circle cx="60" cy="60" r="28" fill="#FFC83D" />
+              <path d="M50 66 Q60 58 70 66" stroke="#0B2A4A" strokeWidth="3" strokeLinecap="round" />
+              <circle cx="52" cy="54" r="2.5" fill="#0B2A4A" />
+              <circle cx="68" cy="54" r="2.5" fill="#0B2A4A" />
+            </svg>
             <h2>No encontramos lugares con esa búsqueda</h2>
             <p>Prueba con otra palabra o cambia de tema. Maracaibo tiene mucho más.</p>
             <button
               type="button"
-              className="vm-btn vm-btn--primary"
+              className="mt-btn mt-btn--primary"
               onClick={() => {
                 setQuery("");
                 setCategory(null);
+                setSector("todos");
               }}
             >
               Ver todo Maracaibo
@@ -277,8 +318,8 @@ export function ExplorePage({
               ))}
             </PlaceGrid>
             {visible.length > cards.length && (
-              <div className="vm-more">
-                <button type="button" className="vm-btn vm-btn--soft" onClick={() => setLimit((value) => value + PAGE_SIZE)}>
+              <div className="mte-more">
+                <button type="button" className="mt-btn mt-btn--soft" onClick={() => setLimit((value) => value + PAGE_SIZE)}>
                   Ver más lugares
                   <IconArrowRight width={16} height={16} />
                 </button>

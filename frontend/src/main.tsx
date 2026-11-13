@@ -7,6 +7,7 @@ import "./styles/glass.css";
 import "./styles/animations.css";
 import "./styles/typography.css";
 import "./styles/layout.css";
+import "./styles/buttons.css";
 import "./styles.css";
 import "./theme.css";
 import App from "./App";

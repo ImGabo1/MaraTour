@@ -266,6 +266,25 @@
   }
 }
 
+@media (max-width: 359px) {
+  .mt-brand {
+    gap: 6px;
+  }
+
+  .mt-brand__mark {
+    width: 34px;
+    height: 34px;
+  }
+
+  .mt-brand__text strong {
+    font-size: 1rem;
+  }
+
+  .mt-actions {
+    gap: 4px;
+  }
+}
+
 /* ---------- Menú desplegable (móvil y tablet) ---------- */
 .mt-drawer {
   position: fixed;

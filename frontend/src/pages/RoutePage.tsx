@@ -4,7 +4,8 @@ import { categoryBySlug } from "../data/categories";
 import { googleMapsRouteUrl } from "../lib/maps";
 import { optimizeRoute, estimateVisitMinutes } from "../lib/route";
 import type { Place } from "../types";
-import { Cover } from "../components/Cover";
+import { PlaceImage } from "../components/PlaceImage";
+import "./PlanPages.css";
 import {
   CategoryIcon,
   IconArrowDown,
@@ -83,35 +84,35 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
   };
 
   return (
-    <main className="vm-page vm-route">
-      <section className="vm-page-hero vm-page-hero--route">
-        <div className="container">
-          <p className="vm-kicker">
+    <main className="mtu mt-page-enter">
+      <section className="mtn-hero">
+        <div className="mt-container">
+          <p className="mtn-kicker">
             <IconHeart width={15} height={15} />
             Tu recorrido
           </p>
-          <h1 className="vm-page-hero__title">
+          <h1 className="mtn-hero__title">
             Mi ruta por <span>Maracaibo</span>
           </h1>
-          <p className="vm-page-hero__lead">
+          <p className="mtn-hero__lead">
             Los lugares que guardaste, en el orden que tú elijas. Optimiza por cercanía, compártela
             o ábrela directamente en Google Maps.
           </p>
         </div>
       </section>
 
-      <div className="container vm-route__layout">
+      <div className="mt-container mtu__layout">
         {isGuest && (
-          <div className="vm-guest-notice">
-            <span className="vm-guest-notice__icon" aria-hidden="true">💡</span>
-            <div className="vm-guest-notice__text">
+          <div className="mtn-notice">
+            <span className="mtn-notice__icon" aria-hidden="true">💡</span>
+            <div className="mtn-notice__text">
               <strong>Estás creando una ruta temporal como invitado.</strong>
               <p>Regístrate o inicia sesión para guardar tu itinerario personal y llevarlo contigo.</p>
             </div>
             {onNavigate && (
               <button
                 type="button"
-                className="vm-btn vm-btn--primary"
+                className="mt-btn mt-btn--primary"
                 onClick={() => onNavigate("registro")}
               >
                 Regístrate o inicia sesión
@@ -121,8 +122,8 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
         )}
 
         {ordered.length === 0 ? (
-          <div className="vm-empty vm-empty--route">
-            <span className="vm-empty__icon" aria-hidden="true">
+          <div className="mtn-empty">
+            <span className="mtn-empty__icon" aria-hidden="true">
               <IconRoute width={32} height={32} />
             </span>
             <h2>Tu ruta está esperando</h2>
@@ -130,17 +131,17 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
               Explora Maracaibo y toca el corazón de los lugares que te gusten. Aquí los tendrás
               todos, listos para ordenar y compartir.
             </p>
-            <a className="vm-btn vm-btn--primary" href="#/explorar">
+            <a className="mt-btn mt-btn--primary" href="#/explorar">
               Explorar lugares
               <IconArrowRight width={16} height={16} />
             </a>
           </div>
         ) : (
           <>
-            <section className="vm-route__summary">
-              <div className="vm-route__stats">
+            <section className="mtu__summary">
+              <div className="mtu__stats">
                 <div>
-                  <span className="vm-route__stat-icon">
+                  <span className="mtu__stat-icon">
                     <IconMapPin width={19} height={19} />
                   </span>
                   <span>
@@ -149,7 +150,7 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                   </span>
                 </div>
                 <div>
-                  <span className="vm-route__stat-icon">
+                  <span className="mtu__stat-icon">
                     <IconClock width={19} height={19} />
                   </span>
                   <span>
@@ -160,7 +161,7 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                   </span>
                 </div>
                 <div>
-                  <span className="vm-route__stat-icon">
+                  <span className="mtu__stat-icon">
                     <IconRotate width={19} height={19} />
                   </span>
                   <span>
@@ -170,13 +171,13 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                 </div>
               </div>
 
-              <div className="vm-route__tools">
-                <button type="button" className="vm-btn vm-btn--soft" onClick={optimize} disabled={ordered.length < 3}>
+              <div className="mtu__tools">
+                <button type="button" className="mt-btn mt-btn--soft" onClick={optimize} disabled={ordered.length < 3}>
                   <IconSparkles width={16} height={16} />
                   Optimizar por cercanía
                 </button>
                 <a
-                  className="vm-btn vm-btn--dark"
+                  className="mt-btn mt-btn--primary"
                   href={googleMapsRouteUrl(ordered)}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -184,32 +185,32 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                   Abrir en Google Maps
                   <IconExternal width={16} height={16} />
                 </a>
-                <button type="button" className="vm-btn vm-btn--ghost" onClick={share}>
+                <button type="button" className="mt-btn mt-btn--soft" onClick={share}>
                   <IconShare width={16} height={16} />
                   {copied ? "Enlace copiado" : "Compartir"}
                 </button>
               </div>
             </section>
 
-            <section className="vm-route__list" aria-label="Paradas de Mi ruta">
+            <section className="mtu__list" aria-label="Paradas de Mi ruta">
               {ordered.map((place, index) => {
                 const category = categoryBySlug(place.category);
                 return (
-                  <article key={place.slug} className="vm-route-stop">
-                    <span className="vm-route-stop__number">{index + 1}</span>
+                  <article key={place.slug} className="mtu-stop">
+                    <span className="mtu-stop__number">{index + 1}</span>
                     <button
                       type="button"
-                      className="vm-route-stop__open"
+                      className="mtu-stop__open"
                       onClick={() => onOpenPlace(place.slug)}
                     >
-                      <span className="vm-route-stop__media">
-                        <Cover place={place} className="vm-route-stop__cover" />
+                      <span className="mtu-stop__media">
+                        <PlaceImage place={place} ratio="thumb" decorative />
                       </span>
-                      <span className="vm-route-stop__body">
-                        <span className="vm-route-stop__eyebrow">
+                      <span className="mtu-stop__body">
+                        <span className="mtu-stop__eyebrow">
                           {category && (
                             <span
-                              className="vm-route-stop__cat"
+                              className="mtu-stop__cat"
                               style={{ ["--from" as string]: category.from, ["--to" as string]: category.to }}
                             >
                               <CategoryIcon name={category.icon} width={12} height={12} />
@@ -217,7 +218,7 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                             </span>
                           )}
                           {place.panoUrl && (
-                            <span className="vm-route-stop__pano">
+                            <span className="mtu-stop__pano">
                               <IconRotate width={12} height={12} />
                               360°
                             </span>
@@ -228,7 +229,7 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                           <IconMapPin width={13} height={13} />
                           {place.address}
                         </small>
-                        <span className="vm-route-stop__time">
+                        <span className="mtu-stop__time">
                           <IconClock width={13} height={13} />
                           {estimateVisitMinutes(place)} min de visita
                         </span>
@@ -236,7 +237,7 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                       <IconArrowRight width={18} height={18} />
                     </button>
 
-                    <div className="vm-route-stop__actions">
+                    <div className="mtu-stop__actions">
                       <button
                         type="button"
                         onClick={() => move(index, -1)}
@@ -255,7 +256,7 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                       </button>
                       <button
                         type="button"
-                        className="vm-route-stop__remove"
+                        className="mtu-stop__remove"
                         onClick={() => onRemove(place.slug)}
                         aria-label={`Quitar ${place.name} de Mi ruta`}
                       >
@@ -267,19 +268,19 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
               })}
             </section>
 
-            <aside className="vm-route__next">
-              <span className="vm-route__next-icon" aria-hidden="true">
+            <aside className="mtu__next">
+              <span className="mtu__next-icon" aria-hidden="true">
                 <IconCompass width={24} height={24} />
               </span>
               <div>
-                <p className="vm-kicker">¿Quieres más ideas?</p>
+                <p className="mtn-kicker">¿Quieres más ideas?</p>
                 <h2>Deja que el planificador te sorprenda</h2>
                 <p>
                   Cuéntanos cuántos días tienes y qué te gusta, y armamos una ruta completa con
                   comidas y tips.
                 </p>
               </div>
-              <a className="vm-btn vm-btn--primary" href="#/plan">
+              <a className="mt-btn mt-btn--primary" href="#/plan">
                 Armar otro plan
                 <IconSparkles width={16} height={16} />
               </a>

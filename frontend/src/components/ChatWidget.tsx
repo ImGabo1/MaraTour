@@ -1,3 +1,4 @@
+import "./ChatWidget.css";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { categoryBySlug, type CategorySlug } from "../data/categories";
 import { findDictionaryTerm, searchDictionary } from "../data/dictionary";
@@ -7,7 +8,7 @@ import { useModal } from "../hooks/useModal";
 import { primaryCategory } from "../lib/places";
 import { popularityScore } from "../lib/popularity";
 import type { Place } from "../types";
-import { IconChat, IconClose, IconSend, IconSparkles } from "./icons";
+import { IconClose, IconSend, IconSparkles } from "./icons";
 
 type Action = { label: string; page?: Page; slug?: string };
 
@@ -250,37 +251,44 @@ export function ChatWidget({ places, onClose, onOpenPlace, onNavigate }: Props) 
   };
 
   return (
-    <div className="vm-chat" role="dialog" aria-modal="true" aria-labelledby="chat-title">
-      <div className="vm-chat__backdrop" onClick={onClose} />
-      <section className="vm-chat__panel">
-        <header className="vm-chat__head">
-          <span className="vm-chat__avatar" aria-hidden="true">
-            <IconChat width={21} height={21} />
+    <div className="mtz" role="dialog" aria-modal="true" aria-labelledby="chat-title">
+      <div className="mtz__backdrop" onClick={onClose} />
+      <section className="mtz__panel glass glass--strong">
+        <header className="mtz__head">
+          <span className="mtz__avatar" aria-hidden="true">
+            <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
+              <g stroke="#E0A21B" strokeWidth="2.4" strokeLinecap="round">
+                {Array.from({ length: 8 }, (_, i) => (
+                  <line key={i} x1="20" y1="3" x2="20" y2="8" transform={`rotate(${i * 45} 20 20)`} />
+                ))}
+              </g>
+              <circle cx="20" cy="20" r="9" fill="#FFC83D" />
+            </svg>
           </span>
-          <div className="vm-chat__identity">
+          <div className="mtz__identity">
             <h2 id="chat-title">Zulmita</h2>
             <p>
-              <span className="vm-chat__dot" aria-hidden="true" />
+              <span className="mtz__dot" aria-hidden="true" />
               Guía local · en línea
             </p>
           </div>
-          <button type="button" className="vm-chat__close" onClick={onClose} aria-label="Cerrar chat">
+          <button type="button" className="mtz__close mt-press" onClick={onClose} aria-label="Cerrar chat">
             <IconClose width={19} height={19} />
           </button>
         </header>
 
-        <div className="vm-chat__messages">
+        <div className="mtz__messages" role="log" aria-live="polite" aria-label="Conversación con Zulmita">
           {messages.map((message) => (
-            <div key={message.id} className={`vm-chat__row vm-chat__row--${message.from}`}>
+            <div key={message.id} className={`mtz__row mtz__row--${message.from}`}>
               {message.from === "bot" && (
-                <span className="vm-chat__mini-avatar" aria-hidden="true">
+                <span className="mtz__mini-avatar" aria-hidden="true">
                   <IconSparkles width={14} height={14} />
                 </span>
               )}
-              <div className={`vm-chat__bubble vm-chat__bubble--${message.from}`}>
+              <div className={`mtz__bubble mtz__bubble--${message.from}`}>
                 <p>{message.text}</p>
                 {message.actions && message.actions.length > 0 && (
-                  <div className="vm-chat__actions">
+                  <div className="mtz__actions">
                     {message.actions.map((action) => (
                       <button key={`${message.id}-${action.label}`} type="button" onClick={() => runAction(action)}>
                         {action.label}
@@ -294,7 +302,7 @@ export function ChatWidget({ places, onClose, onOpenPlace, onNavigate }: Props) 
           <div ref={bottomRef} />
         </div>
 
-        <div className="vm-chat__quick" aria-label="Preguntas rápidas">
+        <div className="mtz__quick" aria-label="Preguntas rápidas">
           {QUICK_REPLIES.map((prompt) => (
             <button key={prompt} type="button" onClick={() => send(prompt)}>
               {prompt}
@@ -303,7 +311,7 @@ export function ChatWidget({ places, onClose, onOpenPlace, onNavigate }: Props) 
         </div>
 
         <form
-          className="vm-chat__form"
+          className="mtz__form"
           onSubmit={(event) => {
             event.preventDefault();
             send();
@@ -318,11 +326,11 @@ export function ChatWidget({ places, onClose, onOpenPlace, onNavigate }: Props) 
             aria-label="Escribe tu duda"
             autoComplete="off"
           />
-          <button type="submit" aria-label="Enviar mensaje" disabled={!input.trim()}>
+          <button type="submit" className="mtz__send mt-press" aria-label="Enviar mensaje" disabled={!input.trim()}>
             <IconSend width={18} height={18} />
           </button>
         </form>
-        <p className="vm-chat__note">Respuestas locales basadas en los datos de la app. Verifica horarios antes de salir.</p>
+        <p className="mtz__note">Respuestas locales basadas en los datos de la app. Verifica horarios antes de salir.</p>
       </section>
     </div>
   );

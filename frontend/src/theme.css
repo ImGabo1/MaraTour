@@ -27,7 +27,7 @@
   --vm-radius: 22px;
   --vm-radius-lg: 30px;
   --vm-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --vm-header-h: 74px;
+  --vm-header-h: 72px;
 
   /* Paleta pastel de la nueva portada */
   --vm-sky: #c9ecfb;
@@ -5028,11 +5028,7 @@ body {
 
 @media (max-width: 900px) {
   :root {
-    --vm-header-h: 64px;
-  }
-
-  body {
-    padding-bottom: 74px;
+    --vm-header-h: 72px;
   }
 
   .vm-header__inner {

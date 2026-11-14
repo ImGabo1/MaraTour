@@ -1,0 +1,63 @@
+/* Interruptor sol / luna (variante "switch" del ThemeToggle). */
+.mt-theme {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  flex: none;
+  width: 92px;
+  height: var(--mt-tap);
+  padding: 4px;
+  border: 1px solid var(--mt-glass-border);
+  border-radius: var(--mt-radius-pill);
+  background: var(--mt-glass-strong);
+  color: var(--mt-text);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mt-theme__slot {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  height: 100%;
+}
+
+/* Solo se anima transform: la perilla se desliza de un lado al otro. */
+.mt-theme__thumb {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  height: calc(100% - 8px);
+  border-radius: var(--mt-radius-pill);
+  background: var(--mt-sun-500);
+  box-shadow: var(--mt-shadow-soft);
+  transform: translateX(0);
+  transition: transform var(--mt-dur) var(--mt-ease), background-color var(--mt-dur) var(--mt-ease);
+}
+
+.mt-theme[data-dark="true"] .mt-theme__thumb {
+  background: var(--mt-sky-300);
+  transform: translateX(calc(100% + 0px));
+}
+
+/* El icono que queda sobre la perilla va en tinta oscura: contraste AA sobre amarillo y celeste. */
+.mt-theme__slot {
+  color: var(--mt-text-soft);
+}
+
+.mt-theme__slot.is-on {
+  color: var(--mt-ink);
+}
+
+.mt-theme:active .mt-theme__thumb {
+  filter: brightness(0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mt-theme__thumb {
+    transition: none;
+  }
+}

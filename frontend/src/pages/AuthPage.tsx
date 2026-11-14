@@ -1,21 +1,16 @@
 import { useMemo, useState } from "react";
-import { WELCOME_SLIDES } from "../data/welcome";
 import { ThemeToggle } from "../components/ThemeToggle";
 import {
   IconArrowLeft,
   IconArrowRight,
-  IconBoat,
-  IconChinita,
   IconCompass,
   IconEye,
   IconEyeOff,
   IconLock,
   IconMail,
-  IconMapPin,
   IconSparkles,
   IconSun,
   IconUser,
-  IconWave,
 } from "../components/icons";
 import {
   AuthError,
@@ -35,6 +30,8 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [touched, setTouched] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -52,6 +49,11 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (busy) return;
+    setTouched(true);
+    if (isRegister && confirm !== password) {
+      setError("Las contraseñas no coinciden.");
+      return;
+    }
     setError(null);
     setBusy(true);
     try {
@@ -70,190 +72,99 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
     }
   };
 
-  const chinita = WELCOME_SLIDES[0]!;
-  const bridge = WELCOME_SLIDES[2] ?? chinita;
-  const vereda = WELCOME_SLIDES[1] ?? chinita;
+  const mismatch = isRegister && touched && confirm.length > 0 && confirm !== password;
+  const tabHref = (target: "entrar" | "registro") => `#/${target}`;
 
   return (
-    <main className="va-page">
-      {/* ===== Fondo tropical animado ===== */}
-      <div className="va-bg" aria-hidden="true">
-        <span className="va-aurora va-aurora--1" />
-        <span className="va-aurora va-aurora--2" />
-        <span className="va-aurora va-aurora--3" />
+    <main className="mta-page mt-page-enter">
+      <div className="mta-theme">
+        <ThemeToggle variant="switch" className="mta-theme-toggle" />
+      </div>
 
-        <div className="va-sun">
-          <span className="va-sun__glow" />
-          <span className="va-sun__rays" />
-          <span className="va-sun__core" />
-        </div>
-
-        <span className="va-cloud va-cloud--1" />
-        <span className="va-cloud va-cloud--2" />
-
-        <div className="va-tokens">
-          <span className="va-token va-token--1">
-            <IconChinita width={20} height={20} />
-          </span>
-          <span className="va-token va-token--2">
-            <IconBoat width={20} height={20} />
-          </span>
-          <span className="va-token va-token--3">
-            <IconWave width={20} height={20} />
-          </span>
-          <span className="va-token va-token--4">
-            <IconSun width={18} height={18} />
-          </span>
-        </div>
-
-        <div className="va-lake">
-          <span className="va-lake__wave va-lake__wave--1" />
-          <span className="va-lake__wave va-lake__wave--2" />
-          <svg
-            className="va-lake__bridge"
-            viewBox="0 0 1440 200"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M0 150C220 128 340 74 480 72s240 58 440 26 300-42 520 8"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
-            <path
-              d="M210 132V58M226 130V58M690 92V32M706 90V32M1160 96V38M1176 94V38"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
+      <div className="mta-shell">
+        {/* ===== Panel de marca: cielo, sol y puente ===== */}
+        <aside className="mta-brand" aria-hidden="false">
+          <svg className="mta-brand__sun" viewBox="0 0 240 240" fill="none" aria-hidden="true">
+            <circle cx="120" cy="120" r="118" fill="#FFE08A" opacity="0.45" />
+            <g stroke="#FFC83D" strokeWidth="6" strokeLinecap="round">
+              {Array.from({ length: 12 }, (_, i) => (
+                <line key={i} x1="120" y1="22" x2="120" y2="40" transform={`rotate(${i * 30} 120 120)`} />
+              ))}
+            </g>
+            <circle cx="120" cy="120" r="62" fill="#FFC83D" />
           </svg>
-        </div>
-      </div>
 
-      <div className="va-theme-toggle-wrap">
-        <ThemeToggle className="va-theme-toggle-button" />
-      </div>
-
-      <div className="va-shell">
-        {/* ===== Columna visual ===== */}
-        <aside className="va-aside">
-          <a className="va-brand" href="#/bienvenida" aria-label="Maratour · Volver a la portada">
-            <span className="va-brand__mark" aria-hidden="true">
-              <img src="/img/logo-emblema-192.png" alt="" width={46} height={46} />
-            </span>
-            <span className="va-brand__text">
-              <strong>Maratour</strong>
+          <a className="mta-logo" href="#/bienvenida" aria-label="MaraTour · Volver a la portada">
+            <img src="/img/logo-emblema-192.png" alt="" width={46} height={46} />
+            <span>
+              <strong>
+                Mara<b>Tour</b>
+              </strong>
               <small>Visita Maracaibo</small>
             </span>
           </a>
 
-          <div className="va-aside__copy">
-            <p className="va-kicker">
+          <div className="mta-brand__copy">
+            <p className="mta-kicker">
               <IconSparkles width={14} height={14} />
               {isRegister ? "Crea tu cuenta" : "Bienvenido de vuelta"}
             </p>
-            <h1 className="va-aside__title">
-              Tu próxima postal
-              <span>empieza aquí</span>
+            <h1>
+              Tu próxima postal <span>empieza aquí</span>
             </h1>
-            <p className="va-aside__lead">
-              Guarda tus lugares favoritos, arma rutas por Maracaibo y vuelve a
-              ellas cuando quieras. La ciudad te espera a todo color.
-            </p>
+            <p>Guarda tus lugares favoritos, arma rutas por Maracaibo y vuelve a ellas cuando quieras.</p>
           </div>
 
-          <div className="va-postcards" aria-hidden="true">
-            <figure className="va-postcards__item va-postcards__item--one">
-              <img src={chinita.src} alt="" loading="lazy" decoding="async" />
-              <figcaption>Basílica de la Chinita</figcaption>
-            </figure>
-            <figure className="va-postcards__item va-postcards__item--two">
-              <img src={bridge.src} alt="" loading="lazy" decoding="async" />
-              <figcaption>Puente sobre el Lago</figcaption>
-            </figure>
-            <figure className="va-postcards__item va-postcards__item--three">
-              <img src={vereda.src} alt="" loading="lazy" decoding="async" />
-              <figcaption>Vereda del Lago</figcaption>
-            </figure>
-            <span className="va-postcards__pin">
-              <IconMapPin width={16} height={16} />
-              Maracaibo
-            </span>
-          </div>
-
-          <ul className="va-stats">
-            <li>
-              <strong>43</strong>
-              <span>lugares</span>
-            </li>
-            <li>
-              <strong>7</strong>
-              <span>rutas</span>
-            </li>
-            <li>
-              <strong>100%</strong>
-              <span>gratis</span>
-            </li>
-          </ul>
+          <svg className="mta-brand__bridge" viewBox="0 0 1200 160" preserveAspectRatio="xMidYMax slice" fill="none" aria-hidden="true">
+            <g stroke="currentColor" strokeLinecap="round">
+              <path d="M0 120 H1200" strokeWidth="5" />
+              <path d="M180 120 L218 24 H242 L280 120" strokeWidth="5" />
+              <path d="M520 120 L568 8 H632 L680 120" strokeWidth="6" />
+              <path d="M900 120 L938 24 H962 L1000 120" strokeWidth="5" />
+            </g>
+          </svg>
+          <svg className="mta-brand__wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 40 C240 90 480 0 720 40 S1200 80 1440 30 V80 H0 Z" />
+          </svg>
         </aside>
 
-        {/* ===== Columna del formulario ===== */}
-        <section className="va-panel">
-          <a className="va-panel__brand" href="#/bienvenida" aria-label="Maratour · Volver a la portada">
-            <span className="va-brand__mark" aria-hidden="true">
-              <img src="/img/logo-emblema-192.png" alt="" width={40} height={40} />
-            </span>
-            <span className="va-brand__text">
-              <strong>Maratour</strong>
-              <small>Visita Maracaibo</small>
-            </span>
-          </a>
-
-          <div className="va-card">
-            <a className="va-back" href="#/bienvenida">
+        {/* ===== Formulario de vidrio ===== */}
+        <section className="mta-panel">
+          <div className="mta-card glass">
+            <a className="mta-back" href="#/bienvenida">
               <IconArrowLeft width={15} height={15} />
               Volver a la portada
             </a>
 
-            <header className="va-head">
-              <p className="va-head__kicker">
+            <header className="mta-head">
+              <p className="mta-kicker mta-kicker--sun">
                 <IconSun width={14} height={14} />
                 Tierra del Sol Amada
               </p>
-              <h2 className="va-head__title">
-                {isRegister ? "Crea tu cuenta" : "Ingresa a Maratour"}
-              </h2>
-              <p className="va-head__lead">
+              <h2>{isRegister ? "Crea tu cuenta" : "Ingresa a MaraTour"}</h2>
+              <p>
                 {isRegister
                   ? "Solo toma un momento. Guarda lugares y arma tu ruta ideal."
-                  : "Continúa donde lo dejaste y descubre Maracaibo a todo color."}
+                  : "Continúa donde lo dejaste y descubre Maracaibo."}
               </p>
             </header>
 
-            <div className="va-tabs" role="tablist" aria-label="Acceso a Maratour">
-              <a
-                href="#/registro"
-                role="tab"
-                aria-selected={isRegister}
-                className={`va-tab${isRegister ? " is-active" : ""}`}
-              >
-                Registrarme
+            <div className={`mta-tabs${isRegister ? " is-register" : ""}`} role="tablist" aria-label="Acceso a MaraTour">
+              <span className="mta-tabs__thumb" aria-hidden="true" />
+              <a href={tabHref("entrar")} role="tab" aria-selected={!isRegister} className={!isRegister ? "is-active" : ""}>
+                Entrar
               </a>
-              <a
-                href="#/entrar"
-                role="tab"
-                aria-selected={!isRegister}
-                className={`va-tab${!isRegister ? " is-active" : ""}`}
-              >
-                Ingresar
+              <a href={tabHref("registro")} role="tab" aria-selected={isRegister} className={isRegister ? "is-active" : ""}>
+                Registrarme
               </a>
             </div>
 
-            <form className="va-form" onSubmit={submit} noValidate>
+            <form className="mta-form" onSubmit={submit} noValidate>
               {isRegister && (
-                <label className="va-field">
-                  <span className="va-label">Nombre completo</span>
-                  <span className="va-control">
-                    <IconUser width={18} height={18} />
+                <label className="mta-field">
+                  <span className="mta-label">Nombre completo</span>
+                  <span className="mta-control">
+                    <IconUser width={18} height={18} aria-hidden="true" />
                     <input
                       type="text"
                       name="name"
@@ -267,10 +178,10 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
                 </label>
               )}
 
-              <label className="va-field">
-                <span className="va-label">Correo electrónico</span>
-                <span className="va-control">
-                  <IconMail width={18} height={18} />
+              <label className="mta-field">
+                <span className="mta-label">Correo electrónico</span>
+                <span className="mta-control">
+                  <IconMail width={18} height={18} aria-hidden="true" />
                   <input
                     type="email"
                     name="email"
@@ -285,14 +196,15 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
                 </span>
               </label>
 
-              <label className="va-field">
-                <span className="va-label">
+              <div className="mta-field">
+                <label className="mta-label" htmlFor="mta-password">
                   Contraseña
                   {isRegister && <small>Mínimo 8 caracteres</small>}
-                </span>
-                <span className="va-control">
-                  <IconLock width={18} height={18} />
+                </label>
+                <span className="mta-control">
+                  <IconLock width={18} height={18} aria-hidden="true" />
                   <input
+                    id="mta-password"
                     type={showPassword ? "text" : "password"}
                     name="password"
                     value={password}
@@ -303,73 +215,83 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
                   />
                   <button
                     type="button"
-                    className="va-eye"
+                    className="mta-eye"
                     onClick={() => setShowPassword((visible) => !visible)}
                     aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                    aria-pressed={showPassword}
                   >
                     {showPassword ? <IconEyeOff width={18} height={18} /> : <IconEye width={18} height={18} />}
                   </button>
                 </span>
-              </label>
+              </div>
 
               {isRegister && password && (
-                <div className={`va-strength is-${strength}`} aria-live="polite">
-                  <div className="va-strength__bars">
-                    <span />
-                    <span />
-                    <span />
-                  </div>
+                <div className={`mta-strength is-${strength}`} aria-live="polite">
+                  <span className="mta-strength__bars" aria-hidden="true">
+                    <i />
+                    <i />
+                    <i />
+                  </span>
                   <small>
-                    {strength <= 1
-                      ? "Contraseña débil"
-                      : strength === 2
-                        ? "Buena contraseña"
-                        : "Contraseña fuerte"}
+                    {strength <= 1 ? "Contraseña débil" : strength === 2 ? "Buena contraseña" : "Contraseña fuerte"}
                   </small>
                 </div>
               )}
 
+              {isRegister && (
+                <label className="mta-field">
+                  <span className="mta-label">Confirma tu contraseña</span>
+                  <span className={`mta-control${mismatch ? " is-invalid" : ""}`}>
+                    <IconLock width={18} height={18} aria-hidden="true" />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="confirm"
+                      value={confirm}
+                      onChange={(event) => setConfirm(event.target.value)}
+                      placeholder="Repite tu contraseña"
+                      autoComplete="new-password"
+                      aria-invalid={mismatch}
+                      required
+                    />
+                  </span>
+                </label>
+              )}
+
               {error && (
-                <p className="va-error" role="alert">
+                <p className="mta-error" role="alert">
                   {error}
                 </p>
               )}
 
-              <button type="submit" className="va-submit" disabled={busy}>
-                <span>
-                  {busy
-                    ? "Un momento…"
-                    : isRegister
-                      ? "Crear mi cuenta gratis"
-                      : "Entrar a Maratour"}
-                </span>
-                {!busy && <IconArrowRight width={18} height={18} />}
+              <button type="submit" className="mt-btn mt-btn--primary mta-submit" disabled={busy} aria-busy={busy}>
+                {busy ? (
+                  <>
+                    <span className="mt-spinner" aria-hidden="true" />
+                    Un momento…
+                  </>
+                ) : (
+                  <>
+                    {isRegister ? "Registrarme" : "Entrar"}
+                    <IconArrowRight width={18} height={18} />
+                  </>
+                )}
               </button>
             </form>
 
-            <div className="va-divider">
-              <span>o entra sin registrarte</span>
+            <div className="mta-divider">
+              <span>no necesitas cuenta para explorar</span>
             </div>
 
-            <button type="button" className="va-guest" onClick={onGuest}>
+            <button type="button" className="mt-btn mt-btn--soft mta-guest" onClick={onGuest}>
               <IconCompass width={17} height={17} />
               Explorar como invitado
             </button>
 
-            <p className="va-switch">
-              {isRegister
-                ? "¿Ya tienes una cuenta registrada?"
-                : "¿Aún no tienes una cuenta?"}{" "}
-              <a href={isRegister ? "#/entrar" : "#/registro"}>
-                {isRegister ? "Inicia sesión aquí" : "Regístrate gratis"}
-              </a>
+            <p className="mta-switch">
+              {isRegister ? "¿Ya tienes una cuenta?" : "¿Aún no tienes una cuenta?"}{" "}
+              <a href={isRegister ? "#/entrar" : "#/registro"}>{isRegister ? "Entra aquí" : "Regístrate gratis"}</a>
             </p>
           </div>
-
-          <p className="va-footnote">
-            <IconSun width={12} height={12} />
-            Maracaibo, Zulia · Venezuela
-          </p>
         </section>
       </div>
     </main>

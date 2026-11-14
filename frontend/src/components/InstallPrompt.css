@@ -1,0 +1,78 @@
+.mt-install-banner {
+  max-width: var(--mt-container);
+  margin-inline: auto;
+  padding: 0 var(--mt-gutter) 8px;
+}
+
+.mt-install-banner__card {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 14px;
+  padding: 12px 14px;
+}
+
+.mt-install-banner__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--mt-sun-500);
+  color: var(--mt-ink);
+}
+
+.mt-install-banner__text {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.mt-install-banner__text strong {
+  display: block;
+  color: var(--mt-text);
+  font-size: var(--mt-fs-body);
+  font-weight: 900;
+}
+
+.mt-install-banner__text p {
+  margin: 2px 0 0;
+  color: var(--mt-text-soft);
+  font-size: var(--mt-fs-small);
+  line-height: 1.4;
+}
+
+.mt-install-banner__text b {
+  color: var(--mt-text);
+}
+
+.mt-install-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mt-install-banner__ok,
+.mt-install-banner__later {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--mt-tap);
+  min-height: var(--mt-tap);
+  border: 1px solid var(--mt-glass-border);
+  border-radius: var(--mt-radius-pill);
+  background: var(--mt-glass-strong);
+  color: var(--mt-text);
+  font: inherit;
+  font-size: var(--mt-fs-small);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.mt-install-banner__ok {
+  padding: 0 18px;
+}
+
+.mt-install-banner__later {
+  padding: 0;
+}

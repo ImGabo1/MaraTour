@@ -14,7 +14,6 @@ export function HomeCarousel({ slides, onOpenPlace }: Props) {
   const pausedRef = useRef(false);
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [portraitSlides, setPortraitSlides] = useState<Record<number, boolean>>({});
   const total = slides.length;
   const pad = (value: number) => String(value + 1).padStart(2, "0");
 
@@ -77,30 +76,30 @@ export function HomeCarousel({ slides, onOpenPlace }: Props) {
 
   return (
     <section
-      className={`vmh-carousel${paused ? " is-paused" : ""}`}
+      className={`mth-carousel${paused ? " is-paused" : ""}`}
       aria-roledescription="carrusel"
-      aria-label="Postales de Maracaibo"
+      aria-label="Postales de la ciudad"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
-      <div className="vmh-carousel__head">
-        <div className="vmh-carousel__heading">
-          <p className="vmh-carousel__eyebrow">
-            <IconCompass width={13} height={13} />
-            Postales de la ciudad
+      <div className="mth-carousel__head">
+        <div className="mth-carousel__heading">
+          <p className="mth-carousel__eyebrow">
+            <IconCompass width={14} height={14} />
+            Maracaibo, en imágenes
           </p>
-          <h3 className="vmh-carousel__title">Maracaibo, en imágenes</h3>
+          <h2 className="mth-carousel__title">Postales de la ciudad</h2>
         </div>
 
-        <div className="vmh-carousel__controls">
-          <span className="vmh-carousel__count" aria-live="polite">
+        <div className="mth-carousel__controls">
+          <span className="mth-carousel__count" aria-live="polite">
             {pad(active)} <i>/</i> {pad(total - 1)}
           </span>
           <button
             type="button"
-            className="vmh-carousel__arrow"
+            className="mth-carousel__arrow"
             onClick={() => go(-1)}
             aria-label="Postal anterior"
           >
@@ -108,7 +107,7 @@ export function HomeCarousel({ slides, onOpenPlace }: Props) {
           </button>
           <button
             type="button"
-            className="vmh-carousel__arrow"
+            className="mth-carousel__arrow"
             onClick={() => go(1)}
             aria-label="Postal siguiente"
           >
@@ -119,7 +118,7 @@ export function HomeCarousel({ slides, onOpenPlace }: Props) {
 
       <div
         ref={viewportRef}
-        className="vmh-carousel__viewport"
+        className="mth-carousel__viewport"
         onScroll={handleScroll}
         role="region"
         aria-live="polite"
@@ -129,53 +128,42 @@ export function HomeCarousel({ slides, onOpenPlace }: Props) {
           <article
             key={`${slide.slug ?? slide.title}-${index}`}
             data-carousel-card={index}
-            className={`vmh-carousel__slide${index === active ? " is-active" : ""}`}
+            className={`mth-carousel__slide${index === active ? " is-active" : ""}`}
           >
-            <div
-              className={`vmh-carousel__media${portraitSlides[index] ? " is-portrait" : ""}`}
-              style={{ backgroundImage: `url("${slide.src}")` }}
-              aria-label={slide.title}
-            >
+            <div className="mth-carousel__media">
               <img
                 src={slide.src}
                 alt={`${slide.title} · ${slide.caption}`}
-                loading={index < 3 ? "eager" : "lazy"}
+                loading={index < 2 ? "eager" : "lazy"}
                 decoding="async"
-                onLoad={(event) => {
-                  const image = event.currentTarget;
-                  setPortraitSlides((currentSlides) => {
-                    const isPortrait = image.naturalHeight > image.naturalWidth;
-                    if (currentSlides[index] === isPortrait) return currentSlides;
-                    return { ...currentSlides, [index]: isPortrait };
-                  });
-                }}
               />
-              <span className="vmh-carousel__badge">
+              <span className="mth-carousel__scrim" aria-hidden="true" />
+              <span className="mth-carousel__badge">
                 <IconMapPin width={12} height={12} />
                 {slide.kicker}
               </span>
-              <span className="vmh-carousel__num" aria-hidden="true">
+              <span className="mth-carousel__num" aria-hidden="true">
                 {pad(index)}
               </span>
-            </div>
-
-            <div className="vmh-carousel__body">
-              <h4>{slide.title}</h4>
-              <p>{slide.caption}</p>
-              <button
-                type="button"
-                className="vmh-carousel__cta"
-                onClick={() => slide.slug && onOpenPlace(slide.slug)}
-              >
-                Ver sitio
-                <IconArrowRight width={15} height={15} />
-              </button>
+              <div className="mth-carousel__body">
+                <h3>{slide.title}</h3>
+                <p>{slide.caption}</p>
+                <button
+                  type="button"
+                  className="mt-btn mt-btn--soft mt-btn--sm mth-carousel__cta"
+                  onClick={() => slide.slug && onOpenPlace(slide.slug)}
+                  aria-label={`Ver sitio: ${slide.title}`}
+                >
+                  Ver sitio
+                  <IconArrowRight width={15} height={15} />
+                </button>
+              </div>
             </div>
           </article>
         ))}
       </div>
 
-      <div className="vmh-carousel__dots" role="tablist" aria-label="Seleccionar postal">
+      <div className="mth-carousel__dots" role="tablist" aria-label="Seleccionar postal">
         {slides.map((slide, index) => (
           <button
             key={`dot-${slide.slug ?? slide.title}-${index}`}
@@ -189,7 +177,7 @@ export function HomeCarousel({ slides, onOpenPlace }: Props) {
         ))}
       </div>
 
-      <p className="vmh-carousel__hint">Desliza para descubrir más postales →</p>
+      <p className="mth-carousel__hint">Desliza para descubrir más postales →</p>
     </section>
   );
 }

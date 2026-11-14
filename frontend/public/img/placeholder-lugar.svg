@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" role="img" aria-label="Foto del lugar próximamente">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7FD3F7"/>
+      <stop offset="0.55" stop-color="#D3EEFF"/>
+      <stop offset="1" stop-color="#FFE9B0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFE08A" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#FFE08A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#sky)"/>
+  <circle cx="300" cy="360" r="170" fill="url(#glow)"/>
+  <g stroke="#FFC83D" stroke-width="10" stroke-linecap="round">
+    <path d="M300 215v-34M300 505v34M155 360h-34M479 360h-34M197 257l-24-24M427 463l24 24M403 257l24-24M173 487l24-24"/>
+  </g>
+  <circle cx="300" cy="360" r="74" fill="#FFC83D"/>
+  <g fill="none" stroke="#1B7FB8" stroke-opacity="0.38" stroke-width="5" stroke-linecap="round">
+    <path d="M0 585H600"/>
+    <path d="M110 585V470M300 585V430M490 585V470"/>
+    <path d="M110 470L0 585M110 470L300 585M300 430L110 585M300 430L490 585M490 470L300 585M490 470L600 585"/>
+  </g>
+  <rect y="585" width="600" height="215" fill="#4FC3F7" fill-opacity="0.55"/>
+  <g fill="none" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="6" stroke-linecap="round">
+    <path d="M40 640q35-18 70 0t70 0 70 0 70 0 70 0 70 0 70 0"/>
+    <path d="M0 700q35-18 70 0t70 0 70 0 70 0 70 0 70 0 70 0 70 0 70 0"/>
+    <path d="M40 760q35-18 70 0t70 0 70 0 70 0 70 0 70 0 70 0"/>
+  </g>
+</svg>

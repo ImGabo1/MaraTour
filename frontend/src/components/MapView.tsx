@@ -23,6 +23,7 @@ import {
   IconMinimize,
   IconSearch,
 } from "./icons";
+import "./MapView.css";
 
 interface Props {
   places: readonly Place[];
@@ -78,7 +79,7 @@ function pinHtml(n: number, from: string, to: string, active: boolean): string {
 /**
  * Mapa interactivo de Maracaibo.
  *
- * Usa una imagen base local (OpenStreetMap · OpenFreeMap) para que el mapa
+ * Usa una imagen base local (OpenStreetMap · CARTO) para que el mapa
  * funcione sin conexión y no dependa de claves de API. Leaflet aporta zoom,
  * arrastre y gestos táctiles; MarkerCluster agrupa los pines que se solapan.
  */
@@ -165,6 +166,7 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
     map.attributionControl.setPrefix(false);
     L.tileLayer(MAP_TILES.url, {
       attribution: MAP_TILES.attribution,
+      subdomains: MAP_TILES.subdomains,
       maxNativeZoom: MAP_TILES.maxNativeZoom,
       maxZoom: 18,
       bounds: imageBounds,
@@ -220,11 +222,10 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
     const layers: L.Marker[] = [];
 
     places.forEach((place, index) => {
-      const category = categoryBySlug(primaryCategory(place));
       const active = place.slug === selectedSlug;
       const icon = L.divIcon({
         className: "vm-pin-wrap",
-        html: pinHtml(index + 1, category?.from ?? "#E8604C", category?.to ?? "#B43A2A", active),
+        html: pinHtml(index + 1, "#E63946", "#C22B38", active),
         iconSize: [34, 44],
         iconAnchor: [17, 43],
       });
@@ -457,13 +458,18 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
           </button>
         </div>
 
+        <ul className="vm-map__legend glass glass--sm" aria-label="Leyenda del mapa">
+          <li><i className="vm-map__legend-pin" aria-hidden="true" /> Lugar</li>
+          <li><i className="vm-map__legend-pin is-on" aria-hidden="true" /> Seleccionado</li>
+        </ul>
+
         <a
           className="vm-map__credit"
           href="https://www.openstreetmap.org/copyright"
           target="_blank"
           rel="noopener noreferrer"
         >
-          © OpenStreetMap · OpenFreeMap
+          © OpenStreetMap · CARTO
         </a>
       </div>
 
@@ -492,11 +498,11 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
               </div>
             </div>
             <div className="map-bar__actions">
-              <button type="button" className="btn btn--ghost" onClick={() => onOpenPlace(selected.slug)}>
+              <button type="button" className="mt-btn mt-btn--soft mt-btn--sm" onClick={() => onOpenPlace(selected.slug)}>
                 {t("map.viewPlace")}
               </button>
               <a
-                className="btn btn--dark"
+                className="mt-btn mt-btn--primary mt-btn--sm"
                 href={googleMapsPlaceUrl(selected)}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -520,7 +526,7 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
             </div>
             <div className="map-bar__actions">
               <a
-                className="btn btn--dark"
+                className="mt-btn mt-btn--primary mt-btn--sm"
                 href={googleMapsSearchUrl(MAPS_GENERAL_QUERY)}
                 target="_blank"
                 rel="noopener noreferrer"

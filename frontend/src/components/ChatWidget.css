@@ -1,0 +1,58 @@
+/* Zulmita: burbuja de vidrio con sol. Bottom sheet en móvil, panel flotante en escritorio. */
+.mtz { position: fixed; inset: 0; z-index: 110; display: flex; align-items: flex-end; justify-content: center; }
+.mtz__backdrop { position: absolute; inset: 0; background: rgba(11, 42, 74, 0.4); animation: mt-fade-in var(--mt-dur) var(--mt-ease) backwards; }
+.mtz__panel {
+  position: relative; display: flex; flex-direction: column; width: min(100%, 520px); height: min(88dvh, 680px);
+  overflow: hidden; border-radius: var(--mt-radius-xl, 26px) var(--mt-radius-xl, 26px) 0 0;
+  animation: mt-sheet-up var(--mt-dur-slow) var(--mt-ease) backwards;
+}
+.mtz__head { display: flex; align-items: center; gap: 12px; padding: 14px 14px 12px 16px; border-bottom: 1px solid var(--mt-glass-border); }
+.mtz__avatar { display: grid; place-items: center; flex: none; width: 46px; height: 46px; border-radius: 50%; background: var(--mt-sun-300); }
+.mtz__identity { flex: 1 1 0; min-width: 0; }
+.mtz__identity h2 { margin: 0; font-size: var(--mt-fs-h3); font-weight: 900; line-height: 1.1; color: var(--mt-text); }
+.mtz__identity p { display: flex; align-items: center; gap: 6px; margin: 2px 0 0; color: var(--mt-text-soft); font-size: var(--mt-fs-label); font-weight: 700; }
+.mtz__dot { width: 8px; height: 8px; border-radius: 50%; background: #2fb86b; }
+.mtz__close {
+  display: grid; place-items: center; flex: none; width: var(--mt-tap); height: var(--mt-tap); padding: 0; border: 1px solid var(--mt-glass-border);
+  border-radius: 50%; background: var(--mt-glass-strong); color: var(--mt-text); cursor: pointer;
+}
+.mtz__close:focus-visible, .mtz__actions button:focus-visible, .mtz__quick button:focus-visible, .mtz__send:focus-visible { outline: 2px solid var(--mt-focus-ring); outline-offset: 2px; }
+
+.mtz__messages { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: 12px; padding: 16px; overflow-y: auto; overscroll-behavior: contain; }
+.mtz__row { display: flex; align-items: flex-end; gap: 8px; max-width: 100%; }
+.mtz__row--user { justify-content: flex-end; }
+.mtz__mini-avatar { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--mt-sun-500); color: var(--mt-ink); }
+.mtz__bubble { max-width: min(86%, 400px); padding: 10px 14px; border-radius: var(--mt-radius-md); font-size: var(--mt-fs-body); line-height: 1.45; overflow-wrap: anywhere; }
+.mtz__bubble p { margin: 0; }
+.mtz__bubble--bot { border: 1px solid var(--mt-glass-border); border-bottom-left-radius: 4px; background: var(--mt-glass-strong); color: var(--mt-text); }
+.mtz__bubble--user { border-bottom-right-radius: 4px; background: var(--mt-sky-700); color: #fff; }
+.mtz__actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.mtz__actions button {
+  min-height: 36px; padding: 0 14px; border: 0; border-radius: var(--mt-radius-pill); background: var(--mt-sun-500); color: var(--mt-ink);
+  font: inherit; font-size: var(--mt-fs-small); font-weight: 800; cursor: pointer;
+}
+.mtz__actions button:active { transform: scale(0.97); }
+
+.mtz__quick { display: flex; gap: 8px; padding: 4px 16px 10px; overflow-x: auto; scrollbar-width: none; }
+.mtz__quick::-webkit-scrollbar { display: none; }
+.mtz__quick button {
+  flex: none; min-height: 40px; padding: 0 14px; border: 1px solid var(--mt-glass-border); border-radius: var(--mt-radius-pill);
+  background: var(--mt-glass-strong); color: var(--mt-text); font: inherit; font-size: var(--mt-fs-small); font-weight: 700; white-space: nowrap; cursor: pointer;
+}
+.mtz__form { display: flex; align-items: center; gap: 8px; padding: 0 12px 6px; }
+.mtz__form input {
+  flex: 1 1 0; min-width: 0; min-height: 48px; padding: 0 16px; border: 1.5px solid var(--mt-glass-border); border-radius: var(--mt-radius-pill);
+  background: var(--mt-glass-strong); box-shadow: none; color: var(--mt-text); font: inherit; font-size: 1rem;
+}
+.mtz__form input::placeholder { color: var(--mt-text-soft); opacity: 1; }
+.mtz__form input:focus { outline: none; border-color: var(--mt-sun-700); box-shadow: 0 0 0 3px rgba(255, 200, 61, 0.45); }
+.mtz__send { display: grid; place-items: center; flex: none; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%; background: var(--mt-red-700); color: #fff; cursor: pointer; }
+.mtz__send:disabled { opacity: 0.45; cursor: default; }
+.mtz__note { margin: 0; padding: 0 16px calc(12px + env(safe-area-inset-bottom)); color: var(--mt-text-soft); font-size: var(--mt-fs-label); text-align: center; }
+
+@media (min-width: 768px) {
+  .mtz { align-items: flex-end; justify-content: flex-end; padding: 0 24px 24px; }
+  .mtz__backdrop { background: rgba(11, 42, 74, 0.18); }
+  .mtz__panel { width: 420px; border-radius: var(--mt-radius-xl, 26px); box-shadow: var(--mt-shadow-lift); animation-name: mt-fade-up; }
+}
+@media (prefers-reduced-motion: reduce) { .mtz__actions button:active { transform: none; } }

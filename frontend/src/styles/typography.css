@@ -1,0 +1,107 @@
+/* ============================================================
+   MaraTour · tipografía fluida
+   Sin fuentes externas (la app debe funcionar sin conexión).
+   Cuerpo nunca menor a 14 px; etiquetas nunca menores a 12 px.
+   Estas clases son opt-in (.mt-*): no alteran las páginas que aún
+   no se han rediseñado.
+   ============================================================ */
+
+:root {
+  --mt-font:
+    ui-rounded, "SF Pro Rounded", "Nunito", "Segoe UI", system-ui, -apple-system,
+    "Helvetica Neue", Arial, sans-serif;
+
+  --mt-fs-label: 0.75rem;                                        /* 12 px */
+  --mt-fs-small: 0.875rem;                                       /* 14 px */
+  --mt-fs-body: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);     /* 15 – 17 px */
+  --mt-fs-lead: clamp(1.0625rem, 1rem + 0.45vw, 1.3125rem);      /* 17 – 21 px */
+  --mt-fs-h3: clamp(1.125rem, 1.05rem + 0.5vw, 1.5rem);          /* 18 – 24 px */
+  --mt-fs-h2: clamp(1.375rem, 1.2rem + 1vw, 2.125rem);           /* 22 – 34 px */
+  --mt-fs-h1: clamp(1.875rem, 1.3rem + 2.6vw, 3.5rem);           /* 30 – 56 px */
+  --mt-fs-display: clamp(2.75rem, 1.6rem + 5.4vw, 5.75rem);      /* 44 – 92 px */
+
+  --mt-lh-tight: 1.1;
+  --mt-lh-snug: 1.25;
+  --mt-lh-body: 1.55;
+}
+
+.mt-text {
+  font-family: var(--mt-font);
+  font-size: var(--mt-fs-body);
+  line-height: var(--mt-lh-body);
+  color: var(--mt-text);
+}
+
+.mt-lead {
+  font-size: var(--mt-fs-lead);
+  line-height: var(--mt-lh-snug);
+  color: var(--mt-text-soft);
+}
+
+.mt-small {
+  font-size: var(--mt-fs-small);
+  line-height: var(--mt-lh-body);
+  color: var(--mt-text-soft);
+}
+
+.mt-label {
+  font-size: var(--mt-fs-label);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.mt-h3,
+.mt-h2,
+.mt-h1,
+.mt-display {
+  margin: 0;
+  font-family: var(--mt-font);
+  font-weight: 800;
+  color: var(--mt-text);
+  text-wrap: balance;
+}
+
+.mt-h3 { font-size: var(--mt-fs-h3); line-height: var(--mt-lh-snug); letter-spacing: -0.01em; }
+.mt-h2 { font-size: var(--mt-fs-h2); line-height: var(--mt-lh-snug); letter-spacing: -0.02em; }
+.mt-h1 { font-size: var(--mt-fs-h1); line-height: var(--mt-lh-tight); letter-spacing: -0.03em; }
+.mt-display { font-size: var(--mt-fs-display); line-height: 0.98; letter-spacing: -0.04em; }
+
+/* Contenedor centrado de 1280 px con padding lateral fluido. */
+.mt-container {
+  width: 100%;
+  max-width: var(--mt-container);
+  margin-inline: auto;
+  padding-inline: var(--mt-gutter);
+}
+
+/* Grilla de tarjetas: sin desbordes a 320 px. */
+.mt-grid {
+  display: grid;
+  gap: clamp(12px, 2vw, 24px);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+}
+
+.mt-grid > * {
+  min-width: 0;
+}
+
+/* Objetivo táctil mínimo de 44 × 44 px. */
+.mt-tap {
+  min-width: var(--mt-tap);
+  min-height: var(--mt-tap);
+}
+
+/* Texto solo para lectores de pantalla. */
+.mt-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

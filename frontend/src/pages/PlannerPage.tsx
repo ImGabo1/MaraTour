@@ -14,7 +14,8 @@ import {
 import type { Page } from "../hooks/usePageRoute";
 import type { AuthSession } from "../lib/auth";
 import type { Place } from "../types";
-import { Cover } from "../components/Cover";
+import { PlaceImage } from "../components/PlaceImage";
+import "./PlanPages.css";
 import { CategoryIcon, IconArrowRight, IconBulb, IconCalendar, IconCheck, IconClock, IconHeart, IconLeaf, IconRotate, IconRoute, IconSparkles, IconStar, IconUsers, IconWallet } from "../components/icons";
 
 interface Props {
@@ -105,37 +106,37 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
   };
 
   return (
-    <main className="vm-page vm-planner">
-      <section className="vm-page-hero vm-page-hero--planner">
-        <div className="container">
-          <p className="vm-kicker">
+    <main className="mtn mt-page-enter">
+      <section className="mtn-hero">
+        <div className="mt-container">
+          <p className="mtn-kicker">
             <IconSparkles width={15} height={15} />
             Sistema experto local
           </p>
-          <h1 className="vm-page-hero__title">
+          <h1 className="mtn-hero__title">
             Tu plan perfecto, <span>sin adivinar</span>
           </h1>
-          <p className="vm-page-hero__lead">
+          <p className="mtn-hero__lead">
             Dinos cómo viajas y qué te gusta. Cruzamos tus intereses con cada lugar, el momento del
             día y los sabores de Maracaibo para armarte un itinerario con sentido.
           </p>
         </div>
       </section>
 
-      <div className="container vm-planner__layout">
+      <div className="mt-container mtn-planner__layout">
         {!plan ? (
-          <div className="vm-wizard">
+          <div className="mtn-wizard">
             {isGuest && (
-              <div className="vm-guest-banner">
+              <div className="mtn-banner">
                 <span>
                   💡 <strong>Estás creando una ruta temporal como invitado.</strong> Regístrate o inicia sesión para guardar tu itinerario personal y llevarlo contigo.
-                  <button type="button" className="vm-inline-link" onClick={() => onNavigate("registro")}>
+                  <button type="button" className="mtn-link" onClick={() => onNavigate("registro")}>
                     Regístrate o inicia sesión
                   </button>.
                 </span>
               </div>
             )}
-            <div className="vm-wizard__steps" aria-label="Pasos del planificador">
+            <div className="mtn-wizard__steps" aria-label="Pasos del planificador">
               <span className={step >= 0 ? "is-active" : undefined}>
                 <b>1</b> Tu viaje
               </span>
@@ -148,19 +149,19 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
             </div>
 
             {step === 0 ? (
-              <section className="vm-wizard__panel">
-                <div className="vm-wizard__head">
-                  <p className="vm-kicker">Paso 1</p>
+              <section className="mtn-wizard__panel">
+                <div className="mtn-wizard__head">
+                  <p className="mtn-kicker">Paso 1</p>
                   <h2>Cuéntanos cómo viajas</h2>
                   <p>Con esto ajustamos el ritmo, la compañía y los lugares que mejor encajan.</p>
                 </div>
 
-                <div className="vm-field">
-                  <span className="vm-field__label">
+                <div className="mtn-field">
+                  <span className="mtn-field__label">
                     <IconCalendar width={17} height={17} />
                     ¿Cuántos días tienes?
                   </span>
-                  <div className="vm-days">
+                  <div className="mtn-daypick">
                     {[1, 2, 3, 4, 5].map((value) => (
                       <button
                         key={value}
@@ -175,20 +176,20 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                   </div>
                 </div>
 
-                <div className="vm-field">
-                  <span className="vm-field__label">
+                <div className="mtn-field">
+                  <span className="mtn-field__label">
                     <IconUsers width={17} height={17} />
                     ¿Con quién vas?
                   </span>
-                  <div className="vm-options vm-options--four">
+                  <div className="mtn-options mtn-options--four">
                     {COMPANIONS.map((option) => (
                       <button
                         key={option.value}
                         type="button"
-                        className={`vm-option${companion === option.value ? " is-active" : ""}`}
+                        className={`mtn-option${companion === option.value ? " is-active" : ""}`}
                         onClick={() => setCompanion(option.value)}
                       >
-                        <span className="vm-option__emoji" aria-hidden="true">
+                        <span className="mtn-option__emoji" aria-hidden="true">
                           {option.emoji}
                         </span>
                         <strong>{option.label}</strong>
@@ -199,17 +200,17 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                   </div>
                 </div>
 
-                <div className="vm-field">
-                  <span className="vm-field__label">
+                <div className="mtn-field">
+                  <span className="mtn-field__label">
                     <IconClock width={17} height={17} />
                     ¿Qué ritmo prefieres?
                   </span>
-                  <div className="vm-options vm-options--three">
+                  <div className="mtn-options mtn-options--three">
                     {PACES.map((option) => (
                       <button
                         key={option.value}
                         type="button"
-                        className={`vm-option vm-option--compact${pace === option.value ? " is-active" : ""}`}
+                        className={`mtn-option mtn-option--compact${pace === option.value ? " is-active" : ""}`}
                         onClick={() => setPace(option.value)}
                       >
                         <strong>{option.label}</strong>
@@ -219,33 +220,33 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                   </div>
                 </div>
 
-                <div className="vm-wizard__actions">
+                <div className="mtn-wizard__actions">
                   <span />
-                  <button type="button" className="vm-btn vm-btn--primary" onClick={() => setStep(1)}>
+                  <button type="button" className="mt-btn mt-btn--primary" onClick={() => setStep(1)}>
                     Siguiente
                     <IconArrowRight width={17} height={17} />
                   </button>
                 </div>
               </section>
             ) : (
-              <section className="vm-wizard__panel">
-                <div className="vm-wizard__head">
-                  <p className="vm-kicker">Paso 2</p>
+              <section className="mtn-wizard__panel">
+                <div className="mtn-wizard__head">
+                  <p className="mtn-kicker">Paso 2</p>
                   <h2>¿Qué te provoca?</h2>
                   <p>Elige todos los temas que te llamen. Cuantos más, mejor podemos combinar el plan.</p>
                 </div>
 
-                <div className="vm-field">
-                  <span className="vm-field__label">
+                <div className="mtn-field">
+                  <span className="mtn-field__label">
                     <IconHeart width={17} height={17} />
                     Tus intereses
                   </span>
-                  <div className="vm-interest-grid">
+                  <div className="mtn-interest-grid">
                     {CATEGORIES.map((category) => (
                       <button
                         key={category.slug}
                         type="button"
-                        className={`vm-interest${interests.includes(category.slug) ? " is-active" : ""}`}
+                        className={`mtn-interest${interests.includes(category.slug) ? " is-active" : ""}`}
                         style={{
                           ["--from" as string]: category.from,
                           ["--to" as string]: category.to,
@@ -254,10 +255,10 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                         onClick={() => toggleInterest(category.slug)}
                         aria-pressed={interests.includes(category.slug)}
                       >
-                        <span className="vm-interest__icon">
+                        <span className="mtn-interest__icon">
                           <CategoryIcon name={category.icon} width={18} height={18} />
                         </span>
-                        <span className="vm-interest__copy">
+                        <span className="mtn-interest__copy">
                           <strong>{t(category.nameKey)}</strong>
                           <small>{category.blurb}</small>
                         </span>
@@ -267,17 +268,17 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                   </div>
                 </div>
 
-                <div className="vm-field">
-                  <span className="vm-field__label">
+                <div className="mtn-field">
+                  <span className="mtn-field__label">
                     <IconWallet width={17} height={17} />
                     Presupuesto
                   </span>
-                  <div className="vm-options vm-options--three">
+                  <div className="mtn-options mtn-options--three">
                     {BUDGETS.map((option) => (
                       <button
                         key={option.value}
                         type="button"
-                        className={`vm-option vm-option--compact${budget === option.value ? " is-active" : ""}`}
+                        className={`mtn-option mtn-option--compact${budget === option.value ? " is-active" : ""}`}
                         onClick={() => setBudget(option.value)}
                       >
                         <strong>
@@ -289,17 +290,17 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                   </div>
                 </div>
 
-                <div className="vm-field">
-                  <span className="vm-field__label">
+                <div className="mtn-field">
+                  <span className="mtn-field__label">
                     <IconLeaf width={17} height={17} />
                     ¿Cómo comes?
                   </span>
-                  <div className="vm-options vm-options--three">
+                  <div className="mtn-options mtn-options--three">
                     {DIETS.map((option) => (
                       <button
                         key={option.value}
                         type="button"
-                        className={`vm-option vm-option--compact${diet === option.value ? " is-active" : ""}`}
+                        className={`mtn-option mtn-option--compact${diet === option.value ? " is-active" : ""}`}
                         onClick={() => setDiet(option.value)}
                       >
                         <strong>
@@ -310,10 +311,10 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                   </div>
                 </div>
 
-                <div className="vm-toggles">
+                <div className="mtn-toggles">
                   <button
                     type="button"
-                    className={`vm-toggle${want360 ? " is-active" : ""}`}
+                    className={`mtn-toggle${want360 ? " is-active" : ""}`}
                     aria-pressed={want360}
                     onClick={() => setWant360((value) => !value)}
                   >
@@ -326,7 +327,7 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                   </button>
                   <button
                     type="button"
-                    className={`vm-toggle${wantNightlife ? " is-active" : ""}`}
+                    className={`mtn-toggle${wantNightlife ? " is-active" : ""}`}
                     aria-pressed={wantNightlife}
                     onClick={() => setWantNightlife((value) => !value)}
                   >
@@ -339,11 +340,11 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                   </button>
                 </div>
 
-                <div className="vm-wizard__actions">
-                  <button type="button" className="vm-btn vm-btn--ghost" onClick={() => setStep(0)}>
+                <div className="mtn-wizard__actions">
+                  <button type="button" className="mt-btn mt-btn--soft" onClick={() => setStep(0)}>
                     Atrás
                   </button>
-                  <button type="button" className="vm-btn vm-btn--primary" onClick={generate}>
+                  <button type="button" className="mt-btn mt-btn--primary" onClick={generate}>
                     <IconSparkles width={17} height={17} />
                     Crear mi plan
                   </button>
@@ -386,35 +387,35 @@ function PlanResultView({
 }) {
   const { t } = useI18n();
   return (
-    <section id="plan-resultado" className="vm-plan-result">
+    <section id="plan-resultado" className="mtn-result">
       {isGuest && (
-        <div className="vm-guest-notice">
-          <span className="vm-guest-notice__icon" aria-hidden="true">💡</span>
-          <div className="vm-guest-notice__text">
+        <div className="mtn-notice">
+          <span className="mtn-notice__icon" aria-hidden="true">💡</span>
+          <div className="mtn-notice__text">
             <strong>Estás creando una ruta temporal como invitado.</strong>
             <p>Regístrate o inicia sesión para guardar tu itinerario personal y llevarlo contigo.</p>
           </div>
           <button
             type="button"
-            className="vm-btn vm-btn--primary"
+            className="mt-btn mt-btn--primary"
             onClick={() => onNavigate("registro")}
           >
             Regístrate o inicia sesión
           </button>
         </div>
       )}
-      <header className="vm-plan-result__hero">
-        <div className="vm-plan-result__score">
+      <header className="mtn-result__hero">
+        <div className="mtn-result__score">
           <span style={{ ["--score" as string]: plan.score }}>
             <b>{plan.score}%</b>
           </span>
           <small>afinidad</small>
         </div>
-        <div className="vm-plan-result__copy">
-          <p className="vm-kicker">Tu plan está listo</p>
+        <div className="mtn-result__copy">
+          <p className="mtn-kicker">Tu plan está listo</p>
           <h2>{plan.days.length === 1 ? "Un día redondo" : `${plan.days.length} días por Maracaibo`}</h2>
           <p>{plan.summary}</p>
-          <div className="vm-plan-result__tags">
+          <div className="mtn-result__tags">
             {plan.tags.map((tag) => {
               const category = categoryBySlug(tag);
               if (!category) return null;
@@ -427,66 +428,66 @@ function PlanResultView({
             })}
           </div>
         </div>
-        <div className="vm-plan-result__actions">
-          <button type="button" className="vm-btn vm-btn--primary" onClick={onSave} disabled={planSaved}>
+        <div className="mtn-result__actions">
+          <button type="button" className="mt-btn mt-btn--primary" onClick={onSave} disabled={planSaved}>
             <IconHeart width={17} height={17} />
             {planSaved ? "Plan guardado" : "Guardar en Mi ruta"}
           </button>
-          <button type="button" className="vm-btn vm-btn--soft" onClick={() => onNavigate("mi-ruta")}>
+          <button type="button" className="mt-btn mt-btn--soft" onClick={() => onNavigate("mi-ruta")}>
             <IconRoute width={17} height={17} />
             Abrir Mi ruta
           </button>
-          <button type="button" className="vm-btn vm-btn--ghost" onClick={onReset}>
+          <button type="button" className="mt-btn mt-btn--soft" onClick={onReset}>
             Ajustar plan
           </button>
         </div>
       </header>
 
-      <div className="vm-plan-days">
+      <div className="mtn-days">
         {plan.days.map((day) => (
-          <article key={day.day} className="vm-plan-day">
-            <header className="vm-plan-day__head">
-              <span className="vm-plan-day__number">{String(day.day).padStart(2, "0")}</span>
+          <article key={day.day} className="mtn-day">
+            <header className="mtn-day__head">
+              <span className="mtn-day__number">{String(day.day).padStart(2, "0")}</span>
               <div>
-                <p className="vm-kicker">Día {day.day}</p>
+                <p className="mtn-kicker">Día {day.day}</p>
                 <h3>{day.title}</h3>
               </div>
-              <span className="vm-plan-day__count">
+              <span className="mtn-day__count">
                 {day.stops.length} {day.stops.length === 1 ? "parada" : "paradas"}
               </span>
             </header>
 
-            <div className="vm-plan-day__timeline">
+            <div className="mtn-day__timeline">
               {day.stops.map((stop) => {
                 const category = categoryBySlug(stop.place.category);
                 return (
                   <button
                     key={stop.place.slug}
                     type="button"
-                    className="vm-stop"
+                    className="mtn-stop"
                     onClick={() => onOpenPlace(stop.place.slug)}
                   >
-                    <span className="vm-stop__time">
+                    <span className="mtn-stop__time">
                       <IconClock width={13} height={13} />
                       {slotLabel(stop.slot)}
                     </span>
-                    <span className="vm-stop__media">
-                      <Cover place={stop.place} className="vm-stop__cover" />
+                    <span className="mtn-stop__media">
+                      <PlaceImage place={stop.place} ratio="thumb" decorative />
                     </span>
-                    <span className="vm-stop__body">
+                    <span className="mtn-stop__body">
                       <strong>{stop.place.name}</strong>
                       <small>{stop.reason}</small>
-                      <span className="vm-stop__meta">
+                      <span className="mtn-stop__meta">
                         {category && (
                           <span
-                            className="vm-stop__cat"
+                            className="mtn-stop__cat"
                             style={{ ["--from" as string]: category.from, ["--to" as string]: category.to }}
                           >
                             {stop.place.categoryName}
                           </span>
                         )}
                         {stop.place.panoUrl && (
-                          <span className="vm-stop__pano">
+                          <span className="mtn-stop__pano">
                             <IconRotate width={12} height={12} />
                             360°
                           </span>
@@ -499,14 +500,14 @@ function PlanResultView({
               })}
             </div>
 
-            <div className="vm-plan-day__food">
-              <p className="vm-plan-day__food-title">
+            <div className="mtn-day__food">
+              <p className="mtn-day__food-title">
                 <IconSparkles width={15} height={15} />
                 Sabores del día
               </p>
-              <div className="vm-food-grid">
+              <div className="mtn-food-grid">
                 {Object.entries(day.food).map(([key, spot]) => (
-                  <div key={key} className="vm-food">
+                  <div key={key} className="mtn-food">
                     <span>{FOOD_LABEL[key as keyof typeof FOOD_LABEL]}</span>
                     <strong>{spot.dish}</strong>
                     <small>{spot.where}</small>
@@ -516,7 +517,7 @@ function PlanResultView({
               </div>
             </div>
 
-            <p className="vm-plan-day__tip">
+            <p className="mtn-day__tip">
               <IconBulb width={16} height={16} />
               {day.tip}
             </p>

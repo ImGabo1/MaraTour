@@ -26,7 +26,7 @@
   --shadow-lg: 0 30px 70px -32px rgba(19, 42, 51, 0.45);
   --font: Arial, "Helvetica Neue", Helvetica, sans-serif;
   --serif: Arial, "Helvetica Neue", Helvetica, sans-serif;
-  --header-h: 68px;
+  --header-h: 72px;
 }
 
 * {
@@ -2306,7 +2306,7 @@ button {
 
 @media (min-width: 720px) {
   :root {
-    --header-h: 74px;
+    --header-h: 72px;
   }
 
   .nav {

@@ -1,0 +1,28 @@
+.mt-offline {
+  max-width: var(--mt-container);
+  margin-inline: auto;
+  padding: 0 var(--mt-gutter) 8px;
+}
+
+.mt-offline__card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--mt-tap);
+  padding: 10px 16px;
+  background: var(--mt-sun-wash);
+  border-color: var(--mt-sun-500);
+  color: var(--mt-text);
+}
+
+.mt-offline__card svg {
+  flex: none;
+  color: var(--mt-sun-700);
+}
+
+.mt-offline__card p {
+  margin: 0;
+  font-size: var(--mt-fs-small);
+  font-weight: 700;
+  line-height: 1.4;
+}

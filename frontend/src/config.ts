@@ -43,9 +43,16 @@ export const MAP_IMAGE: { image: string; bounds: Bounds; width: number; height: 
   bounds: { north: 10.746969318459998, south: 10.531020008464983, west: -71.78466796875, east: -71.4990234375 },
 };
 
-/** Teselas en vivo de OpenStreetMap. Sin conexión queda visible la imagen local. */
+/**
+ * Teselas en vivo (datos de OpenStreetMap, servidas por CARTO Voyager).
+ * tile.openstreetmap.org bloquea con un 403 ("Access blocked") a las apps que no cumplen su
+ * política de uso (sin Referer válido, localhost, PWA, mucho tráfico); CARTO está pensado para apps.
+ * Sin conexión queda visible la imagen local.
+ */
 export const MAP_TILES = {
-  url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a>',
+  url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
+  subdomains: "abcd",
+  attribution:
+    '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noreferrer">CARTO</a>',
   maxNativeZoom: 19,
 } as const;

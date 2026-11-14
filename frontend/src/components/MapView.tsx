@@ -79,7 +79,7 @@ function pinHtml(n: number, from: string, to: string, active: boolean): string {
 /**
  * Mapa interactivo de Maracaibo.
  *
- * Usa una imagen base local (OpenStreetMap · OpenFreeMap) para que el mapa
+ * Usa una imagen base local (OpenStreetMap · CARTO) para que el mapa
  * funcione sin conexión y no dependa de claves de API. Leaflet aporta zoom,
  * arrastre y gestos táctiles; MarkerCluster agrupa los pines que se solapan.
  */
@@ -166,6 +166,7 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
     map.attributionControl.setPrefix(false);
     L.tileLayer(MAP_TILES.url, {
       attribution: MAP_TILES.attribution,
+      subdomains: MAP_TILES.subdomains,
       maxNativeZoom: MAP_TILES.maxNativeZoom,
       maxZoom: 18,
       bounds: imageBounds,
@@ -468,7 +469,7 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
           target="_blank"
           rel="noopener noreferrer"
         >
-          © OpenStreetMap · OpenFreeMap
+          © OpenStreetMap · CARTO
         </a>
       </div>
 

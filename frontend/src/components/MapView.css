@@ -48,6 +48,6 @@
 
 @media (prefers-reduced-motion: reduce) { .vm-pin { transition: none; } }
 
-/* Grupos de pines en azul cielo oscuro con texto blanco (AA). */
-.map-card.vm-map .marker-cluster div { background: var(--mt-sky-700); color: #fff; border: 2px solid #fff; font-weight: 900; }
-.map-card.vm-map .marker-cluster { background: rgba(79, 195, 247, 0.4); }
+/* Grupos de pines: azul cielo oscuro con texto blanco (AA). */
+.vm-cluster { background: var(--mt-sky-700); color: #fff; border: 3px solid #fff; box-shadow: var(--mt-shadow-soft); }
+.vm-cluster b { color: #fff; font-weight: 900; }

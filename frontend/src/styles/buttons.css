@@ -20,6 +20,7 @@
     box-shadow var(--mt-dur) var(--mt-ease),
     background-color var(--mt-dur) var(--mt-ease);
 }
+.mt-btn { text-decoration: none; }
 .mt-btn:active { transform: scale(0.97); }
 .mt-btn:focus-visible { outline: 2px solid var(--mt-focus-ring); outline-offset: 2px; }
 .mt-btn--primary { background: var(--mt-red-700); color: #fff; box-shadow: var(--mt-shadow-soft); }

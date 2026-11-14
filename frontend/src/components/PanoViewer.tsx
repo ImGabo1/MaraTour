@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useI18n } from "../i18n/I18nProvider";
 import { useModal } from "../hooks/useModal";
-import { IconClose, IconPhone } from "./icons";
+import { IconClose, IconExpand, IconPhone } from "./icons";
+import "./PanoViewer.css";
 
 interface Props {
   src: string;
@@ -163,56 +164,109 @@ export function PanoViewer({ src, title, onClose }: Props) {
     return wrap && canvas && wrap.clientWidth > 0 ? canvas.width / wrap.clientWidth : 1;
   };
 
+  const [zoom, setZoom] = useState(1);
+  const [fullscreen, setFullscreen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onChange = () => setFullscreen(document.fullscreenElement === rootRef.current);
+    document.addEventListener("fullscreenchange", onChange);
+    return () => document.removeEventListener("fullscreenchange", onChange);
+  }, []);
+
+  const toggleFullscreen = () => {
+    const root = rootRef.current;
+    if (!root) return;
+    if (document.fullscreenElement) void document.exitFullscreen?.();
+    else void root.requestFullscreen?.().catch(() => undefined);
+  };
+
   return (
-    <div className="pano" role="dialog" aria-modal="true" aria-label={`Vista 360° de ${title}`}>
-      <div
-        ref={wrapRef}
-        className="pano__stage"
-        tabIndex={0}
-        onPointerDown={(e) => {
-          drag.current = { id: e.pointerId, x: e.clientX, y: e.clientY };
-          view.current.idle = false;
-          e.currentTarget.setPointerCapture(e.pointerId);
-        }}
-        onPointerMove={(e) => {
-          const d = drag.current;
-          if (!d || d.id !== e.pointerId) return;
-          const r = pxRatio();
-          view.current.x -= (e.clientX - d.x) * r;
-          view.current.pitch += (e.clientY - d.y) * r;
-          drag.current = { id: e.pointerId, x: e.clientX, y: e.clientY };
-        }}
-        onPointerUp={() => (drag.current = null)}
-        onPointerCancel={() => (drag.current = null)}
-        onKeyDown={(e) => {
-          if (e.key === "ArrowLeft") view.current.x -= 80;
-          if (e.key === "ArrowRight") view.current.x += 80;
-          view.current.idle = false;
-        }}
-      >
-        <canvas ref={canvasRef} className="pano__canvas" role="img" aria-label={`Panorámica de ${title}`} />
-        {status === "loading" && <p className="pano__msg">{t("pano.loading")}</p>}
-        {status === "error" && <p className="pano__msg">{t("pano.error")}</p>}
+    <div ref={rootRef} className="mtp" role="dialog" aria-modal="true" aria-label={`Vista 360° de ${title}`}>
+      <div className="mtp__frame">
+        <div
+          ref={wrapRef}
+          className="mtp__stage"
+          tabIndex={0}
+          aria-label={t("pano.drag")}
+          onPointerDown={(e) => {
+            drag.current = { id: e.pointerId, x: e.clientX, y: e.clientY };
+            view.current.idle = false;
+            e.currentTarget.setPointerCapture(e.pointerId);
+          }}
+          onPointerMove={(e) => {
+            const d = drag.current;
+            if (!d || d.id !== e.pointerId) return;
+            const r = pxRatio();
+            view.current.x -= (e.clientX - d.x) * r;
+            view.current.pitch += (e.clientY - d.y) * r;
+            drag.current = { id: e.pointerId, x: e.clientX, y: e.clientY };
+          }}
+          onPointerUp={() => (drag.current = null)}
+          onPointerCancel={() => (drag.current = null)}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowLeft") view.current.x -= 80;
+            if (e.key === "ArrowRight") view.current.x += 80;
+            if (e.key === "+" || e.key === "=") setZoom((z) => Math.min(2, z + 0.25));
+            if (e.key === "-") setZoom((z) => Math.max(1, z - 0.25));
+            view.current.idle = false;
+          }}
+        >
+          <canvas
+            ref={canvasRef}
+            className="mtp__canvas"
+            style={{ transform: `scale(${zoom})` }}
+            role="img"
+            aria-label={`Panorámica de ${title}`}
+          />
+          {status === "loading" && (
+            <p className="mtp__msg" role="status">
+              <span className="mt-spinner" aria-hidden="true" />
+              {t("pano.loading")}
+            </p>
+          )}
+          {status === "error" && (
+            <p className="mtp__msg" role="alert">
+              {t("pano.error")}
+            </p>
+          )}
+        </div>
+
+        <div className="mtp__top glass glass--pill">
+          <span className="mtp__title">{title} · 360°</span>
+          <button ref={closeRef} type="button" className="mtp__icon mt-press" onClick={onClose} aria-label={t("pano.close")}>
+            <IconClose width={20} height={20} />
+          </button>
+        </div>
+
+        <div className="mtp__zoom glass glass--pill" role="group" aria-label="Zoom">
+          <button type="button" className="mtp__icon mt-press" onClick={() => setZoom((z) => Math.min(2, z + 0.25))} aria-label="Acercar" disabled={zoom >= 2}>
+            +
+          </button>
+          <button type="button" className="mtp__icon mt-press" onClick={() => setZoom((z) => Math.max(1, z - 0.25))} aria-label="Alejar" disabled={zoom <= 1}>
+            −
+          </button>
+          <button type="button" className="mtp__icon mt-press" onClick={toggleFullscreen} aria-pressed={fullscreen} aria-label={fullscreen ? "Salir de pantalla completa" : "Pantalla completa"}>
+            <IconExpand width={18} height={18} />
+          </button>
+        </div>
       </div>
 
-      <div className="pano__top">
-        <span className="pano__title">{title} · 360°</span>
-        <button ref={closeRef} type="button" className="icon-btn" onClick={onClose} aria-label={t("pano.close")}>
-          <IconClose />
-        </button>
-      </div>
-
-      <div className="pano__bottom">
-        <span className="pano__hint">
+      <div className="mtp__bottom glass glass--pill">
+        <span className="mtp__hint">
           <IconPhone width={16} height={16} />
           {gyro === "on" ? t("pano.move") : t("pano.drag")}
         </span>
         {gyroSupported && (
-          <button type="button" className="btn btn--light" onClick={toggleGyro} aria-pressed={gyro === "on"}>
+          <button type="button" className="mt-btn mt-btn--sun mt-btn--sm" onClick={toggleGyro} aria-pressed={gyro === "on"}>
             {gyro === "on" ? t("pano.useTouch") : t("pano.useMotion")}
           </button>
         )}
-        {gyro === "denied" && <span className="pano__hint pano__hint--warn">{t("pano.denied")}</span>}
+        {gyro === "denied" && (
+          <span className="mtp__hint mtp__hint--warn" role="status">
+            {t("pano.denied")}
+          </span>
+        )}
       </div>
     </div>
   );

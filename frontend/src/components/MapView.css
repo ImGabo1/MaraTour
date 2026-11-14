@@ -1,0 +1,53 @@
+/* Mapa: contenedor de vidrio, pines rojos y leyenda. Leaflet y capas no cambian. */
+.map-card.vm-map {
+  overflow: hidden;
+  border: 1px solid var(--mt-glass-border);
+  border-radius: var(--mt-radius-lg);
+  background: var(--mt-glass);
+  box-shadow: var(--mt-shadow-soft);
+}
+.map-card.vm-map .map-frame { border-radius: 0; }
+.vm-map__tools .map-expand, .vm-map__zoom .map-expand {
+  min-width: var(--mt-tap); min-height: var(--mt-tap); border: 1px solid var(--mt-glass-border);
+  background: var(--mt-glass-bar); color: var(--mt-text); border-radius: 50%;
+}
+.vm-map__tools .map-count {
+  border: 1px solid var(--mt-glass-border); border-radius: var(--mt-radius-pill); background: var(--mt-glass-bar);
+  color: var(--mt-text); font-weight: 800;
+}
+.vm-map__search-box { border-radius: var(--mt-radius-pill); background: var(--mt-glass-bar); border: 1px solid var(--mt-glass-border); color: var(--mt-text); }
+.map-card.vm-map .map-expand:focus-visible,
+.map-card.vm-map .map-strip__item:focus-visible { outline: 2px solid var(--mt-focus-ring); outline-offset: 2px; }
+
+.map-card.vm-map .map-bar {
+  gap: 12px; border-top: 1px solid var(--mt-glass-border); background: var(--mt-glass-strong); color: var(--mt-text);
+}
+.map-card.vm-map .map-bar__info strong { color: var(--mt-text); }
+.map-card.vm-map .map-bar__info span { color: var(--mt-text-soft); }
+.map-card.vm-map .map-bar__theme { background: var(--mt-red-700); color: #fff; border-radius: var(--mt-radius-pill); }
+.map-card.vm-map .map-bar__thumb { border-radius: var(--mt-radius-md); }
+.map-card.vm-map .map-strip { background: transparent; }
+.map-card.vm-map .map-strip__item {
+  border: 1px solid var(--mt-glass-border); border-radius: var(--mt-radius-md); background: var(--mt-glass-strong); color: var(--mt-text);
+}
+.map-card.vm-map .map-strip__item--active { border-color: var(--mt-red-500); box-shadow: var(--mt-shadow-soft); }
+.map-card.vm-map .map-strip__num { background: var(--mt-red-700); color: #fff; }
+
+/* Pines: gota roja; el seleccionado crece (solo transform). */
+.vm-pin { filter: drop-shadow(0 3px 5px rgba(11, 42, 74, 0.3)); transform-origin: 50% 100%; transition: transform var(--mt-dur) var(--mt-ease); }
+.vm-pin.is-active { transform: scale(1.25); }
+
+/* Leyenda */
+.vm-map__legend {
+  position: absolute; bottom: 30px; left: 10px; z-index: 500; display: flex; gap: 12px; margin: 0; padding: 6px 12px;
+  list-style: none; color: var(--mt-text); font-size: var(--mt-fs-label); font-weight: 800;
+}
+.vm-map__legend li { display: inline-flex; align-items: center; gap: 6px; }
+.vm-map__legend-pin { width: 10px; height: 10px; border-radius: 50%; background: var(--mt-red-500); box-shadow: 0 0 0 2px #fff; }
+.vm-map__legend-pin.is-on { width: 14px; height: 14px; background: var(--mt-red-700); }
+
+@media (prefers-reduced-motion: reduce) { .vm-pin { transition: none; } }
+
+/* Grupos de pines en azul cielo oscuro con texto blanco (AA). */
+.map-card.vm-map .marker-cluster div { background: var(--mt-sky-700); color: #fff; border: 2px solid #fff; font-weight: 900; }
+.map-card.vm-map .marker-cluster { background: rgba(79, 195, 247, 0.4); }

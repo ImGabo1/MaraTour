@@ -1,0 +1,61 @@
+/* Visor 360°: marco de vidrio sobre fondo azul noche. */
+.mtp {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: clamp(10px, 3vw, 28px) clamp(10px, 3vw, 28px) calc(clamp(10px, 3vw, 28px) + env(safe-area-inset-bottom));
+  background: #071a2b;
+  animation: mt-fade-in var(--mt-dur) var(--mt-ease) backwards;
+}
+.mtp__frame {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--mt-glass-border);
+  border-radius: var(--mt-radius-lg);
+  box-shadow: var(--mt-shadow-lift);
+}
+.mtp__stage { position: absolute; inset: 0; overflow: hidden; cursor: grab; touch-action: none; }
+.mtp__stage:active { cursor: grabbing; }
+.mtp__stage:focus-visible { outline: 2px solid var(--mt-focus-ring); outline-offset: -4px; }
+.mtp__canvas { display: block; width: 100%; height: 100%; transform-origin: center; transition: transform var(--mt-dur) var(--mt-ease); }
+.mtp__msg {
+  position: absolute; top: 50%; left: 50%; display: inline-flex; align-items: center; gap: 10px; margin: 0;
+  padding: 10px 18px; border-radius: var(--mt-radius-pill); background: rgba(7, 26, 43, 0.8); color: #eaf7ff;
+  font-weight: 800; transform: translate(-50%, -50%);
+}
+
+/* Barras de vidrio (siempre oscuras sobre la foto, texto claro: contraste AA). */
+.mtp__top, .mtp__zoom, .mtp__bottom {
+  background: rgba(7, 26, 43, 0.62);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #eaf7ff;
+}
+.mtp__top {
+  position: absolute; top: 12px; right: 12px; left: 12px; display: flex; align-items: center;
+  justify-content: space-between; gap: 10px; padding: 4px 4px 4px 18px;
+}
+.mtp__title { min-width: 0; overflow: hidden; font-weight: 900; text-overflow: ellipsis; white-space: nowrap; }
+.mtp__zoom { position: absolute; right: 12px; bottom: 12px; display: flex; flex-direction: column; gap: 2px; padding: 4px; border-radius: var(--mt-radius-pill); }
+.mtp__icon {
+  display: grid; place-items: center; width: var(--mt-tap); height: var(--mt-tap); padding: 0; border: 0;
+  border-radius: 50%; background: transparent; color: #eaf7ff; font: inherit; font-size: 1.5rem; font-weight: 800; cursor: pointer;
+}
+.mtp__icon:hover:not(:disabled) { background: rgba(255, 255, 255, 0.16); }
+.mtp__icon:disabled { opacity: 0.4; cursor: default; }
+.mtp__icon:focus-visible { outline: 2px solid var(--mt-sun-500); outline-offset: 1px; }
+.mtp__bottom {
+  display: flex; flex: none; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 14px;
+  align-self: center; padding: 8px 16px; max-width: 100%;
+}
+.mtp__hint { display: inline-flex; align-items: center; gap: 8px; font-size: var(--mt-fs-small); font-weight: 700; }
+.mtp__hint--warn { color: var(--mt-sun-300); }
+
+:root .mtp .glass, .mtp .glass { -webkit-backdrop-filter: blur(var(--mt-blur)); backdrop-filter: blur(var(--mt-blur)); }
+.mtp:fullscreen { padding: 0; }
+.mtp:fullscreen .mtp__frame { border: 0; border-radius: 0; }
+@media (prefers-reduced-motion: reduce) { .mtp__canvas { transition: none; } }

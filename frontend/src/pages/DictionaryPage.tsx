@@ -1,4 +1,5 @@
-import { useDeferredValue, useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState, type ReactNode } from "react";
+import "./DictionaryPage.css";
 import {
   DICTIONARY,
   DICTIONARY_CATEGORIES,
@@ -16,6 +17,21 @@ function normalized(value: string): string {
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .trim();
+}
+
+/** Resalta la palabra dentro del ejemplo (sin distinguir tildes ni mayúsculas). */
+function highlight(text: string, term: string): ReactNode {
+  const clean = term.replace(/[¿?¡!]/g, "").trim();
+  if (!clean) return text;
+  const index = normalized(text).indexOf(normalized(clean));
+  if (index < 0 || normalized(text).length !== text.length) return text;
+  return (
+    <>
+      {text.slice(0, index)}
+      <mark>{text.slice(index, index + clean.length)}</mark>
+      {text.slice(index + clean.length)}
+    </>
+  );
 }
 
 /** Diccionario visual del habla maracucha, con búsqueda, temas y pronunciación. */
@@ -63,23 +79,23 @@ export function DictionaryPage() {
   };
 
   return (
-    <main className="vm-page vm-dictionary">
-      <section className="vm-page-hero vm-page-hero--dictionary">
-        <div className="container">
-          <p className="vm-kicker">
+    <main className="mtd mt-page-enter">
+      <section className="mtd-hero">
+        <div className="mt-container">
+          <p className="mtd-kicker">
             <IconBook width={15} height={15} />
             Diccionario maracucho
           </p>
-          <h1 className="vm-page-hero__title">
+          <h1 className="mtd-hero__title">
             Habla como un <span>maracucho</span>
           </h1>
-          <p className="vm-page-hero__lead">
+          <p className="mtd-hero__lead">
             {DICTIONARY.length} palabras y expresiones de la calle, la mesa y la fiesta. Cada ficha
             trae pronunciación, significado, ejemplo y su traducción al inglés.
           </p>
 
-          <div className="vm-dictionary__search">
-            <div className="vm-search vm-search--large">
+          <div className="mtd__search">
+            <div className="mtd-search glass glass--pill">
               <IconSearch width={21} height={21} />
               <input
                 type="search"
@@ -95,8 +111,8 @@ export function DictionaryPage() {
                 </button>
               )}
             </div>
-            <div className="vm-dictionary__daily">
-              <span className="vm-dictionary__daily-icon" aria-hidden="true">
+            <div className="mtd__daily">
+              <span className="mtd__daily-icon" aria-hidden="true">
                 <IconSparkles width={18} height={18} />
               </span>
               <span>
@@ -111,14 +127,14 @@ export function DictionaryPage() {
         </div>
       </section>
 
-      <div className="container vm-dictionary__body">
-        <nav className="vm-dictionary__categories" aria-label="Temas del diccionario">
+      <div className="mt-container mtd__body">
+        <nav className="mtd__categories" aria-label="Temas del diccionario">
           <button
             type="button"
-            className={`vm-dictionary__cat${category === null ? " is-active" : ""}`}
+            className={`mtd__cat${category === null ? " is-active" : ""}`}
             onClick={() => setCategory(null)}
           >
-            <span className="vm-dictionary__cat-emoji" aria-hidden="true">
+            <span className="mtd__cat-emoji" aria-hidden="true">
               🗣️
             </span>
             <span>
@@ -131,7 +147,7 @@ export function DictionaryPage() {
             <button
               key={definition.slug}
               type="button"
-              className={`vm-dictionary__cat${category === definition.slug ? " is-active" : ""}`}
+              className={`mtd__cat${category === definition.slug ? " is-active" : ""}`}
               style={{
                 ["--from" as string]: definition.from,
                 ["--to" as string]: definition.to,
@@ -139,7 +155,7 @@ export function DictionaryPage() {
               }}
               onClick={() => setCategory(definition.slug)}
             >
-              <span className="vm-dictionary__cat-emoji" aria-hidden="true">
+              <span className="mtd__cat-emoji" aria-hidden="true">
                 {definition.emoji}
               </span>
               <span>
@@ -151,8 +167,8 @@ export function DictionaryPage() {
           ))}
         </nav>
 
-        <div className="vm-dictionary__content">
-          <div className="vm-dictionary__bar">
+        <div className="mtd__content">
+          <div className="mtd__bar">
             <div>
               <h2>
                 {category
@@ -161,27 +177,27 @@ export function DictionaryPage() {
                     ? `Resultados para “${deferredQuery.trim()}”`
                     : "Todas las palabras"}
               </h2>
-              <p>
+              <p role="status" aria-live="polite">
                 {entries.length === 1 ? "1 palabra" : `${entries.length} palabras`}
                 {category && " en este tema"}
               </p>
             </div>
-            <span className="vm-dictionary__tip">
+            <span className="mtd__tip">
               <IconVolume width={15} height={15} />
               Toca el altavoz para escuchar
             </span>
           </div>
 
           {entries.length === 0 ? (
-            <div className="vm-empty">
-              <span className="vm-empty__icon" aria-hidden="true">
+            <div className="mtd-empty">
+              <span className="mtd-empty__icon" aria-hidden="true">
                 <IconSearch width={30} height={30} />
               </span>
               <h2>Esa palabra no está todavía</h2>
               <p>Prueba con otra palabra o cambia de tema. El diccionario crece con la ciudad.</p>
               <button
                 type="button"
-                className="vm-btn vm-btn--primary"
+                className="mt-btn mt-btn--primary"
                 onClick={() => {
                   setQuery("");
                   setCategory(null);
@@ -192,11 +208,11 @@ export function DictionaryPage() {
               </button>
             </div>
           ) : grouped ? (
-            <div className="vm-dictionary__groups">
+            <div className="mtd__groups">
               {grouped.map((group) => (
-                <section key={group.definition.slug} className="vm-dictionary__group">
+                <section key={group.definition.slug} className="mtd__group">
                   <header
-                    className="vm-dictionary__group-head"
+                    className="mtd__group-head"
                     style={{
                       ["--from" as string]: group.definition.from,
                       ["--to" as string]: group.definition.to,
@@ -210,7 +226,7 @@ export function DictionaryPage() {
                     </div>
                     <b>{group.entries.length}</b>
                   </header>
-                  <div className="vm-dictionary__grid">
+                  <div className="mtd__grid">
                     {group.entries.map((entry, index) => (
                       <WordCard
                         key={entry.term}
@@ -225,7 +241,7 @@ export function DictionaryPage() {
               ))}
             </div>
           ) : (
-            <div className="vm-dictionary__grid">
+            <div className="mtd__grid">
               {entries.map((entry, index) => (
                 <WordCard
                   key={entry.term}
@@ -240,20 +256,20 @@ export function DictionaryPage() {
         </div>
       </div>
 
-      <section className="vm-section">
-        <div className="container">
-          <div className="vm-dictionary__practice">
-            <span className="vm-dictionary__practice-icon" aria-hidden="true">
+      <section className="mtd-section">
+        <div className="mt-container">
+          <div className="mtd__practice">
+            <span className="mtd__practice-icon" aria-hidden="true">
               <IconStar width={26} height={26} />
             </span>
             <div>
-              <p className="vm-kicker">Ponte a prueba</p>
+              <p className="mtd-kicker">Ponte a prueba</p>
               <h2>Una frase para entrar en confianza</h2>
               <p>
                 “{phrase.example}” — {phrase.exampleEnglish}
               </p>
             </div>
-            <button type="button" className="vm-btn vm-btn--primary" onClick={() => speak(phrase)}>
+            <button type="button" className="mt-btn mt-btn--primary" onClick={() => speak(phrase)}>
               <IconVolume width={17} height={17} />
               Escuchar la frase
             </button>
@@ -280,7 +296,7 @@ function WordCard({
 
   return (
     <article
-      className="vm-word reveal"
+      className="mtw mt-reveal"
       style={{
         ["--i" as string]: Math.min(index, 16),
         ["--accent" as string]: accent,
@@ -289,15 +305,18 @@ function WordCard({
         ["--soft" as string]: category?.soft ?? "#E0F3F5",
       }}
     >
-      <header className="vm-word__head">
+      <header className="mtw__head">
+        <span className="mtw__initial" aria-hidden="true">
+          {entry.term.replace(/[¿?¡!“"«\s]/g, "").charAt(0).toUpperCase()}
+        </span>
         <div>
-          <span className="vm-word__type">{entry.type}</span>
-          <h3 className="vm-word__term">{entry.term}</h3>
-          <p className="vm-word__pron">{entry.pronunciation}</p>
+          <span className="mtw__type">{entry.type}</span>
+          <h3 className="mtw__term">{entry.term}</h3>
+          <p className="mtw__pron">{entry.pronunciation}</p>
         </div>
         <button
           type="button"
-          className={`vm-word__sound${speaking ? " is-speaking" : ""}`}
+          className={`mtw__sound${speaking ? " is-speaking" : ""}`}
           onClick={() => onSpeak(entry)}
           aria-label={`Escuchar ${entry.term}`}
           aria-pressed={speaking}
@@ -306,30 +325,30 @@ function WordCard({
         </button>
       </header>
 
-      <p className="vm-word__meaning">{entry.meaning}</p>
-      <p className="vm-word__english">
+      <p className="mtw__meaning">{entry.meaning}</p>
+      <p className="mtw__english">
         <span>EN</span>
         {entry.english}
       </p>
 
-      <blockquote className="vm-word__example">
-        <p>{entry.example}</p>
+      <blockquote className="mtw__example">
+        <p>{highlight(entry.example, entry.term)}</p>
         <span>{entry.exampleEnglish}</span>
       </blockquote>
 
       {entry.usage && (
-        <p className="vm-word__usage">
+        <p className="mtw__usage">
           <IconSparkles width={14} height={14} />
           {entry.usage}
         </p>
       )}
 
-      <footer className="vm-word__footer">
-        <span className="vm-word__cat">
+      <footer className="mtw__footer">
+        <span className="mtw__cat">
           <span aria-hidden="true">{category?.emoji ?? "💬"}</span>
           {category?.label ?? entry.category}
         </span>
-        <span className="vm-word__tags">
+        <span className="mtw__tags">
           {entry.tags.slice(0, 2).map((tag) => (
             <span key={tag}>#{normalized(tag)}</span>
           ))}

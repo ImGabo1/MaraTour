@@ -137,14 +137,14 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
               type="button"
               className="mt-install mt-press mt-focusable mt-actions__install"
               onClick={onInstall}
-              aria-label="Descargar MaraTour en tu dispositivo"
-              title="Descargar MaraTour en tu dispositivo"
+              aria-label={t("shell.installDevice")}
+              title={t("shell.installDevice")}
             >
               <IconDownload width={18} height={18} />
               <span>{t("nav.installShort")}</span>
             </button>
 
-            <div className="mt-user" title={session.kind === "guest" ? "Sesión de invitado" : session.email}>
+            <div className="mt-user" title={session.kind === "guest" ? t("shell.guestSession") : session.email}>
               <span className="mt-user__avatar" aria-hidden="true">
                 {session.kind === "guest" ? <IconUser width={18} height={18} /> : initials(session.name)}
               </span>
@@ -155,8 +155,8 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
               type="button"
               className="mt-pill mt-pill--icon mt-press mt-focusable mt-actions__logout"
               onClick={onLogout}
-              aria-label="Cerrar sesión"
-              title="Cerrar sesión"
+              aria-label={t("shell.logout")}
+              title={t("shell.logout")}
             >
               <IconLogout width={18} height={18} />
             </button>
@@ -189,7 +189,7 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
               </span>
               <span>
                 <strong>{session.name}</strong>
-                <small>{session.kind === "guest" ? "Sesión de invitado" : session.email}</small>
+                <small>{session.kind === "guest" ? t("shell.guestSession") : session.email}</small>
               </span>
             </p>
             <button
@@ -233,7 +233,7 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
               }}
             >
               <IconLogout width={20} height={20} />
-              <span>Cerrar sesión</span>
+              <span>{t("shell.logout")}</span>
             </button>
           </nav>
         </div>

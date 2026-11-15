@@ -155,7 +155,7 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
 
     if (MAP_IMAGE) {
       L.imageOverlay(MAP_IMAGE.image, imageBounds, {
-        alt: "Mapa de Maracaibo",
+        alt: t("map.title"),
         interactive: false,
         className: "vm-map__image",
       }).addTo(map);
@@ -458,9 +458,9 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
           </button>
         </div>
 
-        <ul className="vm-map__legend glass glass--sm" aria-label="Leyenda del mapa">
-          <li><i className="vm-map__legend-pin" aria-hidden="true" /> Lugar</li>
-          <li><i className="vm-map__legend-pin is-on" aria-hidden="true" /> Seleccionado</li>
+        <ul className="vm-map__legend glass glass--sm" aria-label={t("map.legend")}>
+          <li><i className="vm-map__legend-pin" aria-hidden="true" /> {t("map.legendPlace")}</li>
+          <li><i className="vm-map__legend-pin is-on" aria-hidden="true" /> {t("map.selectedHint")}</li>
         </ul>
 
         <a

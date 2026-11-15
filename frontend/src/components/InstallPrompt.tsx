@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useI18n } from "../i18n/I18nProvider";
 import { IconClose, IconDownload, IconShare } from "./icons";
 import "./InstallPrompt.css";
 
@@ -15,7 +16,13 @@ interface Props {
  * mostramos nuestro propio botón. Al hacer clic se dispara el prompt nativo.
  * En iOS no existe ese evento, así que mostramos instrucciones manuales.
  */
+/** Convierte *texto* en negrita. */
+function withBold(text: string) {
+  return text.split(/\*([^*]+)\*/).map((part, index) => (index % 2 === 1 ? <b key={index}>{part}</b> : part));
+}
+
 export function InstallPrompt({ force = false }: Props = {}) {
+  const { t } = useI18n();
   const [deferred, setDeferred] = useState<Event | null>(null);
   const [shown, setShown] = useState(false);
   const [ios, setIos] = useState(false);
@@ -71,18 +78,16 @@ export function InstallPrompt({ force = false }: Props = {}) {
   if (ios) {
     return (
       <div className="mt-install-banner mt-reveal">
-        <section className="mt-install-banner__card glass glass--md" aria-label="Instalar MaraTour">
+        <section className="mt-install-banner__card glass glass--md" aria-label={t("shell.install.label")}>
           <span className="mt-install-banner__icon" aria-hidden="true">
             <IconShare width={22} height={22} />
           </span>
           <div className="mt-install-banner__text">
-            <strong>Instala MaraTour en tu iPhone</strong>
-            <p>
-              Toca <b>Compartir</b> en Safari y luego <b>Agregar a pantalla de inicio</b>.
-            </p>
+            <strong>{t("shell.install.iosTitle")}</strong>
+            <p>{withBold(t("shell.install.iosBody"))}</p>
           </div>
           <button type="button" className="mt-install-banner__ok mt-press mt-focusable" onClick={dismiss}>
-            Entendido
+            {t("common.gotIt")}
           </button>
         </section>
       </div>
@@ -93,23 +98,23 @@ export function InstallPrompt({ force = false }: Props = {}) {
 
   return (
     <div className="mt-install-banner mt-reveal">
-      <section className="mt-install-banner__card glass glass--md" aria-label="Instalar MaraTour">
+      <section className="mt-install-banner__card glass glass--md" aria-label={t("shell.install.label")}>
         <span className="mt-install-banner__icon" aria-hidden="true">
           <IconDownload width={22} height={22} />
         </span>
         <div className="mt-install-banner__text">
-          <strong>Instala MaraTour</strong>
-          <p>Ten los lugares, mapas y vistas 360° a la mano, incluso sin internet.</p>
+          <strong>{t("shell.install.title")}</strong>
+          <p>{t("shell.install.body")}</p>
         </div>
         <div className="mt-install-banner__actions">
           <button type="button" className="mt-install mt-press mt-focusable" onClick={install}>
-            Instalar
+            {t("nav.installShort")}
           </button>
           <button
             type="button"
             className="mt-install-banner__later mt-press mt-focusable"
             onClick={dismiss}
-            aria-label="Quizás después"
+            aria-label={t("shell.install.later")}
           >
             <IconClose width={18} height={18} />
           </button>

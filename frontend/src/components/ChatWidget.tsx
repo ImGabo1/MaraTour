@@ -4,13 +4,17 @@ import { categoryBySlug, type CategorySlug } from "../data/categories";
 import { findDictionaryTerm, searchDictionary } from "../data/dictionary";
 import { foodForMoment } from "../data/food";
 import type { Page } from "../hooks/usePageRoute";
+import { useI18n } from "../i18n/I18nProvider";
+import type { MessageKey } from "../i18n/messages";
 import { useModal } from "../hooks/useModal";
 import { primaryCategory } from "../lib/places";
 import { popularityScore } from "../lib/popularity";
 import type { Place } from "../types";
 import { IconClose, IconSend, IconSparkles } from "./icons";
 
-type Action = { label: string; page?: Page; slug?: string };
+type Action = { label: string; key?: MessageKey; page?: Page; slug?: string };
+
+const act = (key: MessageKey, page: Page, t: (key: MessageKey) => string): Action => ({ label: t(key), key, page });
 
 interface Message {
   id: string;
@@ -26,16 +30,14 @@ interface Props {
   onNavigate: (page: Page) => void;
 }
 
-const QUICK_REPLIES = [
-  "¿Qué hago en un día?",
-  "Quiero comer algo típico",
-  "¿Qué significa «naguará»?",
-  "Lugares con 360°",
-  "¿Cómo me muevo por la ciudad?",
+/** `query` es la consulta en español que entiende el motor de reglas; `key` es lo que ve la persona. */
+const QUICK_REPLIES: readonly { key: MessageKey; query: string }[] = [
+  { key: "shell.chat.q1", query: "¿Qué hago en un día?" },
+  { key: "shell.chat.q2", query: "Quiero comer algo típico" },
+  { key: "shell.chat.q3", query: "¿Qué significa «naguará»?" },
+  { key: "shell.chat.q4", query: "Lugares con 360°" },
+  { key: "shell.chat.q5", query: "¿Cómo me muevo por la ciudad?" },
 ];
-
-const GREETING =
-  "¡Epale! Soy Zulmita, tu guía maracucha. Pregúntame por lugares, comida, palabras de la calle, transporte o por un plan completo. ¿Qué te provoca hoy?";
 
 function normalize(value: string): string {
   return value
@@ -58,20 +60,23 @@ function placeActions(places: readonly Place[]): Action[] {
 
 /** Asistente local basado en reglas: responde con los datos reales de la app, sin API externa. */
 export function ChatWidget({ places, onClose, onOpenPlace, onNavigate }: Props) {
-  const [messages, setMessages] = useState<Message[]>([
-    { id: "welcome", from: "bot", text: GREETING },
-  ]);
+  const { t } = useI18n();
+  const [sent, setSent] = useState<Message[]>([]);
+  const messages = useMemo<Message[]>(
+    () => [{ id: "welcome", from: "bot", text: t("shell.chat.greeting") }, ...sent],
+    [sent, t]
+  );
   const [input, setInput] = useState("");
   const focusRef = useModal<HTMLInputElement>(onClose);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const greetingActions = useMemo<Action[]>(
     () => [
-      { label: "Armar un plan", page: "plan" },
-      { label: "Ver lugares", page: "explorar" },
-      { label: "Abrir diccionario", page: "diccionario" },
+      act("shell.chat.aPlan", "plan", t),
+      act("shell.chat.aPlaces", "explorar", t),
+      act("shell.chat.aDict", "diccionario", t),
     ],
-    []
+    [t]
   );
 
   useEffect(() => {
@@ -84,15 +89,15 @@ export function ChatWidget({ places, onClose, onOpenPlace, onNavigate }: Props) 
 
     if (/^(hola|buenas|epale|saludos|hey|hello)\b/.test(needle) || needle.length < 3) {
       return {
-        text: "¡Buenas! Cuéntame qué necesitas: un lugar, un plato, una palabra o un plan para hoy.",
+        text: t("shell.chat.hello"),
         actions: greetingActions,
       };
     }
 
     if (/(gracias|mil gracias|thanks)/.test(needle)) {
       return {
-        text: "¡A la orden! Cuando quieras seguimos armando tu recorrido. Nos vemos en Maracaibo.",
-        actions: [{ label: "Abrir Mi ruta", page: "mi-ruta" }],
+        text: t("shell.chat.thanks"),
+        actions: [act("shell.chat.aRoute", "mi-ruta", t)],
       };
     }
 
@@ -101,9 +106,9 @@ export function ChatWidget({ places, onClose, onOpenPlace, onNavigate }: Props) 
       return {
         text:
           pano.length > 0
-            ? "La vista 360° es opcional y vive dentro de la ficha. Abre uno de estos lugares y toca «Ver en 360°» cuando quieras girar la panorámica."
-            : "Por ahora no hay panorámicas cargadas, pero cada ficha sigue mostrando historia, mapa y datos para llegar.",
-        actions: [...placeActions(pano), { label: "Explorar todo", page: "explorar" }],
+            ? t("shell.chat.pano", { button: t("sheet.pano") })
+            : t("shell.chat.noPano"),
+        actions: [...placeActions(pano), act("shell.chat.aExploreAll", "explorar", t)],
       };
     }
 
@@ -112,46 +117,36 @@ export function ChatWidget({ places, onClose, onOpenPlace, onNavigate }: Props) 
       const sweet = foodForMoment("dulce", "todos", "$$", 2);
       const foodPlaces = topPlaces(places, "gastronomia", 2);
       return {
-        text: `Para probar Maracaibo te recomiendo ${lunch.dish}: ${lunch.description} Lo consigues en ${lunch.where}. Y si quieres un dulce, busca ${sweet.dish}.`,
-        actions: [...placeActions(foodPlaces), { label: "Diccionario de sabores", page: "diccionario" }],
+        text: t("shell.chat.food", { dish: lunch.dish, description: lunch.description, where: lunch.where, sweet: sweet.dish }),
+        actions: [...placeActions(foodPlaces), act("shell.chat.aFlavors", "diccionario", t)],
       };
     }
 
     if (/(transporte|taxi|metro|autobus|bus|mover|llegar|por puesto|mototaxi|uber)/.test(needle)) {
       return {
-        text:
-          "Para moverte: el metro cubre el centro y zonas cercanas; los «por puesto» son taxis compartidos con ruta fija y los mototaxis sirven para trayectos cortos. Pregunta el precio antes de subir y evita horas pico.",
-        actions: [
-          { label: "Ver palabras de calle", page: "diccionario" },
-          { label: "Explorar lugares", page: "explorar" },
-        ],
+        text: t("shell.chat.transport"),
+        actions: [act("shell.chat.aStreet", "diccionario", t), act("shell.chat.aExplore", "explorar", t)],
       };
     }
 
     if (/(seguridad|peligro|cuidado|robar|inseguro)/.test(needle)) {
       return {
-        text:
-          "Como en cualquier ciudad grande, usa el sentido común: lleva lo necesario, evita mostrar objetos de valor, muévete en zonas conocidas y pregunta en tu alojamiento por rutas seguras. Maracaibo es cálida y su gente ayuda mucho.",
-        actions: [{ label: "Ver tips de viaje", page: "plan" }],
+        text: t("shell.chat.safety"),
+        actions: [act("shell.chat.aTips", "plan", t)],
       };
     }
 
     if (/(calor|sol|clima|lluvia|protector|agua)/.test(needle)) {
       return {
-        text:
-          "El sol de Maracaibo pega fuerte. Lleva agua, protector solar, gorra y ropa fresca; camina temprano o al atardecer y aprovecha las sombras de plazas y museos.",
-        actions: [{ label: "Armar un plan con pausas", page: "plan" }],
+        text: t("shell.chat.sun"),
+        actions: [act("shell.chat.aPauses", "plan", t)],
       };
     }
 
     if (/(plan|itinerario|ruta|recorrido|dias|dia|agenda|fin de semana|que hago)/.test(needle)) {
       return {
-        text:
-          "Puedo armarte un plan completo en segundos: eliges días, compañía, ritmo, intereses y presupuesto, y te propongo lugares, comidas y tips. También puedes guardarlo en Mi ruta.",
-        actions: [
-          { label: "Abrir planificador", page: "plan" },
-          { label: "Ver Mi ruta", page: "mi-ruta" },
-        ],
+        text: t("shell.chat.plan"),
+        actions: [act("shell.chat.aPlanner", "plan", t), act("shell.chat.aSeeRoute", "mi-ruta", t)],
       };
     }
 
@@ -163,14 +158,19 @@ export function ChatWidget({ places, onClose, onOpenPlace, onNavigate }: Props) 
         searchDictionary(text).find((item) => item.term.length > 2);
       if (entry) {
         return {
-          text: `«${entry.term}» se pronuncia ${entry.pronunciation}. Significa: ${entry.meaning} En inglés: ${entry.english}. Ejemplo: “${entry.example}”`,
-          actions: [{ label: "Ver en el diccionario", page: "diccionario" }],
+          text: t("shell.chat.dict", {
+            term: entry.term,
+            pronunciation: entry.pronunciation,
+            meaning: entry.meaning,
+            english: entry.english,
+            example: entry.example,
+          }),
+          actions: [act("shell.chat.aSeeDict", "diccionario", t)],
         };
       }
       return {
-        text:
-          "Esa palabra no la tengo todavía. Abre el diccionario y busca por tema: saludos, conversación, sabores, calle, dinero o fiesta. Seguro encuentras algo parecido.",
-        actions: [{ label: "Abrir diccionario", page: "diccionario" }],
+        text: t("shell.chat.noWord"),
+        actions: [act("shell.chat.aDict", "diccionario", t)],
       };
     }
 
@@ -180,24 +180,24 @@ export function ChatWidget({ places, onClose, onOpenPlace, onNavigate }: Props) 
     });
     if (direct) {
       return {
-        text: `${direct.name}: ${direct.shortDescription} Está en ${direct.address}. Puedo abrirte la ficha completa con su historia, mapa y la opción de verlo en 360°.`,
+        text: t("shell.chat.place", { name: direct.name, description: direct.shortDescription, address: direct.address }),
         actions: [
-          { label: "Ver ficha", slug: direct.slug },
-          { label: "Cómo llegar", slug: direct.slug },
+          { label: t("shell.chat.aSheet"), key: "shell.chat.aSheet", slug: direct.slug },
+          { label: t("shell.chat.aHowTo"), key: "shell.chat.aHowTo", slug: direct.slug },
         ],
       };
     }
 
-    const categoryMatchers: readonly { pattern: RegExp; slug: CategorySlug; intro: string }[] = [
-      { pattern: /(lago|malecon|atardecer|agua)/, slug: "lago", intro: "Para el lago y los atardeceres" },
-      { pattern: /(iglesia|fe|virgen|chinita|basilica)/, slug: "fe", intro: "Para la fe y la tradición" },
-      { pattern: /(museo|arte|cultura|teatro)/, slug: "cultura", intro: "Para el arte y la cultura" },
-      { pattern: /(plaza|parque|familia|ninos)/, slug: "plazas", intro: "Para caminar y compartir" },
-      { pattern: /(historia|patrimonio|monumento|centro)/, slug: "historia", intro: "Para la historia de la ciudad" },
-      { pattern: /(noche|fiesta|bar|musica|rumba|gaita)/, slug: "noche", intro: "Para la noche maracucha" },
-      { pattern: /(compras|mercado|artesania|recuerdo)/, slug: "compras", intro: "Para llevarte un recuerdo" },
-      { pattern: /(naturaleza|verde|arbol|paseo)/, slug: "naturaleza", intro: "Para respirar aire libre" },
-      { pattern: /(deporte|estadio|futbol|beisbol)/, slug: "deportes", intro: "Para la pasión deportiva" },
+    const categoryMatchers: readonly { pattern: RegExp; slug: CategorySlug; intro: MessageKey }[] = [
+      { pattern: /(lago|malecon|atardecer|agua)/, slug: "lago", intro: "shell.chat.catLake" },
+      { pattern: /(iglesia|fe|virgen|chinita|basilica)/, slug: "fe", intro: "shell.chat.catFaith" },
+      { pattern: /(museo|arte|cultura|teatro)/, slug: "cultura", intro: "shell.chat.catCulture" },
+      { pattern: /(plaza|parque|familia|ninos)/, slug: "plazas", intro: "shell.chat.catSquares" },
+      { pattern: /(historia|patrimonio|monumento|centro)/, slug: "historia", intro: "shell.chat.catHistory" },
+      { pattern: /(noche|fiesta|bar|musica|rumba|gaita)/, slug: "noche", intro: "shell.chat.catNight" },
+      { pattern: /(compras|mercado|artesania|recuerdo)/, slug: "compras", intro: "shell.chat.catShopping" },
+      { pattern: /(naturaleza|verde|arbol|paseo)/, slug: "naturaleza", intro: "shell.chat.catNature" },
+      { pattern: /(deporte|estadio|futbol|beisbol)/, slug: "deportes", intro: "shell.chat.catSports" },
     ];
 
     for (const matcher of categoryMatchers) {
@@ -206,36 +206,32 @@ export function ChatWidget({ places, onClose, onOpenPlace, onNavigate }: Props) 
       if (list.length === 0) continue;
       const category = categoryBySlug(matcher.slug);
       return {
-        text: `${matcher.intro}, te recomiendo: ${list.map((place) => place.name).join(", ")}. ${category?.blurb ?? ""}`,
-        actions: [...placeActions(list), { label: "Ver más", page: "explorar" }],
+        text: t("shell.chat.cat", { intro: t(matcher.intro), list: list.map((place) => place.name).join(", "), blurb: category?.blurb ?? "" }),
+        actions: [...placeActions(list), act("shell.chat.aMore", "explorar", t)],
       };
     }
 
     if (/(que hacer|recomienda|recomiendame|lugar|donde ir|visitar|conocer|turismo)/.test(needle)) {
       const list = [...places].sort((a, b) => popularityScore(b.slug) - popularityScore(a.slug)).slice(0, 3);
       return {
-        text: "Si es tu primera vez, empieza por estos imperdibles. Puedo abrirte la ficha de cualquiera y contarte su historia.",
-        actions: [...placeActions(list), { label: "Explorar todo", page: "explorar" }],
+        text: t("shell.chat.top"),
+        actions: [...placeActions(list), act("shell.chat.aExploreAll", "explorar", t)],
       };
     }
 
     return {
-      text:
-        "No estoy segura de haber entendido. Prueba con algo como «quiero comer», «lugares con 360°», «¿qué significa pana?» o «arma un plan de dos días».",
-      actions: [
-        { label: "Armar un plan", page: "plan" },
-        { label: "Ver lugares", page: "explorar" },
-      ],
+      text: t("shell.chat.fallback"),
+      actions: [act("shell.chat.aPlan", "plan", t), act("shell.chat.aPlaces", "explorar", t)],
     };
   };
 
-  const send = (value = input) => {
+  const send = (value = input, shown?: string) => {
     const text = value.trim();
     if (!text) return;
     const answer = reply(text);
-    setMessages((current) => [
+    setSent((current) => [
       ...current,
-      { id: `u-${Date.now()}`, from: "user", text },
+      { id: `u-${Date.now()}`, from: "user", text: shown ?? text },
       { id: `b-${Date.now()}`, from: "bot", text: answer.text, actions: answer.actions },
     ]);
     setInput("");
@@ -269,15 +265,15 @@ export function ChatWidget({ places, onClose, onOpenPlace, onNavigate }: Props) 
             <h2 id="chat-title">Zulmita</h2>
             <p>
               <span className="mtz__dot" aria-hidden="true" />
-              Guía local · en línea
+              {t("shell.chat.status")}
             </p>
           </div>
-          <button type="button" className="mtz__close mt-press" onClick={onClose} aria-label="Cerrar chat">
+          <button type="button" className="mtz__close mt-press" onClick={onClose} aria-label={t("shell.chat.close")}>
             <IconClose width={19} height={19} />
           </button>
         </header>
 
-        <div className="mtz__messages" role="log" aria-live="polite" aria-label="Conversación con Zulmita">
+        <div className="mtz__messages" role="log" aria-live="polite" aria-label={t("shell.chat.logAria")}>
           {messages.map((message) => (
             <div key={message.id} className={`mtz__row mtz__row--${message.from}`}>
               {message.from === "bot" && (
@@ -291,7 +287,7 @@ export function ChatWidget({ places, onClose, onOpenPlace, onNavigate }: Props) 
                   <div className="mtz__actions">
                     {message.actions.map((action) => (
                       <button key={`${message.id}-${action.label}`} type="button" onClick={() => runAction(action)}>
-                        {action.label}
+                        {action.key ? t(action.key) : action.label}
                       </button>
                     ))}
                   </div>
@@ -302,10 +298,10 @@ export function ChatWidget({ places, onClose, onOpenPlace, onNavigate }: Props) 
           <div ref={bottomRef} />
         </div>
 
-        <div className="mtz__quick" aria-label="Preguntas rápidas">
+        <div className="mtz__quick" aria-label={t("shell.chat.quickAria")}>
           {QUICK_REPLIES.map((prompt) => (
-            <button key={prompt} type="button" onClick={() => send(prompt)}>
-              {prompt}
+            <button key={prompt.key} type="button" onClick={() => send(prompt.query, t(prompt.key))}>
+              {t(prompt.key)}
             </button>
           ))}
         </div>
@@ -322,15 +318,15 @@ export function ChatWidget({ places, onClose, onOpenPlace, onNavigate }: Props) 
             type="text"
             value={input}
             onChange={(event) => setInput(event.target.value)}
-            placeholder="Escribe tu duda…"
-            aria-label="Escribe tu duda"
+            placeholder={t("shell.chat.placeholder")}
+            aria-label={t("shell.chat.inputAria")}
             autoComplete="off"
           />
-          <button type="submit" className="mtz__send mt-press" aria-label="Enviar mensaje" disabled={!input.trim()}>
+          <button type="submit" className="mtz__send mt-press" aria-label={t("shell.chat.send")} disabled={!input.trim()}>
             <IconSend width={18} height={18} />
           </button>
         </form>
-        <p className="mtz__note">Respuestas locales basadas en los datos de la app. Verifica horarios antes de salir.</p>
+        <p className="mtz__note">{t("shell.chat.note")}</p>
       </section>
     </div>
   );

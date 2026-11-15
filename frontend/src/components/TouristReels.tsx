@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { TOURIST_REELS, type TouristReel } from "../data/reels";
+import { useI18n } from "../i18n/I18nProvider";
 import { useModal } from "../hooks/useModal";
 import {
   IconArrowLeft,
@@ -28,14 +29,15 @@ interface ModalProps {
 
 /** Reproductor de un reel con video: Escape cierra y el foco vuelve a la tarjeta. */
 function ReelModal({ reel, onClose, onOpenPlace, onShowOnMap }: ModalProps) {
+  const { t } = useI18n();
   const closeRef = useModal<HTMLButtonElement>(onClose);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(false); // el usuario tocó para verlo: arranca con sonido
 
   return (
-    <div className="mtr-modal" onClick={onClose} role="dialog" aria-modal="true" aria-label={`Video de ${reel.title}`}>
+    <div className="mtr-modal" onClick={onClose} role="dialog" aria-modal="true" aria-label={t("reels.videoOf", { title: reel.title })}>
       <div className="mtr-modal__card" onClick={(event) => event.stopPropagation()}>
-        <button ref={closeRef} type="button" className="mtr-icon mtr-modal__close mt-press" onClick={onClose} aria-label="Cerrar video">
+        <button ref={closeRef} type="button" className="mtr-icon mtr-modal__close mt-press" onClick={onClose} aria-label={t("reels.closeVideo")}>
           <IconClose width={20} height={20} />
         </button>
 
@@ -59,7 +61,7 @@ function ReelModal({ reel, onClose, onOpenPlace, onShowOnMap }: ModalProps) {
               video.muted = !video.muted;
               setMuted(video.muted);
             }}
-            aria-label={muted ? "Activar sonido" : "Silenciar"}
+            aria-label={muted ? t("reels.unmute") : t("reels.mute")}
           >
             {muted ? <IconVolumeMute width={18} height={18} /> : <IconVolume width={18} height={18} />}
           </button>
@@ -74,12 +76,12 @@ function ReelModal({ reel, onClose, onOpenPlace, onShowOnMap }: ModalProps) {
           <div className="mtr-modal__buttons">
             <button type="button" className="mt-btn mt-btn--primary" onClick={() => { onClose(); onOpenPlace(reel.slug); }}>
               <IconCompass width={16} height={16} />
-              Ver detalles del lugar
+              {t("reels.viewDetails")}
             </button>
             {onShowOnMap && (
               <button type="button" className="mt-btn mt-btn--soft" onClick={() => { onClose(); onShowOnMap(reel.slug); }}>
                 <IconMapPin width={16} height={16} />
-                Ver en mapa
+                {t("reels.viewOnMap")}
               </button>
             )}
           </div>
@@ -91,6 +93,7 @@ function ReelModal({ reel, onClose, onOpenPlace, onShowOnMap }: ModalProps) {
 
 /** Reels turísticos: tarjetas 9:16 con scroll-snap, barra de progreso y navegación con teclado. */
 export function TouristReels({ onOpenPlace, onShowOnMap }: Props) {
+  const { t } = useI18n();
   const [activeVideo, setActiveVideo] = useState<TouristReel | null>(null);
   const [progress, setProgress] = useState(0);
   const trackRef = useRef<HTMLUListElement>(null);
@@ -122,18 +125,18 @@ export function TouristReels({ onOpenPlace, onShowOnMap }: Props) {
   };
 
   return (
-    <section className="mtr" aria-label="Reels y sitios turísticos de Maracaibo">
+    <section className="mtr" aria-label={t("reels.section")}>
       <div className="mt-container">
         <div className="mtr__head">
           <span className="mtr__badge">
             <IconSparkles width={14} height={14} />
-            Sitios turísticos en video y foto
+            {t("reels.badge")}
           </span>
           <div className="mtr__arrows">
-            <button type="button" className="mtr-icon mt-press" onClick={() => scroll(-1)} aria-label="Anterior">
+            <button type="button" className="mtr-icon mt-press" onClick={() => scroll(-1)} aria-label={t("explore.prevTheme")}>
               <IconArrowLeft width={18} height={18} />
             </button>
-            <button type="button" className="mtr-icon mt-press" onClick={() => scroll(1)} aria-label="Siguiente">
+            <button type="button" className="mtr-icon mt-press" onClick={() => scroll(1)} aria-label={t("explore.nextTheme")}>
               <IconArrowRight width={18} height={18} />
             </button>
           </div>
@@ -143,7 +146,7 @@ export function TouristReels({ onOpenPlace, onShowOnMap }: Props) {
           className="mtr__track"
           ref={trackRef}
           tabIndex={0}
-          aria-label="Reels: usa las flechas del teclado para avanzar"
+          aria-label={t("reels.track")}
           onScroll={updateProgress}
           onKeyDown={(event) => {
             if (event.target !== event.currentTarget) return;
@@ -170,7 +173,7 @@ export function TouristReels({ onOpenPlace, onShowOnMap }: Props) {
                       <button
                         type="button"
                         className="mtr-card__play mt-press"
-                        aria-label={`Ver video de ${reel.title}`}
+                        aria-label={t("reels.watch", { title: reel.title })}
                         onClick={() => openReel(reel)}
                       >
                         <IconPlay width={24} height={24} />
@@ -181,7 +184,7 @@ export function TouristReels({ onOpenPlace, onShowOnMap }: Props) {
                       <h3>{reel.title}</h3>
                       <p>{reel.subtitle}</p>
                       <button type="button" className="mt-btn mt-btn--soft mt-btn--sm mtr-card__cta" onClick={() => onOpenPlace(reel.slug)}>
-                        Ver sitio
+                        {t("reels.viewSite")}
                         <IconArrowRight width={15} height={15} />
                       </button>
                     </div>
@@ -192,7 +195,7 @@ export function TouristReels({ onOpenPlace, onShowOnMap }: Props) {
           })}
         </ul>
 
-        <div className="mtr__progress" role="progressbar" aria-label="Avance de los reels" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress * 100)}>
+        <div className="mtr__progress" role="progressbar" aria-label={t("reels.progress")} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress * 100)}>
           <span style={{ transform: `scaleX(${Math.max(0.08, progress)})` }} />
         </div>
       </div>

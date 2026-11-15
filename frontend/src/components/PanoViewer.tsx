@@ -182,7 +182,7 @@ export function PanoViewer({ src, title, onClose }: Props) {
   };
 
   return (
-    <div ref={rootRef} className="mtp" role="dialog" aria-modal="true" aria-label={`Vista 360° de ${title}`}>
+    <div ref={rootRef} className="mtp" role="dialog" aria-modal="true" aria-label={t("pano.dialog", { title })}>
       <div className="mtp__frame">
         <div
           ref={wrapRef}
@@ -217,7 +217,7 @@ export function PanoViewer({ src, title, onClose }: Props) {
             className="mtp__canvas"
             style={{ transform: `scale(${zoom})` }}
             role="img"
-            aria-label={`Panorámica de ${title}`}
+            aria-label={t("pano.canvas", { title })}
           />
           {status === "loading" && (
             <p className="mtp__msg" role="status">
@@ -239,14 +239,14 @@ export function PanoViewer({ src, title, onClose }: Props) {
           </button>
         </div>
 
-        <div className="mtp__zoom glass glass--pill" role="group" aria-label="Zoom">
-          <button type="button" className="mtp__icon mt-press" onClick={() => setZoom((z) => Math.min(2, z + 0.25))} aria-label="Acercar" disabled={zoom >= 2}>
+        <div className="mtp__zoom glass glass--pill" role="group" aria-label={t("pano.zoom")}>
+          <button type="button" className="mtp__icon mt-press" onClick={() => setZoom((z) => Math.min(2, z + 0.25))} aria-label={t("map.zoomIn")} disabled={zoom >= 2}>
             +
           </button>
-          <button type="button" className="mtp__icon mt-press" onClick={() => setZoom((z) => Math.max(1, z - 0.25))} aria-label="Alejar" disabled={zoom <= 1}>
+          <button type="button" className="mtp__icon mt-press" onClick={() => setZoom((z) => Math.max(1, z - 0.25))} aria-label={t("map.zoomOut")} disabled={zoom <= 1}>
             −
           </button>
-          <button type="button" className="mtp__icon mt-press" onClick={toggleFullscreen} aria-pressed={fullscreen} aria-label={fullscreen ? "Salir de pantalla completa" : "Pantalla completa"}>
+          <button type="button" className="mtp__icon mt-press" onClick={toggleFullscreen} aria-pressed={fullscreen} aria-label={fullscreen ? t("pano.exitFullscreen") : t("pano.fullscreen")}>
             <IconExpand width={18} height={18} />
           </button>
         </div>

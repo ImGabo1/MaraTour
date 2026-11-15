@@ -91,14 +91,13 @@ export function ExplorePage({
         <div className="mt-container">
           <p className="mte-kicker">
             <IconSparkles width={15} height={15} />
-            Explora a tu manera
+            {t("explore.heroKicker")}
           </p>
           <h1 className="mte-hero__title">
-            Encuentra tu próximo <span>plan</span>
+            {t("explore.heroTitleA")} <span>{t("explore.heroTitleB")}</span>
           </h1>
           <p className="mte-hero__lead">
-            Filtra por tema, busca por nombre o cambia al mapa. Cada ficha guarda su historia, su
-            ubicación y la opción de verla en 360°.
+            {t("explore.heroLead")}
           </p>
         </div>
       </section>
@@ -122,14 +121,14 @@ export function ExplorePage({
             )}
           </div>
 
-          <div className="mte-segment" role="group" aria-label="Vista">
+          <div className="mte-segment" role="group" aria-label={t("explore.viewLabel")}>
             <button
               type="button"
               className={view === "grid" ? "is-active" : undefined}
               onClick={() => setView("grid")}
             >
               <IconGrid width={16} height={16} />
-              Tarjetas
+              {t("explore.viewGrid")}
             </button>
             <button
               type="button"
@@ -137,14 +136,14 @@ export function ExplorePage({
               onClick={() => setView("map")}
             >
               <IconMap width={16} height={16} />
-              Mapa
+              {t("nav.map")}
             </button>
           </div>
         </div>
 
         <div className="mte-filters">
           <div className="mte-filters__row">
-            <span className="mte-filters__label">Todo</span>
+            <span className="mte-filters__label">{t("explore.filterLabel")}</span>
             <button
               type="button"
               aria-pressed={category === null}
@@ -152,7 +151,7 @@ export function ExplorePage({
               onClick={() => selectCategory(null)}
             >
               <IconSparkles width={15} height={15} />
-              Todo Maracaibo
+              {t("explore.all")}
               <b>{places.length}</b>
             </button>
           </div>
@@ -162,7 +161,7 @@ export function ExplorePage({
             if (groupCategories.length === 0) return null;
             return (
               <div className="mte-filters__row" key={group.slug}>
-                <span className="mte-filters__label">{group.label}</span>
+                <span className="mte-filters__label">{t(`explore.group.${group.slug}`)}</span>
                 <div className="mte-filters__chips">
                   {groupCategories.map((item) => (
                     <button
@@ -189,14 +188,14 @@ export function ExplorePage({
         </div>
 
         {hasSector && (
-          <div className="mte-filters__row mte-sector" role="group" aria-label="Tipo de atención">
-            <span className="mte-filters__label">Atención</span>
+          <div className="mte-filters__row mte-sector" role="group" aria-label={t("explore.sectorGroup")}>
+            <span className="mte-filters__label">{t("explore.sectorLabel")}</span>
             <div className="mte-filters__chips">
               {(
                 [
-                  ["todos", "Todas"],
-                  ["publico", "Pública"],
-                  ["privado", "Privada"],
+                  ["todos", t("explore.sectorAll")],
+                  ["publico", t("explore.sectorPublic")],
+                  ["privado", t("explore.sectorPrivate")],
                 ] as const
               ).map(([value, label]) => (
                 <button
@@ -217,15 +216,17 @@ export function ExplorePage({
           <div>
             <h2 className="mte-results__title">
               {deferredQuery.trim()
-                ? `Resultados para “${deferredQuery.trim()}”`
+                ? t("explore.searchResults", { q: deferredQuery.trim() })
                 : activeCategory
                   ? t(activeCategory.nameKey)
-                  : "Todo Maracaibo"}
+                  : t("explore.all")}
             </h2>
             <p className="mte-results__count" role="status" aria-live="polite">
               {loading
-                ? "Cargando lugares…"
-                : `${visible.length} ${visible.length === 1 ? "lugar" : "lugares"} para descubrir`}
+                ? t("explore.loading")
+                : visible.length === 1
+                  ? t("explore.countOne")
+                  : t("explore.countMany", { n: visible.length })}
             </p>
           </div>
           <div className="mte-sort" role="group" aria-label={t("explore.sort")}>
@@ -239,7 +240,7 @@ export function ExplorePage({
               onClick={() => setSort("popular")}
             >
               {sort === "popular" && <IconCheck width={13} height={13} />}
-              Populares
+              {t("explore.sortPopular")}
             </button>
             <button
               type="button"
@@ -247,7 +248,7 @@ export function ExplorePage({
               onClick={() => setSort("az")}
             >
               {sort === "az" && <IconCheck width={13} height={13} />}
-              A – Z
+              {t("explore.sortAz")}
             </button>
           </div>
         </div>
@@ -288,8 +289,8 @@ export function ExplorePage({
               <circle cx="52" cy="54" r="2.5" fill="#0B2A4A" />
               <circle cx="68" cy="54" r="2.5" fill="#0B2A4A" />
             </svg>
-            <h2>No encontramos lugares con esa búsqueda</h2>
-            <p>Prueba con otra palabra o cambia de tema. Maracaibo tiene mucho más.</p>
+            <h2>{t("explore.empty")}</h2>
+            <p>{t("explore.emptyBody")}</p>
             <button
               type="button"
               className="mt-btn mt-btn--primary"
@@ -299,7 +300,7 @@ export function ExplorePage({
                 setSector("todos");
               }}
             >
-              Ver todo Maracaibo
+              {t("explore.seeAllCta")}
               <IconArrowRight width={16} height={16} />
             </button>
           </div>
@@ -320,11 +321,11 @@ export function ExplorePage({
             {visible.length > cards.length && (
               <div className="mte-more">
                 <button type="button" className="mt-btn mt-btn--soft" onClick={() => setLimit((value) => value + PAGE_SIZE)}>
-                  Ver más lugares
+                  {t("places.more")}
                   <IconArrowRight width={16} height={16} />
                 </button>
                 <span>
-                  Mostrando {cards.length} de {visible.length}
+                  {t("explore.showing", { n: cards.length, total: visible.length })}
                 </span>
               </div>
             )}

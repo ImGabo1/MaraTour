@@ -262,11 +262,11 @@ export default function App() {
           </nav>
 
           <div className="vm-footer__help">
-            <p className="vm-kicker">¿Necesitas una mano?</p>
-            <p>Pregúntale a Zulmita por lugares, comida o cómo moverte.</p>
+            <p className="vm-kicker">{t("shell.footer.helpKicker")}</p>
+            <p>{t("shell.footer.helpBody")}</p>
             <button type="button" className="vm-btn vm-btn--soft" onClick={openChat}>
               <IconChat width={16} height={16} />
-              Hablar con Zulmita
+              {t("shell.footer.helpButton")}
             </button>
           </div>
         </div>

@@ -1,5 +1,7 @@
 import { useDeferredValue, useMemo, useState, type ReactNode } from "react";
 import "./DictionaryPage.css";
+import { useI18n } from "../i18n/I18nProvider";
+import type { MessageKey } from "../i18n/messages";
 import {
   DICTIONARY,
   DICTIONARY_CATEGORIES,
@@ -36,6 +38,9 @@ function highlight(text: string, term: string): ReactNode {
 
 /** Diccionario visual del habla maracucha, con búsqueda, temas y pronunciación. */
 export function DictionaryPage() {
+  const { t } = useI18n();
+  const catLabel = (slug: DictionaryCategory) => t(`plan.dcat.${slug}` as MessageKey);
+  const catHint = (slug: DictionaryCategory) => t(`plan.dcat.${slug}.hint` as MessageKey);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<DictionaryCategory | null>(null);
   const [speaking, setSpeaking] = useState<string | null>(null);
@@ -84,14 +89,13 @@ export function DictionaryPage() {
         <div className="mt-container">
           <p className="mtd-kicker">
             <IconBook width={15} height={15} />
-            Diccionario maracucho
+            {t("plan.dict.kicker")}
           </p>
           <h1 className="mtd-hero__title">
-            Habla como un <span>maracucho</span>
+            {t("plan.dict.title1")}<span>{t("plan.dict.title2")}</span>
           </h1>
           <p className="mtd-hero__lead">
-            {DICTIONARY.length} palabras y expresiones de la calle, la mesa y la fiesta. Cada ficha
-            trae pronunciación, significado, ejemplo y su traducción al inglés.
+            {t("plan.dict.lead", { n: DICTIONARY.length })}
           </p>
 
           <div className="mtd__search">
@@ -101,12 +105,12 @@ export function DictionaryPage() {
                 type="search"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Busca «naguará», «pana», «patacón»…"
-                aria-label="Buscar en el diccionario"
+                placeholder={t("plan.dict.placeholder")}
+                aria-label={t("plan.dict.searcharia")}
                 autoComplete="off"
               />
               {query && (
-                <button type="button" onClick={() => setQuery("")} aria-label="Borrar búsqueda">
+                <button type="button" onClick={() => setQuery("")} aria-label={t("plan.dict.clear")}>
                   <IconClose width={16} height={16} />
                 </button>
               )}
@@ -116,10 +120,10 @@ export function DictionaryPage() {
                 <IconSparkles width={18} height={18} />
               </span>
               <span>
-                <small>Frase del día</small>
+                <small>{t("plan.dict.daily")}</small>
                 <strong>“{phrase.term}”</strong>
               </span>
-              <button type="button" onClick={() => speak(phrase)} aria-label={`Escuchar ${phrase.term}`}>
+              <button type="button" onClick={() => speak(phrase)} aria-label={t("plan.dict.listen", { term: phrase.term })}>
                 <IconVolume width={16} height={16} />
               </button>
             </div>
@@ -128,7 +132,7 @@ export function DictionaryPage() {
       </section>
 
       <div className="mt-container mtd__body">
-        <nav className="mtd__categories" aria-label="Temas del diccionario">
+        <nav className="mtd__categories" aria-label={t("plan.dict.topics")}>
           <button
             type="button"
             className={`mtd__cat${category === null ? " is-active" : ""}`}
@@ -138,8 +142,8 @@ export function DictionaryPage() {
               🗣️
             </span>
             <span>
-              <strong>Todas las palabras</strong>
-              <small>De la A a la Z</small>
+              <strong>{t("plan.dict.all")}</strong>
+              <small>{t("plan.dict.az")}</small>
             </span>
             <b>{DICTIONARY.length}</b>
           </button>
@@ -159,8 +163,8 @@ export function DictionaryPage() {
                 {definition.emoji}
               </span>
               <span>
-                <strong>{definition.label}</strong>
-                <small>{definition.hint}</small>
+                <strong>{catLabel(definition.slug)}</strong>
+                <small>{catHint(definition.slug)}</small>
               </span>
               <b>{counts[definition.slug] ?? 0}</b>
             </button>
@@ -172,19 +176,19 @@ export function DictionaryPage() {
             <div>
               <h2>
                 {category
-                  ? dictionaryCategory(category)?.label
+                  ? catLabel(category)
                   : deferredQuery.trim()
-                    ? `Resultados para “${deferredQuery.trim()}”`
-                    : "Todas las palabras"}
+                    ? t("plan.dict.resultsfor", { q: deferredQuery.trim() })
+                    : t("plan.dict.all")}
               </h2>
               <p role="status" aria-live="polite">
-                {entries.length === 1 ? "1 palabra" : `${entries.length} palabras`}
-                {category && " en este tema"}
+                {entries.length === 1 ? t("plan.dict.word.one") : t("plan.dict.word.many", { n: entries.length })}
+                {category && t("plan.dict.intopic")}
               </p>
             </div>
             <span className="mtd__tip">
               <IconVolume width={15} height={15} />
-              Toca el altavoz para escuchar
+              {t("plan.dict.tip")}
             </span>
           </div>
 
@@ -193,8 +197,8 @@ export function DictionaryPage() {
               <span className="mtd-empty__icon" aria-hidden="true">
                 <IconSearch width={30} height={30} />
               </span>
-              <h2>Esa palabra no está todavía</h2>
-              <p>Prueba con otra palabra o cambia de tema. El diccionario crece con la ciudad.</p>
+              <h2>{t("plan.dict.empty.title")}</h2>
+              <p>{t("plan.dict.empty.body")}</p>
               <button
                 type="button"
                 className="mt-btn mt-btn--primary"
@@ -203,7 +207,7 @@ export function DictionaryPage() {
                   setCategory(null);
                 }}
               >
-                Ver todas las palabras
+                {t("plan.dict.empty.cta")}
                 <IconArrowRight width={16} height={16} />
               </button>
             </div>
@@ -221,8 +225,8 @@ export function DictionaryPage() {
                   >
                     <span aria-hidden="true">{group.definition.emoji}</span>
                     <div>
-                      <h3>{group.definition.label}</h3>
-                      <p>{group.definition.hint}</p>
+                      <h3>{catLabel(group.definition.slug)}</h3>
+                      <p>{catHint(group.definition.slug)}</p>
                     </div>
                     <b>{group.entries.length}</b>
                   </header>
@@ -263,15 +267,15 @@ export function DictionaryPage() {
               <IconStar width={26} height={26} />
             </span>
             <div>
-              <p className="mtd-kicker">Ponte a prueba</p>
-              <h2>Una frase para entrar en confianza</h2>
+              <p className="mtd-kicker">{t("plan.dict.practice.kicker")}</p>
+              <h2>{t("plan.dict.practice.title")}</h2>
               <p>
                 “{phrase.example}” — {phrase.exampleEnglish}
               </p>
             </div>
             <button type="button" className="mt-btn mt-btn--primary" onClick={() => speak(phrase)}>
               <IconVolume width={17} height={17} />
-              Escuchar la frase
+              {t("plan.dict.practice.cta")}
             </button>
           </div>
         </div>
@@ -291,6 +295,7 @@ function WordCard({
   speaking: boolean;
   onSpeak: (entry: DictionaryEntry) => void;
 }) {
+  const { t, lang } = useI18n();
   const category = dictionaryCategory(entry.category);
   const accent = category?.from ?? "#0D6B76";
 
@@ -310,7 +315,7 @@ function WordCard({
           {entry.term.replace(/[¿?¡!“"«\s]/g, "").charAt(0).toUpperCase()}
         </span>
         <div>
-          <span className="mtw__type">{entry.type}</span>
+          <span className="mtw__type">{t(`plan.dict.type.${entry.type}` as MessageKey)}</span>
           <h3 className="mtw__term">{entry.term}</h3>
           <p className="mtw__pron">{entry.pronunciation}</p>
         </div>
@@ -318,18 +323,20 @@ function WordCard({
           type="button"
           className={`mtw__sound${speaking ? " is-speaking" : ""}`}
           onClick={() => onSpeak(entry)}
-          aria-label={`Escuchar ${entry.term}`}
+          aria-label={t("plan.dict.listen", { term: entry.term })}
           aria-pressed={speaking}
         >
           <IconVolume width={17} height={17} />
         </button>
       </header>
 
-      <p className="mtw__meaning">{entry.meaning}</p>
-      <p className="mtw__english">
-        <span>EN</span>
-        {entry.english}
-      </p>
+      <p className="mtw__meaning">{lang === "en" ? entry.english : entry.meaning}</p>
+      {lang !== "en" && (
+        <p className="mtw__english">
+          <span>EN</span>
+          {entry.english}
+        </p>
+      )}
 
       <blockquote className="mtw__example">
         <p>{highlight(entry.example, entry.term)}</p>
@@ -346,7 +353,7 @@ function WordCard({
       <footer className="mtw__footer">
         <span className="mtw__cat">
           <span aria-hidden="true">{category?.emoji ?? "💬"}</span>
-          {category?.label ?? entry.category}
+          {category ? t(`plan.dcat.${category.slug}` as MessageKey) : entry.category}
         </span>
         <span className="mtw__tags">
           {entry.tags.slice(0, 2).map((tag) => (

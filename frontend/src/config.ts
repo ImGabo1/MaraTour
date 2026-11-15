@@ -30,8 +30,7 @@ export async function apiFetch(path: string, init?: RequestInit): Promise<Respon
 export const MAPS_GENERAL_QUERY = "Maracaibo, Zulia, Venezuela";
 
 /**
- * Mapa base de Maracaibo sin conexión: teselas de OpenStreetMap (zoom 14)
- * unidas en una sola imagen local. Con internet, MapView dibuja encima las
+ * Fondo del mapa sin conexión: imagen local neutra (cuadrícula). Con internet, MapView dibuja encima las
  * teselas en vivo (MAP_TILES) para poder acercarse hasta nivel de calle.
  * Los bordes son los de las teselas; si se regenera la imagen hay que actualizarlos.
  */
@@ -44,15 +43,28 @@ export const MAP_IMAGE: { image: string; bounds: Bounds; width: number; height: 
 };
 
 /**
- * Teselas en vivo (datos de OpenStreetMap, servidas por CARTO Voyager).
- * tile.openstreetmap.org bloquea con un 403 ("Access blocked") a las apps que no cumplen su
- * política de uso (sin Referer válido, localhost, PWA, mucho tráfico); CARTO está pensado para apps.
- * Sin conexión queda visible la imagen local.
+ * Teselas en vivo, en orden de preferencia. Si el primer proveedor falla o bloquea (403, red),
+ * MapView pasa al siguiente. tile.openstreetmap.org no se usa: bloquea con "Access blocked" a las
+ * apps que no cumplen su política (sin Referer válido, PWA, mucho tráfico).
+ * Sin conexión queda visible la imagen local (cuadrícula neutra, sin geografía inventada).
  */
-export const MAP_TILES = {
-  url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
-  subdomains: "abcd",
-  attribution:
-    '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noreferrer">CARTO</a>',
-  maxNativeZoom: 19,
-} as const;
+export const MAP_TILE_PROVIDERS = [
+  {
+    id: "carto",
+    url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
+    subdomains: "abcd",
+    maxNativeZoom: 19,
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noreferrer">CARTO</a>',
+  },
+  {
+    id: "esri",
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+    subdomains: "",
+    maxNativeZoom: 19,
+    attribution: "Tiles &copy; Esri",
+  },
+] as const;
+
+/** Proveedor principal (compatibilidad). */
+export const MAP_TILES = MAP_TILE_PROVIDERS[0];

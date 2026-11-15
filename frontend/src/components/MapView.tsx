@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
-import { MAPS_GENERAL_QUERY, MAP_IMAGE, MAP_TILES } from "../config";
+import { MAPS_GENERAL_QUERY, MAP_IMAGE, MAP_TILE_PROVIDERS } from "../config";
 import { categoryBySlug } from "../data/categories";
 import { useI18n } from "../i18n/I18nProvider";
 import { googleMapsPlaceUrl, googleMapsSearchUrl } from "../lib/maps";
@@ -164,15 +164,37 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
     // Con internet, las calles reales van encima de la imagen local y permiten
     // acercarse hasta ver cada sitio en su cuadra. Si una tesela falla, se ve la imagen.
     map.attributionControl.setPrefix(false);
-    L.tileLayer(MAP_TILES.url, {
-      attribution: MAP_TILES.attribution,
-      subdomains: MAP_TILES.subdomains,
-      maxNativeZoom: MAP_TILES.maxNativeZoom,
-      maxZoom: 18,
-      bounds: imageBounds,
-      crossOrigin: true,
-      className: "vm-map__tiles",
-    }).addTo(map);
+    // Si un proveedor bloquea o falla (varias teselas con error seguidas), se pasa al siguiente.
+    let providerIndex = 0;
+    let tileErrors = 0;
+    let tiles: L.TileLayer | null = null;
+    const useProvider = (index: number) => {
+      const provider = MAP_TILE_PROVIDERS[index];
+      if (!provider) return;
+      tiles?.remove();
+      tileErrors = 0;
+      tiles = L.tileLayer(provider.url, {
+        attribution: provider.attribution,
+        subdomains: provider.subdomains || "abc",
+        maxNativeZoom: provider.maxNativeZoom,
+        maxZoom: 18,
+        bounds: imageBounds,
+        crossOrigin: true, // una respuesta bloqueada (403) sin CORS no se pinta ni se guarda en caché
+        className: "vm-map__tiles",
+      });
+      tiles.on("tileload", () => {
+        tileErrors = 0;
+      });
+      tiles.on("tileerror", () => {
+        tileErrors += 1;
+        if (tileErrors >= 3 && providerIndex < MAP_TILE_PROVIDERS.length - 1) {
+          providerIndex += 1;
+          useProvider(providerIndex);
+        }
+      });
+      tiles.addTo(map);
+    };
+    useProvider(0);
 
     fitImage(map, imageBounds, "contain");
     map.setMaxBounds(imageBounds.pad(0.06));

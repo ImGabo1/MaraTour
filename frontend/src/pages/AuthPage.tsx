@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useI18n } from "../i18n/I18nProvider";
 import { ThemeToggle } from "../components/ThemeToggle";
 import {
   IconArrowLeft,
@@ -27,6 +28,7 @@ interface Props {
 }
 
 export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
+  const { t } = useI18n();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -51,7 +53,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
     if (busy) return;
     setTouched(true);
     if (isRegister && confirm !== password) {
-      setError("Las contraseñas no coinciden.");
+      setError(t("shell.auth.passMismatch"));
       return;
     }
     setError(null);
@@ -65,7 +67,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
       setError(
         caught instanceof AuthError
           ? caught.message
-          : "No pudimos completar el acceso. Inténtalo otra vez."
+          : t("shell.auth.genericError")
       );
     } finally {
       setBusy(false);
@@ -94,7 +96,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
             <circle cx="120" cy="120" r="62" fill="#FFC83D" />
           </svg>
 
-          <a className="mta-logo" href="#/bienvenida" aria-label="MaraTour · Volver a la portada">
+          <a className="mta-logo" href="#/bienvenida" aria-label={t("shell.auth.logoAria")}>
             <img src="/img/logo-emblema-192.png" alt="" width={46} height={46} />
             <span>
               <strong>
@@ -107,12 +109,12 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
           <div className="mta-brand__copy">
             <p className="mta-kicker">
               <IconSparkles width={14} height={14} />
-              {isRegister ? "Crea tu cuenta" : "Bienvenido de vuelta"}
+              {isRegister ? t("shell.auth.kickerRegister") : t("shell.auth.kickerLogin")}
             </p>
             <h1>
-              Tu próxima postal <span>empieza aquí</span>
+              {t("shell.auth.heroA")} <span>{t("shell.auth.heroB")}</span>
             </h1>
-            <p>Guarda tus lugares favoritos, arma rutas por Maracaibo y vuelve a ellas cuando quieras.</p>
+            <p>{t("shell.auth.brandCopy")}</p>
           </div>
 
           <svg className="mta-brand__bridge" viewBox="0 0 1200 160" preserveAspectRatio="xMidYMax slice" fill="none" aria-hidden="true">
@@ -133,36 +135,36 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
           <div className="mta-card glass">
             <a className="mta-back" href="#/bienvenida">
               <IconArrowLeft width={15} height={15} />
-              Volver a la portada
+              {t("shell.auth.back")}
             </a>
 
             <header className="mta-head">
               <p className="mta-kicker mta-kicker--sun">
                 <IconSun width={14} height={14} />
-                Tierra del Sol Amada
+                {t("shell.tagline")}
               </p>
-              <h2>{isRegister ? "Crea tu cuenta" : "Ingresa a MaraTour"}</h2>
+              <h2>{isRegister ? t("shell.auth.headRegister") : t("shell.auth.headLogin")}</h2>
               <p>
                 {isRegister
-                  ? "Solo toma un momento. Guarda lugares y arma tu ruta ideal."
-                  : "Continúa donde lo dejaste y descubre Maracaibo."}
+                  ? t("shell.auth.subRegister")
+                  : t("shell.auth.subLogin")}
               </p>
             </header>
 
-            <div className={`mta-tabs${isRegister ? " is-register" : ""}`} role="tablist" aria-label="Acceso a MaraTour">
+            <div className={`mta-tabs${isRegister ? " is-register" : ""}`} role="tablist" aria-label={t("shell.auth.tabsAria")}>
               <span className="mta-tabs__thumb" aria-hidden="true" />
               <a href={tabHref("entrar")} role="tab" aria-selected={!isRegister} className={!isRegister ? "is-active" : ""}>
-                Entrar
+                {t("shell.auth.tabLogin")}
               </a>
               <a href={tabHref("registro")} role="tab" aria-selected={isRegister} className={isRegister ? "is-active" : ""}>
-                Registrarme
+                {t("shell.auth.tabRegister")}
               </a>
             </div>
 
             <form className="mta-form" onSubmit={submit} noValidate>
               {isRegister && (
                 <label className="mta-field">
-                  <span className="mta-label">Nombre completo</span>
+                  <span className="mta-label">{t("shell.auth.name")}</span>
                   <span className="mta-control">
                     <IconUser width={18} height={18} aria-hidden="true" />
                     <input
@@ -170,7 +172,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
                       name="name"
                       value={name}
                       onChange={(event) => setName(event.target.value)}
-                      placeholder="Tu nombre y apellido"
+                      placeholder={t("shell.auth.namePh")}
                       autoComplete="name"
                       required
                     />
@@ -179,7 +181,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
               )}
 
               <label className="mta-field">
-                <span className="mta-label">Correo electrónico</span>
+                <span className="mta-label">{t("shell.auth.email")}</span>
                 <span className="mta-control">
                   <IconMail width={18} height={18} aria-hidden="true" />
                   <input
@@ -188,7 +190,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
                     inputMode="email"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
-                    placeholder="tucorreo@ejemplo.com"
+                    placeholder={t("shell.auth.emailPh")}
                     autoComplete="email"
                     spellCheck={false}
                     required
@@ -198,8 +200,8 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
 
               <div className="mta-field">
                 <label className="mta-label" htmlFor="mta-password">
-                  Contraseña
-                  {isRegister && <small>Mínimo 8 caracteres</small>}
+                  {t("shell.auth.password")}
+                  {isRegister && <small>{t("shell.auth.min8")}</small>}
                 </label>
                 <span className="mta-control">
                   <IconLock width={18} height={18} aria-hidden="true" />
@@ -209,7 +211,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
                     name="password"
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
-                    placeholder={isRegister ? "Crea una contraseña segura" : "Tu contraseña"}
+                    placeholder={isRegister ? t("shell.auth.passPhRegister") : t("shell.auth.passPhLogin")}
                     autoComplete={isRegister ? "new-password" : "current-password"}
                     required
                   />
@@ -217,7 +219,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
                     type="button"
                     className="mta-eye"
                     onClick={() => setShowPassword((visible) => !visible)}
-                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                    aria-label={showPassword ? t("shell.auth.hide") : t("shell.auth.show")}
                     aria-pressed={showPassword}
                   >
                     {showPassword ? <IconEyeOff width={18} height={18} /> : <IconEye width={18} height={18} />}
@@ -233,14 +235,14 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
                     <i />
                   </span>
                   <small>
-                    {strength <= 1 ? "Contraseña débil" : strength === 2 ? "Buena contraseña" : "Contraseña fuerte"}
+                    {strength <= 1 ? t("shell.auth.weak") : strength === 2 ? t("shell.auth.good") : t("shell.auth.strong")}
                   </small>
                 </div>
               )}
 
               {isRegister && (
                 <label className="mta-field">
-                  <span className="mta-label">Confirma tu contraseña</span>
+                  <span className="mta-label">{t("shell.auth.confirm")}</span>
                   <span className={`mta-control${mismatch ? " is-invalid" : ""}`}>
                     <IconLock width={18} height={18} aria-hidden="true" />
                     <input
@@ -248,7 +250,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
                       name="confirm"
                       value={confirm}
                       onChange={(event) => setConfirm(event.target.value)}
-                      placeholder="Repite tu contraseña"
+                      placeholder={t("shell.auth.confirmPh")}
                       autoComplete="new-password"
                       aria-invalid={mismatch}
                       required
@@ -267,11 +269,11 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
                 {busy ? (
                   <>
                     <span className="mt-spinner" aria-hidden="true" />
-                    Un momento…
+                    {t("shell.auth.busy")}
                   </>
                 ) : (
                   <>
-                    {isRegister ? "Registrarme" : "Entrar"}
+                    {isRegister ? t("shell.auth.tabRegister") : t("shell.auth.tabLogin")}
                     <IconArrowRight width={18} height={18} />
                   </>
                 )}
@@ -279,17 +281,17 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
             </form>
 
             <div className="mta-divider">
-              <span>no necesitas cuenta para explorar</span>
+              <span>{t("shell.auth.divider")}</span>
             </div>
 
             <button type="button" className="mt-btn mt-btn--soft mta-guest" onClick={onGuest}>
               <IconCompass width={17} height={17} />
-              Explorar como invitado
+              {t("shell.guestExplore")}
             </button>
 
             <p className="mta-switch">
-              {isRegister ? "¿Ya tienes una cuenta?" : "¿Aún no tienes una cuenta?"}{" "}
-              <a href={isRegister ? "#/entrar" : "#/registro"}>{isRegister ? "Entra aquí" : "Regístrate gratis"}</a>
+              {isRegister ? t("shell.auth.haveAccount") : t("shell.auth.noAccount")}{" "}
+              <a href={isRegister ? "#/entrar" : "#/registro"}>{isRegister ? t("shell.auth.enterHere") : t("shell.auth.signUpFree")}</a>
             </p>
           </div>
         </section>

@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useI18n } from "../i18n/I18nProvider";
+import type { MessageKey } from "../i18n/messages";
 import { useTheme } from "../theme/ThemeProvider";
 import { ThemeToggle } from "../components/ThemeToggle";
 import { WELCOME_SLIDES } from "../data/welcome";
@@ -28,8 +30,22 @@ interface Props {
 
 const pad = (value: number) => String(value + 1).padStart(2, "0");
 const FALLBACK_SLIDE = WELCOME_SLIDES[0]!;
+const SLIDE_KEYS: Record<string, string> = {
+  "basilica-chiquinquira": "basilica",
+  "vereda-del-lago": "vereda",
+  "puente-rafael-urdaneta": "puente",
+  "plaza-baralt": "baralt",
+  "teatro-baralt": "teatro",
+  "plaza-monumento-chinita": "monumento",
+  "galerias-mall": "galerias",
+};
 
 export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
+  const { t } = useI18n();
+  const slideText = (slide: (typeof WELCOME_SLIDES)[number], field: "kicker" | "caption") => {
+    const id = slide.slug ? SLIDE_KEYS[slide.slug] : undefined;
+    return id ? t(`shell.slide.${id}.${field}` as MessageKey) : slide[field];
+  };
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [portraitSlides, setPortraitSlides] = useState<Record<number, boolean>>({});
@@ -135,12 +151,12 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
 
       {/* ===== Barra superior ===== */}
       <header className="vw-top container">
-        <a className="vw-brand" href="#/bienvenida" aria-label="Maratour · Visita Maracaibo">
+        <a className="vw-brand" href="#/bienvenida" aria-label="MaraTour · Visita Maracaibo">
           <span className="vw-brand__mark" aria-hidden="true">
             <img src="/img/logo-emblema-192.png" alt="" width={44} height={44} />
           </span>
           <span className="vw-brand__text">
-            <strong>Maratour</strong>
+            <strong>MaraTour</strong>
             <small>Visita Maracaibo</small>
           </span>
         </a>
@@ -149,10 +165,10 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
           <ThemeToggle className="vw-theme-toggle" showLabel />
           <span className="vw-top__tag">
             {darkMode ? <IconBolt width={14} height={18} /> : <IconSun width={14} height={14} />}
-            Tierra del Sol Amada
+            {t("shell.tagline")}
           </span>
           <button type="button" className="vw-btn vw-btn--ghost" onClick={onLogin}>
-            Ya tengo cuenta
+            {t("shell.welcome.haveAccount")}
             <IconArrowRight width={15} height={15} />
           </button>
         </div>
@@ -163,45 +179,44 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
         <div className="vw-copy">
           <p className="vw-kicker">
             <IconSparkles width={15} height={15} />
-            Guía turística de Maracaibo
+            {t("shell.welcome.kicker")}
           </p>
 
           <h1 className="vw-title">
             Maracaibo
-            <span>a todo color</span>
+            <span>{t("shell.welcome.titleLine")}</span>
           </h1>
 
           <p className="vw-lead">
-            La Chinita, el Puente sobre el Lago, la Calle Carabobo y los sabores
-            que solo se entienden aquí. Descubre la ciudad y arma tu ruta.
+            {t("shell.welcome.lead")}
           </p>
 
           <div className="vw-actions">
             <button type="button" className="vw-btn vw-btn--primary" onClick={onRegister}>
-              Crear mi cuenta gratis
+              {t("shell.welcome.create")}
               <IconArrowRight width={18} height={18} />
             </button>
             <button type="button" className="vw-btn vw-btn--glass" onClick={onLogin}>
               <IconCompass width={18} height={18} />
-              Ingresar
+              {t("shell.welcome.login")}
             </button>
             <button type="button" className="vw-guest" onClick={onGuest}>
-              Explorar como invitado
+              {t("shell.guestExplore")}
             </button>
           </div>
 
           <ul className="vw-perks">
             <li>
               {darkMode ? <IconBolt width={11} height={14} /> : <IconSun width={14} height={14} />}
-              100% gratis
+              {t("shell.welcome.free")}
             </li>
             <li>
               <IconMapPin width={14} height={14} />
-              43 lugares por descubrir
+              {t("shell.welcome.places", { n: 43 })}
             </li>
             <li>
               <IconWave width={14} height={14} />
-              Guarda tu ruta
+              {t("shell.welcome.saveRoute")}
             </li>
           </ul>
         </div>
@@ -230,7 +245,7 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
                 >
                   <img
                     src={slide.src}
-                    alt={`${slide.title} · ${slide.caption}`}
+                    alt={`${slide.title} · ${slideText(slide, "caption")}`}
                     loading={index === 0 ? "eager" : "lazy"}
                     decoding="async"
                     onLoad={(event) => {
@@ -246,10 +261,10 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
                   <figcaption>
                     <span className="vw-postcard__kicker">
                       <IconMapPin width={12} height={12} />
-                      {slide.kicker}
+                      {slideText(slide, "kicker")}
                     </span>
                     <strong>{slide.title}</strong>
-                    <p>{slide.caption}</p>
+                    <p>{slideText(slide, "caption")}</p>
                   </figcaption>
                 </figure>
               ))}
@@ -258,7 +273,7 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
                 type="button"
                 className="vw-postcard__arrow vw-postcard__arrow--prev"
                 onClick={() => go(-1)}
-                aria-label="Postal anterior"
+                aria-label={t("shell.welcome.prev")}
               >
                 <IconArrowLeft width={18} height={18} />
               </button>
@@ -266,7 +281,7 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
                 type="button"
                 className="vw-postcard__arrow vw-postcard__arrow--next"
                 onClick={() => go(1)}
-                aria-label="Postal siguiente"
+                aria-label={t("shell.welcome.next")}
               >
                 <IconArrowRight width={18} height={18} />
               </button>
@@ -276,20 +291,20 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
               <span className="vw-postcard__count">
                 {pad(active)} <i>/</i> {pad(total - 1)}
               </span>
-              <div className="vw-postcard__dots" role="tablist" aria-label="Elige una postal">
+              <div className="vw-postcard__dots" role="tablist" aria-label={t("shell.welcome.pick")}>
                 {WELCOME_SLIDES.map((slide, index) => (
                   <button
                     key={`dot-${slide.slug ?? slide.title}-${index}`}
                     type="button"
                     role="tab"
                     aria-selected={index === active}
-                    aria-label={`Ir a ${slide.title}`}
+                    aria-label={t("shell.welcome.goTo", { title: slide.title })}
                     className={index === active ? "is-active" : ""}
                     onClick={() => setActive(index)}
                   />
                 ))}
               </div>
-              <span className="vw-postcard__caption-line">{current.kicker}</span>
+              <span className="vw-postcard__caption-line">{slideText(current, "kicker")}</span>
             </div>
           </div>
 

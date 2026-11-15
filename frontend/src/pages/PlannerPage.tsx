@@ -2,10 +2,10 @@ import { useMemo, useState } from "react";
 import { CATEGORIES, categoryBySlug, type CategorySlug } from "../data/categories";
 import type { Diet } from "../data/food";
 import { useI18n } from "../i18n/I18nProvider";
+import type { MessageKey } from "../i18n/messages";
 import {
   buildPlan,
   planSlugs,
-  slotLabel,
   type Budget,
   type Companion,
   type Pace,
@@ -27,37 +27,24 @@ interface Props {
   onNavigate: (page: Page) => void;
 }
 
-const COMPANIONS: readonly { value: Companion; label: string; hint: string; emoji: string }[] = [
-  { value: "solo", label: "Voy solo", hint: "A mi ritmo", emoji: "🎒" },
-  { value: "pareja", label: "En pareja", hint: "Plan de dos", emoji: "💛" },
-  { value: "familia", label: "En familia", hint: "Con niños o mayores", emoji: "🏡" },
-  { value: "amigos", label: "Con amigos", hint: "Más movimiento", emoji: "🎉" },
+const COMPANIONS: readonly { value: Companion; emoji: string }[] = [
+  { value: "solo", emoji: "🎒" },
+  { value: "pareja", emoji: "💛" },
+  { value: "familia", emoji: "🏡" },
+  { value: "amigos", emoji: "🎉" },
 ];
 
-const PACES: readonly { value: Pace; label: string; hint: string }[] = [
-  { value: "relajado", label: "Relajado", hint: "2 paradas por día" },
-  { value: "equilibrado", label: "Equilibrado", hint: "3 paradas por día" },
-  { value: "intenso", label: "Intenso", hint: "4 paradas por día" },
+const PACES: readonly Pace[] = ["relajado", "equilibrado", "intenso"];
+
+const BUDGETS: readonly Budget[] = ["$", "$$", "$$$"];
+
+const DIETS: readonly { value: Diet; emoji: string }[] = [
+  { value: "todos", emoji: "🍽️" },
+  { value: "vegetariano", emoji: "🥬" },
+  { value: "mariscos", emoji: "🦐" },
 ];
 
-const BUDGETS: readonly { value: Budget; label: string; hint: string }[] = [
-  { value: "$", label: "Económico", hint: "Comida de calle y planes gratuitos" },
-  { value: "$$", label: "Cómodo", hint: "Restaurantes y entradas sin apuro" },
-  { value: "$$$", label: "Sin límite", hint: "Experiencias especiales" },
-];
-
-const DIETS: readonly { value: Diet; label: string; emoji: string }[] = [
-  { value: "todos", label: "Como de todo", emoji: "🍽️" },
-  { value: "vegetariano", label: "Vegetariano", emoji: "🥬" },
-  { value: "mariscos", label: "Mariscos", emoji: "🦐" },
-];
-
-const FOOD_LABEL = {
-  breakfast: "Desayuno",
-  lunch: "Almuerzo",
-  dinner: "Cena",
-  sweet: "Dulce",
-} as const;
+const FOOD_KEYS = ["breakfast", "lunch", "dinner", "sweet"] as const;
 
 /** Sistema experto: convierte gustos, días y compañía en un plan completo con comidas. */
 export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, onNavigate }: Props) {
@@ -111,14 +98,13 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
         <div className="mt-container">
           <p className="mtn-kicker">
             <IconSparkles width={15} height={15} />
-            Sistema experto local
+            {t("plan.kicker")}
           </p>
           <h1 className="mtn-hero__title">
-            Tu plan perfecto, <span>sin adivinar</span>
+            {t("plan.title1")}<span>{t("plan.title2")}</span>
           </h1>
           <p className="mtn-hero__lead">
-            Dinos cómo viajas y qué te gusta. Cruzamos tus intereses con cada lugar, el momento del
-            día y los sabores de Maracaibo para armarte un itinerario con sentido.
+            {t("plan.lead")}
           </p>
         </div>
       </section>
@@ -129,37 +115,38 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
             {isGuest && (
               <div className="mtn-banner">
                 <span>
-                  💡 <strong>Estás creando una ruta temporal como invitado.</strong> Regístrate o inicia sesión para guardar tu itinerario personal y llevarlo contigo.
+                  <IconBulb width={16} height={16} aria-hidden="true" style={{ verticalAlign: "-3px" }} />{" "}
+                  <strong>{t("plan.guest.title")}</strong> {t("plan.guest.body")}{" "}
                   <button type="button" className="mtn-link" onClick={() => onNavigate("registro")}>
-                    Regístrate o inicia sesión
+                    {t("plan.guest.cta")}
                   </button>.
                 </span>
               </div>
             )}
-            <div className="mtn-wizard__steps" aria-label="Pasos del planificador">
+            <div className="mtn-wizard__steps" aria-label={t("plan.steps.aria")}>
               <span className={step >= 0 ? "is-active" : undefined}>
-                <b>1</b> Tu viaje
+                <b>1</b> {t("plan.steps.trip")}
               </span>
               <span className={step >= 1 ? "is-active" : undefined}>
-                <b>2</b> Tus gustos
+                <b>2</b> {t("plan.steps.taste")}
               </span>
               <span>
-                <b>3</b> Tu plan
+                <b>3</b> {t("plan.steps.plan")}
               </span>
             </div>
 
             {step === 0 ? (
               <section className="mtn-wizard__panel">
                 <div className="mtn-wizard__head">
-                  <p className="mtn-kicker">Paso 1</p>
-                  <h2>Cuéntanos cómo viajas</h2>
-                  <p>Con esto ajustamos el ritmo, la compañía y los lugares que mejor encajan.</p>
+                  <p className="mtn-kicker">{t("plan.step1")}</p>
+                  <h2>{t("plan.s1.title")}</h2>
+                  <p>{t("plan.s1.lead")}</p>
                 </div>
 
                 <div className="mtn-field">
                   <span className="mtn-field__label">
                     <IconCalendar width={17} height={17} />
-                    ¿Cuántos días tienes?
+                    {t("plan.days.q")}
                   </span>
                   <div className="mtn-daypick">
                     {[1, 2, 3, 4, 5].map((value) => (
@@ -170,7 +157,7 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                         onClick={() => setDays(value)}
                       >
                         <b>{value}</b>
-                        <span>{value === 1 ? "día" : "días"}</span>
+                        <span>{value === 1 ? t("plan.day.one") : t("plan.day.many")}</span>
                       </button>
                     ))}
                   </div>
@@ -179,7 +166,7 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                 <div className="mtn-field">
                   <span className="mtn-field__label">
                     <IconUsers width={17} height={17} />
-                    ¿Con quién vas?
+                    {t("plan.with.q")}
                   </span>
                   <div className="mtn-options mtn-options--four">
                     {COMPANIONS.map((option) => (
@@ -192,8 +179,8 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                         <span className="mtn-option__emoji" aria-hidden="true">
                           {option.emoji}
                         </span>
-                        <strong>{option.label}</strong>
-                        <small>{option.hint}</small>
+                        <strong>{t(`plan.with.${option.value}` as MessageKey)}</strong>
+                        <small>{t(`plan.with.${option.value}.hint` as MessageKey)}</small>
                         {companion === option.value && <IconCheck width={15} height={15} />}
                       </button>
                     ))}
@@ -203,18 +190,18 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                 <div className="mtn-field">
                   <span className="mtn-field__label">
                     <IconClock width={17} height={17} />
-                    ¿Qué ritmo prefieres?
+                    {t("plan.pace.q")}
                   </span>
                   <div className="mtn-options mtn-options--three">
                     {PACES.map((option) => (
                       <button
-                        key={option.value}
+                        key={option}
                         type="button"
-                        className={`mtn-option mtn-option--compact${pace === option.value ? " is-active" : ""}`}
-                        onClick={() => setPace(option.value)}
+                        className={`mtn-option mtn-option--compact${pace === option ? " is-active" : ""}`}
+                        onClick={() => setPace(option)}
                       >
-                        <strong>{option.label}</strong>
-                        <small>{option.hint}</small>
+                        <strong>{t(`plan.pace.${option}` as MessageKey)}</strong>
+                        <small>{t(`plan.pace.${option}.hint` as MessageKey)}</small>
                       </button>
                     ))}
                   </div>
@@ -223,7 +210,7 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                 <div className="mtn-wizard__actions">
                   <span />
                   <button type="button" className="mt-btn mt-btn--primary" onClick={() => setStep(1)}>
-                    Siguiente
+                    {t("plan.next")}
                     <IconArrowRight width={17} height={17} />
                   </button>
                 </div>
@@ -231,15 +218,15 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
             ) : (
               <section className="mtn-wizard__panel">
                 <div className="mtn-wizard__head">
-                  <p className="mtn-kicker">Paso 2</p>
-                  <h2>¿Qué te provoca?</h2>
-                  <p>Elige todos los temas que te llamen. Cuantos más, mejor podemos combinar el plan.</p>
+                  <p className="mtn-kicker">{t("plan.step2")}</p>
+                  <h2>{t("plan.s2.title")}</h2>
+                  <p>{t("plan.s2.lead")}</p>
                 </div>
 
                 <div className="mtn-field">
                   <span className="mtn-field__label">
                     <IconHeart width={17} height={17} />
-                    Tus intereses
+                    {t("plan.interests")}
                   </span>
                   <div className="mtn-interest-grid">
                     {CATEGORIES.map((category) => (
@@ -260,7 +247,7 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                         </span>
                         <span className="mtn-interest__copy">
                           <strong>{t(category.nameKey)}</strong>
-                          <small>{category.blurb}</small>
+                          <small>{t(`plan.blurb.${category.slug}` as MessageKey)}</small>
                         </span>
                         {interests.includes(category.slug) && <IconCheck width={14} height={14} />}
                       </button>
@@ -271,20 +258,20 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                 <div className="mtn-field">
                   <span className="mtn-field__label">
                     <IconWallet width={17} height={17} />
-                    Presupuesto
+                    {t("plan.budget")}
                   </span>
                   <div className="mtn-options mtn-options--three">
                     {BUDGETS.map((option) => (
                       <button
-                        key={option.value}
+                        key={option}
                         type="button"
-                        className={`mtn-option mtn-option--compact${budget === option.value ? " is-active" : ""}`}
-                        onClick={() => setBudget(option.value)}
+                        className={`mtn-option mtn-option--compact${budget === option ? " is-active" : ""}`}
+                        onClick={() => setBudget(option)}
                       >
                         <strong>
-                          {option.value} · {option.label}
+                          {option} · {t(`plan.budget.${option}` as MessageKey)}
                         </strong>
-                        <small>{option.hint}</small>
+                        <small>{t(`plan.budget.${option}.hint` as MessageKey)}</small>
                       </button>
                     ))}
                   </div>
@@ -293,7 +280,7 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                 <div className="mtn-field">
                   <span className="mtn-field__label">
                     <IconLeaf width={17} height={17} />
-                    ¿Cómo comes?
+                    {t("plan.diet.q")}
                   </span>
                   <div className="mtn-options mtn-options--three">
                     {DIETS.map((option) => (
@@ -304,7 +291,7 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                         onClick={() => setDiet(option.value)}
                       >
                         <strong>
-                          <span aria-hidden="true">{option.emoji}</span> {option.label}
+                          <span aria-hidden="true">{option.emoji}</span> {t(`plan.diet.${option.value}` as MessageKey)}
                         </strong>
                       </button>
                     ))}
@@ -320,8 +307,8 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                   >
                     <IconRotate width={18} height={18} />
                     <span>
-                      <strong>Quiero vistas 360°</strong>
-                      <small>Priorizar lugares con panorámica</small>
+                      <strong>{t("plan.want360")}</strong>
+                      <small>{t("plan.want360.hint")}</small>
                     </span>
                     <i aria-hidden="true" />
                   </button>
@@ -333,8 +320,8 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
                   >
                     <IconStar width={18} height={18} />
                     <span>
-                      <strong>Incluir vida nocturna</strong>
-                      <small>Bares, música y terrazas</small>
+                      <strong>{t("plan.nightlife")}</strong>
+                      <small>{t("plan.nightlife.hint")}</small>
                     </span>
                     <i aria-hidden="true" />
                   </button>
@@ -342,11 +329,11 @@ export function PlannerPage({ places, saved, session, onOpenPlace, onSavePlan, o
 
                 <div className="mtn-wizard__actions">
                   <button type="button" className="mt-btn mt-btn--soft" onClick={() => setStep(0)}>
-                    Atrás
+                    {t("plan.back")}
                   </button>
                   <button type="button" className="mt-btn mt-btn--primary" onClick={generate}>
                     <IconSparkles width={17} height={17} />
-                    Crear mi plan
+                    {t("plan.create")}
                   </button>
                 </div>
               </section>
@@ -390,17 +377,19 @@ function PlanResultView({
     <section id="plan-resultado" className="mtn-result">
       {isGuest && (
         <div className="mtn-notice">
-          <span className="mtn-notice__icon" aria-hidden="true">💡</span>
+          <span className="mtn-notice__icon" aria-hidden="true">
+            <IconBulb width={22} height={22} />
+          </span>
           <div className="mtn-notice__text">
-            <strong>Estás creando una ruta temporal como invitado.</strong>
-            <p>Regístrate o inicia sesión para guardar tu itinerario personal y llevarlo contigo.</p>
+            <strong>{t("plan.guest.title")}</strong>
+            <p>{t("plan.guest.body")}</p>
           </div>
           <button
             type="button"
             className="mt-btn mt-btn--primary"
             onClick={() => onNavigate("registro")}
           >
-            Regístrate o inicia sesión
+            {t("plan.guest.cta")}
           </button>
         </div>
       )}
@@ -409,11 +398,11 @@ function PlanResultView({
           <span style={{ ["--score" as string]: plan.score }}>
             <b>{plan.score}%</b>
           </span>
-          <small>afinidad</small>
+          <small>{t("plan.score")}</small>
         </div>
         <div className="mtn-result__copy">
-          <p className="mtn-kicker">Tu plan está listo</p>
-          <h2>{plan.days.length === 1 ? "Un día redondo" : `${plan.days.length} días por Maracaibo`}</h2>
+          <p className="mtn-kicker">{t("plan.ready")}</p>
+          <h2>{plan.days.length === 1 ? t("plan.oneday") : t("plan.ndays", { n: plan.days.length })}</h2>
           <p>{plan.summary}</p>
           <div className="mtn-result__tags">
             {plan.tags.map((tag) => {
@@ -431,14 +420,14 @@ function PlanResultView({
         <div className="mtn-result__actions">
           <button type="button" className="mt-btn mt-btn--primary" onClick={onSave} disabled={planSaved}>
             <IconHeart width={17} height={17} />
-            {planSaved ? "Plan guardado" : "Guardar en Mi ruta"}
+            {planSaved ? t("plan.saved") : t("plan.save")}
           </button>
           <button type="button" className="mt-btn mt-btn--soft" onClick={() => onNavigate("mi-ruta")}>
             <IconRoute width={17} height={17} />
-            Abrir Mi ruta
+            {t("plan.openroute")}
           </button>
           <button type="button" className="mt-btn mt-btn--soft" onClick={onReset}>
-            Ajustar plan
+            {t("plan.adjust")}
           </button>
         </div>
       </header>
@@ -449,11 +438,11 @@ function PlanResultView({
             <header className="mtn-day__head">
               <span className="mtn-day__number">{String(day.day).padStart(2, "0")}</span>
               <div>
-                <p className="mtn-kicker">Día {day.day}</p>
+                <p className="mtn-kicker">{t("plan.dayn", { n: day.day })}</p>
                 <h3>{day.title}</h3>
               </div>
               <span className="mtn-day__count">
-                {day.stops.length} {day.stops.length === 1 ? "parada" : "paradas"}
+                {day.stops.length} {day.stops.length === 1 ? t("plan.stop.one") : t("plan.stop.many")}
               </span>
             </header>
 
@@ -469,7 +458,7 @@ function PlanResultView({
                   >
                     <span className="mtn-stop__time">
                       <IconClock width={13} height={13} />
-                      {slotLabel(stop.slot)}
+                      {t(`plan.slot.${stop.slot}` as MessageKey)}
                     </span>
                     <span className="mtn-stop__media">
                       <PlaceImage place={stop.place} ratio="thumb" decorative />
@@ -503,12 +492,12 @@ function PlanResultView({
             <div className="mtn-day__food">
               <p className="mtn-day__food-title">
                 <IconSparkles width={15} height={15} />
-                Sabores del día
+                {t("plan.flavors")}
               </p>
               <div className="mtn-food-grid">
                 {Object.entries(day.food).map(([key, spot]) => (
                   <div key={key} className="mtn-food">
-                    <span>{FOOD_LABEL[key as keyof typeof FOOD_LABEL]}</span>
+                    <span>{(FOOD_KEYS as readonly string[]).includes(key) ? t(`plan.food.${key}` as MessageKey) : key}</span>
                     <strong>{spot.dish}</strong>
                     <small>{spot.where}</small>
                     <b>{spot.price}</b>

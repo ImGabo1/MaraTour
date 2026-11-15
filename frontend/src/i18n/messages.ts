@@ -4,6 +4,8 @@
 // El contenido de los lugares (nombre, historia, dirección) sigue viniendo de la API
 // y por ahora está en español; la ficha lo avisa cuando el idioma es otro.
 
+import { EXTRA_EN, EXTRA_ES, type ExtraKey } from "./extra";
+
 export type Lang = "es" | "en" | "pt" | "fr" | "de" | "it" | "ru" | "zh" | "ja" | "ar";
 
 export type Dir = "ltr" | "rtl";
@@ -202,9 +204,11 @@ const es = {
   "common.gotIt": "Entendido",
 } as const;
 
-export type MessageKey = keyof typeof es;
+type BaseKey = keyof typeof es;
 
-const en: Record<MessageKey, string> = {
+export type MessageKey = BaseKey | ExtraKey;
+
+const en: Record<BaseKey, string> = {
   "nav.explore": "Explore",
   "nav.map": "Map",
   "nav.places": "Places",
@@ -376,7 +380,7 @@ const en: Record<MessageKey, string> = {
   "common.gotIt": "Got it",
 };
 
-const pt: Record<MessageKey, string> = {
+const pt: Record<BaseKey, string> = {
   "nav.explore": "Explorar",
   "nav.map": "Mapa",
   "nav.places": "Lugares",
@@ -549,7 +553,7 @@ const pt: Record<MessageKey, string> = {
   "common.gotIt": "Entendi",
 };
 
-const fr: Record<MessageKey, string> = {
+const fr: Record<BaseKey, string> = {
   "nav.explore": "Explorer",
   "nav.map": "Carte",
   "nav.places": "Lieux",
@@ -722,7 +726,7 @@ const fr: Record<MessageKey, string> = {
   "common.gotIt": "Compris",
 };
 
-const de: Record<MessageKey, string> = {
+const de: Record<BaseKey, string> = {
   "nav.explore": "Entdecken",
   "nav.map": "Karte",
   "nav.places": "Orte",
@@ -895,7 +899,7 @@ const de: Record<MessageKey, string> = {
   "common.gotIt": "Verstanden",
 };
 
-const it: Record<MessageKey, string> = {
+const it: Record<BaseKey, string> = {
   "nav.explore": "Esplora",
   "nav.map": "Mappa",
   "nav.places": "Luoghi",
@@ -1068,7 +1072,7 @@ const it: Record<MessageKey, string> = {
   "common.gotIt": "Capito",
 };
 
-const ru: Record<MessageKey, string> = {
+const ru: Record<BaseKey, string> = {
   "nav.explore": "Обзор",
   "nav.map": "Карта",
   "nav.places": "Места",
@@ -1241,7 +1245,7 @@ const ru: Record<MessageKey, string> = {
   "common.gotIt": "Понятно",
 };
 
-const zh: Record<MessageKey, string> = {
+const zh: Record<BaseKey, string> = {
   "nav.explore": "探索",
   "nav.map": "地图",
   "nav.places": "地点",
@@ -1411,7 +1415,7 @@ const zh: Record<MessageKey, string> = {
   "common.gotIt": "明白了",
 };
 
-const ja: Record<MessageKey, string> = {
+const ja: Record<BaseKey, string> = {
   "nav.explore": "探索",
   "nav.map": "地図",
   "nav.places": "スポット",
@@ -1581,7 +1585,7 @@ const ja: Record<MessageKey, string> = {
   "common.gotIt": "わかりました",
 };
 
-const ar: Record<MessageKey, string> = {
+const ar: Record<BaseKey, string> = {
   "nav.explore": "استكشف",
   "nav.map": "الخريطة",
   "nav.places": "الأماكن",
@@ -1751,15 +1755,12 @@ const ar: Record<MessageKey, string> = {
   "common.gotIt": "فهمت",
 };
 
-export const MESSAGES: Record<Lang, Record<MessageKey, string>> = {
-  es,
-  en,
-  pt,
-  fr,
-  de,
-  it,
-  ru,
-  zh,
-  ja,
-  ar,
-};
+const BASE: Record<Lang, Record<BaseKey, string>> = { es, en, pt, fr, de, it, ru, zh, ja, ar };
+
+/**
+ * Textos de cada pantalla (carpeta ./extra): español e inglés completos.
+ * Los demás idiomas muestran el inglés en esas claves hasta que se traduzcan.
+ */
+export const MESSAGES = Object.fromEntries(
+  LANGUAGES.map(({ code }) => [code, { ...BASE[code], ...(code === "es" ? EXTRA_ES : EXTRA_EN) }])
+) as Record<Lang, Record<MessageKey, string>>;

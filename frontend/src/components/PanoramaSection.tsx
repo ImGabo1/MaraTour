@@ -24,7 +24,7 @@ export function PanoramaSection({ places, onOpen }: Props) {
             <h2 className="section-title">{t("panos.title")}</h2>
             <p className="section-lead">{t("panos.lead")}</p>
           </div>
-          <span className="section-count">{t("explore.results", { n: places.length })}</span>
+          <span className="section-count">{places.length === 1 ? t("explore.resultOne") : t("explore.results", { n: places.length })}</span>
         </div>
 
         <div className="pano-grid">

@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import type { AuthSession } from "../lib/auth";
+import { useI18n } from "../i18n/I18nProvider";
 import { categoryBySlug } from "../data/categories";
 import { googleMapsRouteUrl } from "../lib/maps";
 import { optimizeRoute, estimateVisitMinutes } from "../lib/route";
@@ -14,6 +15,7 @@ import {
   IconClock,
   IconCompass,
   IconExternal,
+  IconBulb,
   IconHeart,
   IconMapPin,
   IconRotate,
@@ -34,6 +36,7 @@ interface Props {
 
 /** Mi ruta: los lugares guardados, reordenables, optimizados y listos para Google Maps. */
 export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReorder, onNavigate }: Props) {
+  const { t } = useI18n();
   const isGuest = !session || session.kind === "guest";
   const [copied, setCopied] = useState(false);
   const bySlug = useMemo(() => new Map(places.map((place) => [place.slug, place])), [places]);
@@ -69,10 +72,10 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
     // Compartimos el recorrido real en Google Maps: el orden de Mi ruta vive en este
     // dispositivo, así que un enlace a #/mi-ruta no llevaría las paradas al destinatario.
     const url = googleMapsRouteUrl(ordered);
-    const text = `Mi ruta por Maracaibo: ${ordered.map((place) => place.name).join(" → ")}`;
+    const text = t("plan.route.sharetext", { list: ordered.map((place) => place.name).join(" → ") });
     try {
       if (navigator.share) {
-        await navigator.share({ title: "Mi ruta por Maracaibo", text, url });
+        await navigator.share({ title: t("plan.route.sharetitle"), text, url });
         return;
       }
       await navigator.clipboard.writeText(`${text}\n${url}`);
@@ -89,14 +92,13 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
         <div className="mt-container">
           <p className="mtn-kicker">
             <IconHeart width={15} height={15} />
-            Tu recorrido
+            {t("plan.route.kicker")}
           </p>
           <h1 className="mtn-hero__title">
-            Mi ruta por <span>Maracaibo</span>
+            {t("plan.route.title1")}<span>Maracaibo</span>
           </h1>
           <p className="mtn-hero__lead">
-            Los lugares que guardaste, en el orden que tú elijas. Optimiza por cercanía, compártela
-            o ábrela directamente en Google Maps.
+            {t("plan.route.lead")}
           </p>
         </div>
       </section>
@@ -104,10 +106,12 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
       <div className="mt-container mtu__layout">
         {isGuest && (
           <div className="mtn-notice">
-            <span className="mtn-notice__icon" aria-hidden="true">💡</span>
+            <span className="mtn-notice__icon" aria-hidden="true">
+              <IconBulb width={22} height={22} />
+            </span>
             <div className="mtn-notice__text">
-              <strong>Estás creando una ruta temporal como invitado.</strong>
-              <p>Regístrate o inicia sesión para guardar tu itinerario personal y llevarlo contigo.</p>
+              <strong>{t("plan.guest.title")}</strong>
+              <p>{t("plan.guest.body")}</p>
             </div>
             {onNavigate && (
               <button
@@ -115,7 +119,7 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                 className="mt-btn mt-btn--primary"
                 onClick={() => onNavigate("registro")}
               >
-                Regístrate o inicia sesión
+                {t("plan.guest.cta")}
               </button>
             )}
           </div>
@@ -126,13 +130,10 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
             <span className="mtn-empty__icon" aria-hidden="true">
               <IconRoute width={32} height={32} />
             </span>
-            <h2>Tu ruta está esperando</h2>
-            <p>
-              Explora Maracaibo y toca el corazón de los lugares que te gusten. Aquí los tendrás
-              todos, listos para ordenar y compartir.
-            </p>
+            <h2>{t("plan.route.empty.title")}</h2>
+            <p>{t("plan.route.empty.body")}</p>
             <a className="mt-btn mt-btn--primary" href="#/explorar">
-              Explorar lugares
+              {t("plan.route.empty.cta")}
               <IconArrowRight width={16} height={16} />
             </a>
           </div>
@@ -146,7 +147,7 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                   </span>
                   <span>
                     <b>{ordered.length}</b>
-                    <small>{ordered.length === 1 ? "parada" : "paradas"}</small>
+                    <small>{ordered.length === 1 ? t("plan.stop.one") : t("plan.stop.many")}</small>
                   </span>
                 </div>
                 <div>
@@ -157,7 +158,7 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                     <b>
                       {hours > 0 ? `${hours} h` : ""} {minutes > 0 ? `${minutes} min` : ""}
                     </b>
-                    <small>tiempo estimado</small>
+                    <small>{t("plan.route.time")}</small>
                   </span>
                 </div>
                 <div>
@@ -166,7 +167,7 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                   </span>
                   <span>
                     <b>{ordered.filter((place) => place.panoUrl).length}</b>
-                    <small>con vista 360°</small>
+                    <small>{t("plan.route.pano")}</small>
                   </span>
                 </div>
               </div>
@@ -174,7 +175,7 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
               <div className="mtu__tools">
                 <button type="button" className="mt-btn mt-btn--soft" onClick={optimize} disabled={ordered.length < 3}>
                   <IconSparkles width={16} height={16} />
-                  Optimizar por cercanía
+                  {t("plan.route.optimize")}
                 </button>
                 <a
                   className="mt-btn mt-btn--primary"
@@ -182,17 +183,17 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Abrir en Google Maps
+                  {t("plan.route.maps")}
                   <IconExternal width={16} height={16} />
                 </a>
                 <button type="button" className="mt-btn mt-btn--soft" onClick={share}>
                   <IconShare width={16} height={16} />
-                  {copied ? "Enlace copiado" : "Compartir"}
+                  {copied ? t("plan.route.copied") : t("plan.route.share")}
                 </button>
               </div>
             </section>
 
-            <section className="mtu__list" aria-label="Paradas de Mi ruta">
+            <section className="mtu__list" aria-label={t("plan.route.listaria")}>
               {ordered.map((place, index) => {
                 const category = categoryBySlug(place.category);
                 return (
@@ -231,7 +232,7 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                         </small>
                         <span className="mtu-stop__time">
                           <IconClock width={13} height={13} />
-                          {estimateVisitMinutes(place)} min de visita
+                          {t("plan.route.visit", { n: estimateVisitMinutes(place) })}
                         </span>
                       </span>
                       <IconArrowRight width={18} height={18} />
@@ -242,7 +243,7 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                         type="button"
                         onClick={() => move(index, -1)}
                         disabled={index === 0}
-                        aria-label={`Subir ${place.name}`}
+                        aria-label={t("plan.route.up", { name: place.name })}
                       >
                         <IconArrowUp width={16} height={16} />
                       </button>
@@ -250,7 +251,7 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                         type="button"
                         onClick={() => move(index, 1)}
                         disabled={index === ordered.length - 1}
-                        aria-label={`Bajar ${place.name}`}
+                        aria-label={t("plan.route.down", { name: place.name })}
                       >
                         <IconArrowDown width={16} height={16} />
                       </button>
@@ -258,7 +259,7 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                         type="button"
                         className="mtu-stop__remove"
                         onClick={() => onRemove(place.slug)}
-                        aria-label={`Quitar ${place.name} de Mi ruta`}
+                        aria-label={t("plan.route.remove", { name: place.name })}
                       >
                         <IconHeart width={16} height={16} />
                       </button>
@@ -273,15 +274,12 @@ export function RoutePage({ places, saved, session, onOpenPlace, onRemove, onReo
                 <IconCompass width={24} height={24} />
               </span>
               <div>
-                <p className="mtn-kicker">¿Quieres más ideas?</p>
-                <h2>Deja que el planificador te sorprenda</h2>
-                <p>
-                  Cuéntanos cuántos días tienes y qué te gusta, y armamos una ruta completa con
-                  comidas y tips.
-                </p>
+                <p className="mtn-kicker">{t("plan.route.more.kicker")}</p>
+                <h2>{t("plan.route.more.title")}</h2>
+                <p>{t("plan.route.more.body")}</p>
               </div>
               <a className="mt-btn mt-btn--primary" href="#/plan">
-                Armar otro plan
+                {t("plan.route.more.cta")}
                 <IconSparkles width={16} height={16} />
               </a>
             </aside>

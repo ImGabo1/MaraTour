@@ -532,3 +532,11 @@
     transition: none;
   }
 }
+
+/* Escritorio: la barra siempre es una píldora de vidrio flotante, como en el concepto. */
+@media (min-width: 1024px) {
+  .mt-topbar { padding-top: 12px; }
+  .mt-topbar__bar { border-radius: 999px; padding: 6px 10px 6px 16px; min-height: 64px; }
+  .mt-topbar__glass { opacity: 1; border-radius: 999px; }
+  .mt-brand { margin-right: 20px; }
+}

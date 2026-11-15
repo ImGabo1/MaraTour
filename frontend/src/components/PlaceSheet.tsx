@@ -238,13 +238,13 @@ export function PlaceSheet({
               {place.panoUrl && (
                 <button type="button" className="mts-pano-btn mt-press" onClick={() => onOpenPano(place)}>
                   <IconRotate width={18} height={18} />
-                  Ver en 360°
+                  {t("sheet.pano")}
                 </button>
               )}
             </div>
 
             {photos.length > 1 && (
-              <ul className="mts-gallery" aria-label="Galería">
+              <ul className="mts-gallery" aria-label={t("sheet.gallery")}>
                 {photos.map((url, index) => (
                   <li key={url}>
                     <PlaceImage place={place} src={url} ratio="thumb" decorative={index > 0} />
@@ -259,7 +259,7 @@ export function PlaceSheet({
                   <>
                     {" · "}
                     <a href={place.imageSource} target="_blank" rel="noopener noreferrer">
-                      Ver fuente
+                      {t("sheet.source")}
                     </a>
                   </>
                 )}
@@ -282,7 +282,7 @@ export function PlaceSheet({
                 {place.sector && (
                   <span className="mts-chip">
                     <IconCheck width={13} height={13} />
-                    {place.sector === "publico" ? "Atención pública" : "Atención privada"}
+                    {place.sector === "publico" ? t("sheet.sectorPublic") : t("sheet.sectorPrivate")}
                   </span>
                 )}
                 <span className="mts-chip">
@@ -296,13 +296,13 @@ export function PlaceSheet({
               </div>
             </header>
 
-            <section className="mts-facts" aria-label="Datos prácticos del lugar">
+            <section className="mts-facts" aria-label={t("sheet.practical")}>
               {(
                 [
-                  [IconClock, "Mejor momento", profile.bestTime],
-                  [IconSun, "Tiempo sugerido", profile.duration],
-                  [IconWallet, "Presupuesto", profile.budget],
-                  [IconUsers, "Ideal para", profile.idealFor],
+                  [IconClock, t("sheet.bestTime"), profile.bestTime],
+                  [IconSun, t("sheet.duration"), profile.duration],
+                  [IconWallet, t("sheet.budget"), profile.budget],
+                  [IconUsers, t("sheet.idealFor"), profile.idealFor],
                 ] as const
               ).map(([Icon, label, value]) => (
                 <div className="mts-fact glass glass--sm" key={label}>
@@ -375,7 +375,7 @@ export function PlaceSheet({
                 </div>
                 <div className="mts-card__links">
                   <a className="mt-btn mt-btn--soft mt-btn--sm" href={googleMapsPlaceUrl(place)} target="_blank" rel="noopener noreferrer">
-                    Abrir en Google Maps
+                    {t("map.openMaps")}
                     <IconExternal width={15} height={15} />
                   </a>
                   <button type="button" className="mt-btn mt-btn--soft mt-btn--sm" onClick={() => onShowOnMap(place.slug)}>
@@ -387,7 +387,7 @@ export function PlaceSheet({
             </section>
 
             <section className="mts-section">
-              <h3 className="mts-h">Imperdibles de {place.name}</h3>
+              <h3 className="mts-h">{t("sheet.musts", { name: place.name })}</h3>
               <ul className="mts-highlights">
                 {profile.highlights.map((item) => (
                   <li key={item}>
@@ -399,7 +399,7 @@ export function PlaceSheet({
             </section>
 
             <section className="mts-section">
-              <h3 className="mts-h">Consejos de Zulmita</h3>
+              <h3 className="mts-h">{t("sheet.tips")}</h3>
               <div className="mts-tips">
                 {profile.suggestions.map((tip, index) => (
                   <article key={tip.title} className="mts-tip glass glass--sm">
@@ -412,21 +412,21 @@ export function PlaceSheet({
               <p className="mts-funfact">
                 <IconSparkles width={18} height={18} aria-hidden="true" />
                 <span>
-                  <b>Dato curioso:</b> {profile.funFact}
+                  <b>{t("sheet.funFact")}</b> {profile.funFact}
                 </span>
               </p>
             </section>
 
             <section className="mts-section">
-              <h3 className="mts-h">El plan perfecto</h3>
+              <h3 className="mts-h">{t("sheet.plan")}</h3>
               <div className="mts-card glass">
                 <p className="mts-plan">{profile.plan}</p>
                 <p className="mts-mini">
-                  <b>Cerca de aquí:</b>{" "}
-                  {profile.nearby.length > 0 ? profile.nearby.join(" · ") : "Otros rincones de Maracaibo"}
+                  <b>{t("sheet.nearby")}</b>{" "}
+                  {profile.nearby.length > 0 ? profile.nearby.join(" · ") : t("sheet.nearbyNone")}
                 </p>
                 <p className="mts-mini">
-                  <b>Para comer:</b> {profile.food}
+                  <b>{t("sheet.eat")}</b> {profile.food}
                 </p>
               </div>
             </section>
@@ -478,7 +478,7 @@ export function PlaceSheet({
             aria-pressed={saved}
           >
             <IconHeart width={17} height={17} />
-            {saved ? t("sheet.saved") : "Agregar a Mi ruta"}
+            {saved ? t("sheet.saved") : t("sheet.addToRoute")}
           </button>
           {toast && (
             <span className="mts-toast" role="status">

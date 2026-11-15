@@ -1,3 +1,4 @@
+import { useI18n } from "../i18n/I18nProvider";
 import { IconBridge, IconMapPin, IconRotate } from "./icons";
 
 /**
@@ -6,8 +7,9 @@ import { IconBridge, IconMapPin, IconRotate } from "./icons";
  * cargue al instante y se pueda animar sin depender de fotos externas.
  */
 export function MaracaiboScene({ className = "" }: { className?: string }) {
+  const { t } = useI18n();
   return (
-    <div className={`vm-scene ${className}`.trim()} role="img" aria-label="Maracaibo ilustrado: el lago, el puente, la Basílica y el sol">
+    <div className={`vm-scene ${className}`.trim()} role="img" aria-label={t("shell.scene.aria")}>
       <svg viewBox="0 0 560 520" className="vm-scene__svg" aria-hidden="true">
         <defs>
           <linearGradient id="vm-sky" x1="0" y1="0" x2="0.2" y2="1">
@@ -280,15 +282,15 @@ export function MaracaiboScene({ className = "" }: { className?: string }) {
 
       <span className="vm-scene__tag vm-scene__tag--bridge">
         <IconBridge width={14} height={14} />
-        Puente sobre el Lago
+        {t("shell.scene.bridge")}
       </span>
       <span className="vm-scene__tag vm-scene__tag--basilica">
         <IconMapPin width={14} height={14} />
-        Basílica de la Chinita
+        {t("shell.scene.basilica")}
       </span>
       <span className="vm-scene__tag vm-scene__tag--sun">
         <IconRotate width={14} height={14} />
-        Maracaibo en 3D
+        {t("shell.scene.sun")}
       </span>
     </div>
   );

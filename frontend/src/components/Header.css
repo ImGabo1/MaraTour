@@ -238,11 +238,32 @@
   white-space: nowrap;
 }
 
+/* Menú de usuario: solo el avatar; al tocarlo se despliega nombre, correo y cerrar sesión. */
+.mt-usermenu { position: relative; }
+.mt-usermenu__btn {
+  display: grid; place-items: center; width: var(--mt-tap); height: var(--mt-tap); padding: 0;
+  border: 1px solid var(--mt-glass-border); border-radius: 50%; background: var(--mt-glass-strong); cursor: pointer;
+}
+.mt-usermenu__panel {
+  position: absolute; top: calc(100% + 10px); right: 0; z-index: 60; width: min(280px, 86vw);
+  padding: 8px; border-radius: var(--mt-radius-md); box-shadow: var(--mt-shadow-lift);
+}
+.mt-usermenu__who { display: grid; gap: 2px; margin: 0; padding: 10px 12px 12px; border-bottom: 1px solid var(--mt-glass-border); }
+.mt-usermenu__who strong { font-size: var(--mt-fs-body); font-weight: 800; color: var(--mt-text); overflow-wrap: anywhere; }
+.mt-usermenu__who small { font-size: var(--mt-fs-small); color: var(--mt-text-soft); overflow-wrap: anywhere; }
+.mt-usermenu__logout {
+  display: flex; align-items: center; gap: 10px; width: 100%; min-height: var(--mt-tap); margin-top: 6px; padding: 0 12px;
+  border: 0; border-radius: var(--mt-radius-sm); background: transparent; color: var(--mt-text);
+  font: inherit; font-weight: 700; cursor: pointer; text-align: left;
+}
+.mt-usermenu__logout:hover { background: var(--mt-sky-100); }
+:root[data-theme="dark"] .mt-usermenu__logout:hover { background: rgba(255, 255, 255, 0.08); }
+
 /* En móvil solo quedan: marca, interruptor, chat y menú. */
 .mt-actions__lang,
 .mt-actions__install,
 .mt-actions__logout,
-.mt-user {
+.mt-usermenu {
   display: none;
 }
 
@@ -495,10 +516,10 @@
 
   .mt-actions__lang,
   .mt-actions__install,
-  .mt-actions__logout,
-  .mt-user {
+  .mt-actions__logout {
     display: inline-flex;
   }
+  .mt-usermenu { display: block; }
 }
 
 /* Escritorio justo: se recortan etiquetas para que todo quepa en 1024 px. */

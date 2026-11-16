@@ -5,6 +5,7 @@ const es = {
   "shell.guestExplore": "Explorar como invitado",
   "shell.guestName": "Invitado",
   "shell.guestSession": "Sesión de invitado",
+  "shell.account": "Mi cuenta",
   "shell.logout": "Cerrar sesión",
   "shell.installDevice": "Descargar MaraTour en tu dispositivo",
 
@@ -182,6 +183,7 @@ const en: Record<keyof typeof es, string> = {
   "shell.guestExplore": "Explore as a guest",
   "shell.guestName": "Guest",
   "shell.guestSession": "Guest session",
+  "shell.account": "My account",
   "shell.logout": "Log out",
   "shell.installDevice": "Download MaraTour to your device",
 

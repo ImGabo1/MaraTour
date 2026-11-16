@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useI18n } from "../i18n/I18nProvider";
 import { LANGUAGES } from "../i18n/messages";
 import { useInstallPrompt } from "../hooks/useInstallPrompt";
@@ -51,11 +51,30 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
   const [iosHelp, setIosHelp] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [userOpen, setUserOpen] = useState(false);
+  const userRef = useRef<HTMLDivElement>(null);
   const currentLanguage = LANGUAGES.find((language) => language.code === lang);
 
   useEffect(() => {
     setMenuOpen(false);
   }, [page]);
+
+  // El menú de usuario se cierra al tocar fuera o con Escape.
+  useEffect(() => {
+    if (!userOpen) return;
+    const onDown = (event: PointerEvent) => {
+      if (!userRef.current?.contains(event.target as Node)) setUserOpen(false);
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setUserOpen(false);
+    };
+    document.addEventListener("pointerdown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [userOpen]);
 
   // Transparente arriba; al bajar, la barra se vuelve vidrio.
   useEffect(() => {
@@ -86,7 +105,6 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
 
           <nav className="mt-nav" aria-label={t("nav.home")}>
             {NAV.map((item) => {
-              const Icon = item.icon;
               const active = page === item.page;
               return (
                 <a
@@ -95,7 +113,6 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
                   className={`mt-focusable${active ? " is-active" : ""}`}
                   aria-current={active ? "page" : undefined}
                 >
-                  <Icon width={18} height={18} />
                   <span>{t(item.key)}</span>
                   {item.page === "mi-ruta" && savedCount > 0 && (
                     <b className="mt-nav__count" aria-label={`${savedCount}`}>
@@ -144,22 +161,40 @@ export function Header({ page, savedCount = 0, onOpenChat, session, onLogout }: 
               <span>{t("nav.installShort")}</span>
             </button>
 
-            <div className="mt-user" title={session.kind === "guest" ? t("shell.guestSession") : session.email}>
-              <span className="mt-user__avatar" aria-hidden="true">
-                {session.kind === "guest" ? <IconUser width={18} height={18} /> : initials(session.name)}
-              </span>
-              <span className="mt-user__name">{session.name}</span>
+            <div className="mt-usermenu" ref={userRef}>
+              <button
+                type="button"
+                className="mt-usermenu__btn mt-press mt-focusable"
+                onClick={() => setUserOpen((open) => !open)}
+                aria-expanded={userOpen}
+                aria-haspopup="menu"
+                aria-label={`${t("shell.account")}: ${session.name}`}
+              >
+                <span className="mt-user__avatar" aria-hidden="true">
+                  {session.kind === "guest" ? <IconUser width={18} height={18} /> : initials(session.name)}
+                </span>
+              </button>
+              {userOpen && (
+                <div className="mt-usermenu__panel glass glass-strong mt-reveal" role="menu">
+                  <p className="mt-usermenu__who">
+                    <strong>{session.name}</strong>
+                    <small>{session.kind === "guest" ? t("shell.guestSession") : session.email}</small>
+                  </p>
+                  <button
+                    type="button"
+                    role="menuitem"
+                    className="mt-usermenu__logout mt-focusable"
+                    onClick={() => {
+                      setUserOpen(false);
+                      onLogout();
+                    }}
+                  >
+                    <IconLogout width={18} height={18} />
+                    <span>{t("shell.logout")}</span>
+                  </button>
+                </div>
+              )}
             </div>
-
-            <button
-              type="button"
-              className="mt-pill mt-pill--icon mt-press mt-focusable mt-actions__logout"
-              onClick={onLogout}
-              aria-label={t("shell.logout")}
-              title={t("shell.logout")}
-            >
-              <IconLogout width={18} height={18} />
-            </button>
 
             <button
               type="button"

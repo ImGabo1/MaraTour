@@ -44,8 +44,8 @@ export const MAP_IMAGE: { image: string; bounds: Bounds; width: number; height: 
 
 /**
  * Teselas en vivo, en orden de preferencia. Si el primer proveedor falla o bloquea (403, red),
- * MapView pasa al siguiente. tile.openstreetmap.org no se usa: bloquea con "Access blocked" a las
- * apps que no cumplen su política (sin Referer válido, PWA, mucho tráfico).
+ * MapView pasa al siguiente. Solo proveedores sin API key (Esri, Mapbox, Stadia, etc. piden clave).
+ * OpenStreetMap queda de último recurso: bloquea con "Access blocked" a quien no cumple su política.
  * Sin conexión queda visible la imagen local (cuadrícula neutra, sin geografía inventada).
  */
 export const MAP_TILE_PROVIDERS = [
@@ -58,11 +58,12 @@ export const MAP_TILE_PROVIDERS = [
       '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noreferrer">CARTO</a>',
   },
   {
-    id: "esri",
-    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+    id: "osm",
+    url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
     subdomains: "",
     maxNativeZoom: 19,
-    attribution: "Tiles &copy; Esri",
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a>',
   },
 ] as const;
 

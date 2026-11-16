@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MAP_IMAGE } from "../config";
 import { categoryBySlug } from "../data/categories";
-import { profileFor } from "../data/placeProfiles";
+import { useLocalizedPlace } from "../hooks/useLocalizedPlace";
 import { useI18n } from "../i18n/I18nProvider";
 import { useModal } from "../hooks/useModal";
 import { googleMapsPlaceUrl } from "../lib/maps";
@@ -45,7 +45,7 @@ type Toast = "link" | "address" | null;
 
 /** Ficha completa del lugar: portada, historia, mapa, vista 360° opcional y lugares afines. */
 export function PlaceSheet({
-  place,
+  place: rawPlace,
   places,
   saved,
   onClose,
@@ -58,8 +58,8 @@ export function PlaceSheet({
   const closeRef = useModal<HTMLButtonElement>(onClose);
   const [toast, setToast] = useState<Toast>(null);
   const timer = useRef<number | null>(null);
+  const { place, profile, translated } = useLocalizedPlace(rawPlace);
   const category = categoryBySlug(primaryCategory(place));
-  const profile = profileFor(place);
   const score = popularityScore(place.slug);
 
   // Minimapa: mismo espacio de coordenadas que la imagen base (Mercator), para
@@ -495,7 +495,7 @@ export function PlaceSheet({
               </section>
             )}
 
-            {lang !== "es" && <p className="mts-mini">{t("sheet.contentNote")}</p>}
+            {lang !== "es" && !translated && <p className="mts-mini">{t("sheet.contentNote")}</p>}
           </div>
         </div>
 

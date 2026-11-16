@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { categoryBySlug } from "../data/categories";
-import { profileFor } from "../data/placeProfiles";
+import { useLocalizedPlace } from "../hooks/useLocalizedPlace";
 import { useI18n } from "../i18n/I18nProvider";
 import { isPopular, popularityScore } from "../lib/popularity";
 import { primaryCategory } from "../lib/places";
@@ -19,10 +19,10 @@ interface Props {
 }
 
 /** Tarjeta vertical 3:4: foto completa con el texto sobre un velo oscuro. */
-export function PlaceCard({ place, onOpen, onToggleSave, saved = false, eager = false }: Props) {
+export function PlaceCard({ place: rawPlace, onOpen, onToggleSave, saved = false, eager = false }: Props) {
   const { t } = useI18n();
+  const { place, profile } = useLocalizedPlace(rawPlace);
   const category = categoryBySlug(primaryCategory(place));
-  const profile = profileFor(place);
   const popular = isPopular(popularityScore(place.slug));
 
   return (

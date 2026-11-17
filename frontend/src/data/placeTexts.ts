@@ -21,12 +21,11 @@ export interface PlaceTexts {
 
 type Bundle = Record<string, PlaceTexts>;
 
-/** Un archivo por idioma, cargado solo cuando el usuario lo elige. El español es el original. */
-const LOADERS: Partial<Record<Lang, () => Promise<{ default: unknown }>>> = {
-  en: () => import("./i18n/places.en.json"),
-  pt: () => import("./i18n/places.pt.json"),
-  de: () => import("./i18n/places.de.json"),
-};
+/** Un archivo por idioma (data/i18n/places.<lang>.json), cargado solo cuando el usuario lo elige. */
+const FILES = import.meta.glob("./i18n/places.*.json") as Record<string, () => Promise<{ default: unknown }>>;
+const LOADERS: Partial<Record<Lang, () => Promise<{ default: unknown }>>> = Object.fromEntries(
+  Object.entries(FILES).map(([path, load]) => [path.match(/places\.(\w+)\.json$/)?.[1] ?? "", load])
+);
 
 const cache = new Map<Lang, Promise<Bundle | null>>();
 

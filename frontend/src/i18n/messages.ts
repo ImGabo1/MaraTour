@@ -4,7 +4,7 @@
 // El contenido de los lugares (nombre, historia, dirección) sigue viniendo de la API
 // y por ahora está en español; la ficha lo avisa cuando el idioma es otro.
 
-import { EXTRA_EN, EXTRA_ES, type ExtraKey } from "./extra";
+import { EXTRA_EN, EXTRA_ES, EXTRA_LANGS, type ExtraKey } from "./extra";
 
 export type Lang = "es" | "en" | "pt" | "fr" | "de" | "it" | "ru" | "zh" | "ja" | "ar";
 
@@ -1762,5 +1762,5 @@ const BASE: Record<Lang, Record<BaseKey, string>> = { es, en, pt, fr, de, it, ru
  * Los demás idiomas muestran el inglés en esas claves hasta que se traduzcan.
  */
 export const MESSAGES = Object.fromEntries(
-  LANGUAGES.map(({ code }) => [code, { ...BASE[code], ...(code === "es" ? EXTRA_ES : EXTRA_EN) }])
+  LANGUAGES.map(({ code }) => [code, { ...BASE[code], ...(code === "es" ? EXTRA_ES : { ...EXTRA_EN, ...EXTRA_LANGS[code] }) }])
 ) as Record<Lang, Record<MessageKey, string>>;

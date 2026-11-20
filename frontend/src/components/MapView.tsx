@@ -167,6 +167,7 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
     // Si un proveedor bloquea o falla (varias teselas con error seguidas), se pasa al siguiente.
     let providerIndex = 0;
     let tileErrors = 0;
+    let tilesLoaded = 0;
     let tiles: L.TileLayer | null = null;
     const useProvider = (index: number) => {
       const provider = MAP_TILE_PROVIDERS[index];
@@ -180,14 +181,18 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
         maxZoom: 18,
         bounds: imageBounds,
         crossOrigin: true, // una respuesta bloqueada (403) sin CORS no se pinta ni se guarda en caché
+        referrerPolicy: "origin", // OpenStreetMap exige Referer; así siempre se envía el origen del sitio
         className: "vm-map__tiles",
       });
+      tilesLoaded = 0;
       tiles.on("tileload", () => {
-        tileErrors = 0;
+        tilesLoaded += 1;
       });
       tiles.on("tileerror", () => {
         tileErrors += 1;
-        if (tileErrors >= 3 && providerIndex < MAP_TILE_PROVIDERS.length - 1) {
+        // Solo se cambia de proveedor si no ha cargado ninguna tesela (bloqueo o sin servicio),
+        // no por una tesela suelta que falle.
+        if (tilesLoaded === 0 && tileErrors >= 4 && providerIndex < MAP_TILE_PROVIDERS.length - 1) {
           providerIndex += 1;
           useProvider(providerIndex);
         }

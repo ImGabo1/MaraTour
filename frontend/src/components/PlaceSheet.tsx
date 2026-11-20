@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MAP_IMAGE } from "../config";
 import { categoryBySlug } from "../data/categories";
-import { profileFor } from "../data/placeProfiles";
+import { useLocalizedPlace } from "../hooks/useLocalizedPlace";
 import { useI18n } from "../i18n/I18nProvider";
 import { useModal } from "../hooks/useModal";
 import { googleMapsPlaceUrl } from "../lib/maps";
@@ -45,7 +45,7 @@ type Toast = "link" | "address" | null;
 
 /** Ficha completa del lugar: portada, historia, mapa, vista 360° opcional y lugares afines. */
 export function PlaceSheet({
-  place,
+  place: rawPlace,
   places,
   saved,
   onClose,
@@ -58,8 +58,8 @@ export function PlaceSheet({
   const closeRef = useModal<HTMLButtonElement>(onClose);
   const [toast, setToast] = useState<Toast>(null);
   const timer = useRef<number | null>(null);
+  const { place, profile, translated } = useLocalizedPlace(rawPlace);
   const category = categoryBySlug(primaryCategory(place));
-  const profile = profileFor(place);
   const score = popularityScore(place.slug);
 
   // Minimapa: mismo espacio de coordenadas que la imagen base (Mercator), para
@@ -151,6 +151,29 @@ export function PlaceSheet({
     [place]
   );
 
+  /* Foto grande: abre con la primera foto vertical (si hay) y cambia al tocar una miniatura. */
+  const [heroUrl, setHeroUrl] = useState<string | null>(null);
+  const pickedRef = useRef(false);
+  useEffect(() => {
+    setHeroUrl(null);
+    pickedRef.current = false;
+    let cancelled = false;
+    for (const url of photos.slice(0, 16)) {
+      const img = new Image();
+      img.onload = () => {
+        if (cancelled || pickedRef.current) return;
+        if (img.naturalHeight > img.naturalWidth) {
+          pickedRef.current = true;
+          setHeroUrl(url);
+        }
+      };
+      img.src = url;
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [photos]);
+
   /* Arrastrar para cerrar (solo móvil): mueve el panel con transform y cierra pasado el umbral. */
   const sheetRef = useRef<HTMLElement>(null);
   const drag = useRef<{ startY: number; dy: number } | null>(null);
@@ -204,7 +227,7 @@ export function PlaceSheet({
           {/* ===== Foto vertical ===== */}
           <div className="mts-visual">
             <div className="mts-hero">
-              <PlaceImage place={place} ratio="hero" eager />
+              <PlaceImage place={place} src={heroUrl ?? undefined} ratio="hero" eager />
               <span className="mts-hero__shade" aria-hidden="true" />
               <div className="mts-hero__top">
                 <span className="mts-badge mts-badge--cat">
@@ -247,12 +270,23 @@ export function PlaceSheet({
               <ul className="mts-gallery" aria-label={t("sheet.gallery")}>
                 {photos.map((url, index) => (
                   <li key={url}>
-                    <PlaceImage place={place} src={url} ratio="thumb" decorative={index > 0} />
+                    <button
+                      type="button"
+                      className={`mts-gallery__btn mt-press${(heroUrl ?? photos[0]) === url ? " is-active" : ""}`}
+                      onClick={() => {
+                        pickedRef.current = true;
+                        setHeroUrl(url);
+                      }}
+                      aria-label={`${t("sheet.gallery")} ${index + 1}`}
+                      aria-pressed={(heroUrl ?? photos[0]) === url}
+                    >
+                      <PlaceImage place={place} src={url} ratio="thumb" decorative />
+                    </button>
                   </li>
                 ))}
               </ul>
             )}
-            {place.imageCredit && (
+            {place.imageCredit && (!heroUrl || heroUrl === place.imageUrl) && (
               <p className="mts-credit">
                 {place.imageCredit}
                 {place.imageSource && (
@@ -461,7 +495,7 @@ export function PlaceSheet({
               </section>
             )}
 
-            {lang !== "es" && <p className="mts-mini">{t("sheet.contentNote")}</p>}
+            {lang !== "es" && !translated && <p className="mts-mini">{t("sheet.contentNote")}</p>}
           </div>
         </div>
 

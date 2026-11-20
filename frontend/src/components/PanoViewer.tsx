@@ -39,6 +39,25 @@ export function PanoViewer({ src, title, onClose }: Props) {
     "DeviceOrientationEvent" in window &&
     window.matchMedia("(pointer: coarse)").matches;
 
+  // El botón "atrás" del navegador o del teléfono cierra el 360° y deja al usuario en Explorar
+  // (no lo manda al inicio). Se añade una entrada al historial mientras el visor está abierto.
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+  useEffect(() => {
+    window.history.pushState({ mtPano: true }, "");
+    let closedByBack = false;
+    const onPop = () => {
+      closedByBack = true;
+      onCloseRef.current();
+    };
+    window.addEventListener("popstate", onPop);
+    return () => {
+      window.removeEventListener("popstate", onPop);
+      // Cerrado con el botón X o Escape: se retira la entrada para no dejar un "atrás" vacío.
+      if (!closedByBack && (window.history.state as { mtPano?: boolean } | null)?.mtPano) window.history.back();
+    };
+  }, []);
+
   // Cargar la imagen
   useEffect(() => {
     setStatus("loading");

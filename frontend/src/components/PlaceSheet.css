@@ -82,7 +82,10 @@
   scroll-padding-inline: var(--mt-gutter);
 }
 .mts-gallery::-webkit-scrollbar { display: none; }
-.mts-gallery li { flex: 0 0 96px; scroll-snap-align: start; overflow: hidden; border-radius: var(--mt-radius-md); }
+.mts-gallery li { flex: 0 0 76px; scroll-snap-align: start; overflow: hidden; border-radius: var(--mt-radius-md); }
+.mts-gallery__btn { display: block; width: 100%; padding: 0; border: 2px solid transparent; border-radius: var(--mt-radius-md); background: none; cursor: pointer; overflow: hidden; }
+.mts-gallery__btn.is-active { border-color: var(--mt-sun-500); }
+.mts-gallery__btn:focus-visible { outline: 2px solid var(--mt-focus-ring); outline-offset: 2px; }
 .mts-credit { margin: 8px 0 0; color: var(--mt-text-soft); font-size: var(--mt-fs-label); }
 .mts-credit a { color: var(--mt-sky-700); }
 :root[data-theme="dark"] .mts-credit a { color: var(--mt-sky-300); }

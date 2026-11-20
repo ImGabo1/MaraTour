@@ -19,6 +19,7 @@ export function HomeCarousel({ slides, places = [], onOpenPlace }: Props) {
   const { t } = useI18n();
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const pausedRef = useRef(false);
+  const resumeRef = useRef(0);
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const total = slides.length;
@@ -148,6 +149,19 @@ export function HomeCarousel({ slides, places = [], onOpenPlace }: Props) {
           ref={viewportRef}
           className="mth-carousel__viewport"
           onScroll={handleScroll}
+          onPointerDown={() => {
+            // Mientras el dedo (o el mouse) toca el carrusel, el avance automático espera.
+            window.clearTimeout(resumeRef.current);
+            setPaused(true);
+          }}
+          onPointerUp={() => {
+            window.clearTimeout(resumeRef.current);
+            resumeRef.current = window.setTimeout(() => setPaused(false), 4000);
+          }}
+          onPointerCancel={() => {
+            window.clearTimeout(resumeRef.current);
+            resumeRef.current = window.setTimeout(() => setPaused(false), 4000);
+          }}
           role="region"
           aria-label={t("home.carousel.aria")}
           tabIndex={0}

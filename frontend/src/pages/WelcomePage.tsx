@@ -1,21 +1,13 @@
 import { useEffect, useState } from "react";
 import { useI18n } from "../i18n/I18nProvider";
 import type { MessageKey } from "../i18n/messages";
-import { useTheme } from "../theme/ThemeProvider";
 import { ThemeToggle } from "../components/ThemeToggle";
 import { WELCOME_SLIDES } from "../data/welcome";
 import {
   IconArrowLeft,
   IconArrowRight,
-  IconBolt,
-  IconBoat,
-  IconBridge,
-  IconCamera,
-  IconChinita,
-  IconCoffee,
   IconCompass,
   IconMapPin,
-  IconMusic,
   IconSparkles,
   IconSun,
   IconWave,
@@ -48,8 +40,7 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
   };
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [portraitSlides, setPortraitSlides] = useState<Record<number, boolean>>({});
-  const { isDark: darkMode } = useTheme();
+
   const total = WELCOME_SLIDES.length;
 
   useEffect(() => {
@@ -64,260 +55,150 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
   const go = (step: number) =>
     setActive((index) => (index + step + total) % total);
 
-  const current = WELCOME_SLIDES[active] ?? FALLBACK_SLIDE;
-  const miniOne = WELCOME_SLIDES[3] ?? FALLBACK_SLIDE;
-  const miniTwo = WELCOME_SLIDES[1] ?? FALLBACK_SLIDE;
+
+  const side = (offset: number) => WELCOME_SLIDES[(active + offset) % total] ?? FALLBACK_SLIDE;
 
   return (
-    <main className={`vw-page${darkMode ? " vw-page--dark" : ""}`} data-theme={darkMode ? "dark" : "light"}>
-      {/* ===== Fondo tropical animado ===== */}
-      <div className="vw-bg" aria-hidden="true">
-        <span className="vw-aurora vw-aurora--1" />
-        <span className="vw-aurora vw-aurora--2" />
-        <span className="vw-aurora vw-aurora--3" />
-
-        <div className="vw-sun" aria-hidden="true">
-          {darkMode ? (
-            <IconBolt className="vw-sun__bolt" width={190} height={250} />
-          ) : (
-            <>
-              <span className="vw-sun__glow" />
-              <span className="vw-sun__rays" />
-              <span className="vw-sun__core" />
-            </>
-          )}
-        </div>
-
-        <div className="vw-cloud vw-cloud--1" />
-        <div className="vw-cloud vw-cloud--2" />
-        <div className="vw-cloud vw-cloud--3" />
-
-        <div className="vw-tokens">
-          <span className="vw-token vw-token--1">
-            <IconChinita width={22} height={22} />
-          </span>
-          <span className="vw-token vw-token--2">
-            <IconBoat width={22} height={22} />
-          </span>
-          <span className="vw-token vw-token--3">
-            <IconMusic width={20} height={20} />
-          </span>
-          <span className="vw-token vw-token--4">
-            <IconCoffee width={20} height={20} />
-          </span>
-          <span className="vw-token vw-token--5">
-            <IconCamera width={20} height={20} />
-          </span>
-          <span className="vw-token vw-token--6">
-            <IconBridge width={22} height={22} />
-          </span>
-          <span className="vw-token vw-token--7">
-            {darkMode ? <IconBolt width={15} height={20} /> : <IconSun width={20} height={20} />}
-          </span>
-          <span className="vw-token vw-token--8">
-            <IconWave width={22} height={22} />
-          </span>
-        </div>
-
-        <div className="vw-lake">
-          <span className="vw-lake__wave vw-lake__wave--1" />
-          <span className="vw-lake__wave vw-lake__wave--2" />
-          <svg
-            className="vw-lake__bridge"
-            viewBox="0 0 1440 200"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M0 150C220 128 340 74 480 72s240 58 440 26 300-42 520 8"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
-            <path
-              d="M210 132V58M226 130V58M690 92V32M706 90V32M1160 96V38M1176 94V38"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
-            <path
-              d="M0 158C220 136 340 82 480 80s240 58 440 26 300-42 520 8"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              opacity=".5"
-            />
-          </svg>
-        </div>
+    <main className="mtw-page">
+      <div className="mtw-bg" aria-hidden="true">
+        <svg className="mtw-sun" viewBox="0 0 240 240" fill="none">
+          <circle cx="120" cy="120" r="118" fill="var(--mt-sun-300)" opacity=".5" />
+          <g stroke="var(--mt-sun-500)" strokeWidth="5" strokeLinecap="round">
+            {Array.from({ length: 12 }, (_, i) => (
+              <line key={i} x1="120" y1="22" x2="120" y2="40" transform={`rotate(${i * 30} 120 120)`} />
+            ))}
+          </g>
+          <circle cx="120" cy="120" r="62" fill="var(--mt-sun-500)" />
+        </svg>
+        <svg className="mtw-bridge" viewBox="0 0 1200 200" preserveAspectRatio="xMidYMax slice" fill="none">
+          <g stroke="currentColor" strokeLinecap="round">
+            <path d="M0 150H1200" strokeWidth="4" />
+            <path d="M200 150L238 30H262L300 150" strokeWidth="4" />
+            <path d="M520 150L568 10H632L680 150" strokeWidth="5" />
+            <path d="M900 150L938 30H962L1000 150" strokeWidth="4" />
+            <path d="M600 14L400 148M600 14L500 148M600 14L700 148M600 14L800 148" strokeWidth="1.2" />
+          </g>
+        </svg>
       </div>
 
-      {/* ===== Barra superior ===== */}
-      <header className="vw-top container">
-        <a className="vw-brand" href="#/bienvenida" aria-label="MaraTour · Visita Maracaibo">
-          <span className="vw-brand__mark" aria-hidden="true">
+      <header className="mtw-top">
+        <div className="mtw-bar glass">
+          <a className="mtw-brand" href="#/bienvenida" aria-label="MaraTour · Visita Maracaibo">
             <img src="/img/logo-emblema-192.png" alt="" width={44} height={44} />
-          </span>
-          <span className="vw-brand__text">
-            <strong>MaraTour</strong>
-            <small>Visita Maracaibo</small>
-          </span>
-        </a>
-
-        <div className="vw-top__actions">
-          <ThemeToggle className="vw-theme-toggle" showLabel />
-          <span className="vw-top__tag">
-            {darkMode ? <IconBolt width={14} height={18} /> : <IconSun width={14} height={14} />}
-            {t("shell.tagline")}
-          </span>
-          <button type="button" className="vw-btn vw-btn--ghost" onClick={onLogin}>
-            {t("shell.welcome.haveAccount")}
-            <IconArrowRight width={15} height={15} />
-          </button>
+            <span>
+              <strong>Mara<b>Tour</b></strong>
+              <small>Visita Maracaibo</small>
+            </span>
+          </a>
+          <div className="mtw-bar__actions">
+            <ThemeToggle variant="switch" className="mtw-theme" />
+            <button type="button" className="mt-btn mt-btn--soft mtw-login" onClick={onLogin}>
+              {t("shell.welcome.haveAccount")}
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* ===== Hero ===== */}
-      <section className="vw-hero container">
-        <div className="vw-copy">
-          <p className="vw-kicker">
-            <IconSparkles width={15} height={15} />
+      <section className="mtw-hero">
+        <div className="mtw-copy">
+          <p className="mtw-kicker">
+            <IconSun width={15} height={15} />
             {t("shell.welcome.kicker")}
           </p>
-
-          <h1 className="vw-title">
+          <h1 className="mtw-title">
             Maracaibo
             <span>{t("shell.welcome.titleLine")}</span>
           </h1>
+          <p className="mtw-lead">{t("shell.welcome.lead")}</p>
 
-          <p className="vw-lead">
-            {t("shell.welcome.lead")}
-          </p>
-
-          <div className="vw-actions">
-            <button type="button" className="vw-btn vw-btn--primary" onClick={onRegister}>
+          <div className="mtw-actions">
+            <button type="button" className="mt-btn mt-btn--primary mtw-cta" onClick={onRegister}>
               {t("shell.welcome.create")}
               <IconArrowRight width={18} height={18} />
             </button>
-            <button type="button" className="vw-btn vw-btn--glass" onClick={onLogin}>
+            <button type="button" className="mt-btn mt-btn--soft mtw-cta" onClick={onLogin}>
               <IconCompass width={18} height={18} />
               {t("shell.welcome.login")}
             </button>
-            <button type="button" className="vw-guest" onClick={onGuest}>
+            <button type="button" className="mtw-guest" onClick={onGuest}>
               {t("shell.guestExplore")}
             </button>
           </div>
 
-          <ul className="vw-perks">
-            <li>
-              {darkMode ? <IconBolt width={11} height={14} /> : <IconSun width={14} height={14} />}
-              {t("shell.welcome.free")}
-            </li>
-            <li>
-              <IconMapPin width={14} height={14} />
-              {t("shell.welcome.places", { n: 43 })}
-            </li>
-            <li>
-              <IconWave width={14} height={14} />
-              {t("shell.welcome.saveRoute")}
-            </li>
+          <ul className="mtw-perks">
+            <li><IconSparkles width={14} height={14} />{t("shell.welcome.free")}</li>
+            <li><IconMapPin width={14} height={14} />{t("shell.welcome.places", { n: 43 })}</li>
+            <li><IconWave width={14} height={14} />{t("shell.welcome.saveRoute")}</li>
           </ul>
         </div>
 
-        {/* ===== Postal principal + miniaturas ===== */}
-        <div className="vw-showcase">
-          <div
-            className={`vw-postcard${paused ? " is-paused" : ""}`}
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
-            onFocus={() => setPaused(true)}
-            onBlur={() => setPaused(false)}
-          >
-            <span className="vw-postcard__stamp">Maracaibo · Zulia</span>
+        <div
+          className="mtw-showcase"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={() => setPaused(false)}
+          onTouchStart={() => setPaused(true)}
+          onTouchEnd={() => window.setTimeout(() => setPaused(false), 4000)}
+        >
+          <figure className="mtw-peek mtw-peek--a" aria-hidden="true">
+            <img src={side(1).src} alt="" loading="lazy" decoding="async" />
+          </figure>
+          <figure className="mtw-peek mtw-peek--b" aria-hidden="true">
+            <img src={side(2).src} alt="" loading="lazy" decoding="async" />
+          </figure>
 
-            <div
-              className={`vw-postcard__stage${portraitSlides[active] ? " is-portrait" : ""}`}
-              style={{ backgroundImage: `url("${current.src}")` }}
-              aria-live="polite"
-            >
-              {WELCOME_SLIDES.map((slide, index) => (
-                <figure
-                  key={`${slide.slug ?? slide.title}-${index}`}
-                  className={`vw-postcard__slide${index === active ? " is-active" : ""}`}
-                  aria-hidden={index !== active}
-                >
-                  <img
-                    src={slide.src}
-                    alt={`${slide.title} · ${slideText(slide, "caption")}`}
-                    loading={index === 0 ? "eager" : "lazy"}
-                    decoding="async"
-                    onLoad={(event) => {
-                      const image = event.currentTarget;
-                      setPortraitSlides((currentSlides) => {
-                        const isPortrait = image.naturalHeight > image.naturalWidth;
-                        if (currentSlides[index] === isPortrait) return currentSlides;
-                        return { ...currentSlides, [index]: isPortrait };
-                      });
-                    }}
-                  />
-                  <div className="vw-postcard__shade" />
-                  <figcaption>
-                    <span className="vw-postcard__kicker">
-                      <IconMapPin width={12} height={12} />
-                      {slideText(slide, "kicker")}
-                    </span>
-                    <strong>{slide.title}</strong>
-                    <p>{slideText(slide, "caption")}</p>
-                  </figcaption>
-                </figure>
-              ))}
-
-              <button
-                type="button"
-                className="vw-postcard__arrow vw-postcard__arrow--prev"
-                onClick={() => go(-1)}
-                aria-label={t("shell.welcome.prev")}
+          <div className="mtw-card" aria-live="polite">
+            {WELCOME_SLIDES.map((slide, index) => (
+              <figure
+                key={`${slide.slug ?? slide.title}-${index}`}
+                className={`mtw-slide${index === active ? " is-active" : ""}`}
+                aria-hidden={index !== active}
               >
-                <IconArrowLeft width={18} height={18} />
-              </button>
-              <button
-                type="button"
-                className="vw-postcard__arrow vw-postcard__arrow--next"
-                onClick={() => go(1)}
-                aria-label={t("shell.welcome.next")}
-              >
-                <IconArrowRight width={18} height={18} />
-              </button>
-            </div>
-
-            <div className="vw-postcard__foot">
-              <span className="vw-postcard__count">
-                {pad(active)} <i>/</i> {pad(total - 1)}
-              </span>
-              <div className="vw-postcard__dots" role="tablist" aria-label={t("shell.welcome.pick")}>
-                {WELCOME_SLIDES.map((slide, index) => (
-                  <button
-                    key={`dot-${slide.slug ?? slide.title}-${index}`}
-                    type="button"
-                    role="tab"
-                    aria-selected={index === active}
-                    aria-label={t("shell.welcome.goTo", { title: slide.title })}
-                    className={index === active ? "is-active" : ""}
-                    onClick={() => setActive(index)}
-                  />
-                ))}
-              </div>
-              <span className="vw-postcard__caption-line">{slideText(current, "kicker")}</span>
-            </div>
+                <img
+                  src={slide.src}
+                  alt={`${slide.title} · ${slideText(slide, "caption")}`}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                />
+                <div className="mtw-slide__scrim" />
+                <span className="mtw-slide__tag">{slideText(slide, "kicker")}</span>
+                <figcaption>
+                  <strong>{slide.title}</strong>
+                  <p>{slideText(slide, "caption")}</p>
+                </figcaption>
+              </figure>
+            ))}
+            <button type="button" className="mtw-arrow mtw-arrow--prev glass" onClick={() => go(-1)} aria-label={t("shell.welcome.prev")}>
+              <IconArrowLeft width={18} height={18} />
+            </button>
+            <button type="button" className="mtw-arrow mtw-arrow--next glass" onClick={() => go(1)} aria-label={t("shell.welcome.next")}>
+              <IconArrowRight width={18} height={18} />
+            </button>
           </div>
 
-          <figure className="vw-minicard vw-minicard--one">
-            <img src={miniOne.src} alt={miniOne.title} loading="lazy" decoding="async" />
-            <figcaption>{miniOne.title}</figcaption>
-          </figure>
-          <figure className="vw-minicard vw-minicard--two">
-            <img src={miniTwo.src} alt={miniTwo.title} loading="lazy" decoding="async" />
-            <figcaption>{miniTwo.title}</figcaption>
-          </figure>
+          <div className="mtw-foot">
+            <span className="mtw-count">{pad(active)} <i>/</i> {pad(total - 1)}</span>
+            <div className="mtw-dots" role="tablist" aria-label={t("shell.welcome.pick")}>
+              {WELCOME_SLIDES.map((slide, index) => (
+                <button
+                  key={`dot-${slide.slug ?? slide.title}-${index}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={index === active}
+                  aria-label={t("shell.welcome.goTo", { title: slide.title })}
+                  className={index === active ? "is-active" : ""}
+                  onClick={() => setActive(index)}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
+
+      <svg className="mtw-wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 40C240 90 480 0 720 40S1200 80 1440 30V80H0Z" />
+      </svg>
     </main>
   );
 }

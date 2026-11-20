@@ -166,7 +166,7 @@
 
 /* ---------- Postales (carrusel) ---------- */
 .mth-postales { padding-top: clamp(20px, 3vw, 36px); padding-bottom: clamp(16px, 3vw, 32px); }
-.mth-carousel { display: grid; gap: 14px; }
+.mth-carousel { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; min-width: 0; }
 .mth-carousel__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
 .mth-carousel__title {
   display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin: 0;
@@ -190,7 +190,7 @@
 }
 .mth-carousel__arrow:active, .mth-carousel__side:active { transform: scale(0.94); }
 .mth-carousel__arrow:focus-visible, .mth-carousel__side:focus-visible { outline: 2px solid var(--mt-focus-ring); outline-offset: 2px; }
-.mth-carousel__stage { position: relative; }
+.mth-carousel__stage { position: relative; min-width: 0; }
 .mth-carousel__side { display: none; position: absolute; top: 50%; z-index: 2; margin-top: -22px; background: var(--mt-surface-solid); }
 .mth-carousel__side--prev { left: -20px; }
 .mth-carousel__side--next { right: -20px; }
@@ -204,6 +204,7 @@
 }
 
 .mth-carousel__viewport {
+  min-width: 0; max-width: calc(100% + var(--mt-gutter) * 2); touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch;
   display: flex; gap: clamp(12px, 1.6vw, 16px); margin-inline: calc(var(--mt-gutter) * -1);
   padding: 6px var(--mt-gutter) 14px; overflow-x: auto; scroll-snap-type: x mandatory;
   scroll-padding-inline: var(--mt-gutter); scrollbar-width: none; overscroll-behavior-x: contain;
@@ -213,7 +214,7 @@
 .mth-carousel__slide { flex: 0 0 min(62vw, 260px); scroll-snap-align: start; }
 @media (min-width: 640px) { .mth-carousel__slide { flex-basis: calc((100% - 32px) / 3 - 12px); } }
 @media (min-width: 1024px) {
-  .mth-carousel__viewport { margin-inline: 0; padding-inline: 0; scroll-padding-inline: 0; }
+  .mth-carousel__viewport { margin-inline: 0; padding-inline: 0; scroll-padding-inline: 0; max-width: 100%; }
   .mth-carousel__slide { flex-basis: calc((100% - 48px) / 4); }
 }
 .mth-carousel__media {

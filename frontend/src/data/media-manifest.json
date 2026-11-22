@@ -14,17 +14,26 @@
       "/media/sitios/basilica-chiquinquira/foto-02.jpg",
       "/media/sitios/basilica-chiquinquira/foto-03.jpg",
       "/media/sitios/basilica-chiquinquira/foto-04.jpg",
-      "/media/sitios/basilica-chiquinquira/foto-05.jpg",
-      "/media/sitios/basilica-chiquinquira/foto-06.jpg",
-      "/media/sitios/basilica-chiquinquira/foto-07.jpg",
-      "/media/sitios/basilica-chiquinquira/foto-08.jpg"
+      "/media/sitios/basilica-chiquinquira/foto-05.jpg"
     ]
   },
   "biblioteca-publica-zulia": {
     "cover": "/media/sitios/biblioteca-publica-zulia/portada.jpg"
   },
   "calle-carabobo": {
-    "cover": "/media/sitios/calle-carabobo/portada.jpg"
+    "cover": "/media/sitios/calle-carabobo/portada.jpg",
+    "panos": [
+      "/media/sitios/calle-carabobo/360.jpg"
+    ],
+    "photos": [
+      "/media/sitios/calle-carabobo/foto-01.jpg",
+      "/media/sitios/calle-carabobo/foto-02.jpg",
+      "/media/sitios/calle-carabobo/foto-03.jpg",
+      "/media/sitios/calle-carabobo/foto-04.jpg",
+      "/media/sitios/calle-carabobo/foto-05.jpg",
+      "/media/sitios/calle-carabobo/foto-06.jpg",
+      "/media/sitios/calle-carabobo/foto-07.jpg"
+    ]
   },
   "casa-capitulacion": {
     "cover": "/media/sitios/casa-capitulacion/portada.jpg"
@@ -44,9 +53,7 @@
       "/media/sitios/centro-arte-lia-bermudez/foto-04.jpg",
       "/media/sitios/centro-arte-lia-bermudez/foto-05.jpg",
       "/media/sitios/centro-arte-lia-bermudez/foto-06.jpg",
-      "/media/sitios/centro-arte-lia-bermudez/foto-07.jpg",
-      "/media/sitios/centro-arte-lia-bermudez/foto-08.jpg",
-      "/media/sitios/centro-arte-lia-bermudez/foto-09.jpg"
+      "/media/sitios/centro-arte-lia-bermudez/foto-07.jpg"
     ]
   },
   "estadio-alejandro-borges": {
@@ -101,7 +108,11 @@
     "video": "/media/sitios/parque-urdaneta/video.mp4",
     "photos": [
       "/media/sitios/parque-urdaneta/foto-01.jpg",
-      "/media/sitios/parque-urdaneta/foto-02.jpg"
+      "/media/sitios/parque-urdaneta/foto-02.jpg",
+      "/media/sitios/parque-urdaneta/foto-03.jpg",
+      "/media/sitios/parque-urdaneta/foto-04.jpg",
+      "/media/sitios/parque-urdaneta/foto-05.jpg",
+      "/media/sitios/parque-urdaneta/foto-06.jpg"
     ]
   },
   "paseo-del-lago": {
@@ -120,7 +131,6 @@
   "plaza-bolivar": {
     "cover": "/media/sitios/plaza-bolivar/portada.jpg",
     "panos": [
-      "/media/sitios/plaza-bolivar/360-2.jpg",
       "/media/sitios/plaza-bolivar/360.jpg"
     ],
     "photos": [
@@ -153,7 +163,11 @@
     "panos": [
       "/media/sitios/plaza-republica/360.jpg"
     ],
-    "video": "/media/sitios/plaza-republica/video.mp4"
+    "video": "/media/sitios/plaza-republica/video.mp4",
+    "photos": [
+      "/media/sitios/plaza-republica/foto-01.jpg",
+      "/media/sitios/plaza-republica/foto-02.jpg"
+    ]
   },
   "puente-rafael-urdaneta": {
     "cover": "/media/sitios/puente-rafael-urdaneta/portada.jpg"
@@ -173,7 +187,14 @@
   },
   "teatro-baralt": {
     "cover": "/media/sitios/teatro-baralt/portada.jpg",
-    "video": "/media/sitios/teatro-baralt/video.mp4"
+    "panos": [
+      "/media/sitios/teatro-baralt/360.jpg"
+    ],
+    "video": "/media/sitios/teatro-baralt/video.mp4",
+    "photos": [
+      "/media/sitios/teatro-baralt/foto-01.jpg",
+      "/media/sitios/teatro-baralt/foto-02.jpg"
+    ]
   },
   "unica": {
     "cover": "/media/sitios/unica/portada.jpg"
@@ -187,20 +208,13 @@
   "vereda-del-lago": {
     "cover": "/media/sitios/vereda-del-lago/portada.jpg",
     "panos": [
-      "/media/sitios/vereda-del-lago/360-2.jpg",
       "/media/sitios/vereda-del-lago/360.jpg"
     ],
     "video": "/media/sitios/vereda-del-lago/video.mp4",
     "photos": [
       "/media/sitios/vereda-del-lago/foto-01.jpg",
       "/media/sitios/vereda-del-lago/foto-02.jpg",
-      "/media/sitios/vereda-del-lago/foto-03.jpg",
-      "/media/sitios/vereda-del-lago/foto-04.jpg",
-      "/media/sitios/vereda-del-lago/foto-05.jpg",
-      "/media/sitios/vereda-del-lago/foto-06.jpg",
-      "/media/sitios/vereda-del-lago/foto-07.jpg",
-      "/media/sitios/vereda-del-lago/foto-08.jpg",
-      "/media/sitios/vereda-del-lago/foto-09.jpg"
+      "/media/sitios/vereda-del-lago/foto-03.jpg"
     ]
   },
   "zona-rosa-bella-vista": {

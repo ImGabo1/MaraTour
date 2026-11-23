@@ -5,57 +5,50 @@ frontend/
 ├── index.html
 ├── vite.config.ts            # PWA: manifest, service worker, caché, proxy /api en desarrollo
 ├── scripts/
-│   ├── sync-data.mjs         # database/seed -> public/data/places.json (respaldo sin conexión)
+│   ├── sync-data.mjs         # database/seed -> public/data/places.json y media-manifest.json
 │   └── generate-icons.py     # regenera los PNG de public/icons desde el logo
-├── public/                   # icons/, panos/ (360°), data/places.json; aquí van img/ y más panos
+├── public/
+│   ├── media/sitios/<slug>/  # portada.jpg, foto-NN.jpg, 360.jpg, video.mp4 de cada lugar
+│   ├── data/places.json      # respaldo sin conexión del catálogo
+│   └── img/                  # logos y mapa local de respaldo
 └── src/
-    ├── App.tsx               # estructura de la página
-    ├── api.ts, config.ts     # llamada a la API con respaldo; ajustes (MAP_IMAGE, URL de la API)
-    ├── hooks/                # datos, estado de conexión, instalación, ruta por hash, modales
-    ├── lib/                  # enlaces a Google Maps, proyección lat/lng -> mapa, estilos de categoría, búsqueda
-    ├── components/           # MapView, PlaceCard, PlaceSheet, PanoViewer, Header, ...
-    └── styles.css            # tokens, responsive, animaciones
+    ├── App.tsx               # rutas por hash (#/, #/explorar, #/plan, #/mi-ruta, #/diccionario, #/entrar…)
+    ├── api.ts, config.ts     # llamada a la API con respaldo; proveedores de teselas del mapa
+    ├── pages/                # Home, Explorar, Planificador, Mi ruta, Diccionario, Acceso y landing
+    ├── components/           # Header, MapView, PlaceCard, PlaceSheet, PanoViewer, SkyMotifs, ChatWidget…
+    ├── hooks/, lib/          # datos, conexión, instalación, búsqueda, enlaces a Google Maps
+    ├── i18n/                 # textos base (messages.ts) y por idioma (extra/langs/*.json)
+    ├── data/                 # media.ts, media-manifest.json, textos de lugares por idioma
+    └── styles/               # tokens --mt-*, vidrio, botones, tipografía y animaciones
 ```
 
 ## Desarrollo
 
 ```bash
 npm run dev:front        # http://localhost:5173  (/api se redirige al backend en :3001)
-npm test -w frontend
+npm test -w frontend     # 7 pruebas
 npm run build -w frontend && npm run preview -w frontend   # probar PWA/offline (el SW solo existe en build)
 ```
 
-## Cómo agregar contenido sin tocar código
+## Diseño
 
-1. Fotos en `frontend/public/img/<slug>.jpg` y panorámicas en `frontend/public/panos/<slug>.jpg` (2:1, idealmente < 1 MB).
-2. En `database/seed/places.json`: `"imageUrl": "/img/<slug>.jpg"`, `"panoUrl": "/panos/<slug>.jpg"`.
-3. `npm run db:seed` (si usan Postgres) y recargar.
+Glassmorphism con la paleta de Maracaibo (cielo, sol y rojo) como variables `--mt-*` en `src/styles/tokens.css`. Prefijos de clase: `mt-*` compartidas, `mth-*` Inicio, `mte-*` Explorar, `mts-*` ficha, `mtp-*` visor 360°, `mta-*` acceso, `mtw-*` landing. El modo oscuro usa `html[data-theme="dark"]`; sol y luna con el relámpago del Catatumbo están en `components/SkyMotifs.tsx`.
 
-Para una galería con varias fotos, agrega `media` al lugar en `database/seed/places.json`:
+## Agregar fotos sin tocar código
 
-```json
-"media": [
-  { "kind": "photo", "url": "/img/teatro-baralt-1.jpg", "caption": "Fachada", "credit": "Foto: equipo" },
-  { "kind": "photo", "url": "/img/teatro-baralt-2.jpg" },
-  { "kind": "pano",  "url": "/panos/teatro-baralt.jpg" }
-]
-```
+1. Crea `public/media/sitios/<slug>/` con `portada.jpg` (vertical 3:4, 1200 × 1600 px), `foto-01.jpg`… y, si hay, `360.jpg` (2:1) o `video.mp4`.
+2. Ejecuta `npm run sync-data -w frontend` (también corre solo en `dev` y `build`) para actualizar `src/data/media-manifest.json`.
+3. Si la foto es de Wikimedia, agrega su `credit` y `source` en `PLACE_MEDIA` (`src/data/media.ts`); las fotos propias no llevan crédito.
 
-`imageUrl`/`panoUrl` siguen siendo la imagen principal; `npm run sync-data` copia todo al respaldo
-sin conexión.
+## Idiomas
 
-## Búsqueda
+Español e inglés tienen paridad tipada en `src/i18n/extra/*.ts`. Los otros ocho idiomas viven en `src/i18n/extra/langs/<idioma>.json` y las historias de los lugares en `src/data/i18n/places.<idioma>.json` (se cargan solo al elegir ese idioma).
 
-El buscador filtra el catálogo ya descargado (`lib/search.ts`), así funciona también sin conexión.
-La API ofrece la misma búsqueda en `GET /api/places?q=` (con índice de texto en PostgreSQL) para
-cuando el catálogo crezca o lo consuma otro cliente.
+## Pendientes sugeridos
 
-## Pendientes sugeridos para quien lleve esta área
-
-- [ ] Reemplazar el mapa ilustrativo por la captura real (`config.ts` → `MAP_IMAGE`).
-- [ ] Visor 360°: pasar a esfera real (Photo Sphere Viewer / three.js), zoom y modo visor VR (WebXR).
+- [ ] Fotos propias para los 9 lugares que usan imagen de categoría.
+- [ ] Traducir direcciones, salida del planificador y que el chat entienda texto libre en otros idiomas.
+- [ ] Visor 360°: zoom y modo VR (WebXR).
 - [ ] Atrapar el foco con Tab dentro de los diálogos (`hooks/useModal.ts`).
-- [ ] Tipografía propia empaquetada (hoy usa la del sistema para funcionar sin conexión).
-- [x] Buscador (local y en la API). Favoritos guardados en el dispositivo: pendiente.
-- [ ] Aviso cuando hay una versión nueva (hoy se actualiza sola al reabrir).
+- [ ] Reducir el precaché de la PWA (~76 MB).
 - [ ] Pruebas de componentes (Testing Library) y Lighthouse en CI.

@@ -17,8 +17,8 @@
 El repositorio es un monorepo gestionado con **npm workspaces**:
 
 ```text
-turismo-maracaibo-pwa/
-├── frontend/   → PWA en React 18 + Vite + vite-plugin-pwa (UI, 360°, mapa e i18n)
+MaraTour/
+├── frontend/   → PWA en React 18 + Vite + vite-plugin-pwa (UI, 360°, mapa, 10 idiomas y modo oscuro)
 ├── backend/    → API REST en Node.js + Express + zod + pg (Docker listo para Render)
 ├── database/   → Migraciones SQL, scripts de seed y datos del catálogo (Neon / PostgreSQL)
 └── docs/       → Arquitectura, contrato de API, medios, pruebas y despliegue
@@ -35,17 +35,35 @@ turismo-maracaibo-pwa/
 
 | Característica | Implementación |
 | :--- | :--- |
-| **PWA Instalable** | Funciona como app nativa en Android, iOS, Windows y macOS. Botón de instalación nativo (`beforeinstallprompt`) y guía adaptada para Safari en iPhone/iPad. |
-| **Offline-First** | Service Worker con Workbox. Guarda activos estáticos, fotos e imágenes en caché. Si la API no responde o no hay internet, la app recurre automáticamente a su respaldo local empaquetado. |
-| **Catálogo de 43 Lugares** | Plazas, historia, cultura, fe, gastronomía, salud, deportes y vida nocturna con descripción, fotos, etiquetas y sector. |
-| **Visor Panorámico 360°** | Visor esférico sin librerías pesadas en [`PanoViewer.tsx`](frontend/src/components/PanoViewer.tsx). Soporta arrastre táctil/ratón y **giroscopio** en teléfonos (con permisos para iOS). |
-| **Mapa Interactivo Libre** | Visor Leaflet con zoom, arrastre, gestos táctiles y agrupación de pines en [`MapView.tsx`](frontend/src/components/MapView.tsx). La base es una imagen local renderizada desde OpenStreetMap / OpenFreeMap (`frontend/public/img/mapa-maracaibo.jpg`), así que funciona sin conexión y sin claves. Los botones «Cómo llegar» abren la ruta en Google Maps. |
-| **Planificador de Rutas** | Itinerarios turísticos en [`PlannerPage.tsx`](frontend/src/pages/PlannerPage.tsx) y [`RoutePage.tsx`](frontend/src/pages/RoutePage.tsx) para organizar visitas con estimación de tiempo. |
-| **Autenticación Segura** | Cuentas de usuario guardadas en PostgreSQL con contraseñas protegidas mediante hash criptográfico **`scrypt`** (salting + verificación de tiempo constante). Modo invitado disponible sin registro. |
-| **Buscador Inteligente** | Filtros combinados por texto y categorías, normalizado sin problemas de acentos ni mayúsculas. |
-| **Diccionario Maracucho** | Glosario interactivo de expresiones y modismos zulianos con ejemplos cotidianos. |
-| **Asistente «Marac-IA»** | Widget de chat integrado para responder dudas frecuentes y dar recomendaciones de la ciudad. |
-| **Multi-idioma (i18n)** | Soporte completo en español e inglés configurable desde la interfaz. |
+| **PWA instalable** | Funciona como app nativa en Android, iOS, Windows y macOS. Botón de instalación (`beforeinstallprompt`) y guía para Safari en iPhone/iPad. Se recarga sola cuando hay una versión nueva. |
+| **Offline-First** | Service Worker con Workbox: guarda activos, fotos y panorámicas. Si la API no responde o no hay internet, usa el respaldo local empaquetado (`public/data/places.json`). |
+| **Catálogo de 43 lugares** | Plazas, historia, cultura, fe, gastronomía, salud, deportes y vida nocturna, con descripción, historia, fotos, etiquetas y sector. |
+| **Fichas verticales** | Foto principal en formato vertical con galería de miniaturas, créditos solo cuando la foto es de Wikimedia, botón «Ver en 360°», mapa y «Cómo llegar». |
+| **Visor 360°** | Visor esférico propio, sin librerías pesadas ([`PanoViewer.tsx`](frontend/src/components/PanoViewer.tsx)). Arrastre táctil/ratón y **giroscopio** en teléfonos. El botón «Atrás» del navegador cierra el visor en vez de salir de la sección. |
+| **Mapa interactivo** | Leaflet con agrupación de pines ([`MapView.tsx`](frontend/src/components/MapView.tsx)). Usa teselas de CARTO y, si fallan, de OpenStreetMap, sin claves de API; si ninguna carga, queda una imagen local de respaldo. «Cómo llegar» abre Google Maps. |
+| **Planificador y Mi ruta** | Itinerarios con estimación de tiempo ([`PlannerPage.tsx`](frontend/src/pages/PlannerPage.tsx), [`RoutePage.tsx`](frontend/src/pages/RoutePage.tsx)); la ruta queda guardada en el dispositivo. |
+| **Cuentas** | Registro e inicio de sesión con contraseñas protegidas con **`scrypt`** (salt + verificación en tiempo constante). Modo invitado sin registro. |
+| **Buscador** | Filtros por texto y categoría, sin distinguir acentos ni mayúsculas; funciona sin conexión. |
+| **Diccionario maracucho** | Glosario de expresiones y modismos zulianos con ejemplos. |
+| **Asistente «Zulmita»** | Chat integrado que responde dudas frecuentes y recomienda lugares (las palabras clave del texto libre se entienden en español). |
+| **10 idiomas** | Interfaz en español, inglés, portugués, francés, alemán, italiano, ruso, chino, japonés y árabe (con escritura de derecha a izquierda). Las historias de los lugares también se traducen y se cargan solo en el idioma elegido. |
+| **Modo claro y oscuro** | Claro: cielo, sol y puente. Oscuro: noche con luna y el relámpago del Catatumbo. Todo el fondo es SVG/CSS, sin imágenes pesadas. |
+
+---
+
+## 🎨 Sistema de diseño
+
+Interfaz tipo **glassmorphism** con paleta propia de Maracaibo, definida como variables `--mt-*` en [`frontend/src/styles/tokens.css`](frontend/src/styles/tokens.css):
+
+| Token | Uso |
+| :--- | :--- |
+| Cielo `#4FC3F7` / `#7FD3F7` / `#EAF7FF` | Fondos y superficies |
+| Tinta `#0B2A4A` | Texto principal |
+| Sol `#FFC83D` / `#FFE08A` | Etiquetas, «Ver en 360°» y acentos |
+| Rojo `#C22B38` / `#E63946` | Solo la acción principal y los pines del mapa |
+| Vidrio `rgba(255,255,255,.55)` + blur 16 px | Barras, tarjetas y paneles |
+
+Reglas: fotos con `aspect-ratio` y `object-fit: cover`, animaciones solo con `transform`/`opacity` (respetan *reduced motion*), áreas táctiles de al menos 44 px y sin desborde horizontal desde 320 px. El modo oscuro se activa con `html[data-theme="dark"]`.
 
 ---
 
@@ -82,6 +100,12 @@ npm run dev:front
 
 ---
 
+## 🖼️ Fotos y panorámicas
+
+Los medios viven por sitio en `frontend/public/media/sitios/<slug>/` (`portada.jpg`, `foto-01.jpg`…, `360.jpg`, `video.mp4`). `npm run sync-data -w frontend` los indexa en `frontend/src/data/media-manifest.json`. Recomendado: fotos verticales 3:4 (1200 × 1600 px, JPG) y panorámicas 2:1. Detalles en [`docs/MEDIOS.md`](docs/MEDIOS.md).
+
+---
+
 ## 🗄️ Base de Datos (Neon / PostgreSQL)
 
 Las migraciones son idempotentes y versionadas numéricamente:
@@ -104,7 +128,7 @@ npm run db:check
 | Comando | Acción |
 | :--- | :--- |
 | `npm run typecheck` | Verifica tipos TypeScript en `frontend`, `backend` y `database`. |
-| `npm test` | Ejecuta las pruebas unitarias e integración con Vitest (19 tests). |
+| `npm test` | Ejecuta las pruebas con Vitest (26 en total: 19 del backend y 7 del frontend). |
 | `npm run build` | Sincroniza datos, empaqueta el frontend con Service Worker y compila el backend. |
 | `npm run preview` | Previsualiza en local la versión compilada de producción de la PWA. |
 

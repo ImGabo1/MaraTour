@@ -12,6 +12,7 @@ import {
   IconSun,
   IconWave,
 } from "../components/icons";
+import { CelestialBody, UrdanetaBridge } from "../components/SkyMotifs";
 import "./welcome.css";
 
 interface Props {
@@ -61,24 +62,8 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
   return (
     <main className="mtw-page">
       <div className="mtw-bg" aria-hidden="true">
-        <svg className="mtw-sun" viewBox="0 0 240 240" fill="none">
-          <circle cx="120" cy="120" r="118" fill="var(--mt-sun-300)" opacity=".5" />
-          <g stroke="var(--mt-sun-500)" strokeWidth="5" strokeLinecap="round">
-            {Array.from({ length: 12 }, (_, i) => (
-              <line key={i} x1="120" y1="22" x2="120" y2="40" transform={`rotate(${i * 30} 120 120)`} />
-            ))}
-          </g>
-          <circle cx="120" cy="120" r="62" fill="var(--mt-sun-500)" />
-        </svg>
-        <svg className="mtw-bridge" viewBox="0 0 1200 200" preserveAspectRatio="xMidYMax slice" fill="none">
-          <g stroke="currentColor" strokeLinecap="round">
-            <path d="M0 150H1200" strokeWidth="4" />
-            <path d="M200 150L238 30H262L300 150" strokeWidth="4" />
-            <path d="M520 150L568 10H632L680 150" strokeWidth="5" />
-            <path d="M900 150L938 30H962L1000 150" strokeWidth="4" />
-            <path d="M600 14L400 148M600 14L500 148M600 14L700 148M600 14L800 148" strokeWidth="1.2" />
-          </g>
-        </svg>
+        <CelestialBody className="mtw-sun" />
+        <UrdanetaBridge className="mtw-bridge" />
       </div>
 
       <header className="mtw-top">

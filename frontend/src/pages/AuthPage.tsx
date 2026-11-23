@@ -19,6 +19,7 @@ import {
   registerAccount,
   type AuthSession,
 } from "../lib/auth";
+import { CelestialBody, UrdanetaBridge } from "../components/SkyMotifs";
 import "./auth.css";
 
 interface Props {
@@ -86,15 +87,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
       <div className="mta-shell">
         {/* ===== Panel de marca: cielo, sol y puente ===== */}
         <aside className="mta-brand" aria-hidden="false">
-          <svg className="mta-brand__sun" viewBox="0 0 240 240" fill="none" aria-hidden="true">
-            <circle cx="120" cy="120" r="118" fill="#FFE08A" opacity="0.45" />
-            <g stroke="#FFC83D" strokeWidth="6" strokeLinecap="round">
-              {Array.from({ length: 12 }, (_, i) => (
-                <line key={i} x1="120" y1="22" x2="120" y2="40" transform={`rotate(${i * 30} 120 120)`} />
-              ))}
-            </g>
-            <circle cx="120" cy="120" r="62" fill="#FFC83D" />
-          </svg>
+          <CelestialBody className="mta-brand__sun" />
 
           <a className="mta-logo" href="#/bienvenida" aria-label={t("shell.auth.logoAria")}>
             <img src="/img/logo-emblema-192.png" alt="" width={46} height={46} />
@@ -117,14 +110,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
             <p>{t("shell.auth.brandCopy")}</p>
           </div>
 
-          <svg className="mta-brand__bridge" viewBox="0 0 1200 160" preserveAspectRatio="xMidYMax slice" fill="none" aria-hidden="true">
-            <g stroke="currentColor" strokeLinecap="round">
-              <path d="M0 120 H1200" strokeWidth="5" />
-              <path d="M180 120 L218 24 H242 L280 120" strokeWidth="5" />
-              <path d="M520 120 L568 8 H632 L680 120" strokeWidth="6" />
-              <path d="M900 120 L938 24 H962 L1000 120" strokeWidth="5" />
-            </g>
-          </svg>
+          <UrdanetaBridge className="mta-brand__bridge" />
           <svg className="mta-brand__wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
             <path d="M0 40 C240 90 480 0 720 40 S1200 80 1440 30 V80 H0 Z" />
           </svg>

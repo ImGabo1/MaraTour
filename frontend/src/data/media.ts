@@ -31,30 +31,23 @@ export interface PlaceMedia {
   video?: string;
 }
 
+/** Las portadas de los sitios con foto propia (tomada por el equipo) no llevan crédito de Wikimedia. */
 const photo = (slug: string): string => `/media/sitios/${slug}/portada.jpg`;
 
 export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   "basilica-chiquinquira": {
     image: photo("basilica-chiquinquira"),
     video: "/media/sitios/basilica-chiquinquira/video.mp4",
-    credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
-    source: "https://commons.wikimedia.org/wiki/File:Bas%C3%ADlica_de_nuestra_se%C3%B1ora_de_la_Chiquinquira.jpg",
   },
   "teatro-baralt": {
     image: photo("teatro-baralt"),
     video: "/media/sitios/teatro-baralt/video.mp4",
-    credit: "Foto: Béria Lima de Rodríguez · CC BY-SA 3.0 · Wikimedia Commons",
-    source: "https://commons.wikimedia.org/wiki/File:Teatro_Baralt_by_Beria.jpg",
   },
   "plaza-bolivar": {
     image: photo("plaza-bolivar"),
-    credit: "Foto: Zerojosefer · CC BY-SA 4.0 · Wikimedia Commons",
-    source: "https://commons.wikimedia.org/wiki/File:Plaza_Bol%C3%ADvar_(Maracaibo).jpg",
   },
   "calle-carabobo": {
     image: photo("calle-carabobo"),
-    credit: "Foto: Rjcastillo · CC BY 4.0 · Wikimedia Commons",
-    source: "https://commons.wikimedia.org/wiki/File:Calle_Carabobo,_Maracaibo_MG_484420250831.jpg",
   },
   "santa-lucia": {
     image: photo("santa-lucia"),
@@ -75,8 +68,6 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   "plaza-republica": {
     image: photo("plaza-republica"),
     video: "/media/sitios/plaza-republica/video.mp4",
-    credit: "Foto: Jarrypalomino · CC BY-SA 3.0 · Wikimedia Commons",
-    source: "https://commons.wikimedia.org/wiki/File:Plaza_de_la_Rep%C3%BAblica,_Maracaibo.jpg",
   },
   "plaza-monumento-chinita": {
     image: photo("plaza-monumento-chinita"),
@@ -85,8 +76,6 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   },
   "catedral-maracaibo": {
     image: photo("catedral-maracaibo"),
-    credit: "Foto: Rjcastillo · CC BY-SA 3.0 · Wikimedia Commons",
-    source: "https://commons.wikimedia.org/wiki/File:Catedral_de_Maracaibo_I.JPG",
   },
   "palacio-gobierno-zulia": {
     image: photo("palacio-gobierno-zulia"),
@@ -95,13 +84,9 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   },
   "casa-capitulacion": {
     image: photo("casa-capitulacion"),
-    credit: "Foto: Vzerpaquintero · CC BY-SA 4.0 · Wikimedia Commons",
-    source: "https://commons.wikimedia.org/wiki/File:Casa_de_la_Capitulaci%C3%B3n_oct_2026.jpg",
   },
   "centro-arte-lia-bermudez": {
     image: photo("centro-arte-lia-bermudez"),
-    credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
-    source: "https://commons.wikimedia.org/wiki/File:Art_Center_Maracaibo_Lia_Bermudez.jpg",
   },
   maczul: {
     image: photo("maczul"),
@@ -111,8 +96,6 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   "parque-urdaneta": {
     image: photo("parque-urdaneta"),
     video: "/media/sitios/parque-urdaneta/video.mp4",
-    credit: "Foto: Zerojosefer · CC BY-SA 4.0 · Wikimedia Commons",
-    source: "https://commons.wikimedia.org/wiki/File:Parque_Rafael_Urdaneta_005.jpg",
   },
   "parque-universitario-luz": {
     image: photo("parque-universitario-luz"),
@@ -162,8 +145,6 @@ export const PLACE_MEDIA: Record<string, PlaceMedia> = {
   "vereda-del-lago": {
     image: photo("vereda-del-lago"),
     video: "/media/sitios/vereda-del-lago/video.mp4",
-    credit: "Foto: Wilfredor · CC0 · Wikimedia Commons",
-    source: "https://commons.wikimedia.org/wiki/File:Sunrise_on_Vereda_del_Lago_and_Eagle_Austin_Ship_in_Maracaibo_lake.jpg",
   },
   "galerias-mall": {
     image: photo("galerias-mall"),

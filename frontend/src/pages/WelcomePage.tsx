@@ -12,7 +12,7 @@ import {
   IconSun,
   IconWave,
 } from "../components/icons";
-import { CelestialBody, UrdanetaBridge } from "../components/SkyMotifs";
+import { CatatumboBolt, CelestialBody, UrdanetaBridge } from "../components/SkyMotifs";
 import "./welcome.css";
 
 interface Props {
@@ -63,6 +63,7 @@ export function WelcomePage({ onLogin, onRegister, onGuest }: Props) {
     <main className="mtw-page">
       <div className="mtw-bg" aria-hidden="true">
         <CelestialBody className="mtw-sun" />
+        <CatatumboBolt className="mtw-bolt" />
         <UrdanetaBridge className="mtw-bridge" />
       </div>
 

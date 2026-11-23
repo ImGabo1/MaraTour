@@ -287,39 +287,69 @@
 .mth-featured__title small { color: var(--mt-text-soft); font-size: var(--mt-fs-body); font-weight: 600; letter-spacing: 0; }
 .mth-featured__star { display: grid; place-items: center; color: var(--mt-sky-700); }
 :root[data-theme="dark"] .mth-featured__star { color: var(--mt-sky-300); }
-.mth-feat-list { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; grid-template-columns: minmax(0, 1fr); }
-@media (min-width: 640px) { .mth-feat-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1100px) { .mth-feat-list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* Mosaico: en el teléfono la foto manda y el texto va encima; la primera y la última
+   ficha ocupan las dos columnas para que la parrilla no se sienta como una lista. */
+.mth-feat-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.mth-feat-list > li:first-child, .mth-feat-list > li:last-child { grid-column: 1 / -1; }
 .mth-feat {
-  display: flex; align-items: stretch; width: 100%; height: 100%; min-height: 112px; padding: 0; overflow: hidden;
-  border: 1px solid var(--mt-glass-border); border-radius: var(--mt-radius-md); background: var(--mt-glass-strong);
-  box-shadow: var(--mt-shadow-soft); color: var(--mt-text); font: inherit; text-align: left; cursor: pointer;
+  position: relative; display: block; width: 100%; height: 100%; min-height: 0; aspect-ratio: 1 / 1; padding: 0; overflow: hidden;
+  border: 1px solid var(--mt-glass-border); border-radius: var(--mt-radius-md); background: var(--mt-surface-solid);
+  box-shadow: var(--mt-shadow-soft); color: #fff; font: inherit; text-align: left; cursor: pointer;
   transition: transform var(--mt-dur) var(--mt-ease), box-shadow var(--mt-dur) var(--mt-ease);
 }
-:root[data-theme="dark"] .mth-feat { background: var(--mt-surface-solid); }
+.mth-feat-list > li:first-child .mth-feat, .mth-feat-list > li:last-child .mth-feat { aspect-ratio: 16 / 9; }
 .mth-feat:hover { transform: translateY(-3px); box-shadow: var(--mt-shadow-lift); }
 .mth-feat:focus-visible { outline: 2px solid var(--mt-focus-ring); outline-offset: 2px; }
-.mth-feat--skeleton { min-height: 112px; border-radius: var(--mt-radius-md); }
-.mth-feat .mth-feat__img { flex: none; width: 112px; height: auto; min-height: 112px; aspect-ratio: 1 / 1; border-radius: 0; }
+.mth-feat--skeleton { aspect-ratio: 1 / 1; min-height: 0; border-radius: var(--mt-radius-md); }
+.mth-feat-list > li:first-child .mth-feat--skeleton, .mth-feat-list > li:last-child .mth-feat--skeleton { aspect-ratio: 16 / 9; }
+.mth-feat .mth-feat__img { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 0; aspect-ratio: auto; border-radius: 0; }
 .mth-feat__img > img { object-fit: cover; object-position: center 30%; }
-.mth-feat__body { display: grid; align-content: center; gap: 5px; min-width: 0; padding: 10px 12px; justify-items: start; }
-.mth-feat__body strong { display: flex; align-items: flex-start; gap: 5px; font-size: var(--mt-fs-small); font-weight: 800; line-height: 1.2; }
-.mth-feat__body strong svg { flex: none; margin-top: 1px; color: var(--mt-red-700); }
-:root[data-theme="dark"] .mth-feat__body strong svg { color: var(--mt-red-500); }
-.mth-feat__desc {
-  display: -webkit-box; overflow: hidden; color: var(--mt-text-soft); font-size: var(--mt-fs-label);
-  -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+.mth-feat::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(7, 26, 43, 0.9) 0%, rgba(7, 26, 43, 0.55) 42%, rgba(7, 26, 43, 0) 78%);
 }
+.mth-feat__body { position: absolute; inset: auto 0 0 0; z-index: 1; display: grid; align-content: end; gap: 3px; min-width: 0; padding: 9px 10px; justify-items: start; }
+.mth-feat__body strong { display: flex; align-items: flex-start; gap: 5px; font-size: var(--mt-fs-label); font-weight: 800; line-height: 1.2; text-shadow: 0 1px 6px rgba(7, 26, 43, 0.55); }
+.mth-feat__body strong svg { flex: none; margin-top: 1px; color: var(--mt-sun-500); }
+.mth-feat__desc { display: none; overflow: hidden; color: rgba(255, 255, 255, 0.86); font-size: var(--mt-fs-label); -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+.mth-feat-list > li:first-child .mth-feat__body, .mth-feat-list > li:last-child .mth-feat__body { padding: 12px 14px; gap: 4px; }
+.mth-feat-list > li:first-child .mth-feat__body strong, .mth-feat-list > li:last-child .mth-feat__body strong { font-size: var(--mt-fs-small); }
+.mth-feat-list > li:first-child .mth-feat__desc, .mth-feat-list > li:last-child .mth-feat__desc { display: -webkit-box; }
 .mth-feat__pill {
-  padding: 2px 12px; border-radius: var(--mt-radius-pill); background: var(--c-soft, var(--mt-chip-bg));
-  color: #1d2b3a; font-size: var(--mt-fs-label); font-weight: 800;
+  padding: 2px 10px; border-radius: var(--mt-radius-pill); background: var(--c-soft, var(--mt-chip-bg));
+  color: #1d2b3a; font-size: 10px; font-weight: 800;
 }
 
+@media (min-width: 640px) {
+  .mth-feat-list { gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mth-feat-list > li:first-child, .mth-feat-list > li:last-child { grid-column: auto; }
+  .mth-feat {
+    display: flex; align-items: stretch; min-height: 112px; aspect-ratio: auto; color: var(--mt-text);
+    background: var(--mt-glass-strong);
+  }
+  :root[data-theme="dark"] .mth-feat { background: var(--mt-surface-solid); }
+  .mth-feat-list > li:first-child .mth-feat, .mth-feat-list > li:last-child .mth-feat { aspect-ratio: auto; }
+  .mth-feat::after { display: none; }
+  .mth-feat--skeleton, .mth-feat-list > li:first-child .mth-feat--skeleton, .mth-feat-list > li:last-child .mth-feat--skeleton { min-height: 112px; aspect-ratio: auto; }
+  /* `relative`, no `static`: el <img> interno es absoluto y, sin un ancestro posicionado,
+     se escapaba hasta `.mth-feat` y cubría toda la tarjeta con la foto. */
+  .mth-feat .mth-feat__img { position: relative; flex: none; width: 112px; height: auto; min-height: 112px; aspect-ratio: 1 / 1; }
+  .mth-feat__body { position: static; align-content: center; gap: 5px; padding: 10px 12px; }
+  .mth-feat__body strong { font-size: var(--mt-fs-small); text-shadow: none; }
+  .mth-feat__body strong svg { color: var(--mt-red-700); }
+  :root[data-theme="dark"] .mth-feat__body strong svg { color: var(--mt-red-500); }
+  .mth-feat__desc { display: -webkit-box; color: var(--mt-text-soft); -webkit-line-clamp: 2; }
+  .mth-feat__pill { padding: 2px 12px; font-size: var(--mt-fs-label); }
+}
+@media (min-width: 1100px) { .mth-feat-list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
 /* ---------- Accesos rápidos ---------- */
+/* `auto-fit`, no `auto-fill`: con 3 tarjetas y sitio para 4 columnas, `auto-fill` dejaba
+   una columna vacía de ~285 px a la derecha (el hueco blanco en escritorio). */
 .mth-quick__grid, .mth-routes, .mth-tools, .mth-day__grid {
   display: grid;
   gap: clamp(12px, 2vw, 20px);
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
 }
 .mth-quick__card, .mth-route, .mth-tool, .mth-day__card {
   display: grid;

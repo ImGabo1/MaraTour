@@ -22,3 +22,10 @@
   .mt-sky__glow { animation: none; opacity: .25; }
 }
 .mt-urdaneta { width: 100%; height: 100%; }
+
+/* Rayo del Catatumbo: solo de noche. */
+.mt-bolt { display: none; }
+:root[data-theme="dark"] .mt-bolt { display: block; animation: mt-catatumbo 6s steps(1, end) infinite; }
+@media (prefers-reduced-motion: reduce) {
+  :root[data-theme="dark"] .mt-bolt { animation: none; opacity: 0.9; }
+}

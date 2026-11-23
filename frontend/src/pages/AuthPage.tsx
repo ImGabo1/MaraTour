@@ -19,7 +19,7 @@ import {
   registerAccount,
   type AuthSession,
 } from "../lib/auth";
-import { CelestialBody, UrdanetaBridge } from "../components/SkyMotifs";
+import { CatatumboBolt, CelestialBody, UrdanetaBridge } from "../components/SkyMotifs";
 import "./auth.css";
 
 interface Props {
@@ -88,6 +88,7 @@ export function AuthPage({ mode, onAuthenticated, onGuest }: Props) {
         {/* ===== Panel de marca: cielo, sol y puente ===== */}
         <aside className="mta-brand" aria-hidden="false">
           <CelestialBody className="mta-brand__sun" />
+          <CatatumboBolt className="mta-brand__bolt" />
 
           <a className="mta-logo" href="#/bienvenida" aria-label={t("shell.auth.logoAria")}>
             <img src="/img/logo-emblema-192.png" alt="" width={46} height={46} />

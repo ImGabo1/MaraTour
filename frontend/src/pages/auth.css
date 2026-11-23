@@ -26,8 +26,8 @@
   color: var(--mt-ink);
 }
 :root[data-theme="dark"] .mta-brand { background: linear-gradient(180deg, #0b3556, #0a2742); color: var(--mt-text); }
-.mta-brand__sun { position: absolute; z-index: -1; top: -30px; right: -40px; width: clamp(150px, 30vw, 260px); height: auto; }
-:root[data-theme="dark"] .mta-brand__sun { opacity: 1; width: clamp(130px, 26vw, 210px); right: -10px; top: 0; }
+.mta-brand__sun { position: absolute; z-index: -1; top: clamp(10px, 2.5vw, 36px); right: clamp(6px, 2vw, 30px); width: clamp(130px, 22vw, 210px); height: auto; }
+:root[data-theme="dark"] .mta-brand__sun { opacity: 1; width: clamp(120px, 20vw, 180px); right: 8px; top: 12px; }
 .mta-logo { display: inline-flex; align-items: center; gap: 10px; min-height: var(--mt-tap); color: inherit; text-decoration: none; justify-self: start; }
 .mta-logo:focus-visible { outline: 2px solid var(--mt-focus-ring); outline-offset: 3px; border-radius: 12px; }
 .mta-logo strong { display: block; font-size: 1.35rem; font-weight: 900; letter-spacing: -0.02em; line-height: 1; }
@@ -40,8 +40,12 @@
 :root[data-theme="dark"] .mta-brand__copy h1 span { color: var(--mt-sky-300); }
 .mta-brand__copy p:not(.mta-kicker) { margin: 0; color: var(--mt-ink-soft); font-weight: 600; }
 :root[data-theme="dark"] .mta-brand__copy p:not(.mta-kicker) { color: var(--mt-text-soft); }
-.mta-brand__bridge { position: absolute; z-index: -1; right: 0; bottom: 28px; left: 0; width: 100%; height: 90px; color: var(--mt-sky-700); opacity: 0.35; }
+.mta-brand__bridge { position: absolute; z-index: -1; right: 0; bottom: 28px; left: 0; width: 100%; height: clamp(120px, 13vw, 220px); color: var(--mt-sky-700); opacity: 0.35; }
 :root[data-theme="dark"] .mta-brand__bridge { color: var(--mt-sky-300); opacity: 0.3; }
+.mta-brand__bolt {
+  position: absolute; z-index: -1; left: 78%; bottom: calc(28px + clamp(120px, 13vw, 220px) * 0.62);
+  width: clamp(140px, 15vw, 220px); height: auto; transform: translateX(-50%);
+}
 .mta-brand__wave { position: absolute; right: 0; bottom: -1px; left: 0; width: 100%; height: 44px; fill: var(--mt-bg); }
 .mta-kicker {
   display: inline-flex; align-items: center; gap: 6px; justify-self: start; margin: 0; padding: 3px 10px;
@@ -113,12 +117,18 @@
 .mta-switch a { color: var(--mt-sky-700); font-weight: 800; }
 :root[data-theme="dark"] .mta-switch a { color: var(--mt-sky-300); }
 
+/* ---------- Móvil: el panel necesita aire abajo para el rayo ---------- */
+@media (max-width: 1023px) {
+  .mta-brand { padding-bottom: 200px; }
+  .mta-brand__bolt { left: 50%; bottom: 40px; width: 120px; }
+}
+
 /* ---------- Escritorio: dos columnas ---------- */
 @media (min-width: 1024px) {
   .mta-shell { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
   .mta-brand { align-content: space-between; padding: 32px clamp(32px, 4vw, 64px) 210px; }
   .mta-brand__wave { display: none; }
-  .mta-brand__bridge { bottom: 0; height: 160px; }
+  .mta-brand__bridge { bottom: 0; height: clamp(160px, 14vw, 250px); }
   .mta-panel { padding: 48px clamp(24px, 4vw, 64px); }
   .mta-card { margin-top: 0; }
 }

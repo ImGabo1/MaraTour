@@ -30,13 +30,14 @@ export async function apiFetch(path: string, init?: RequestInit): Promise<Respon
 export const MAPS_GENERAL_QUERY = "Maracaibo, Zulia, Venezuela";
 
 /**
- * Fondo del mapa sin conexión: imagen local neutra (cuadrícula). Con internet, MapView dibuja encima las
- * teselas en vivo (MAP_TILES) para poder acercarse hasta nivel de calle.
- * Los bordes son los de las teselas; si se regenera la imagen hay que actualizarlos.
+ * Fondo del mapa sin conexión: mapa real de Maracaibo (calles, lago y puente) dibujado a partir de
+ * las teselas de Esri. Con internet, MapView pinta encima las teselas en vivo (MAP_TILE_PROVIDERS)
+ * para poder acercarse hasta nivel de calle. Los bordes son los de la imagen; si se regenera hay
+ * que actualizarlos.
  */
 export const MAP_IMAGE: { image: string; bounds: Bounds; width: number; height: number } | null = {
   image: "/img/mapa-maracaibo.jpg",
-  // Proporción de la imagen (3328 × 2560 px) en unidades del minimapa.
+  // Proporción de la imagen (1664 × 1280 px) en unidades del minimapa.
   width: 832,
   height: 640,
   bounds: { north: 10.746969318459998, south: 10.531020008464983, west: -71.78466796875, east: -71.4990234375 },
@@ -44,18 +45,19 @@ export const MAP_IMAGE: { image: string; bounds: Bounds; width: number; height: 
 
 /**
  * Teselas en vivo, en orden de preferencia. Si el primer proveedor falla o bloquea (403, red),
- * MapView pasa al siguiente. Solo proveedores sin API key (Esri, Mapbox, Stadia, etc. piden clave).
- * OpenStreetMap queda de último recurso: bloquea con "Access blocked" a quien no cumple su política.
- * Sin conexión queda visible la imagen local (cuadrícula neutra, sin geografía inventada).
+ * MapView pasa al siguiente. Ninguno pide API key: CARTO devuelve teselas con la marca de agua
+ * "API KEY REQUIRED" y por eso quedó fuera.
+ * OpenStreetMap queda de respaldo: bloquea con "Access blocked" a quien no cumple su política.
+ * Sin conexión queda visible la imagen local con el mapa real de la ciudad.
  */
 export const MAP_TILE_PROVIDERS = [
   {
-    id: "carto",
-    url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
-    subdomains: "abcd",
+    id: "esri",
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+    subdomains: "",
     maxNativeZoom: 19,
     attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noreferrer">CARTO</a>',
+      '&copy; <a href="https://www.esri.com/en-us/legal/terms/full-master-agreement" target="_blank" rel="noreferrer">Esri</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a>',
   },
   {
     id: "osm",

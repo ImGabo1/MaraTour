@@ -154,10 +154,16 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
     });
 
     if (MAP_IMAGE) {
+      // Pane propio por debajo de las teselas (tilePane = 200): si la imagen quedara en el
+      // overlayPane (400) taparía el mapa en vivo con su fondo opaco.
+      map.createPane("vm-map-base");
+      const basePane = map.getPane("vm-map-base");
+      if (basePane) basePane.style.zIndex = "150";
       L.imageOverlay(MAP_IMAGE.image, imageBounds, {
         alt: t("map.title"),
         interactive: false,
         className: "vm-map__image",
+        pane: "vm-map-base",
       }).addTo(map);
     }
 
@@ -496,7 +502,7 @@ export function MapView({ places, selectedSlug, overview, onSelect, onOpenPlace 
           target="_blank"
           rel="noopener noreferrer"
         >
-          © OpenStreetMap · CARTO
+          © Esri · OpenStreetMap
         </a>
       </div>
 

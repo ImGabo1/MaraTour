@@ -43,8 +43,18 @@ export function PanoViewer({ src, title, onClose }: Props) {
   // (no lo manda al inicio). Se añade una entrada al historial mientras el visor está abierto.
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
+  const backTimer = useRef<number | null>(null);
   useEffect(() => {
-    window.history.pushState({ mtPano: true }, "");
+    // StrictMode monta, desmonta y vuelve a montar el efecto en desarrollo: si el back() del
+    // desmontaje se ejecutara de inmediato, el visor se cerraría solo. Se aplaza y se cancela
+    // cuando el efecto vuelve a montarse.
+    if (backTimer.current !== null) {
+      window.clearTimeout(backTimer.current);
+      backTimer.current = null;
+    }
+    if (!(window.history.state as { mtPano?: boolean } | null)?.mtPano) {
+      window.history.pushState({ mtPano: true }, "");
+    }
     let closedByBack = false;
     const onPop = () => {
       closedByBack = true;
@@ -54,7 +64,11 @@ export function PanoViewer({ src, title, onClose }: Props) {
     return () => {
       window.removeEventListener("popstate", onPop);
       // Cerrado con el botón X o Escape: se retira la entrada para no dejar un "atrás" vacío.
-      if (!closedByBack && (window.history.state as { mtPano?: boolean } | null)?.mtPano) window.history.back();
+      if (closedByBack) return;
+      backTimer.current = window.setTimeout(() => {
+        backTimer.current = null;
+        if ((window.history.state as { mtPano?: boolean } | null)?.mtPano) window.history.back();
+      }, 0);
     };
   }, []);
 

@@ -42,26 +42,93 @@ export function CelestialBody({ className = "" }: { className?: string }) {
   );
 }
 
-/** Puente sobre el Lago de Maracaibo (Rafael Urdaneta): calzada larga, cinco pilonos en A con tirantes y pilas bajas. */
+/**
+ * Puente sobre el Lago de Maracaibo (General Rafael Urdaneta): calzada larga que sube en el tramo
+ * atirantado, cinco pilonos en V invertida con tirantes en abanico, farolas, pilas bajas,
+ * una silueta lejana para dar profundidad, y el lago con su reflejo y una lancha.
+ */
 export function UrdanetaBridge({ className = "" }: { className?: string }) {
   const towers = [300, 450, 600, 750, 900];
-  const piers = [...Array.from({ length: 9 }, (_, i) => 20 + i * 30), ...Array.from({ length: 9 }, (_, i) => 960 + i * 30)];
+  const piers = [...Array.from({ length: 8 }, (_, i) => 24 + i * 28), ...Array.from({ length: 8 }, (_, i) => 976 + i * 28)];
+  const lamps = Array.from({ length: 22 }, (_, i) => 20 + i * 54).filter((x) => !towers.some((t) => Math.abs(t - x) < 20));
+  const deck = (x: number) => (x < 220 || x > 980 ? 150 : x < 300 ? 150 - ((x - 220) / 80) * 24 : x > 900 ? 126 + ((x - 900) / 80) * 24 : 126);
+  const pylon = (x: number) => `M${x - 21} 192L${x - 4} 16H${x + 4}L${x + 21} 192H${x + 13}L${x} 58L${x - 13} 192Z`;
+  const cables = (x: number) =>
+    [0, 1, 2, 3, 4].map((k) => {
+      const top = 26 + k * 9;
+      const reach = 78 - k * 15;
+      return `M${x} ${top}L${x - reach} ${deck(x - reach)}M${x} ${top}L${x + reach} ${deck(x + reach)}`;
+    }).join("");
   return (
-    <svg className={`mt-urdaneta ${className}`.trim()} viewBox="0 0 1200 200" preserveAspectRatio="xMidYMax slice" fill="none" aria-hidden="true">
-      <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-        {/* calzada: baja en los extremos y sube en el tramo atirantado */}
-        <path d="M0 150H220C260 150 270 126 300 126H900C930 126 940 150 980 150H1200" strokeWidth="5" />
-        {piers.map((x) => (
-          <path key={x} d={`M${x} ${x < 220 || x > 980 ? 150 : 150}V182`} strokeWidth="3" />
+    <svg className={`mt-urdaneta ${className}`.trim()} viewBox="0 0 1200 240" preserveAspectRatio="xMidYMax slice" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="mt-lake" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="currentColor" stopOpacity=".28" />
+          <stop offset="1" stopColor="currentColor" stopOpacity="0" />
+        </linearGradient>
+        <linearGradient id="mt-haze" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="currentColor" stopOpacity="0" />
+          <stop offset="1" stopColor="currentColor" stopOpacity=".16" />
+        </linearGradient>
+        <clipPath id="mt-below"><rect x="0" y="192" width="1200" height="48" /></clipPath>
+      </defs>
+
+      {/* bruma del horizonte y lago */}
+      <rect x="0" y="120" width="1200" height="72" fill="url(#mt-haze)" />
+      <rect x="0" y="192" width="1200" height="48" fill="url(#mt-lake)" />
+
+      {/* silueta lejana (profundidad) */}
+      <g stroke="currentColor" strokeLinecap="round" opacity=".28" transform="translate(0 38) scale(1 .62)">
+        <path d="M0 150H1200" strokeWidth="4" />
+        {[150, 350, 560, 780, 1010].map((x) => (
+          <path key={x} d={`M${x - 14} 150L${x} 40L${x + 14} 150M${x} 46L${x - 60} 150M${x} 46L${x + 60} 150`} strokeWidth="2.4" />
         ))}
-        {towers.map((x) => (
+      </g>
+
+      {/* puente principal */}
+      <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+        {piers.map((x) => (
           <g key={x}>
-            <path d={`M${x - 16} 182L${x} 20L${x + 16} 182`} strokeWidth="5" />
-            <path d={`M${x - 8} 126H${x + 8}`} strokeWidth="4" />
-            <path d={`M${x} 28L${x - 70} 126M${x} 40L${x - 50} 126M${x} 52L${x - 30} 126M${x} 28L${x + 70} 126M${x} 40L${x + 50} 126M${x} 52L${x + 30} 126`} strokeWidth="1.2" opacity=".85" />
-            <path d={`M${x - 16} 182V196M${x + 16} 182V196`} strokeWidth="5" />
+            <path d={`M${x} ${deck(x)}V192`} strokeWidth="5" />
+            <path d={`M${x - 6} ${deck(x) + 6}H${x + 6}`} strokeWidth="3" />
           </g>
         ))}
+        <path d="M0 150H220C250 150 268 126 300 126H900C932 126 950 150 980 150H1200" strokeWidth="8" />
+        <path d="M0 158H214C246 158 266 134 300 134H900C934 134 954 158 986 158H1200" strokeWidth="2" opacity=".6" />
+        <path d="M0 144H220C250 144 268 120 300 120H900C932 120 950 144 980 144H1200" strokeWidth="1.5" opacity=".7" />
+        {lamps.map((x) => (
+          <path key={x} d={`M${x} ${deck(x) - 1}V${deck(x) - 11}`} strokeWidth="1.8" opacity=".75" />
+        ))}
+      </g>
+      <g fill="currentColor">
+        {towers.map((x) => (
+          <path key={x} d={pylon(x)} />
+        ))}
+      </g>
+      <g stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity=".85">
+        {towers.map((x) => (
+          <path key={x} d={cables(x)} />
+        ))}
+      </g>
+
+      {/* reflejo en el lago */}
+      <g clipPath="url(#mt-below)" opacity=".22" fill="currentColor" transform="translate(0 384) scale(1 -1)">
+        {towers.map((x) => (
+          <path key={x} d={pylon(x)} />
+        ))}
+        <path d="M0 146H1200V154H0Z" />
+      </g>
+      <g stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" opacity=".35">
+        <path d="M0 204C60 198 120 210 180 204S300 198 360 204 480 210 540 204 660 198 720 204 840 210 900 204 1020 198 1080 204 1140 210 1200 204" />
+        <path d="M0 220C80 214 160 226 240 220S400 214 480 220 640 226 720 220 880 214 960 220 1120 226 1200 220" />
+        <path d="M0 233C100 228 200 238 300 233S500 228 600 233 800 238 900 233 1100 228 1200 233" opacity=".6" />
+      </g>
+
+      {/* lancha */}
+      <g className="mt-urdaneta__boat" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" opacity=".7">
+        <path d="M1040 208h44l-7 9h-30z" fill="currentColor" />
+        <path d="M1062 208V184l18 22z" fill="currentColor" />
+        <path d="M1062 208V180" strokeWidth="1.6" />
       </g>
     </svg>
   );

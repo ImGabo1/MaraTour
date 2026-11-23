@@ -35,22 +35,27 @@ export function PlaceImage({
   const wanted = src ?? place.imageUrl ?? getMedia(place.slug).cover;
   const [failed, setFailed] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [wide, setWide] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
   const shown = failed ? PLACEHOLDER_COVER : wanted;
 
   useEffect(() => {
     setFailed(false);
     setLoaded(false);
+    setWide(false);
   }, [wanted]);
 
   // Una imagen en caché puede terminar de cargar antes de que React escuche onLoad.
   useEffect(() => {
     const img = imgRef.current;
-    if (img?.complete && img.naturalWidth > 0) setLoaded(true);
+    if (img?.complete && img.naturalWidth > 0) {
+      setLoaded(true);
+      setWide(img.naturalWidth > img.naturalHeight * 1.15);
+    }
   }, [shown]);
 
   return (
-    <span className={`mt-photo mt-photo--${ratio}${loaded ? "" : " mt-skeleton"} ${className}`.trim()}>
+    <span className={`mt-photo mt-photo--${ratio}${loaded ? "" : " mt-skeleton"}${wide ? " is-wide" : ""} ${className}`.trim()}>
       <img
         ref={imgRef}
         className={`mt-fade-img${loaded ? " is-loaded" : ""}`}
@@ -58,7 +63,11 @@ export function PlaceImage({
         alt={decorative ? "" : place.name}
         loading={eager ? "eager" : "lazy"}
         decoding="async"
-        onLoad={() => setLoaded(true)}
+        onLoad={(event) => {
+          setLoaded(true);
+          const img = event.currentTarget;
+          setWide(img.naturalWidth > img.naturalHeight * 1.15);
+        }}
         onError={() => {
           if (!failed) setFailed(true);
         }}

@@ -38,3 +38,6 @@
 .mt-photo--reel {
   aspect-ratio: 9 / 16;
 }
+
+/* Foto horizontal dentro de un marco vertical: se centra para no perder el sujeto. */
+.mt-photo.is-wide > img { object-position: center 50%; }

@@ -43,20 +43,14 @@ export const MAP_IMAGE: { image: string; bounds: Bounds; width: number; height: 
 };
 
 /**
- * Teselas en vivo, en orden de preferencia. Si el primer proveedor falla o bloquea (403, red),
- * MapView pasa al siguiente. Solo proveedores sin API key (Esri, Mapbox, Stadia, etc. piden clave).
- * OpenStreetMap queda de último recurso: bloquea con "Access blocked" a quien no cumple su política.
+ * Teselas en vivo, en orden de preferencia, todas sin API key. Si un proveedor bloquea o falla
+ * (403, red), MapView pasa al siguiente.
+ * Ojo: CARTO (basemaps.cartocdn.com) ya NO sirve sin clave: dibuja la marca "API KEY REQUIRED" sobre
+ * cada tesela y como la imagen sí carga, el respaldo nunca se activa. No volver a usarlo sin clave.
+ * Esri, Mapbox y Stadia también piden clave. OSM exige Referer y atribución (MapView ya los envía).
  * Sin conexión queda visible la imagen local (cuadrícula neutra, sin geografía inventada).
  */
 export const MAP_TILE_PROVIDERS = [
-  {
-    id: "carto",
-    url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
-    subdomains: "abcd",
-    maxNativeZoom: 19,
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noreferrer">CARTO</a>',
-  },
   {
     id: "osm",
     url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -64,6 +58,22 @@ export const MAP_TILE_PROVIDERS = [
     maxNativeZoom: 19,
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a>',
+  },
+  {
+    id: "osmfr",
+    url: "https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
+    subdomains: "abc",
+    maxNativeZoom: 20,
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> · <a href="https://www.openstreetmap.fr" target="_blank" rel="noreferrer">OSM France</a>',
+  },
+  {
+    id: "hot",
+    url: "https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png",
+    subdomains: "abc",
+    maxNativeZoom: 19,
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> · <a href="https://www.hotosm.org" target="_blank" rel="noreferrer">HOT</a>',
   },
 ] as const;
 
